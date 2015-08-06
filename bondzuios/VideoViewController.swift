@@ -21,6 +21,10 @@ class VideoViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         url = NSURL(string: "http://hls.live.metacdn.com/hls-live/2050C7/bednxurcj/prairiedogs2_/prairiedogs2_,576,192,.m3u8");
+        
+        let cameraButton = UIButton();
+        cameraButton.frame = CGRectMake(280, 25, 30, 30);
+        cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: .TouchUpInside)
         self.moviePlayerController = MPMoviePlayerViewController(contentURL: url);
         self.moviePlayerController.moviePlayer.fullscreen = true;
         self.moviePlayerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen;
