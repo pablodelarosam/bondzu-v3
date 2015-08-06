@@ -13,6 +13,8 @@
 		54305CB21B73F80A003F9AB0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54305CB11B73F80A003F9AB0 /* Images.xcassets */; };
 		54305CB51B73F80A003F9AB0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54305CB31B73F80A003F9AB0 /* LaunchScreen.xib */; };
 		54305CC11B73F80A003F9AB0 /* bondzuiosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54305CC01B73F80A003F9AB0 /* bondzuiosTests.swift */; };
+		54E4478D1B73FDB200BF580F /* Producto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4478C1B73FDB200BF580F /* Producto.swift */; };
+		59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		092D6BF827BFAF6C41449A2C /* Pods-bondzuios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.debug.xcconfig"; sourceTree = "<group>"; };
+		369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.release.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.release.xcconfig"; sourceTree = "<group>"; };
 		54305CA51B73F809003F9AB0 /* bondzuios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bondzuios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54305CA91B73F809003F9AB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54305CAA1B73F809003F9AB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +40,8 @@
 		54305CBA1B73F80A003F9AB0 /* bondzuiosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bondzuiosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54305CBF1B73F80A003F9AB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54305CC01B73F80A003F9AB0 /* bondzuiosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bondzuiosTests.swift; sourceTree = "<group>"; };
+		54E4478C1B73FDB200BF580F /* Producto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Producto.swift; sourceTree = "<group>"; };
+		D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bondzuios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +69,8 @@
 				54305CA71B73F809003F9AB0 /* bondzuios */,
 				54305CBD1B73F80A003F9AB0 /* bondzuiosTests */,
 				54305CA61B73F809003F9AB0 /* Products */,
+				86C5B5B5AD1D712BEFCF248A /* Pods */,
+				CBF380E5CDA199239CE20526 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,8 +86,9 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
+				54305CCB1B73FA7B003F9AB0 /* Video */,
+				54305CCA1B73FA68003F9AB0 /* Modelos */,
 				54305CAA1B73F809003F9AB0 /* AppDelegate.swift */,
-				54305CAC1B73F809003F9AB0 /* VideoViewController.swift */,
 				54305CAE1B73F809003F9AB0 /* Main.storyboard */,
 				54305CB11B73F80A003F9AB0 /* Images.xcassets */,
 				54305CB31B73F80A003F9AB0 /* LaunchScreen.xib */,
@@ -112,6 +122,40 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		54305CCA1B73FA68003F9AB0 /* Modelos */ = {
+			isa = PBXGroup;
+			children = (
+				54E4478C1B73FDB200BF580F /* Producto.swift */,
+			);
+			name = Modelos;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		54305CCB1B73FA7B003F9AB0 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				54305CAC1B73F809003F9AB0 /* VideoViewController.swift */,
+			);
+			name = Video;
+			sourceTree = "<group>";
+		};
+		86C5B5B5AD1D712BEFCF248A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				092D6BF827BFAF6C41449A2C /* Pods-bondzuios.debug.xcconfig */,
+				369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CBF380E5CDA199239CE20526 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -119,9 +163,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54305CC41B73F80A003F9AB0 /* Build configuration list for PBXNativeTarget "bondzuios" */;
 			buildPhases = (
+				BC2C39C2EFA03B187CC99C14 /* Check Pods Manifest.lock */,
 				54305CA11B73F809003F9AB0 /* Sources */,
 				54305CA21B73F809003F9AB0 /* Frameworks */,
 				54305CA31B73F809003F9AB0 /* Resources */,
+				A165DC895CA7DA4FC73B2B8C /* Embed Pods Frameworks */,
+				9DCA7311741A3C9F59F56D47 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -207,11 +254,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9DCA7311741A3C9F59F56D47 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A165DC895CA7DA4FC73B2B8C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC2C39C2EFA03B187CC99C14 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		54305CA11B73F809003F9AB0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54E4478D1B73FDB200BF580F /* Producto.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
 				54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */,
 			);
@@ -340,6 +436,7 @@
 		};
 		54305CC51B73F80A003F9AB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 092D6BF827BFAF6C41449A2C /* Pods-bondzuios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = bondzuios/Info.plist;
@@ -350,6 +447,7 @@
 		};
 		54305CC61B73F80A003F9AB0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = bondzuios/Info.plist;
@@ -411,6 +509,7 @@
 				54305CC61B73F80A003F9AB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		54305CC71B73F80A003F9AB0 /* Build configuration list for PBXNativeTarget "bondzuiosTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +518,7 @@
 				54305CC91B73F80A003F9AB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
