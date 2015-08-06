@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B2F23FE8939154CA6CA50326"
+               BlueprintIdentifier = "E008BE4848A7C98AD12291F8"
                BuildableName = "Pods_bondzuios.framework"
                BlueprintName = "Pods-bondzuios"
                ReferencedContainer = "container:Pods.xcodeproj">

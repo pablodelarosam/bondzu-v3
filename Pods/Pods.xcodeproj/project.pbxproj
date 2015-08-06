@@ -17,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6E243DDB3026C110C619618CDDC7DF42 /* PBXContainerItemProxy */ = {
+		EB70A110D889936EE8BCC10EFCD6DFD9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
@@ -198,7 +198,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				82FCF436967FA76DC1D6B58B4CCBE79B /* PBXTargetDependency */,
+				0A94D02452D4257F9C21C5620A0DB911 /* PBXTargetDependency */,
 			);
 			name = "Pods-bondzuios";
 			productName = "Pods-bondzuios";
@@ -270,11 +270,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		82FCF436967FA76DC1D6B58B4CCBE79B /* PBXTargetDependency */ = {
+		0A94D02452D4257F9C21C5620A0DB911 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftyJSON;
 			target = B9A04D3C9B208813656510FDA8ADAE02 /* SwiftyJSON */;
-			targetProxy = 6E243DDB3026C110C619618CDDC7DF42 /* PBXContainerItemProxy */;
+			targetProxy = EB70A110D889936EE8BCC10EFCD6DFD9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

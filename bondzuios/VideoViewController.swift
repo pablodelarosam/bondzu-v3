@@ -22,9 +22,10 @@ class VideoViewController: UIViewController {
         
         url = NSURL(string: "http://hls.live.metacdn.com/hls-live/2050C7/bednxurcj/prairiedogs2_/prairiedogs2_,576,192,.m3u8");
         
-        let cameraButton = UIButton();
-        cameraButton.frame = CGRectMake(280, 25, 30, 30);
-        cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: .TouchUpInside)
+        let cameraButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Camera, target: self, action: "cameraButtonClicked:")
+        
+        self.moviePlayerController.navigationController?.navigationItem.rightBarButtonItem = cameraButton;
+        
         self.moviePlayerController = MPMoviePlayerViewController(contentURL: url);
         self.moviePlayerController.moviePlayer.fullscreen = true;
         self.moviePlayerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen;
@@ -44,6 +45,11 @@ class VideoViewController: UIViewController {
     func doneButtonClick(notificacion: NSNotification)
     {
         println("Termino video");
+    }
+    
+    func cameraButtonClicked(sender: UIButton)
+    {
+        
     }
 }
 
