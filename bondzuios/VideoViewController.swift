@@ -15,6 +15,8 @@ class VideoViewController: UIViewController {
     //var moviePlayerController:MPMoviePlayerController!
     var moviePlayerController:MPMoviePlayerViewController!
     var url:NSURL!
+    var cameraButton: UIButton!
+    let sizeCameraButton: CGFloat = 40
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,17 +28,20 @@ class VideoViewController: UIViewController {
         self.moviePlayerController.moviePlayer.fullscreen = true;
         self.moviePlayerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen;
         
-        let cameraButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Camera, target: self, action: "cameraButtonClicked:");
+        let widthMoviePlayer = self.moviePlayerController.view.bounds.width;
+        let heightMoviePlayer = self.moviePlayerController.view.bounds.height;
+        self.cameraButton = UIButton(frame: CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton));
+        self.cameraButton.setTitle("Más", forState: UIControlState.Normal);
         
-        let button = UIButton(frame: CGRectMake(100, 100, 50, 50));
-        button.setTitle("Más", forState: UIControlState.Normal);
-        button.addTarget(self, action: "cameraButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.moviePlayerController.moviePlayer.view.addSubview(button);
+        self.moviePlayerController.moviePlayer.view.addSubview(self.cameraButton);
         
         self.moviePlayerController.moviePlayer.prepareToPlay();
         
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doneButtonClick:", name: MPMoviePlayerPlaybackDidFinishNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -56,6 +61,14 @@ class VideoViewController: UIViewController {
     func cameraButtonClicked(sender: AnyObject)
     {
         println("Camera clicked");
+    }
+    
+    func rotated()
+    {
+        println("ROTATED");
+        let widthMoviePlayer = self.moviePlayerController.view.bounds.width;
+        let heightMoviePlayer = self.moviePlayerController.view.bounds.height;
+        self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
     }
 }
 
