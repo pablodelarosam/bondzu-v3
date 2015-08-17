@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Regalo
+class Producto
 {
     var objectId: String;
     var nombre: String;
