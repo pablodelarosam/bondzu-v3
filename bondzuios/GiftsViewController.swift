@@ -16,9 +16,9 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     var productos = [Producto]()
     var productsToShow = [Producto]()
     var selectedSegment: Int = 0;
-    var segments = ["Comida", "Medicina", "Juguetes", "Regalos"];
+    var segments = ["Comida", "Medicina", "Juguetes", "Recuerdos"];
     var navHairLine:UIImageView? = UIImageView()
-    
+    var selectedProduct: Producto!;
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -90,9 +90,25 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         var photoFinal = Imagenes.imageResize(image: producto.photo, sizeChange: size, scale: UIScreen.mainScreen().scale);
         cell.imageView.image = photoFinal
         Imagenes.redondeaVista(cell, radio: 1.5)
-        cell.layer.borderColor = cell.backgroundColor?.CGColor
-        cell.layer.borderWidth = 0.2
+        /*cell.layer.borderColor = cell.backgroundColor?.CGColor
+        cell.layer.borderWidth = 0.2*/
         return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.selectedProduct = self.productsToShow[indexPath.row];
+        //performSegueWithIdentifier("segueDetailGift", sender: self)
+        
+        var detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("GiftDetailVC") as! GiftDetailViewController
+        var navContoller = UINavigationController(rootViewController: detailVC);
+        detailVC.producto = self.productsToShow[indexPath.row];
+        //self.presentViewController(detailVC, animated: true, completion: nil)
+        self.navigationController?.presentViewController(navContoller, animated: true, completion: nil);
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let giftDetailVC = segue.destinationViewController as! GiftDetailViewController;
+        giftDetailVC.producto = self.selectedProduct;
     }
     
     func updateProductsThatShouldShow()

@@ -22,6 +22,7 @@
 		54571F861B7928F10092E359 /* Animacion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F851B7928F10092E359 /* Animacion.swift */; };
 		54571F881B792ADE0092E359 /* TabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F871B792ADE0092E359 /* TabsViewController.swift */; };
 		54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F8A1B7932D60092E359 /* AboutViewController.swift */; };
+		546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546486E01B8269BB00286CAC /* GiftDetailViewController.swift */; };
 		546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */; };
 		546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546490C01B7D3217007F3DEF /* Imagenes.swift */; };
 		549760FB1B7B0BED005782A6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FA1B7B0BED005782A6 /* Camera.swift */; };
@@ -79,6 +80,7 @@
 		54571F851B7928F10092E359 /* Animacion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animacion.swift; sourceTree = "<group>"; };
 		54571F871B792ADE0092E359 /* TabsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabsViewController.swift; sourceTree = "<group>"; };
 		54571F8A1B7932D60092E359 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		546486E01B8269BB00286CAC /* GiftDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftDetailViewController.swift; sourceTree = "<group>"; };
 		546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftCollectionViewCell.swift; sourceTree = "<group>"; };
 		546490C01B7D3217007F3DEF /* Imagenes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Imagenes.swift; sourceTree = "<group>"; };
 		549760FA1B7B0BED005782A6 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camera.swift; path = bondzuios/Camera.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 			children = (
 				544252891B7BF5860077C7A6 /* GiftsViewController.swift */,
 				546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */,
+				546486E01B8269BB00286CAC /* GiftDetailViewController.swift */,
 			);
 			name = GiftsTab;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				54E447AA1B74171300BF580F /* Producto.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
 				546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */,
+				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
 				549760FD1B7B12B9005782A6 /* Animal.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
