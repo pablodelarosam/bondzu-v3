@@ -9,8 +9,10 @@
 import UIKit
 import Parse
 
-class LoginViewController: UIViewController {
 
+
+class LoginViewController: UIViewController {
+    
     @IBOutlet weak var txtEmail: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
     
@@ -20,7 +22,10 @@ class LoginViewController: UIViewController {
         self.navigationController?.navigationBar.barStyle = .Black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        
+    }
+
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
     }
     
     @IBAction func login(sender: UIButton)

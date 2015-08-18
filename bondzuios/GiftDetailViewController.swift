@@ -14,9 +14,9 @@ class GiftDetailViewController: UIViewController {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var btnDonate: UIButton!
     @IBOutlet weak var lblPrecio: UILabel!
-    @IBOutlet weak var lblRecommend: UILabel!
     @IBOutlet weak var txtDescription: UITextView!
     var producto: Producto!;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,8 +25,7 @@ class GiftDetailViewController: UIViewController {
         self.btnDonate.layer.borderColor = UIColor.orangeColor().CGColor;
         self.image.image = self.producto.photo;
         self.lblName.text = self.producto.nombre;
-        self.lblPrecio.text = "\(self.producto.precio1)*";
-        self.lblRecommend.text = "*Recommended ammount for this product";
+        self.lblPrecio.text = "$ \(self.producto.precio1)";
         self.txtDescription.text = self.producto.infoAmount;
         self.txtDescription.font = UIFont.systemFontOfSize(18);
         self.navigationItem.title = self.producto.nombre
@@ -36,7 +35,11 @@ class GiftDetailViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR;
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
     }
-
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -51,6 +54,7 @@ class GiftDetailViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil);
     }
 
+    
     /*
     // MARK: - Navigation
 

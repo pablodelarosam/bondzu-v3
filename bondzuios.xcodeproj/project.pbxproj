@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540C6B6E1B795A0A006F9A12 /* ListaCamarasViewController.swift */; };
+		542186981B83A7BB00E6461D /* NavControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542186971B83A7BB00E6461D /* NavControllerExtension.swift */; };
 		54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54305CAA1B73F809003F9AB0 /* AppDelegate.swift */; };
 		54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54305CAC1B73F809003F9AB0 /* VideoViewController.swift */; };
 		54305CB21B73F80A003F9AB0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54305CB11B73F80A003F9AB0 /* Images.xcassets */; };
@@ -62,6 +63,7 @@
 		092D6BF827BFAF6C41449A2C /* Pods-bondzuios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.debug.xcconfig"; sourceTree = "<group>"; };
 		369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.release.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.release.xcconfig"; sourceTree = "<group>"; };
 		540C6B6E1B795A0A006F9A12 /* ListaCamarasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListaCamarasViewController.swift; sourceTree = "<group>"; };
+		542186971B83A7BB00E6461D /* NavControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavControllerExtension.swift; sourceTree = "<group>"; };
 		54305CA51B73F809003F9AB0 /* Bondzu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bondzu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54305CA91B73F809003F9AB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54305CAA1B73F809003F9AB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +141,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		542186961B83A79900E6461D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				542186971B83A7BB00E6461D /* NavControllerExtension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		54305C9C1B73F809003F9AB0 = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +172,7 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
+				542186961B83A79900E6461D /* Extensions */,
 				544252851B7BBF910077C7A6 /* Catalog */,
 				54571F891B7932B70092E359 /* AboutTab */,
 				54BC54C31B7BF862009244C7 /* CommunityTab */,
@@ -491,6 +502,7 @@
 				549760FD1B7B12B9005782A6 /* Animal.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
+				542186981B83A7BB00E6461D /* NavControllerExtension.swift in Sources */,
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,
 				54571F861B7928F10092E359 /* Animacion.swift in Sources */,
 				546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */,

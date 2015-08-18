@@ -28,14 +28,16 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         updateProductsThatShouldShow()
     }
     
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    }
     
-    
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {        
         self.navigationController?.navigationBar.topItem?.title = "Gifts"
-        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = nil
+        
         //TEST
         self.animalId = "uoG4QimJN9";
-        
         
         getProductsOfAnimalWith(id: self.animalId)
         super.viewDidAppear(animated)

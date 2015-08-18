@@ -30,14 +30,17 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
         getFirstCameraAndSetup()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        println("View did appear");
-        super.viewDidAppear(animated)
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
     }
     
     func doneButtonClick(notificacion: NSNotification)
@@ -140,7 +143,7 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
     {
         self.moviePlayerController = MPMoviePlayerViewController(contentURL: url);
         self.moviePlayerController.moviePlayer.fullscreen = true;
-        self.moviePlayerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen;
+        self.moviePlayerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen;                
         
         let widthMoviePlayer = self.moviePlayerController.view.bounds.width;
         let heightMoviePlayer = self.moviePlayerController.view.bounds.height;
