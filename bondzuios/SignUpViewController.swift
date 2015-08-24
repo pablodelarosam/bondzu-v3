@@ -16,8 +16,8 @@ class SignUpViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
     }       
     
     override func didReceiveMemoryWarning() {

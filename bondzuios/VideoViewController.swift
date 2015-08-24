@@ -35,8 +35,8 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
         // Dispose of any resources that can be recreated.
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
     }
     
     override func shouldAutorotate() -> Bool {
@@ -45,19 +45,19 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
     
     func doneButtonClick(notificacion: NSNotification)
     {
-        println("Termino video");
+        print("Termino video");
         //self.dismissMoviePlayerViewControllerAnimated()
         self.navigationController?.popViewControllerAnimated(false);
     }
     
     func cameraButtonClicked(sender: AnyObject)
     {
-        println("Camera clicked");
+        print("Camera clicked");
         
-        var popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController;
+        let popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController;
         popViewController.animalId = self.animalId                
         popViewController.player = self.moviePlayerController.moviePlayer
-        var navController: UINavigationController = UINavigationController(rootViewController: popViewController)
+        let navController: UINavigationController = UINavigationController(rootViewController: popViewController)
         navController.modalPresentationStyle = UIModalPresentationStyle.Popover
         popViewController.modalPresentationStyle = .Popover
         self.popover = navController.popoverPresentationController as UIPopoverPresentationController!
@@ -85,7 +85,7 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
     
     func rotated()
     {
-        println("ROTATED");
+        print("ROTATED");
         let widthMoviePlayer = self.moviePlayerController.view.bounds.width;
         let heightMoviePlayer = self.moviePlayerController.view.bounds.height;
         self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
@@ -98,20 +98,20 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
     //Obtiene la primera camara funcionando y la despliega
     func getFirstCameraAndSetup()
     {
-        var query = PFQuery(className: "Camera");
+        let query = PFQuery(className: "Camera");
         query.whereKey("animal_id", equalTo: PFObject(withoutDataWithClassName: "Animal", objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 // The find succeeded.
-                println("Successfully retrieved \(objects!.count) cameras.")
+                print("Successfully retrieved \(objects!.count) cameras.")
                 // Do something with the found objects
                 if let objects = objects as? [PFObject] {
                     for object in objects {
                         
-                        println(object.objectId)
-                        var newCamera = Camera(_obj_id: object.objectId as String!,
+                        print(object.objectId)
+                        let newCamera = Camera(_obj_id: object.objectId as String!,
                             _description: object.objectForKey("description") as! String,
                             _animalId: self.animalId,
                             _type: object.objectForKey("type") as! Int,
@@ -120,10 +120,10 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
                             _url: object.objectForKey("url") as? String)
                         
                         let url = object.objectForKey("url") as? String
-                        println("url = \(url)")
-                        println("desciption = \(newCamera.descripcion)");
-                        println("url = \(newCamera.url)");
-                        println("funcionando = \(newCamera.funcionando!)");
+                        print("url = \(url)")
+                        print("desciption = \(newCamera.descripcion)");
+                        print("url = \(newCamera.url)");
+                        print("funcionando = \(newCamera.funcionando!)");
                         if(newCamera.funcionando!)
                         {
                             self.url = NSURL(string: url!);
@@ -134,7 +134,7 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
                 }
             } else {
                 // Log details of the failure
-                println("Error: \(error!) \(error!.userInfo!)")
+                print("Error: \(error!) \(error!.userInfo)")
             }
         }
     }
@@ -148,7 +148,7 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
         let widthMoviePlayer = self.moviePlayerController.view.bounds.width;
         let heightMoviePlayer = self.moviePlayerController.view.bounds.height;
         let image = UIImage(named: "camera") as UIImage!
-        self.cameraButton  = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        self.cameraButton  = UIButton(type: UIButtonType.Custom)
         self.cameraButton.setImage(image, forState: UIControlState.Normal)
         self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
         

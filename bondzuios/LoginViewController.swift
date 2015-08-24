@@ -24,8 +24,8 @@ class LoginViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
     }
 
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
     }
     
     @IBAction func login(sender: UIButton)

@@ -36,7 +36,7 @@ class CatalogViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let nextVC : TabsViewController = segue.destinationViewController as! TabsViewController        
+        //let nextVC : TabsViewController = segue.destinationViewController as! TabsViewController
     }
     
 

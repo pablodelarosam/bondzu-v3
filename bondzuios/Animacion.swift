@@ -11,7 +11,7 @@ import UIKit
 
 class Animacion
 {
-    static func shakeAnimation(#view: UIView)
+    static func shakeAnimation(view: UIView)
     {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.07

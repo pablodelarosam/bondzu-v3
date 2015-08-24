@@ -36,8 +36,8 @@ class GiftDetailViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,9 +46,17 @@ class GiftDetailViewController: UIViewController {
     }
     
     @IBAction func donate(sender: UIButton) {
-        println("DONATE");
+        print("DONATE");
+        performSegueWithIdentifier("paySegue", sender: self)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let payVC = segue.destinationViewController as? PagoViewController
+        {
+            payVC.producto = self.producto;
+        }
+        
+    }
     func backButtonClicked(sender: UIBarButtonItem)
     {
         self.dismissViewControllerAnimated(true, completion: nil);

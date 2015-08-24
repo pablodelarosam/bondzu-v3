@@ -28,8 +28,10 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         updateProductsThatShouldShow()
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+
     }
     
     override func viewDidAppear(animated: Bool) {        
@@ -39,7 +41,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         //TEST
         self.animalId = "uoG4QimJN9";
         
-        getProductsOfAnimalWith(id: self.animalId)
+        getProductsOfAnimalWith(self.animalId)
         super.viewDidAppear(animated)
     }
     
@@ -53,7 +55,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         let cellWidth = ((UIScreen.mainScreen().bounds.width)-15) / NUMBER_ITEMS_ROW
         let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
-        self.navHairLine = Utiles.getHairLine(navigationBar: self.navigationController!.navigationBar)
+        self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
         self.toolbar.barStyle = .Black
         self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.toolbar.tintColor = UIColor.whiteColor()
@@ -61,12 +63,12 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        Utiles.moveHairLine(appearing: true, navHairLine: self.navHairLine, toolbar: self.toolbar)
+        Utiles.moveHairLine(true, navHairLine: self.navHairLine, toolbar: self.toolbar)
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        Utiles.moveHairLine(appearing: false, navHairLine: self.navHairLine, toolbar: self.toolbar)
+        Utiles.moveHairLine(false, navHairLine: self.navHairLine, toolbar: self.toolbar)
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -89,7 +91,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         var initialThumbnail = UIImage(named: "question")
         cell.imageView.image = initialThumbnail*/
         let size = CGSizeMake(57, 57)
-        var photoFinal = Imagenes.imageResize(image: producto.photo, sizeChange: size, scale: UIScreen.mainScreen().scale);
+        let photoFinal = Imagenes.imageResize(producto.photo, sizeChange: size, scale: UIScreen.mainScreen().scale);
         cell.imageView.image = photoFinal
         Imagenes.redondeaVista(cell, radio: 1.5)
         /*cell.layer.borderColor = cell.backgroundColor?.CGColor
@@ -101,8 +103,8 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         self.selectedProduct = self.productsToShow[indexPath.row];
         //performSegueWithIdentifier("segueDetailGift", sender: self)
         
-        var detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("GiftDetailVC") as! GiftDetailViewController
-        var navContoller = UINavigationController(rootViewController: detailVC);
+        let detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("GiftDetailVC") as! GiftDetailViewController
+        let navContoller = UINavigationController(rootViewController: detailVC);
         detailVC.producto = self.productsToShow[indexPath.row];
         //self.presentViewController(detailVC, animated: true, completion: nil)
         self.navigationController?.presentViewController(navContoller, animated: true, completion: nil);
@@ -116,7 +118,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     func updateProductsThatShouldShow()
     {
         self.productsToShow.removeAll(keepCapacity: true)
-        var selectedCategory = self.segments[self.selectedSegment];
+        let selectedCategory = self.segments[self.selectedSegment];
         for product in productos
         {
             if product.categoria == selectedCategory
@@ -128,9 +130,9 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         self.collectionView.reloadData()
     }
     
-    func getProductsOfAnimalWith(#id: String)
+    func getProductsOfAnimalWith(id: String)
     {
-        var query = PFQuery(className: "Productos");
+        let query = PFQuery(className: "Productos");
         query.whereKey("animalId", equalTo: id)
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
@@ -138,7 +140,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
             if error == nil {
                 self.activityIndicator.startAnimating()
                 // The find succeeded.
-                println("Successfully retrieved \(objects!.count) products.")
+                print("Successfully retrieved \(objects!.count) products.")
                 
                 var imagen = UIImage();
                 var i = 0;
@@ -147,9 +149,9 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                 if let objects = objects as? [PFObject] {
                     for (i = 0; i < objects.count; i++)
                     {
-                        println("i = \(i) objects.count = \(objects.count)")
-                        var object = objects[i]
-                        if let imageFile = object.objectForKey("photo") as? PFFile
+                        print("i = \(i) objects.count = \(objects.count)")
+                        let object = objects[i]
+                        if let _ = object.objectForKey("photo") as? PFFile
                         {
                             let image = object.objectForKey("photo") as? PFFile
                             image!.getDataInBackgroundWithBlock {
@@ -159,10 +161,10 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                                         imagen = UIImage(data:imageData)!
                                     }
                                     
-                                    var id = object.objectId
+                                    //var id = object.objectId
                                     
-                                    println(object.objectId)
-                                    var producto = Producto(
+                                    print(object.objectId)
+                                    let producto = Producto(
                                         _id: object.objectId!,
                                         _nombre: object.objectForKey("nombre") as! String,
                                         pic: imagen,
@@ -177,16 +179,16 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                                         _infoAmount: object.objectForKey("info_ammount") as! String)
                                     
                                     
-                                    println("nombre = \(producto.nombre)")
-                                    println("desciption = \(producto.descripcion)");
-                                    println("funcionando = \(producto.disponible)");
+                                    print("nombre = \(producto.nombre)")
+                                    print("desciption = \(producto.descripcion)");
+                                    print("funcionando = \(producto.disponible)");
                                     
                                     if(producto.disponible)
                                     {
                                         self.productos.append(producto);
                                         if(i == objects.count)
                                         {
-                                            println("i = \(i) objects.count = \(objects.count)")
+                                            print("i = \(i) objects.count = \(objects.count)")
                                             self.updateProductsThatShouldShow()
                                         }
                                     }
@@ -197,7 +199,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                 }
             } else {
                 // Log details of the failure
-                println("Error: \(error!) \(error!.userInfo!)")
+                print("Error: \(error!) \(error!.userInfo)")
             }
         }
     }

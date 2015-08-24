@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import Parse
 import MediaPlayer
+import Parse
 
-class ListaCamarasViewController: UITableViewController, UIPopoverPresentationControllerDelegate, UITableViewDelegate {
+class ListaCamarasViewController: UITableViewController, UIPopoverPresentationControllerDelegate{
 
     var animalId: String!;
     var camaras = [Camera]();
@@ -38,7 +38,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = self.tableView.dequeueReusableCellWithIdentifier("camaraCell") as! UITableViewCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("camaraCell") as UITableViewCell!
         var camara : Camera
         
         camara = self.camaras[indexPath.row]
@@ -47,7 +47,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         {
             if(camara.url == self.player.contentURL)
             {
-                println("Esta viendo camara: \(camara.descripcion)")
+                print("Esta viendo camara: \(camara.descripcion)")
                 cell.accessoryType = .Checkmark
             }
         }
@@ -55,14 +55,14 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var camara = self.camaras[indexPath.row] as Camera;
-        println("Seleccionó camara: \(camara.descripcion)")
+        let camara = self.camaras[indexPath.row] as Camera;
+        print("Seleccionó camara: \(camara.descripcion)")
         
         if let url = camara.url as NSURL!
         {
             if(url != player.contentURL)
             {
-                println(url)
+                print(url)
                 player.movieSourceType = MPMovieSourceType.Streaming
                 player.contentURL = url;
                 player.prepareToPlay()
@@ -70,7 +70,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
             }
             else
             {
-                println("Se selecciono video que ya se esta reproduciendo")
+                print("Se selecciono video que ya se esta reproduciendo")
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -100,7 +100,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     
     func getCameras()
     {
-        var query = PFQuery(className: "Camera");
+        let query = PFQuery(className: "Camera");
         query.whereKey("animal_id", equalTo: PFObject(withoutDataWithClassName: "Animal", objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
@@ -108,13 +108,13 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
             if error == nil {
                 // The find succeeded.
                 self.camaras.removeAll(keepCapacity: true)
-                println("Successfully retrieved \(objects!.count) cameras.")
+                print("Successfully retrieved \(objects!.count) cameras.")
                 // Do something with the found objects
                 if let objects = objects as? [PFObject] {
                     for object in objects {
                         
-                        println(object.objectId)
-                        var newCamera = Camera(_obj_id: object.objectId as String!,
+                        print(object.objectId)
+                        let newCamera = Camera(_obj_id: object.objectId as String!,
                             _description: object.objectForKey("description") as! String,
                             _animalId: self.animalId,
                             _type: object.objectForKey("type") as! Int,
@@ -123,16 +123,16 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
                             _url: object.objectForKey("url") as? String)
                         
                         let url = object.objectForKey("url") as? String
-                        println("url = \(url)")
-                        println("desciption = \(newCamera.descripcion)");
-                        println("url = \(newCamera.url)");
-                        println("funcionando = \(newCamera.funcionando!)");
+                        print("url = \(url)")
+                        print("desciption = \(newCamera.descripcion)");
+                        print("url = \(newCamera.url)");
+                        print("funcionando = \(newCamera.funcionando!)");
                         if(newCamera.funcionando!)
                         {
                             self.camaras.append(newCamera);
                         }
                     }
-                    println("Cameras = \(self.camaras)")
+                    print("Cameras = \(self.camaras)")
                     self.tableView.reloadData()
                     if(self.refreshcontrol.refreshing)
                     {
@@ -141,7 +141,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
                 }
             } else {
                 // Log details of the failure
-                println("Error: \(error!) \(error!.userInfo!)")
+                print("Error: \(error!) \(error!.userInfo)")
             }
         }
     }

@@ -9,12 +9,12 @@
 import UIKit
 import Parse
 import Bolts
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId("7aGqZRDKBITfaIRAXq2oKoBkuWkhNqJZJWmf318I",
             clientKey: "lwOEFDvVC8SsM4Nl86YBzrkDOlOw8WHCyqu4UpBe");
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        Stripe.setDefaultPublishableKey(Constantes.STRIPE_PLUBISHABLE_KEY)
         
         return true
     }

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540C6B6E1B795A0A006F9A12 /* ListaCamarasViewController.swift */; };
-		542186981B83A7BB00E6461D /* NavControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542186971B83A7BB00E6461D /* NavControllerExtension.swift */; };
+		542186981B83A7BB00E6461D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542186971B83A7BB00E6461D /* Extensions.swift */; };
 		54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54305CAA1B73F809003F9AB0 /* AppDelegate.swift */; };
 		54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54305CAC1B73F809003F9AB0 /* VideoViewController.swift */; };
 		54305CB21B73F80A003F9AB0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54305CB11B73F80A003F9AB0 /* Images.xcassets */; };
@@ -28,11 +28,12 @@
 		546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546490C01B7D3217007F3DEF /* Imagenes.swift */; };
 		549760FB1B7B0BED005782A6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FA1B7B0BED005782A6 /* Camera.swift */; };
 		549760FD1B7B12B9005782A6 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FC1B7B12B9005782A6 /* Animal.swift */; };
+		54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3CE291B84FB5200E106D9 /* PagoViewController.swift */; };
 		54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC54C41B7BF879009244C7 /* CommunityViewController.swift */; };
 		54BC54C81B7BF8A1009244C7 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC54C71B7BF8A1009244C7 /* GalleryViewController.swift */; };
 		54C406491B7D67D20082768B /* Constantes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C406481B7D67D20082768B /* Constantes.swift */; };
 		54E447901B74020500BF580F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E4478E1B74020500BF580F /* Bolts.framework */; };
-		54E447911B74020500BF580F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E4478F1B74020500BF580F /* Parse.framework */; };
+		54E447911B74020500BF580F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E4478F1B74020500BF580F /* Parse.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		54E447931B74021900BF580F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E447921B74021900BF580F /* AudioToolbox.framework */; };
 		54E447951B74021D00BF580F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E447941B74021D00BF580F /* CFNetwork.framework */; };
 		54E447971B74022300BF580F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E447961B74022300BF580F /* CoreGraphics.framework */; };
@@ -63,7 +64,7 @@
 		092D6BF827BFAF6C41449A2C /* Pods-bondzuios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.debug.xcconfig"; sourceTree = "<group>"; };
 		369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.release.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.release.xcconfig"; sourceTree = "<group>"; };
 		540C6B6E1B795A0A006F9A12 /* ListaCamarasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListaCamarasViewController.swift; sourceTree = "<group>"; };
-		542186971B83A7BB00E6461D /* NavControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavControllerExtension.swift; sourceTree = "<group>"; };
+		542186971B83A7BB00E6461D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		54305CA51B73F809003F9AB0 /* Bondzu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bondzu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54305CA91B73F809003F9AB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54305CAA1B73F809003F9AB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,9 +88,11 @@
 		546490C01B7D3217007F3DEF /* Imagenes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Imagenes.swift; sourceTree = "<group>"; };
 		549760FA1B7B0BED005782A6 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camera.swift; path = bondzuios/Camera.swift; sourceTree = "<group>"; };
 		549760FC1B7B12B9005782A6 /* Animal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Animal.swift; path = bondzuios/Animal.swift; sourceTree = "<group>"; };
+		54A3CE291B84FB5200E106D9 /* PagoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagoViewController.swift; path = bondzuios/PagoViewController.swift; sourceTree = "<group>"; };
 		54BC54C41B7BF879009244C7 /* CommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		54BC54C71B7BF8A1009244C7 /* GalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		54C406481B7D67D20082768B /* Constantes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constantes.swift; sourceTree = "<group>"; };
+		54C44F221B852D8C00597D38 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		54E4478C1B73FDB200BF580F /* Producto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Producto.swift; sourceTree = "<group>"; };
 		54E4478E1B74020500BF580F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		54E4478F1B74020500BF580F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -144,7 +147,7 @@
 		542186961B83A79900E6461D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				542186971B83A7BB00E6461D /* NavControllerExtension.swift */,
+				542186971B83A7BB00E6461D /* Extensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				54305CCA1B73FA68003F9AB0 /* Modelos */,
 				5442528B1B7BF64B0077C7A6 /* Main.storyboard */,
 				54305CAA1B73F809003F9AB0 /* AppDelegate.swift */,
+				54C44F221B852D8C00597D38 /* Bridging-Header.h */,
 				54571F871B792ADE0092E359 /* TabsViewController.swift */,
 				54305CB11B73F80A003F9AB0 /* Images.xcassets */,
 				54305CB31B73F80A003F9AB0 /* LaunchScreen.xib */,
@@ -252,6 +256,7 @@
 				544252891B7BF5860077C7A6 /* GiftsViewController.swift */,
 				546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */,
 				546486E01B8269BB00286CAC /* GiftDetailViewController.swift */,
+				54A3CE281B84FB3600E106D9 /* Pago */,
 			);
 			name = GiftsTab;
 			sourceTree = "<group>";
@@ -289,6 +294,15 @@
 				54571F8A1B7932D60092E359 /* AboutViewController.swift */,
 			);
 			name = AboutTab;
+			sourceTree = "<group>";
+		};
+		54A3CE281B84FB3600E106D9 /* Pago */ = {
+			isa = PBXGroup;
+			children = (
+				54A3CE291B84FB5200E106D9 /* PagoViewController.swift */,
+			);
+			name = Pago;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		54BC54C31B7BF862009244C7 /* CommunityTab */ = {
@@ -385,7 +399,8 @@
 		54305C9D1B73F809003F9AB0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Bondzu;
 				TargetAttributes = {
 					54305CA41B73F809003F9AB0 = {
@@ -496,13 +511,14 @@
 				54571F7E1B7924420092E359 /* LoginViewController.swift in Sources */,
 				54BC54C81B7BF8A1009244C7 /* GalleryViewController.swift in Sources */,
 				54E447AA1B74171300BF580F /* Producto.swift in Sources */,
+				54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
 				546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */,
 				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
 				549760FD1B7B12B9005782A6 /* Animal.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
-				542186981B83A7BB00E6461D /* NavControllerExtension.swift in Sources */,
+				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,
 				54571F861B7928F10092E359 /* Animacion.swift in Sources */,
 				546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */,
@@ -564,6 +580,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -583,6 +600,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/lmag94/Documents/Bondzu/bondzuios/bondzuios/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -621,6 +639,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/lmag94/Documents/Bondzu/bondzuios/bondzuios/Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -637,6 +656,7 @@
 				);
 				INFOPLIST_FILE = bondzuios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Bondzu;
 			};
 			name = Debug;
@@ -652,6 +672,7 @@
 				);
 				INFOPLIST_FILE = bondzuios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Bondzu;
 			};
 			name = Release;
@@ -670,6 +691,7 @@
 				);
 				INFOPLIST_FILE = bondzuiosTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bondzuios.app/bondzuios";
 			};
@@ -686,6 +708,7 @@
 				INFOPLIST_FILE = bondzuiosTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_CFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bondzuios.app/bondzuios";
 			};

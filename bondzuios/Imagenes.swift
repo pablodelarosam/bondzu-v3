@@ -11,7 +11,7 @@ import UIKit
 
 class Imagenes
 {
-    static func resizeImage(#image: UIImage, width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage
+    static func resizeImage(image: UIImage, width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage
     {
         let sizeChange = CGSizeMake(width, height);
         let hasAlpha = true
@@ -24,7 +24,7 @@ class Imagenes
         return scaledImage
     }
     
-    static func imageResize (#image:UIImage, sizeChange:CGSize, scale: CGFloat)-> UIImage{
+    static func imageResize (image: UIImage, sizeChange:CGSize, scale: CGFloat)-> UIImage{
         let hasAlpha = true
         let scale: CGFloat = scale // Use scale factor of main screen
         

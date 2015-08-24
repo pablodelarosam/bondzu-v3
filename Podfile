@@ -4,7 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'bondzuios' do
-pod 'SwiftyJSON', '~> 2.2.1'
+pod 'Stripe'
 end
 
 target 'bondzuiosTests' do

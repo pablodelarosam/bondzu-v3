@@ -12,7 +12,7 @@ import UIKit
 class Utiles
 {
     //Esconder hairline (separacion entre nav bar y toolbar)
-    static func moveHairLine(#appearing: Bool, navHairLine: UIImageView?, toolbar: UIToolbar?)
+    static func moveHairLine(appearing: Bool, navHairLine: UIImageView?, toolbar: UIToolbar?)
     {
         if (navHairLine != nil && toolbar != nil)
         {
@@ -30,11 +30,11 @@ class Utiles
             navHairLine!.frame = hairLineFrame
             navHairLine!.hidden = appearing
         }else{
-            println("toolbar o hairline son nil")
+            print("toolbar o hairline son nil")
         }
     }
     
-    static func getHairLine(#navigationBar: UINavigationBar) -> UIImageView?
+    static func getHairLine(navigationBar: UINavigationBar) -> UIImageView?
     {
         for view in navigationBar.subviews
         {
