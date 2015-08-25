@@ -93,7 +93,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		76DDE784CDD5C1E0C7832BCE5386CFAD /* PBXContainerItemProxy */ = {
+		93E330DEE2ABB27EC37985B5CE10E243 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
@@ -486,7 +486,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1996268491338DEFDB8A48436AA20E0C /* PBXTargetDependency */,
+				7FC8647C6464BD20A5583E1BAD0AE83C /* PBXTargetDependency */,
 			);
 			name = "Pods-bondzuios";
 			productName = "Pods-bondzuios";
@@ -501,6 +501,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					572C6226748BC6DD7EAD51BD05FA315F = {
+						DevelopmentTeam = V5M688Z463;
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -601,11 +606,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1996268491338DEFDB8A48436AA20E0C /* PBXTargetDependency */ = {
+		7FC8647C6464BD20A5583E1BAD0AE83C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Stripe;
 			target = 572C6226748BC6DD7EAD51BD05FA315F /* Stripe */;
-			targetProxy = 76DDE784CDD5C1E0C7832BCE5386CFAD /* PBXContainerItemProxy */;
+			targetProxy = 93E330DEE2ABB27EC37985B5CE10E243 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -672,6 +677,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B04013816077F07CDD54A41A086EBB8 /* Stripe-Private.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 5.1.2;
 				DEFINES_MODULE = YES;
@@ -687,6 +693,7 @@
 				MODULEMAP_FILE = "Target Support Files/Stripe/Stripe.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = Stripe;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -738,6 +745,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B04013816077F07CDD54A41A086EBB8 /* Stripe-Private.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 5.1.2;
 				DEFINES_MODULE = YES;
@@ -753,6 +761,7 @@
 				MODULEMAP_FILE = "Target Support Files/Stripe/Stripe.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = Stripe;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -48,6 +48,7 @@
 		54E447A91B74025600BF580F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E447A81B74025600BF580F /* Social.framework */; };
 		54E447AA1B74171300BF580F /* Producto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4478C1B73FDB200BF580F /* Producto.swift */; };
 		59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3797FE21B8CC1BE00924080 /* CircledButton.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,7 +93,6 @@
 		54BC54C41B7BF879009244C7 /* CommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		54BC54C71B7BF8A1009244C7 /* GalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		54C406481B7D67D20082768B /* Constantes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constantes.swift; sourceTree = "<group>"; };
-		54C44F221B852D8C00597D38 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		54E4478C1B73FDB200BF580F /* Producto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Producto.swift; sourceTree = "<group>"; };
 		54E4478E1B74020500BF580F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		54E4478F1B74020500BF580F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -108,6 +108,8 @@
 		54E447A41B74024B00BF580F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		54E447A61B74025100BF580F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		54E447A81B74025600BF580F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
+		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bondzuios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -187,8 +189,8 @@
 				54305CCB1B73FA7B003F9AB0 /* Video */,
 				54305CCA1B73FA68003F9AB0 /* Modelos */,
 				5442528B1B7BF64B0077C7A6 /* Main.storyboard */,
+				B3797FE41B8CC8E000924080 /* Bridging-Header.h */,
 				54305CAA1B73F809003F9AB0 /* AppDelegate.swift */,
-				54C44F221B852D8C00597D38 /* Bridging-Header.h */,
 				54571F871B792ADE0092E359 /* TabsViewController.swift */,
 				54305CB11B73F80A003F9AB0 /* Images.xcassets */,
 				54305CB31B73F80A003F9AB0 /* LaunchScreen.xib */,
@@ -280,6 +282,7 @@
 		54571F821B7928850092E359 /* Utiles */ = {
 			isa = PBXGroup;
 			children = (
+				B3797FE21B8CC1BE00924080 /* CircledButton.swift */,
 				54571F831B7928E10092E359 /* Utiles.swift */,
 				54571F851B7928F10092E359 /* Animacion.swift */,
 				546490C01B7D3217007F3DEF /* Imagenes.swift */,
@@ -405,6 +408,7 @@
 				TargetAttributes = {
 					54305CA41B73F809003F9AB0 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = V5M688Z463;
 					};
 					54305CB91B73F80A003F9AB0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -520,6 +524,7 @@
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
 				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,
+				B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */,
 				54571F861B7928F10092E359 /* Animacion.swift in Sources */,
 				546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */,
 				54571F881B792ADE0092E359 /* TabsViewController.swift in Sources */,
@@ -650,6 +655,9 @@
 			baseConfigurationReference = 092D6BF827BFAF6C41449A2C /* Pods-bondzuios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -658,6 +666,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Bondzu;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -666,6 +676,9 @@
 			baseConfigurationReference = 369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -674,6 +687,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Bondzu;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -681,10 +696,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -693,7 +704,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bondzuios.app/bondzuios";
+				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bondzu.app/Bondzu";
 			};
 			name = Debug;
 		};
@@ -701,16 +713,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = bondzuiosTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bondzuios.app/bondzuios";
+				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bondzu.app/Bondzu";
 			};
 			name = Release;
 		};
