@@ -16,7 +16,7 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var nameView: UIView!
     
-    @IBOutlet weak var paymentView: UIView!
+    @IBOutlet weak var paymentView: STPPaymentCardTextField!
     @IBOutlet weak var codeView: UIView!
     
     @IBOutlet weak var lblAmount: UILabel!
@@ -24,22 +24,18 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
     
     
     @IBOutlet weak var switchSaveCard: UISwitch!
-    
-    var paymentTextField: STPPaymentCardTextField!;
+    var buttonDone: UIBarButtonItem!;
 
     var producto: Producto!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let buttonDone = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: "nextButtonClicked:");
+        self.buttonDone = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: "nextButtonClicked:");
         self.navigationItem.rightBarButtonItem = buttonDone
         self.txtAmount.text = "\(self.producto.precio1)";
         self.txtAmount.enabled = false;
-        
-        self.paymentTextField = STPPaymentCardTextField(frame: CGRectMake(self.paymentView.frame.origin.x, self.paymentView.frame.origin.y, 400, 30));
-        self.paymentTextField.delegate = self;
-        self.view.addSubview(self.paymentTextField)
-        
+        self.buttonDone.enabled = false;
+        self.paymentView.delegate = self;
         // Do any additional setup after loading the view.
     }
 
@@ -51,6 +47,34 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
     func nextButtonClicked(sender: AnyObject?)
     {
         print("Pay View Controller Next")
+        let card = STPCard();
+        card.number = self.paymentView.cardNumber;
+        card.expMonth = self.paymentView.card!.expMonth;
+        card.expYear = self.paymentView.card!.expYear;
+        card.cvc = self.paymentView.card?.cvc;
+        
+        STPAPIClient.sharedClient().createTokenWithCard(card, completion: { (token, error) -> Void in
+            if (error != nil)
+            {
+                print("ERROR");
+            }
+            else
+            {
+                if token != nil
+                {
+                    self.createBackendChargeWithToken(token!)
+                }
+            }
+        });
+    }
+    
+    func createBackendChargeWithToken(token: STPToken)
+    {
+        print("Send token");
+    }
+    
+    func paymentCardTextFieldDidChange(textField: STPPaymentCardTextField) {
+        self.buttonDone.enabled = textField.valid;
     }
     
 
