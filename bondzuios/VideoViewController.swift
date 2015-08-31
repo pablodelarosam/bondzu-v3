@@ -7,14 +7,15 @@
 //
 
 import UIKit
-import MediaPlayer
+import AVKit
+import AVFoundation
 import Parse
 
-class VideoViewController: UIViewController, UIPopoverPresentationControllerDelegate {
+class VideoViewController: AVPlayerViewController, UIPopoverPresentationControllerDelegate {
     
     
     //var moviePlayerController:MPMoviePlayerController!
-    var moviePlayerController:MPMoviePlayerViewController!
+    var moviePlayerController:AVPlayerViewController!
     var url:NSURL!    
     var cameraButton: UIButton!
     let sizeCameraButton: CGFloat = 49
@@ -26,7 +27,7 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.activityIndicator.startAnimating()
+        //self.activityIndicator.startAnimating()
         getFirstCameraAndSetup()
     }
     
@@ -43,6 +44,10 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
         return false
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     func doneButtonClick(notificacion: NSNotification)
     {
         print("Termino video");
@@ -56,7 +61,7 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
         
         let popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController;
         popViewController.animalId = self.animalId                
-        popViewController.player = self.moviePlayerController.moviePlayer
+        popViewController.player = self.moviePlayerController;
         let navController: UINavigationController = UINavigationController(rootViewController: popViewController)
         navController.modalPresentationStyle = UIModalPresentationStyle.Popover
         popViewController.modalPresentationStyle = .Popover
@@ -98,7 +103,7 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
     //Obtiene la primera camara funcionando y la despliega
     func getFirstCameraAndSetup()
     {
-        let query = PFQuery(className: "Camera");
+        /*let query = PFQuery(className: "Camera");
         query.whereKey("animal_id", equalTo: PFObject(withoutDataWithClassName: "Animal", objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
@@ -136,17 +141,24 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
                 // Log details of the failure
                 print("Error: \(error!) \(error!.userInfo)")
             }
-        }
+        }*/
+        self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
+        self.setup()
     }
 
     func setup()
     {
-        self.moviePlayerController = MPMoviePlayerViewController(contentURL: url);
-        self.moviePlayerController.moviePlayer.fullscreen = true;
-        self.moviePlayerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen;                
         
-        let widthMoviePlayer = self.moviePlayerController.view.bounds.width;
-        let heightMoviePlayer = self.moviePlayerController.view.bounds.height;
+        self.moviePlayerController = AVPlayerViewController();
+        self.moviePlayerController.player = AVPlayer(URL: url);
+        
+        
+        /*self.moviePlayerController.moviePlayer.fullscreen = true;
+        self.moviePlayerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen;*/
+        
+        let sizeScreen = UIScreen.mainScreen().bounds;
+        let widthMoviePlayer = sizeScreen.width;
+        let heightMoviePlayer = sizeScreen.height;
         let image = UIImage(named: "camera") as UIImage!
         self.cameraButton  = UIButton(type: UIButtonType.Custom)
         self.cameraButton.setImage(image, forState: UIControlState.Normal)
@@ -154,15 +166,15 @@ class VideoViewController: UIViewController, UIPopoverPresentationControllerDele
         
         self.cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.moviePlayerController.moviePlayer.view.addSubview(self.cameraButton);
+        self.moviePlayerController.view.addSubview(self.cameraButton);
         
-        self.moviePlayerController.moviePlayer.prepareToPlay();
+        self.presentViewController(self.moviePlayerController, animated: true, completion: nil)
+        self.moviePlayerController.player?.closedCaptionDisplayEnabled = false;
+        self.moviePlayerController.player?.play()
         
-        self.presentMoviePlayerViewControllerAnimated(self.moviePlayerController)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doneButtonClick:", name: MPMoviePlayerPlaybackDidFinishNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doneButtonClick:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
-        self.activityIndicator.stopAnimating()
+        //self.activityIndicator.stopAnimating()
     }
 }
 

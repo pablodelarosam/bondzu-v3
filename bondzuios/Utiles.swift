@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import AVKit
+import AVFoundation
 import UIKit
 
 class Utiles
@@ -50,5 +52,20 @@ class Utiles
             }
         }
         return nil
+    }
+    
+    static func urlOfAVPlayer(player: AVPlayer?) -> NSURL?
+    {
+        if player != nil {
+            if let playerAsset = player!.currentItem?.asset as AVAsset?
+            {
+                if let urlAsset = playerAsset as? AVURLAsset
+                {
+                    return urlAsset.URL;
+                }
+            }
+        }
+        
+        return nil;
     }
 }

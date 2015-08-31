@@ -12,7 +12,7 @@ class AboutViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = "About"
-        var live = UIBarButtonItem(title: "Cams", style: .Plain, target: self, action: "showCams:")
+        let live = UIBarButtonItem(title: "Cams", style: .Plain, target: self, action: "showCams:")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = live
         super.viewDidAppear(animated)
     }
