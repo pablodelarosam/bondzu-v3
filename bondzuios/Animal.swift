@@ -19,7 +19,7 @@ class Animal: PFObject, PFSubclassing
     }
     
     class func parseClassName() -> String {
-        return "Animal"
+        return "AnimalV2"
     }
     
     var id: String? {

@@ -9,6 +9,35 @@
 import Foundation
 import UIKit
 
+func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+    UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+    image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+    let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return newImage
+}
+
+func getImageInBackground(url string : String, block : (UIImage->Void)){
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+        
+        let urlG = NSURL(string: string)
+        
+        guard let url = urlG else{
+            return
+        }
+        
+        let data = NSData(contentsOfURL: url)
+        
+        guard data != nil else{
+            return
+        }
+        
+        dispatch_async(dispatch_get_main_queue()){
+            block(UIImage(data: data!)!)
+        }
+    })
+}
+
 class Utiles
 {
     //Esconder hairline (separacion entre nav bar y toolbar)
