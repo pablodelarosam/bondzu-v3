@@ -2,30 +2,32 @@
 //  AboutViewController.swift
 //  bondzuios
 //
-//  Created by Luis Mariano Arobes on 10/08/15.
+//  Created by Ricardo Lopez Focil on 10/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //
 
 import UIKit
 import Parse
 
-class AboutViewController: UIViewController {
+class AboutViewController: UIViewController, UITextViewDelegate {
 
-    @IBOutlet var backgroundImage : UIImageView!
-    @IBOutlet var visibleImage : UIImageView!
+    @IBOutlet weak var backgroundImage : UIImageView!
+    @IBOutlet weak var visibleImage : UIImageView!
     @IBOutlet weak var blurContainer: UIView!
     @IBOutlet weak var lateral : AboutLateralView!
     @IBOutlet weak var speciesLabel : UILabel!
-
+    @IBOutlet weak var textView: UITextView!
     
+
     var image : UIImage?
     
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) as UIVisualEffectView
 
-    @IBOutlet var adopt : CircledButton!
-    @IBOutlet var goLive : CircledButton!
+    @IBOutlet weak var adopt : CircledButton!
+    @IBOutlet weak var goLive : CircledButton!
     
     var animalID = "oDUea7l41Y"
     
@@ -57,7 +59,6 @@ class AboutViewController: UIViewController {
         adopt.text = "Adopt"
         goLive.text = "Go Live"
         goLive.target = showCams
-        
         let query = PFQuery(className: "AnimalV2")
         query.getObjectInBackgroundWithId(animalID){
             (animalObject: PFObject?, error: NSError?) -> Void in
@@ -66,11 +67,18 @@ class AboutViewController: UIViewController {
                     return
                 }
                 
-                self.navigationItem.title = (animal["name"] as! String)
-                self.lateral.setAdopters((animal["adopters"] as! NSNumber).integerValue)
-                self.speciesLabel.text = (animal["species"] as! String)
-                
-                
+                dispatch_async(dispatch_get_main_queue()){
+                    self.navigationItem.title = (animal["name"] as! String)
+                    self.lateral.setAdopters((animal["adopters"] as! NSNumber).integerValue)
+                    self.speciesLabel.text = (animal["species"] as! String)
+                    
+                    for (name , value) in animal["characteristics"] as! [String:String]{
+                        self.appendAnimalAttributeWithName(name, value: value)
+                    }
+                    
+                    self.appendHeadLine("About")
+                    self.appendText(animal["about"] as! String)
+                }
                 
                 (animal["profilePhoto"] as! PFFile).getDataInBackgroundWithBlock(){
                     data , error in
@@ -89,8 +97,11 @@ class AboutViewController: UIViewController {
                     self.image = image
                     
                     let sizedImage = imageWithImage(image!, scaledToSize: self.backgroundImage.frame.size)
-                    self.backgroundImage.image = sizedImage
-                    self.visibleImage.image = sizedImage
+                    
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.backgroundImage.image = sizedImage
+                        self.visibleImage.image = sizedImage
+                    }
                 }
                 
                 if let events = animal["events"] as? NSArray{
@@ -107,16 +118,20 @@ class AboutViewController: UIViewController {
                             if let photo = event["event_photo"] as? PFFile{
                                 photo.getDataInBackgroundWithBlock(){
                                     data , error in
-                                    guard error == nil, let imageData = data else{
-                                        self.lateral.setEventData( nil, title: event["title"] as! String)
-                                        return
+                                    dispatch_async(dispatch_get_main_queue()){
+                                        guard error == nil, let imageData = data else{
+                                            self.lateral.setEventData( nil, title: event["title"] as! String)
+                                            return
+                                        }
+                                        
+                                        self.lateral.setEventData( UIImage(data: imageData), title: event["title"] as! String)
                                     }
-                                    
-                                    self.lateral.setEventData( UIImage(data: imageData), title: event["title"] as! String)
                                 }
                             }
                             else{
-                                self.lateral.setEventData( nil, title: event["title"] as! String)
+                                dispatch_async(dispatch_get_main_queue()){
+                                    self.lateral.setEventData( nil, title: event["title"] as! String)
+                                }
                             }
                         }
                     }
@@ -188,16 +203,30 @@ class AboutViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func appendAnimalAttributeWithName(name : String, value: String){
+        let nameDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Light", size: 10), size: 10)]
+        let valueDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Light", size: 10), size: 10), NSForegroundColorAttributeName : UIColor.darkGrayColor()]
+        textView.textStorage.appendAttributedString( NSAttributedString(string: "\(name): ", attributes: nameDescriptor))
+        textView.textStorage.appendAttributedString( NSAttributedString(string: "\(value)\n", attributes: valueDescriptor))
     }
-    */
-
+    
+    func appendHeadLine(title : String){
+        let headlineeDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Bold", size: 15), size: 15)]
+        textView.textStorage.appendAttributedString( NSAttributedString(string: "\n\(title)\n", attributes: headlineeDescriptor))
+    }
+    
+    func appendText(text : String){
+        let textDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)]
+        textView.textStorage.appendAttributedString( NSAttributedString(string: "\(text)", attributes: textDescriptor))
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        print("DESAPAREZCO")
+    }
+    
+    deinit{
+        print("\n\nADIOS MUNDO CRUEL\n\n")
+    }
 }
+

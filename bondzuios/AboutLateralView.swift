@@ -17,6 +17,7 @@ public class AboutLateralView: UIView {
     private var eventLabel = UILabel()
     private var moreButton = UIButton()
     
+    
     public func setAdopters(adopters : Int){
         adoptersLabel.text = "\(adopters)"
     }
@@ -247,6 +248,8 @@ public class AboutLateralView: UIView {
         }
         setNeedsLayout()
     }
+    
+    
     
     /*
     // Only override drawRect: if you perform custom drawing.
