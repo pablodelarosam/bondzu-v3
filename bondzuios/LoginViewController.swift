@@ -32,8 +32,13 @@ class LoginViewController: UIViewController {
     {
         /*let vc : UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("Tabs") as! UITabBarController
         self.presentViewController(vc, animated: true, completion: nil);*/
-        
-        self.performSegueWithIdentifier("loginSegue", sender: self);
+        let usuario = PFUser.logInWithUsername("demouser@demo.com", password: "demo_user")
+        if usuario != nil{
+            self.performSegueWithIdentifier("loginSegue", sender: self);
+        }
+        else{
+            print("ÑO");
+        }
     }
     
     override func didReceiveMemoryWarning() {

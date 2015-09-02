@@ -30,6 +30,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var goLive : CircledButton!
     
     var animalID = "oDUea7l41Y"
+    var animal : PFObject?
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = "About"
@@ -59,6 +60,53 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         adopt.text = "Adopt"
         goLive.text = "Go Live"
         goLive.target = showCams
+        
+        adopt.target = {
+            _ in
+            self.adopt.userInteractionEnabled = false
+            let user = PFUser.currentUser()!
+            let relation = user.relationForKey("adoptersRelation")
+            let query = relation.query()
+            query?.findObjectsInBackgroundWithBlock(){
+                adopted , error in
+                
+                guard self.animal != nil else{
+                    return
+                }
+                
+                guard error == nil , let animals = adopted else{
+                    self.adopt!.userInteractionEnabled = true
+                    print("error al obtener información")
+                    return
+                }
+                
+                for animal in animals{
+                    if (animal as! PFObject).objectId == self.animalID{
+                        dispatch_async(dispatch_get_main_queue()){
+                            let controller = UIAlertController(title: "Already adopted", message: "You cannot adopt the same animal twice", preferredStyle: UIAlertControllerStyle.Alert)
+                            controller.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {
+                                _ in
+                                controller.dismissViewControllerAnimated(false, completion: nil)
+                            }))
+                            self.presentViewController(controller, animated: true, completion: nil)
+                        }
+                        return
+                    }
+                }
+                
+                let relation = user.relationForKey("adoptersRelation")
+                relation.addObject(self.animal!)
+                PFUser.currentUser()!.saveInBackgroundWithBlock(){
+                    a, b  in
+                    print("GUARDADO")
+                }
+                
+                self.adopt.userInteractionEnabled = true
+            }
+            
+        
+        }
+        
         let query = PFQuery(className: "AnimalV2")
         query.getObjectInBackgroundWithId(animalID){
             (animalObject: PFObject?, error: NSError?) -> Void in
@@ -66,6 +114,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 guard let animal = animalObject else{
                     return
                 }
+                self.animal = animal
                 
                 dispatch_async(dispatch_get_main_queue()){
                     self.navigationItem.title = (animal["name"] as! String)
@@ -175,8 +224,6 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                         }
                     })
                 }
-                
-                print(animal)
             } else {
                 print(error)
             }

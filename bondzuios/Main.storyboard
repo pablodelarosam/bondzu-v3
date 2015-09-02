@@ -758,30 +758,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xgg-zW-Bm8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xgg-zW-Bm8">
                                 <rect key="frame" x="16" y="72" width="568" height="54"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="54" id="UJi-eJ-Btp"/>
+                                    <constraint firstAttribute="height" constant="54" id="Zj4-Oi-lK8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ENO-BN-AJl">
-                                <rect key="frame" x="16" y="190" width="568" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ENO-BN-AJl">
+                                <rect key="frame" x="16" y="134" width="568" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J4a-Wo-HNH">
-                                <rect key="frame" x="16" y="228" width="568" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J4a-Wo-HNH">
+                                <rect key="frame" x="16" y="172" width="568" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ko8-eS-FY9">
-                                <rect key="frame" x="16" y="292" width="568" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ko8-eS-FY9">
+                                <rect key="frame" x="16" y="219" width="568" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Login">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -790,8 +790,8 @@
                                     <action selector="login:" destination="exg-V6-FlA" eventType="touchUpInside" id="4J7-3F-FF5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H19-1L-BkQ">
-                                <rect key="frame" x="16" y="400" width="568" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H19-1L-BkQ">
+                                <rect key="frame" x="16" y="355" width="568" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Sign up">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -806,8 +806,8 @@
                                     <segue destination="bOc-MZ-483" kind="show" id="3Mf-w9-ySY"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XKa-2u-E5d">
-                                <rect key="frame" x="16" y="330" width="568" height="62"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XKa-2u-E5d">
+                                <rect key="frame" x="16" y="263" width="568" height="62"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="0.69000000000000006" colorSpace="calibratedRGB"/>
                                 <variation key="heightClass=compact" ambiguous="YES" misplaced="YES">
@@ -817,8 +817,8 @@
                                     <rect key="frame" x="16" y="330" width="568" height="0.0"/>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZL-9o-SDn">
-                                <rect key="frame" x="237" y="562" width="126" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZL-9o-SDn">
+                                <rect key="frame" x="237" y="393" width="126" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Forgot Password?">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -831,27 +831,29 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bE1-fJ-bT8" firstAttribute="top" secondItem="UZL-9o-SDn" secondAttribute="bottom" constant="8" symbolic="YES" id="2hp-gh-XsQ"/>
-                            <constraint firstItem="XKa-2u-E5d" firstAttribute="leading" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" id="39d-cr-RrY"/>
-                            <constraint firstItem="J4a-Wo-HNH" firstAttribute="trailing" secondItem="ENO-BN-AJl" secondAttribute="trailing" id="4gy-Uc-WRq"/>
-                            <constraint firstItem="UZL-9o-SDn" firstAttribute="centerX" secondItem="H19-1L-BkQ" secondAttribute="centerX" id="6WT-os-oAH"/>
-                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="leading" secondItem="ENO-BN-AJl" secondAttribute="leading" id="FV9-IP-I5m"/>
-                            <constraint firstItem="XKa-2u-E5d" firstAttribute="top" secondItem="ko8-eS-FY9" secondAttribute="bottom" constant="8" symbolic="YES" id="Gfg-8b-zH1"/>
-                            <constraint firstItem="ko8-eS-FY9" firstAttribute="top" secondItem="J4a-Wo-HNH" secondAttribute="bottom" constant="34" id="KsL-r5-M9c"/>
-                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="trailing" secondItem="ENO-BN-AJl" secondAttribute="trailing" id="MJu-6R-8YN"/>
-                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="top" secondItem="kVU-YW-uAd" secondAttribute="bottom" constant="8" symbolic="YES" id="MSz-xd-dRe"/>
-                            <constraint firstItem="ko8-eS-FY9" firstAttribute="trailing" secondItem="J4a-Wo-HNH" secondAttribute="trailing" id="T53-Dz-bVI"/>
-                            <constraint firstItem="ENO-BN-AJl" firstAttribute="leading" secondItem="J4a-Wo-HNH" secondAttribute="leading" id="XUI-gb-FbS"/>
-                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="trailing" secondItem="JEk-NE-WPW" secondAttribute="trailingMargin" id="Xdk-E5-z7G"/>
-                            <constraint firstItem="ENO-BN-AJl" firstAttribute="top" secondItem="xgg-zW-Bm8" secondAttribute="bottom" constant="64" id="YeV-Rk-Jwd"/>
-                            <constraint firstItem="XKa-2u-E5d" firstAttribute="trailing" secondItem="H19-1L-BkQ" secondAttribute="trailing" id="df7-kY-szi"/>
-                            <constraint firstItem="H19-1L-BkQ" firstAttribute="leading" secondItem="XKa-2u-E5d" secondAttribute="leading" id="gaH-Q2-21e"/>
-                            <constraint firstItem="ko8-eS-FY9" firstAttribute="leading" secondItem="XKa-2u-E5d" secondAttribute="leading" id="juA-ah-foW"/>
-                            <constraint firstItem="J4a-Wo-HNH" firstAttribute="top" secondItem="ENO-BN-AJl" secondAttribute="bottom" constant="8" symbolic="YES" id="kUV-9q-jjN"/>
-                            <constraint firstItem="J4a-Wo-HNH" firstAttribute="leading" secondItem="ko8-eS-FY9" secondAttribute="leading" id="pet-Yo-pGU"/>
-                            <constraint firstAttribute="bottom" secondItem="H19-1L-BkQ" secondAttribute="bottom" constant="170" id="sXo-tu-9KP"/>
-                            <constraint firstItem="H19-1L-BkQ" firstAttribute="top" secondItem="XKa-2u-E5d" secondAttribute="bottom" constant="8" symbolic="YES" id="tsD-Og-rwD"/>
-                            <constraint firstItem="ko8-eS-FY9" firstAttribute="trailing" secondItem="XKa-2u-E5d" secondAttribute="trailing" id="uZW-1a-9uS"/>
+                            <constraint firstItem="bE1-fJ-bT8" firstAttribute="top" secondItem="UZL-9o-SDn" secondAttribute="bottom" constant="177" id="3p7-og-2da"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ko8-eS-FY9" secondAttribute="trailing" constant="-4" id="46E-zF-sib"/>
+                            <constraint firstItem="ko8-eS-FY9" firstAttribute="leading" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" constant="-4" id="52x-ln-Gkc"/>
+                            <constraint firstItem="XKa-2u-E5d" firstAttribute="leading" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" constant="-4" id="6lF-23-rtm"/>
+                            <constraint firstItem="H19-1L-BkQ" firstAttribute="top" secondItem="XKa-2u-E5d" secondAttribute="bottom" constant="30" id="C4t-j5-8p2"/>
+                            <constraint firstItem="ENO-BN-AJl" firstAttribute="top" secondItem="xgg-zW-Bm8" secondAttribute="bottom" constant="8" id="Dzw-Is-epC"/>
+                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="trailing" secondItem="J4a-Wo-HNH" secondAttribute="trailing" id="Fbj-j5-VBz"/>
+                            <constraint firstItem="ko8-eS-FY9" firstAttribute="top" secondItem="J4a-Wo-HNH" secondAttribute="bottom" constant="17" id="G6v-0U-ruc"/>
+                            <constraint firstItem="ENO-BN-AJl" firstAttribute="top" secondItem="xgg-zW-Bm8" secondAttribute="bottom" constant="8" id="JRP-7P-RDF"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="H19-1L-BkQ" secondAttribute="trailing" constant="-4" id="NKb-Kr-sse"/>
+                            <constraint firstItem="H19-1L-BkQ" firstAttribute="leading" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" constant="-4" id="O2a-kh-jUA"/>
+                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="trailing" secondItem="ENO-BN-AJl" secondAttribute="trailing" id="QeJ-G1-7Jq"/>
+                            <constraint firstItem="XKa-2u-E5d" firstAttribute="top" secondItem="ko8-eS-FY9" secondAttribute="bottom" constant="14" id="Tvs-s8-aKu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="UZL-9o-SDn" secondAttribute="trailing" constant="217" id="V9G-7f-pSH"/>
+                            <constraint firstItem="UZL-9o-SDn" firstAttribute="leading" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" constant="217" id="VfY-Ie-JMC"/>
+                            <constraint firstItem="J4a-Wo-HNH" firstAttribute="top" secondItem="ENO-BN-AJl" secondAttribute="bottom" constant="8" id="YPW-9M-owJ"/>
+                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="leading" secondItem="ENO-BN-AJl" secondAttribute="leading" id="cTK-Cy-YUt"/>
+                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="top" secondItem="kVU-YW-uAd" secondAttribute="bottom" constant="8" id="mU1-YV-fiI"/>
+                            <constraint firstItem="xgg-zW-Bm8" firstAttribute="trailing" secondItem="ko8-eS-FY9" secondAttribute="trailing" id="r46-DF-tol"/>
+                            <constraint firstItem="ENO-BN-AJl" firstAttribute="leading" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" constant="-4" id="rHw-Ti-Yne"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XKa-2u-E5d" secondAttribute="trailing" constant="-4" id="sHs-Nr-Dbp"/>
+                            <constraint firstItem="UZL-9o-SDn" firstAttribute="top" secondItem="H19-1L-BkQ" secondAttribute="bottom" constant="8" id="tFo-FG-wIq"/>
+                            <constraint firstItem="J4a-Wo-HNH" firstAttribute="leading" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" constant="-4" id="xvC-Bu-tRg"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="ksn-Jr-a4i"/>
