@@ -48,12 +48,12 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func doneButtonClick(notificacion: NSNotification)
+    /*func doneButtonClick(notificacion: NSNotification)
     {
         print("Termino video");
         //self.dismissMoviePlayerViewControllerAnimated()
         self.navigationController?.popViewControllerAnimated(false);
-    }
+    }*/
     
     func cameraButtonClicked(sender: AnyObject)
     {
