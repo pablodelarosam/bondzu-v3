@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import Parse
 
 class CommunityViewController: UIViewController {
+    
+    var animalID = "oDUea7l41Y"
+    
+    
+    @IBOutlet weak var test: CommunityEntryView!
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = "Community"
@@ -18,7 +24,8 @@ class CommunityViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        test.setInfo("", date: NSDate(timeIntervalSinceNow: -9000), name: "Ricardo", message: "Esta muy cool", image: UIImage(named: "test")!, hasContentImage: false, hasLiked: true, likeCount: 1500)
     }
 
     override func didReceiveMemoryWarning() {

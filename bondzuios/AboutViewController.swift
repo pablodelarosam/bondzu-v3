@@ -33,9 +33,8 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     var animal : PFObject?
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = "About"
-        let live = UIBarButtonItem(title: "Cams", style: .Plain, target: self, action: "showCams:")
-        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = live
+        //let live = UIBarButtonItem(title: "Cams", style: .Plain, target: self, action: "showCams:")
+        //self.navigationController!.navigationBar.topItem!.rightBarButtonItem = live
         super.viewDidAppear(animated)
     }
     
@@ -54,6 +53,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.topItem?.title = "About"
         blurContainer.addSubview(visualEffectView)
         adopt.image = UIImage(named: "whitePaw")
         goLive.image = UIImage(named: "whiteCam")
@@ -117,7 +117,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 self.animal = animal
                 
                 dispatch_async(dispatch_get_main_queue()){
-                    self.navigationItem.title = (animal["name"] as! String)
+                    self.navigationController?.navigationBar.topItem?.title = (animal["name"] as! String)
                     self.lateral.setAdopters((animal["adopters"] as! NSNumber).integerValue)
                     self.speciesLabel.text = (animal["species"] as! String)
                     
@@ -268,12 +268,5 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(text)", attributes: textDescriptor))
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        print("DESAPAREZCO")
-    }
-    
-    deinit{
-        print("\n\nADIOS MUNDO CRUEL\n\n")
-    }
 }
 

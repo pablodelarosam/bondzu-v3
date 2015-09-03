@@ -51,6 +51,7 @@
 		B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3797FE21B8CC1BE00924080 /* CircledButton.swift */; settings = {ASSET_TAGS = (); }; };
 		B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E41B8F5CC100509A72 /* AboutLateralView.swift */; settings = {ASSET_TAGS = (); }; };
 		B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E61B8F6F1800509A72 /* Usuario.swift */; settings = {ASSET_TAGS = (); }; };
+		B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F048B31B98983C005EB12D /* CommunityEntryView.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B39719E41B8F5CC100509A72 /* AboutLateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutLateralView.swift; sourceTree = "<group>"; };
 		B39719E61B8F6F1800509A72 /* Usuario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Usuario.swift; path = bondzuios/Usuario.swift; sourceTree = "<group>"; };
+		B3F048B31B98983C005EB12D /* CommunityEntryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityEntryView.swift; sourceTree = "<group>"; };
 		D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bondzuios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -318,6 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				54BC54C41B7BF879009244C7 /* CommunityViewController.swift */,
+				B3F048B31B98983C005EB12D /* CommunityEntryView.swift */,
 			);
 			name = CommunityTab;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */,
 				B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */,
 				54571F811B79270C0092E359 /* SignUpViewController.swift in Sources */,
+				B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

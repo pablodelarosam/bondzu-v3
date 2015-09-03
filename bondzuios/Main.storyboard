@@ -489,8 +489,23 @@
                     <view key="view" contentMode="scaleToFill" id="bnt-Fx-h2Q">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KwC-Eb-CqD" customClass="CommunityEntryView" customModule="Bondzu" customModuleProvider="target">
+                                <rect key="frame" x="20" y="78" width="560" height="85"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="85" id="9gq-fZ-fcc"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="KwC-Eb-CqD" firstAttribute="leading" secondItem="bnt-Fx-h2Q" secondAttribute="leadingMargin" id="5kO-rJ-WWD"/>
+                            <constraint firstItem="KwC-Eb-CqD" firstAttribute="top" secondItem="zMt-xA-QKC" secondAttribute="bottom" constant="14" id="CjS-E1-dBO"/>
+                            <constraint firstItem="KwC-Eb-CqD" firstAttribute="trailing" secondItem="bnt-Fx-h2Q" secondAttribute="trailingMargin" id="paw-Ek-NOu"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Community" image="community" id="Mm1-i3-aMs">
                         <userDefinedRuntimeAttributes>
@@ -501,6 +516,9 @@
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="Community" id="R70-Jt-eky"/>
+                    <connections>
+                        <outlet property="test" destination="KwC-Eb-CqD" id="ZeW-pi-fHO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nor-WL-RJv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
