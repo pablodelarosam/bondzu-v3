@@ -46,10 +46,10 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         // Do any additional setup after loading the view, typically from a nib
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 30, right: 0)
         layout.itemSize = CGSize(width: screenWidth / 3, height: screenWidth / 3)
         layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
+        layout.minimumLineSpacing = 55
         self.collectionView.collectionViewLayout = layout;
         
         self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
@@ -89,7 +89,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("animalCell", forIndexPath: indexPath) as! AnimalCollectionViewCell
         cell.frame.size.width = (screenWidth / 3) + 13;
-        cell.frame.size.height = (screenWidth / 3) + 40;
+        cell.frame.size.height = (screenWidth / 3) + 60;
         
         let animal = self.animalsToShow[indexPath.row] as AnimalV2
         cell.nameLabel.text = animal.name;
@@ -106,8 +106,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         Imagenes.redondeaVista(cell.imageView, radio: 50);
         cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;
         cell.imageView.layer.borderWidth = 5;
-        cell.layer.borderColor = UIColor.whiteColor().CGColor;
-        cell.layer.borderWidth = 1;
+        
         return cell
     }
     
