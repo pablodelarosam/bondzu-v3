@@ -9,10 +9,17 @@
 import UIKit
 
 class TabsViewController: UITabBarController {
-
+    var animal: AnimalV2!;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        for viewController in viewControllers!
+        {
+            if let vc = viewController as? AboutViewController
+            {
+                vc.animalID = self.animal.objectId;
+            }
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -20,16 +27,4 @@ class TabsViewController: UITabBarController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

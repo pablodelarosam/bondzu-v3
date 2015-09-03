@@ -26,6 +26,8 @@
 		546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546486E01B8269BB00286CAC /* GiftDetailViewController.swift */; };
 		546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */; };
 		546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546490C01B7D3217007F3DEF /* Imagenes.swift */; };
+		548993281B98B36800DDF263 /* AnimalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		5489932A1B98BE4400DDF263 /* AnimalV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548993291B98BE4400DDF263 /* AnimalV2.swift */; settings = {ASSET_TAGS = (); }; };
 		549760FB1B7B0BED005782A6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FA1B7B0BED005782A6 /* Camera.swift */; };
 		549760FD1B7B12B9005782A6 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FC1B7B12B9005782A6 /* Animal.swift */; };
 		54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3CE291B84FB5200E106D9 /* PagoViewController.swift */; };
@@ -89,6 +91,8 @@
 		546486E01B8269BB00286CAC /* GiftDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftDetailViewController.swift; sourceTree = "<group>"; };
 		546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftCollectionViewCell.swift; sourceTree = "<group>"; };
 		546490C01B7D3217007F3DEF /* Imagenes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Imagenes.swift; sourceTree = "<group>"; };
+		548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalCollectionViewCell.swift; sourceTree = "<group>"; };
+		548993291B98BE4400DDF263 /* AnimalV2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalV2.swift; sourceTree = "<group>"; };
 		549760FA1B7B0BED005782A6 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camera.swift; path = bondzuios/Camera.swift; sourceTree = "<group>"; };
 		549760FC1B7B12B9005782A6 /* Animal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Animal.swift; path = bondzuios/Animal.swift; sourceTree = "<group>"; };
 		54A3CE291B84FB5200E106D9 /* PagoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagoViewController.swift; path = bondzuios/PagoViewController.swift; sourceTree = "<group>"; };
@@ -235,6 +239,7 @@
 				549760FA1B7B0BED005782A6 /* Camera.swift */,
 				549760FC1B7B12B9005782A6 /* Animal.swift */,
 				B39719E61B8F6F1800509A72 /* Usuario.swift */,
+				548993291B98BE4400DDF263 /* AnimalV2.swift */,
 			);
 			name = Modelos;
 			path = ..;
@@ -253,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */,
+				548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */,
 			);
 			name = Catalog;
 			sourceTree = "<group>";
@@ -528,9 +534,11 @@
 				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
 				549760FD1B7B12B9005782A6 /* Animal.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,
+				548993281B98B36800DDF263 /* AnimalCollectionViewCell.swift in Sources */,
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
 				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,
+				5489932A1B98BE4400DDF263 /* AnimalV2.swift in Sources */,
 				B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */,
 				54571F861B7928F10092E359 /* Animacion.swift in Sources */,
 				546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */,
