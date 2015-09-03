@@ -48,8 +48,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: screenWidth / 3, height: screenWidth / 3)
-        layout.minimumInteritemSpacing = -20
-        layout.minimumLineSpacing = -20
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         self.collectionView.collectionViewLayout = layout;
         
         self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
