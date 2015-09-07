@@ -11,12 +11,35 @@ import QuartzCore
 
 @IBDesignable public class CircledButton: UIView {
 
+    //TODO Analizar posible referencia circular
     public var target : ((CircledButton)->Void)?
     var circleCenter = CGPointZero
     
-    @IBInspectable var color : UIColor = UIColor(red: 157/255, green: 219/255, blue: 218/255, alpha: 1)
-    var label : UILabel = UILabel()
-    var verifyCircle  = true
+    @IBInspectable public var color : UIColor = UIColor.clearColor()
+    @IBInspectable public var borderColor : UIColor = UIColor.whiteColor()
+    @IBInspectable public var image : UIImage?{
+        set(new){
+            imageView.image = new
+        }
+        get{
+            return imageView.image
+        }
+
+    }
+    @IBInspectable public var border : CGFloat = 1
+    public var text : String? {
+        set(new){
+            label.text = new
+        }
+        get{
+            return label.text
+        }
+    }
+
+    
+    private var label : UILabel = UILabel()
+    private var verifyCircle  = true
+    private var imageView = UIImageView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,14 +58,28 @@ import QuartzCore
         addGestureRecognizer(tpg)
         circleCenter = CGPoint(x: frame.size.width/2, y: frame.size.height/2)
         label.textAlignment = NSTextAlignment.Center
+        imageView.image = image
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        label.textColor = borderColor
+        label.numberOfLines = 1
+        label.font = label.font.fontWithSize(10)
+        label.textAlignment = NSTextAlignment.Center
         addSubview(label)
+        addSubview(imageView)
     }
     
     override public func drawRect(rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
-        CGContextAddEllipseInRect(context, rect)
+        CGContextSetLineWidth(context, border)
+        CGContextAddEllipseInRect(context, CGRect(x: rect.origin.x + border, y: rect.origin.y + border, width: rect.size.width - border - border, height: rect.size.height - border - border))
+        CGContextSetStrokeColorWithColor(context, borderColor.CGColor);
+        
+        CGContextStrokePath(context)
+        
+        CGContextAddEllipseInRect(context, CGRect(x: rect.origin.x + border, y: rect.origin.y + border, width: rect.size.width - border - border, height: rect.size.height - border - border))
         CGContextSetFillColor(context, CGColorGetComponents(color.CGColor));
         CGContextFillPath(context)
+        
     }
     
     func setTargetAction(target : (CircledButton)->Void){
@@ -55,8 +92,6 @@ import QuartzCore
     }
     
     func tap( loc : UITapGestureRecognizer){
-        
-        
         
         if let delegate = target{
             
@@ -74,6 +109,20 @@ import QuartzCore
     }
     
     override public func layoutSubviews() {
-        label.frame = CGRect(origin:CGPointZero, size: frame.size)
+        
+        let border = frame.width * 0.10
+        
+        let contentSize = frame.width - border * 2
+        
+        
+        let imageSpace = contentSize * 0.55
+        let spaceBetweenViews = contentSize * 0.12
+        let labelSpace = contentSize * 0.28
+
+        imageView.frame = CGRect(origin: CGPoint(x: border , y: border + spaceBetweenViews), size: CGSize(width: frame.size.width -
+            border * 2, height: imageSpace))
+
+        
+        label.frame = CGRect(origin: CGPoint(x: border + 3 , y: border + spaceBetweenViews + imageSpace), size: CGSize(width: frame.size.width - border * 2 - 6, height: labelSpace))
     }
 }

@@ -40,3 +40,12 @@ extension UITabBarController {
         return super.shouldAutorotate()
     }
 }
+
+extension UIAlertController {
+    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+    public override func shouldAutorotate() -> Bool {
+        return false
+    }
+}

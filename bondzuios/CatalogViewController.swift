@@ -7,47 +7,181 @@
 //
 
 import UIKit
+import Parse
 
-class CatalogViewController: UIViewController {
+class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
 
+    var navHairLine:UIImageView? = UIImageView()
+    
+    @IBOutlet weak var segementedControl: UISegmentedControl!
+    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var heightBanner: NSLayoutConstraint!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    let NUMBER_ITEMS_ROW: CGFloat = 3;
+    var animals = [AnimalV2]()
+    var animalsToShow = [AnimalV2]()
+    var selectedAnimal: AnimalV2!;
+    
+    var screenSize: CGRect!
+    var screenWidth: CGFloat!
+    var screenHeight: CGFloat!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.heightBanner.constant = 0;
         // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.barStyle = .Black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        /*let cellWidth = ((UIScreen.mainScreen().bounds.width)-10) / NUMBER_ITEMS_ROW
+        let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)*/
+        screenSize = UIScreen.mainScreen().bounds
+        screenWidth = screenSize.width
+        screenHeight = screenSize.height
+        
+        // Do any additional setup after loading the view, typically from a nib
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 30, right: 0)
+        layout.itemSize = CGSize(width: screenWidth / 3, height: screenWidth / 3)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 55
+        self.collectionView.collectionViewLayout = layout;
+        
+        self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
+        self.toolbar.barStyle = .Black
+        self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
+        self.segementedControl.tintColor = UIColor.whiteColor()
+        self.activityIndicator.startAnimating()
+        getAnimals();
     }
     
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.hidesBackButton = true;
+        Utiles.moveHairLine(true, navHairLine: self.navHairLine, toolbar: self.toolbar)
     }
-
+    
+    override func viewDidDisappear(animated: Bool) {
+        Utiles.moveHairLine(false, navHairLine: self.navHairLine, toolbar: self.toolbar)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.animalsToShow.count
+    }
+
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("animalCell", forIndexPath: indexPath) as! AnimalCollectionViewCell
+        cell.frame.size.width = (screenWidth / 3) + 13;
+        cell.frame.size.height = (screenWidth / 3) + 60;
+        
+        let animal = self.animalsToShow[indexPath.row] as AnimalV2
+        cell.nameLabel.text = animal.name;
+        cell.speciesLabel.text = animal.specie;
+        
+        // Imagen en caso de que no haya
+        /*
+        var initialThumbnail = UIImage(named: "question")
+        cell.imageView.image = initialThumbnail*/
+        let size = CGSize(width: 40, height: 40);
+        let photoFinal = imageWithImage(animal.image, scaledToSize: size);
+        cell.imageView.image = photoFinal
+        
+        Imagenes.redondeaVista(cell.imageView, radio: 50);
+        cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;
+        cell.imageView.layer.borderWidth = 5;
+        
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.selectedAnimal = self.animalsToShow[indexPath.row];
+        performSegueWithIdentifier("catalogSegue", sender: self)
     }
     
     @IBAction func next(sender: UIBarButtonItem) {
         
         /*let vc : UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("Tabs") as! UITabBarController
         self.presentViewController(vc, animated: true, completion: nil);*/
-        performSegueWithIdentifier("catalogSegue", sender: self)
+        //performSegueWithIdentifier("catalogSegue", sender: self)
+        print("Buscar");
 
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //let nextVC : TabsViewController = segue.destinationViewController as! TabsViewController
+        let nextVC : TabsViewController = segue.destinationViewController as! TabsViewController
+        
+        nextVC.animal = self.selectedAnimal;
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func updateAnimalsThatShouldShow()
+    {
+        self.activityIndicator.stopAnimating()
+        self.collectionView.reloadData()
     }
-    */
+    
+    func getAnimals()
+    {
+        let query = PFQuery(className:"AnimalV2")
+        query.whereKeyExists("objectId");
+        query.orderByAscending("name");
+        query.findObjectsInBackgroundWithBlock {
+            (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // The find succeeded.
+                print("Successfully retrieved \(objects!.count) animals.")
+                // Do something with the found objects
+                if let objects = objects as? [PFObject] {
+                    var i = 0 as Int;
+                    for object in objects {
+                        print(object.objectId)
+                        i++;
+                        
+                        let image = object.objectForKey("profilePhoto") as? PFFile;
+                        image?.getDataInBackgroundWithBlock
+                            {
+                                (imageData: NSData?, error: NSError?) -> Void in
+                                let animal = AnimalV2();
+                                if error == nil
+                                {
+                                    animal.image = UIImage(data: imageData!);
+                                }
+                                animal.name = object.objectForKey("name") as! String;
+                                animal.objectId = object.objectId!;
+                                animal.specie = object.objectForKey("species") as! String;
+                                self.animalsToShow.append(animal);
+                                
+                                self.activityIndicator.stopAnimating()
+                                //self.updateAnimalsThatShouldShow();
+                                self.collectionView.reloadData();
+                                
+                            }
+                        
+                    }
+                }
+            } else {
+                // Log details of the failure
+                print("Error: \(error!) \(error!.userInfo)")
+            }
+        }
+
+    }
 
 }

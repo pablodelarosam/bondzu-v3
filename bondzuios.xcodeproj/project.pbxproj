@@ -26,6 +26,8 @@
 		546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546486E01B8269BB00286CAC /* GiftDetailViewController.swift */; };
 		546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */; };
 		546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546490C01B7D3217007F3DEF /* Imagenes.swift */; };
+		548993281B98B36800DDF263 /* AnimalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		5489932A1B98BE4400DDF263 /* AnimalV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548993291B98BE4400DDF263 /* AnimalV2.swift */; settings = {ASSET_TAGS = (); }; };
 		549760FB1B7B0BED005782A6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FA1B7B0BED005782A6 /* Camera.swift */; };
 		549760FD1B7B12B9005782A6 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FC1B7B12B9005782A6 /* Animal.swift */; };
 		54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3CE291B84FB5200E106D9 /* PagoViewController.swift */; };
@@ -49,6 +51,8 @@
 		54E447AA1B74171300BF580F /* Producto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4478C1B73FDB200BF580F /* Producto.swift */; };
 		59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3797FE21B8CC1BE00924080 /* CircledButton.swift */; settings = {ASSET_TAGS = (); }; };
+		B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E41B8F5CC100509A72 /* AboutLateralView.swift */; settings = {ASSET_TAGS = (); }; };
+		B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E61B8F6F1800509A72 /* Usuario.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +91,8 @@
 		546486E01B8269BB00286CAC /* GiftDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftDetailViewController.swift; sourceTree = "<group>"; };
 		546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftCollectionViewCell.swift; sourceTree = "<group>"; };
 		546490C01B7D3217007F3DEF /* Imagenes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Imagenes.swift; sourceTree = "<group>"; };
+		548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalCollectionViewCell.swift; sourceTree = "<group>"; };
+		548993291B98BE4400DDF263 /* AnimalV2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalV2.swift; sourceTree = "<group>"; };
 		549760FA1B7B0BED005782A6 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camera.swift; path = bondzuios/Camera.swift; sourceTree = "<group>"; };
 		549760FC1B7B12B9005782A6 /* Animal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Animal.swift; path = bondzuios/Animal.swift; sourceTree = "<group>"; };
 		54A3CE291B84FB5200E106D9 /* PagoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagoViewController.swift; path = bondzuios/PagoViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +116,8 @@
 		54E447A81B74025600BF580F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		B39719E41B8F5CC100509A72 /* AboutLateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutLateralView.swift; sourceTree = "<group>"; };
+		B39719E61B8F6F1800509A72 /* Usuario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Usuario.swift; path = bondzuios/Usuario.swift; sourceTree = "<group>"; };
 		D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bondzuios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -230,6 +238,8 @@
 				54E4478C1B73FDB200BF580F /* Producto.swift */,
 				549760FA1B7B0BED005782A6 /* Camera.swift */,
 				549760FC1B7B12B9005782A6 /* Animal.swift */,
+				B39719E61B8F6F1800509A72 /* Usuario.swift */,
+				548993291B98BE4400DDF263 /* AnimalV2.swift */,
 			);
 			name = Modelos;
 			path = ..;
@@ -248,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */,
+				548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */,
 			);
 			name = Catalog;
 			sourceTree = "<group>";
@@ -295,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				54571F8A1B7932D60092E359 /* AboutViewController.swift */,
+				B39719E41B8F5CC100509A72 /* AboutLateralView.swift */,
 			);
 			name = AboutTab;
 			sourceTree = "<group>";
@@ -510,6 +522,7 @@
 			files = (
 				549760FB1B7B0BED005782A6 /* Camera.swift in Sources */,
 				540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */,
+				B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */,
 				5442528A1B7BF5860077C7A6 /* GiftsViewController.swift in Sources */,
 				544252871B7BBFAB0077C7A6 /* CatalogViewController.swift in Sources */,
 				54571F7E1B7924420092E359 /* LoginViewController.swift in Sources */,
@@ -521,15 +534,18 @@
 				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
 				549760FD1B7B12B9005782A6 /* Animal.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,
+				548993281B98B36800DDF263 /* AnimalCollectionViewCell.swift in Sources */,
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
 				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,
+				5489932A1B98BE4400DDF263 /* AnimalV2.swift in Sources */,
 				B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */,
 				54571F861B7928F10092E359 /* Animacion.swift in Sources */,
 				546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */,
 				54571F881B792ADE0092E359 /* TabsViewController.swift in Sources */,
 				54571F841B7928E10092E359 /* Utiles.swift in Sources */,
 				54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */,
+				B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */,
 				54571F811B79270C0092E359 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
