@@ -29,6 +29,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     
+    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark)) as UIVisualEffectView
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.heightBanner.constant = 0;
@@ -37,20 +39,19 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-        /*let cellWidth = ((UIScreen.mainScreen().bounds.width)-10) / NUMBER_ITEMS_ROW
-        let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)*/
         screenSize = UIScreen.mainScreen().bounds
         screenWidth = screenSize.width
         screenHeight = screenSize.height
         
-        // Do any additional setup after loading the view, typically from a nib
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 30, right: 0)
-        layout.itemSize = CGSize(width: screenWidth / 3, height: screenWidth / 3)
+        /*let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 5, right: 5)
+        layout.itemSize = CGSize(width: screenWidth / NUMBER_ITEMS_ROW, height: screenHeight / NUMBER_ITEMS_ROW)
         layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 55
-        self.collectionView.collectionViewLayout = layout;
+        layout.minimumLineSpacing = 0
+        self.collectionView.collectionViewLayout = layout;*/
+    
+        self.collectionView.backgroundView = self.visualEffectView;
+        self.collectionView.alpha = 0.85;
         
         self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
         self.toolbar.barStyle = .Black
@@ -60,6 +61,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         getAnimals();
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.hidesBackButton = true;
         Utiles.moveHairLine(true, navHairLine: self.navHairLine, toolbar: self.toolbar)
@@ -67,6 +69,11 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidDisappear(animated: Bool) {
         Utiles.moveHairLine(false, navHairLine: self.navHairLine, toolbar: self.toolbar)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        visualEffectView.frame.size = CGSize(width: self.collectionView.frame.width , height: self.collectionView.frame.height)
+        super.viewWillLayoutSubviews();
     }
     
     override func didReceiveMemoryWarning() {
@@ -88,8 +95,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("animalCell", forIndexPath: indexPath) as! AnimalCollectionViewCell
-        cell.frame.size.width = (screenWidth / 3) + 13;
-        cell.frame.size.height = (screenWidth / 3) + 60;
         
         let animal = self.animalsToShow[indexPath.row] as AnimalV2
         cell.nameLabel.text = animal.name;
@@ -99,14 +104,16 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         /*
         var initialThumbnail = UIImage(named: "question")
         cell.imageView.image = initialThumbnail*/
-        let size = CGSize(width: 40, height: 40);
-        let photoFinal = imageWithImage(animal.image, scaledToSize: size);
+        
+        let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / NUMBER_ITEMS_ROW, height:self.screenWidth / NUMBER_ITEMS_ROW))
         cell.imageView.image = photoFinal
         
-        Imagenes.redondeaVista(cell.imageView, radio: 50);
+        Imagenes.redondeaVista(cell.imageView, radio: cell.imageView.frame.size.width / 2);
         cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;
         cell.imageView.layer.borderWidth = 5;
         
+        /*cell.layer.borderColor = UIColor.whiteColor().CGColor;
+        cell.layer.borderWidth = 1;*/
         return cell
     }
     
@@ -168,7 +175,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                                 animal.specie = object.objectForKey("species") as! String;
                                 self.animalsToShow.append(animal);
                                 
-                                self.activityIndicator.stopAnimating()
+                                //self.activityIndicator.stopAnimating()
                                 //self.updateAnimalsThatShouldShow();
                                 self.collectionView.reloadData();
                                 
