@@ -490,21 +490,72 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KwC-Eb-CqD" customClass="CommunityEntryView" customModule="Bondzu" customModuleProvider="target">
-                                <rect key="frame" x="20" y="78" width="560" height="85"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sHy-A8-Wdz" customClass="TextFieldWithImageButton" customModule="Bondzu" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="521" width="600" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="85" id="9gq-fZ-fcc"/>
+                                    <constraint firstAttribute="height" constant="30" id="8pz-uA-6bl"/>
                                 </constraints>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RaG-m2-L03">
+                                <rect key="frame" x="20" y="64" width="560" height="457"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="comment" id="upc-za-rFD" customClass="CommunityEntryView" customModule="Bondzu" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="560" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="upc-za-rFD" id="UWf-jo-MHe">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loading" id="9DW-Qg-wgS">
+                                        <rect key="frame" x="0.0" y="72" width="560" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9DW-Qg-wgS" id="0Bo-8f-Rvb">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="h7G-3f-5fo">
+                                                    <rect key="frame" x="262" y="4" width="36" height="36"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="h7G-3f-5fo" secondAttribute="height" multiplier="1:1" id="Rgi-16-Los"/>
+                                                    </constraints>
+                                                    <color key="color" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="h7G-3f-5fo" firstAttribute="centerX" secondItem="0Bo-8f-Rvb" secondAttribute="centerX" id="CIZ-Vt-OT2"/>
+                                                <constraint firstItem="h7G-3f-5fo" firstAttribute="top" secondItem="0Bo-8f-Rvb" secondAttribute="topMargin" constant="-4" id="K5K-jv-MMd"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="h7G-3f-5fo" secondAttribute="bottom" constant="-4" id="LlI-oV-5zH"/>
+                                                <constraint firstItem="h7G-3f-5fo" firstAttribute="centerY" secondItem="0Bo-8f-Rvb" secondAttribute="centerY" id="pqd-XB-O8r"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="XTJ-Fq-v0q" id="r1e-ti-62R"/>
+                                    <outlet property="delegate" destination="XTJ-Fq-v0q" id="DTr-MN-eVg"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="KwC-Eb-CqD" firstAttribute="leading" secondItem="bnt-Fx-h2Q" secondAttribute="leadingMargin" id="5kO-rJ-WWD"/>
-                            <constraint firstItem="KwC-Eb-CqD" firstAttribute="top" secondItem="zMt-xA-QKC" secondAttribute="bottom" constant="14" id="CjS-E1-dBO"/>
-                            <constraint firstItem="KwC-Eb-CqD" firstAttribute="trailing" secondItem="bnt-Fx-h2Q" secondAttribute="trailingMargin" id="paw-Ek-NOu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="RaG-m2-L03" secondAttribute="trailing" id="1qe-MC-9vz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sHy-A8-Wdz" secondAttribute="trailing" constant="-20" id="XN6-uv-pP3"/>
+                            <constraint firstItem="sng-YX-tP0" firstAttribute="top" secondItem="sHy-A8-Wdz" secondAttribute="bottom" id="aGg-9h-adX"/>
+                            <constraint firstItem="sHy-A8-Wdz" firstAttribute="leading" secondItem="bnt-Fx-h2Q" secondAttribute="leadingMargin" constant="-20" id="gbN-Pe-TCU"/>
+                            <constraint firstItem="sHy-A8-Wdz" firstAttribute="top" secondItem="RaG-m2-L03" secondAttribute="bottom" id="pIp-2v-0Lf"/>
+                            <constraint firstItem="RaG-m2-L03" firstAttribute="leading" secondItem="bnt-Fx-h2Q" secondAttribute="leadingMargin" id="x0J-Fq-otA"/>
+                            <constraint firstItem="RaG-m2-L03" firstAttribute="top" secondItem="zMt-xA-QKC" secondAttribute="bottom" id="xQm-tk-az0"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Community" image="community" id="Mm1-i3-aMs">
@@ -517,12 +568,13 @@
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="Community" id="R70-Jt-eky"/>
                     <connections>
-                        <outlet property="test" destination="KwC-Eb-CqD" id="ZeW-pi-fHO"/>
+                        <outlet property="tableView" destination="RaG-m2-L03" id="Vz2-wx-M1Q"/>
+                        <outlet property="textField" destination="sHy-A8-Wdz" id="kNF-EC-8tm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nor-WL-RJv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1269" y="-228"/>
+            <point key="canvasLocation" x="1258" y="-198"/>
         </scene>
         <!--About-->
         <scene sceneID="qSq-WV-AlX">
@@ -539,7 +591,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u2c-Hc-yBP" userLabel="Banner View">
                                 <rect key="frame" x="0.0" y="64" width="600" height="214"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="753" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="HZq-up-xVS" userLabel="blured image view">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="754" verticalCompressionResistancePriority="753" translatesAutoresizingMaskIntoConstraints="NO" id="HZq-up-xVS" userLabel="blured image view">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
                                         <animations/>
                                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -955,6 +1007,5 @@
         <image name="galleryselected" width="25" height="25"/>
         <image name="gifts" width="25" height="25"/>
         <image name="giftsselected" width="25" height="25"/>
-        <image name="test" width="550" height="244"/>
     </resources>
 </document>

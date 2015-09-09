@@ -8,7 +8,20 @@
 
 import UIKit
 
-class CommunityEntryView: UIView {
+protocol CommunitEntryEvent{
+    
+    //Funcion que informa cuando alguien da like
+    func like(messageId : String, like : Bool)
+    
+    //Funcion que informa cuando alguien da report
+    func report(messageId : String)
+    
+    //Funcion que informa cuando alguien da reply
+    func reply(messageId : String)
+}
+
+
+class CommunityEntryView: UITableViewCell {
 
     var commentID = ""
     
@@ -29,11 +42,22 @@ class CommunityEntryView: UIView {
 
     var likeCount = 0;
 
+    
+    var delegate : CommunitEntryEvent?
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         load()
     }
     
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        load()
+    }
+    
+    func setProfileImage(image : UIImage?){
+        imageIcon.image = image
+    }
     
     func setInfo(id : String , date : NSDate, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int){
         
@@ -52,12 +76,17 @@ class CommunityEntryView: UIView {
         
         var text = ""
         var i : Double = Double(likeCount)
-        while(i >= 1000){
-            text = "\(text)k"
-            i /= 1000
-        }
-        text = "\(i)k"
         
+        if i >= 1000{
+            while(i >= 1000){
+                text = "\(text)k"
+                i /= 1000
+            }
+            text = "\(i)k"
+        }
+        else{
+            text = "\(Int(i))"
+        }
         likesLabel.text = text
         
         let now = NSDate()
@@ -101,16 +130,19 @@ class CommunityEntryView: UIView {
         timeLabel.numberOfLines = 0
         timeLabel.font = nameLabel.font.fontWithSize(nameLabel.font.pointSize - 2)
         timeLabel.textColor = UIColor.lightGrayColor()
+        timeLabel.adjustsFontSizeToFitWidth = true
         addSubview(timeLabel)
         
         commentLabel.numberOfLines = 0
         commentLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        commentLabel.adjustsFontSizeToFitWidth = true
         addSubview(commentLabel)
         
         likesLabel.font = commentLabel.font.fontWithSize(commentLabel.font.pointSize - 5)
         likesLabel.numberOfLines = 0
         likesLabel.textColor = UIColor.lightGrayColor()
         likesLabel.textAlignment = .Center
+        likesLabel.adjustsFontSizeToFitWidth = true
         addSubview(likesLabel)
     
         replyButton.setTitle("Reply", forState: .Normal)
@@ -127,11 +159,21 @@ class CommunityEntryView: UIView {
         
         separator.backgroundColor = UIColor.lightGrayColor()
         addSubview(separator)
+        
+        
+        let gesture = UITapGestureRecognizer(target: self, action: "like")
+        heartImageView.addGestureRecognizer(gesture)
+        heartImageView.userInteractionEnabled = true
+    }
+    
+    func like(){
+        heartImageView.highlighted = !heartImageView.highlighted
+        delegate?.like(commentID, like: heartImageView.highlighted)
     }
     
     override func layoutSubviews() {
         let x0 = frame.width * 0.03
-        let imageWidth = frame.width * 0.14
+        let imageWidth = frame.width * 0.2
 
         //Hay tres paddings (x0) al inicio, entre la imagen, las label con la imagen y las label con like
         let likesImageWidth = frame.width * 0.1
@@ -140,7 +182,7 @@ class CommunityEntryView: UIView {
 
         let contentSizeWidth = frame.width - x0 * (imageIcon.hidden ? 3 : 4) - imageWidth - endPadding - viewIconWidth - likesImageWidth
         
-        let imageIconDimention = max(imageWidth * 0.7, (frame.height - 6) * 0.7)
+        let imageIconDimention = min(imageWidth , (frame.height - 2))
         
         profileIcon.frame = CGRect(x: x0 + imageWidth / 2 - imageIconDimention / 2, y: frame.height / 2 - imageIconDimention / 2, width: imageIconDimention, height: imageIconDimention)
         Imagenes.redondeaVista(profileIcon, radio: imageIconDimention / 2)
@@ -174,6 +216,5 @@ class CommunityEntryView: UIView {
         reportButton.frame.size = reportButton.sizeThatFits(CGSize(width: contentSizeWidth * 0.5, height: buttonsHeight))
         reportButton.frame.origin = CGPoint(x: replyButton.frame.origin.x + contentSizeWidth * 0.5, y: frame.height - replyButton.frame.height - 3)
         
-       
     }
 }

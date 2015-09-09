@@ -24,6 +24,14 @@ extension UINavigationController {
     public override func shouldAutorotate() -> Bool {
         return visibleViewController!.shouldAutorotate()
     }
+    
+    public override func childViewControllerForStatusBarHidden() -> UIViewController? {
+        return self.topViewController
+    }
+    
+    public override func childViewControllerForStatusBarStyle() -> UIViewController? {
+        return self.topViewController
+    }
 }
 
 extension UITabBarController {
@@ -38,6 +46,22 @@ extension UITabBarController {
             return selected.shouldAutorotate()
         }
         return super.shouldAutorotate()
+    }
+    
+    public override func prefersStatusBarHidden() -> Bool {
+        if let vc = selectedViewController{
+            return vc.prefersStatusBarHidden()
+        }
+        
+        return false
+    }
+    
+    public override func childViewControllerForStatusBarHidden() -> UIViewController? {
+        return self.selectedViewController
+    }
+    
+    public override func childViewControllerForStatusBarStyle() -> UIViewController? {
+        return self.selectedViewController
     }
 }
 

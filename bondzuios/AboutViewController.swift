@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //
 
+//Ab1234**
 import UIKit
 import Parse
 
@@ -34,8 +35,9 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         //let live = UIBarButtonItem(title: "Cams", style: .Plain, target: self, action: "showCams:")
-        //self.navigationController!.navigationBar.topItem!.rightBarButtonItem = live
+        self.navigationController!.navigationBar.topItem!.title = "About"
         super.viewDidAppear(animated)
+        
     }
     
     override func viewWillLayoutSubviews() {

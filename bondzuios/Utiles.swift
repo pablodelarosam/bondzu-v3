@@ -9,6 +9,17 @@
 import Foundation
 import UIKit
 
+func captureScreen() -> UIImage {
+    var window: UIWindow? = UIApplication.sharedApplication().keyWindow
+    window = UIApplication.sharedApplication().windows[0]
+    UIGraphicsBeginImageContextWithOptions(window!.frame.size, window!.opaque, 0.0)
+    window!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return image;
+}
+
+
 func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
     UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
     image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))

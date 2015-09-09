@@ -48,6 +48,9 @@
 		54E447A91B74025600BF580F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E447A81B74025600BF580F /* Social.framework */; };
 		54E447AA1B74171300BF580F /* Producto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4478C1B73FDB200BF580F /* Producto.swift */; };
 		59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */; settings = {ASSET_TAGS = (); }; };
+		B34FB9E71B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */; settings = {ASSET_TAGS = (); }; };
 		B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3797FE21B8CC1BE00924080 /* CircledButton.swift */; settings = {ASSET_TAGS = (); }; };
 		B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E41B8F5CC100509A72 /* AboutLateralView.swift */; settings = {ASSET_TAGS = (); }; };
 		B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E61B8F6F1800509A72 /* Usuario.swift */; settings = {ASSET_TAGS = (); }; };
@@ -111,6 +114,9 @@
 		54E447A41B74024B00BF580F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		54E447A61B74025100BF580F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		54E447A81B74025600BF580F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommunityViewController.swift; sourceTree = "<group>"; };
+		B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
+		B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithImageButton.swift; sourceTree = "<group>"; };
 		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B39719E41B8F5CC100509A72 /* AboutLateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutLateralView.swift; sourceTree = "<group>"; };
@@ -294,6 +300,7 @@
 				54571F851B7928F10092E359 /* Animacion.swift */,
 				546490C01B7D3217007F3DEF /* Imagenes.swift */,
 				54C406481B7D67D20082768B /* Constantes.swift */,
+				B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";
@@ -321,6 +328,8 @@
 			children = (
 				54BC54C41B7BF879009244C7 /* CommunityViewController.swift */,
 				B3F048B31B98983C005EB12D /* CommunityEntryView.swift */,
+				B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */,
+				B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */,
 			);
 			name = CommunityTab;
 			sourceTree = "<group>";
@@ -520,6 +529,7 @@
 				549760FB1B7B0BED005782A6 /* Camera.swift in Sources */,
 				540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */,
 				B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */,
+				B34FB9E71B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift in Sources */,
 				5442528A1B7BF5860077C7A6 /* GiftsViewController.swift in Sources */,
 				544252871B7BBFAB0077C7A6 /* CatalogViewController.swift in Sources */,
 				54571F7E1B7924420092E359 /* LoginViewController.swift in Sources */,
@@ -528,7 +538,9 @@
 				54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
 				546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */,
+				B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */,
 				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
+				B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */,
 				549760FD1B7B12B9005782A6 /* Animal.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
