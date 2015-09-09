@@ -46,7 +46,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         
         if(self.player != nil)
         {            
-            if(camara.url == self.player.player)
+            if(camara.url == Utiles.urlOfAVPlayer(self.player.player))
             {
                 print("Esta viendo camara: \(camara.descripcion)")
                 cell.accessoryType = .Checkmark

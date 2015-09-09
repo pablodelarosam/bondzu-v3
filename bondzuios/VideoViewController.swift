@@ -48,12 +48,12 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func doneButtonClick(notificacion: NSNotification)
+    /*func doneButtonClick(notificacion: NSNotification)
     {
         print("Termino video");
         //self.dismissMoviePlayerViewControllerAnimated()
         self.navigationController?.popViewControllerAnimated(false);
-    }
+    }*/
     
     func cameraButtonClicked(sender: AnyObject)
     {
@@ -103,7 +103,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     //Obtiene la primera camara funcionando y la despliega
     func getFirstCameraAndSetup()
     {
-        /*let query = PFQuery(className: "Camera");
+        let query = PFQuery(className: "Camera");
         query.whereKey("animal_id", equalTo: PFObject(withoutDataWithClassName: "Animal", objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
@@ -141,9 +141,9 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                 // Log details of the failure
                 print("Error: \(error!) \(error!.userInfo)")
             }
-        }*/
-        self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
-        self.setup()
+        }
+        //self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
+        //self.setup()
     }
 
     func setup()
