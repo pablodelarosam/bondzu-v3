@@ -29,7 +29,13 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     
-    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark)) as UIVisualEffectView
+    @IBOutlet weak var blurView: UIView!
+    var backgroundImages = [UIImage]();
+    @IBOutlet weak var backgroundImage: UIImageView!
+    
+    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) as UIVisualEffectView
+    let animationDuration: NSTimeInterval = 0.9
+    let switchingInterval: NSTimeInterval = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +43,21 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.barStyle = .Black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()                        
         
+        self.collectionView.backgroundView?.alpha = 0;
         screenSize = UIScreen.mainScreen().bounds
         screenWidth = screenSize.width
         screenHeight = screenSize.height
+        self.blurView.addSubview(visualEffectView)
+        self.blurView.alpha = 0.92;
+        self.backgroundImages.append(UIImage(named: "tigre")!)
+        self.backgroundImages.append(UIImage(named: "dog")!)
+        self.backgroundImages.append(UIImage(named: "leopard")!)
+        self.backgroundImages.append(UIImage(named: "titi")!)
+        
+        self.backgroundImage.image = self.backgroundImages[random() % self.backgroundImages.count]
+        animateBackgroundImageView()
         
         /*let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 5, right: 5)
@@ -50,8 +66,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         layout.minimumLineSpacing = 0
         self.collectionView.collectionViewLayout = layout;*/
     
-        self.collectionView.backgroundView = self.visualEffectView;
-        self.collectionView.alpha = 0.85;
         
         self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
         self.toolbar.barStyle = .Black
@@ -71,17 +85,14 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         Utiles.moveHairLine(false, navHairLine: self.navHairLine, toolbar: self.toolbar)
     }
     
-    override func viewWillLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         visualEffectView.frame.size = CGSize(width: self.collectionView.frame.width , height: self.collectionView.frame.height)
-        super.viewWillLayoutSubviews();
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -141,6 +152,30 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     {
         self.activityIndicator.stopAnimating()
         self.collectionView.reloadData()
+    }
+    
+    func animateBackgroundImageView()
+    {
+        CATransaction.begin()
+        
+        CATransaction.setAnimationDuration(animationDuration)
+        CATransaction.setCompletionBlock {
+            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(self.switchingInterval * NSTimeInterval(NSEC_PER_SEC)))
+            dispatch_after(delay, dispatch_get_main_queue()) {
+                self.animateBackgroundImageView()
+            }
+        }
+        
+        let transition = CATransition()
+        transition.type = kCATransitionFade
+        /*
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        */
+        self.backgroundImage.layer.addAnimation(transition, forKey: kCATransition)
+        self.backgroundImage.image = self.backgroundImages[random() % self.backgroundImages.count]
+        
+        CATransaction.commit()
     }
     
     func getAnimals()
