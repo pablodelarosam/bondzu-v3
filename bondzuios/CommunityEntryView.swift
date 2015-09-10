@@ -13,6 +13,9 @@ protocol CommunitEntryEvent{
     //Funcion que informa cuando alguien da like
     func like(messageId : String, like : Bool)
     
+    //Funcion que informa cuando alguien da like
+    func imageSelected(messageId : String)
+    
     //Funcion que informa cuando alguien da report
     func report(messageId : String)
     
@@ -164,11 +167,19 @@ class CommunityEntryView: UITableViewCell {
         let gesture = UITapGestureRecognizer(target: self, action: "like")
         heartImageView.addGestureRecognizer(gesture)
         heartImageView.userInteractionEnabled = true
+        
+        let gesture2 = UITapGestureRecognizer(target: self, action: "imageTaped")
+        imageIcon.addGestureRecognizer(gesture2)
+        imageIcon.userInteractionEnabled = true
     }
     
     func like(){
         heartImageView.highlighted = !heartImageView.highlighted
         delegate?.like(commentID, like: heartImageView.highlighted)
+    }
+    
+    func imageTaped(){
+        delegate?.imageSelected(commentID)
     }
     
     override func layoutSubviews() {
@@ -190,7 +201,7 @@ class CommunityEntryView: UITableViewCell {
         heartImageView.frame = CGRect(x: frame.width - likesImageWidth - endPadding, y: frame.height / 2 - 10, width: frame.height * 0.3 , height: frame.height * 0.3)
         
         if !imageIcon.hidden{
-            imageIcon.frame = CGRect(x: heartImageView.frame.origin.x - x0 - imageIcon.frame.width, y: frame.height / 2 - 10, width: frame.height * 0.3 , height: frame.height * 0.3)
+            imageIcon.frame = CGRect(x: heartImageView.frame.origin.x - x0 - heartImageView.frame.width, y: frame.height / 2 - 10, width: frame.height * 0.3 , height: frame.height * 0.3)
         }
         
         

@@ -19,6 +19,14 @@ func captureScreen() -> UIImage {
     return image;
 }
 
+func captureScreenOfView(view : UIView) -> UIImage {
+    UIGraphicsBeginImageContextWithOptions(view.frame.size, view.opaque, 0.0)
+    view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return image;
+}
+
 
 func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
     UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);

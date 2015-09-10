@@ -32,6 +32,10 @@ extension UINavigationController {
     public override func childViewControllerForStatusBarStyle() -> UIViewController? {
         return self.topViewController
     }
+    
+    public override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
 }
 
 extension UITabBarController {

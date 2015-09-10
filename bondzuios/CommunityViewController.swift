@@ -12,8 +12,8 @@ import Parse
 let defaultProfileImage = UIImage(named: "profile")
 
 class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol{
-    
-    
+    //TODO Implementar un cache de una sola sesión para agilizar los datos
+    //TODO HAS IMAGE DEBE ARRANCAR EN FALSE
     var likesLoaded = false
 
     var animalID = "om2qMFKhpB"
@@ -37,19 +37,10 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         super.viewDidAppear(animated)
     }
     
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.delegate = self
         query()
-        
-        
-        let i = FullImageViewController()
-        i.background = captureScreen()
-        self.parentViewController!.presentViewController(i, animated: true, completion: nil)
         
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardShow:", name: UIKeyboardWillShowNotification, object: nil)
@@ -80,6 +71,13 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         let cell = tableView.dequeueReusableCellWithIdentifier("comment") as! CommunityEntryView
         
         cell.delegate = self
+        
+        if !objects[indexPath.row].imageLoaded{
+            objects[indexPath.row].notifyOnReady.append((self.tableView,indexPath))
+        }
+        
+        
+        print(self.objects[indexPath.row].message["photo_message"])
         
         if likesLoaded{
             cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: self.objects[indexPath.row].name, message: self.objects[indexPath.row].message["message"] as! String, image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message["photo_message"] != nil , hasLiked: likes[indexPath.row].1, likeCount: likes[indexPath.row].0)
@@ -132,6 +130,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                 
                 
                 let o = CommunityViewDataManager(message: i, delegate: self.objectLoaded)
+
                 self.objects.append(o)
                 
             }
@@ -184,6 +183,20 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         }
     }
     
+    func imageSelected(messageId: String) {
+        let i = FullImageViewController()
+        i.background = captureScreen()
+        self.parentViewController!.presentViewController(i, animated: true, completion: nil)
+        
+        for j in 0..<objects.count{
+            if objects[j].message.objectId! == messageId{
+                i.loadParseImage(objects[j].message["photo_message"] as! PFFile)
+                break
+            }
+        }
+        
+    }
+    
     func like(messageId : String, like : Bool){
         for i in 0..<objects.count{
             if objects[i].message.objectId! == messageId{
@@ -210,7 +223,6 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                     if let array = newMessage["likesRelation"] as? [String]{
                         if like{
                             if !array.contains(PFUser.currentUser()!.objectId!){
-                                
                                 var newArray = array
                                 newArray.append(PFUser.currentUser()!.objectId!)
                                 self.objects[i].message["likesRelation"] = newArray
@@ -387,6 +399,7 @@ class CommunityViewDataManager{
     
     var name : String!
     var image : UIImage? = defaultProfileImage
+    var imageLoaded = false
     
     var notifyOnReady =  [(UITableView , NSIndexPath)]()
     
@@ -397,7 +410,7 @@ class CommunityViewDataManager{
         loadReadyDelegate = delegate
         
         let user = message["id_user"] as! PFObject
-        user.fetchIfNeededInBackgroundWithBlock(){
+        user.fetchInBackgroundWithBlock(){
             object, error in
             guard error == nil , let user = object else{
                 return
@@ -409,9 +422,12 @@ class CommunityViewDataManager{
             getImageInBackground(url: user["photo"] as! String){
                 image in
                 self.image = image
+                self.imageLoaded = true
+                
                 for (tv , ip) in self.notifyOnReady{
-                    tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
                 }
+                
                 
                 self.notifyOnReady.removeAll()
             }
