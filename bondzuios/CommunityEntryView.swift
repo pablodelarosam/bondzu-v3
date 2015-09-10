@@ -58,10 +58,6 @@ class CommunityEntryView: UITableViewCell {
         load()
     }
     
-    func setProfileImage(image : UIImage?){
-        imageIcon.image = image
-    }
-    
     func setInfo(id : String , date : NSDate, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int){
         
         imageIcon.hidden = !hasContentImage
@@ -152,6 +148,7 @@ class CommunityEntryView: UITableViewCell {
         replyButton.titleLabel?.font = likesLabel.font
         replyButton.tintColor = UIColor.lightGrayColor()
         replyButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+        replyButton.addTarget(self, action: "reply", forControlEvents: UIControlEvents.TouchUpInside)
         addSubview(replyButton)
 
         reportButton.setTitle("Report", forState: .Normal)
@@ -227,5 +224,9 @@ class CommunityEntryView: UITableViewCell {
         reportButton.frame.size = reportButton.sizeThatFits(CGSize(width: contentSizeWidth * 0.5, height: buttonsHeight))
         reportButton.frame.origin = CGPoint(x: replyButton.frame.origin.x + contentSizeWidth * 0.5, y: frame.height - replyButton.frame.height - 3)
         
+    }
+    
+    func reply(){
+        delegate?.reply(commentID)
     }
 }

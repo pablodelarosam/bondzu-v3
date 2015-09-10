@@ -6,27 +6,28 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //
 
+//NOTA: El codigo en reply es copiado de esta clase. Por tanto, si se realizan cambios a secciones como ver imagen, like etc se deberá modificar en ambos códigos. La herencia no es posible debido al cambio en el modelo de datos.
+//TODO: Código homogeneo para funciones como like
+
 import UIKit
 import Parse
 
 let defaultProfileImage = UIImage(named: "profile")
 
-class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol{
+class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate{
     //TODO Implementar un cache de una sola sesión para agilizar los datos
-    //TODO HAS IMAGE DEBE ARRANCAR EN FALSE
     var likesLoaded = false
 
     var animalID = "om2qMFKhpB"
     var loaded = false
     var objects : [CommunityViewDataManager]!
-    var messages : [PFObject]!
     var likes : [(Int , Bool)]!
     
     var gestureRecognizer : UITapGestureRecognizer?
 
     var toLoad = 0
     
-    var hasImage = true
+    var hasImage = false
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: TextFieldWithImageButton!
@@ -121,12 +122,12 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             
             self.objects = [CommunityViewDataManager]()
             self.likes = [(Int,Bool)]()
-            self.messages = array as! [PFObject]
+            let messages = array as! [PFObject]
             
             //Workaround si no hay mensajes. No remover
             self.toLoad = array!.count + 1
             
-            for i in self.messages{
+            for i in messages{
                 
                 
                 let o = CommunityViewDataManager(message: i, delegate: self.objectLoaded)
@@ -207,7 +208,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                     m, error in
                     
                     func destroy(){
-                        self.likes[i].0--
+                        self.likes[i].0 += like ? -1 : 1
                         self.likes[i].1 = !self.likes[i].1
                         self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: i, inSection: 0)], withRowAnimation: .Automatic)
                         
@@ -262,8 +263,17 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                             }
                         }
                     }
-                    else if !like{
+                    else if like{
                         newMessage["likesRelation"] = [PFUser.currentUser()!.objectId!]
+                        self.objects[i].message.saveInBackgroundWithBlock(){
+                            bool , error in
+                            guard error == nil && bool else{
+                                destroy()
+                                return
+                            }
+                            
+                            print("LIKE")
+                        }
                     }
                 })
                 
@@ -274,10 +284,24 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     
     func report(messageId : String){}
     
-    func reply(messageId : String){}
+    func reply(messageId : String){
+        for i in 0..<objects.count{
+            if objects[i].message.objectId! == messageId{
+                performSegueWithIdentifier("reply", sender: i)
+                break
+            }
+        }
+    }
     
     func pressedButton(){
-        print("CAMARA APRETADA")
+        let controller = UIAlertController(title: "Attach image", message: "Select an image to attach to your comment", preferredStyle: .ActionSheet)
+        if(hasImage){
+            controller.addAction(UIAlertAction(title: "Delete image", style: .Destructive, handler: {
+                _ in
+                self.textField.imageView.image = UIImage(named: "camera_icon")
+                self.hasImage = false
+            }))
+        }
     }
     
     func sendButtonPressed(){
@@ -318,7 +342,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             self.textField.userInteractionEnabled = true
             
             guard error == nil && bool else{
-                let controller = UIAlertController(title: "Error", message: "Pleasecheck your internet connection and try again later", preferredStyle: UIAlertControllerStyle.Alert)
+                let controller = UIAlertController(title: "Error", message: "Please check your internet connection and try again later", preferredStyle: UIAlertControllerStyle.Alert)
                 controller.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: {
                     _ in
                     controller.dismissViewControllerAnimated(false, completion: nil)
@@ -365,15 +389,21 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     }
 
     
-    /*
-    // MARK: - Navigation
+    
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "reply"{
+            
+            let index = sender as! Int
+            
+            let vc = segue.destinationViewController as! ReplyCommunityViewController
+            vc.message = objects[index]
+            vc.like = likes[index]
+        }
     }
-    */
+    
+    
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
