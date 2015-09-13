@@ -93,6 +93,19 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
             else{
                 
                 let cell = tableView.dequeueReusableCellWithIdentifier("reply") as! CommunityReplyEntryCellTableViewCell
+                
+                guard self.comment[indexPath.row].name != nil && self.comment[indexPath.row].message["message"] != nil else{
+                    
+                    let name = self.comment[indexPath.row].name == nil ? "" : self.comment[indexPath.row].name!
+                    let message = self.comment[indexPath.row].message["message"] == nil ? "" : self.comment[indexPath.row].message["message"] as! String
+                    
+                    cell.setInfo(self.comment[indexPath.row].message.objectId!, date: self.comment[indexPath.row].message.createdAt!, name: name, message: message , image: self.comment[indexPath.row].image)
+                    
+                    comment[indexPath.row].notifyOnReady.append((tableView, indexPath))
+                    
+                    return cell
+                }
+                
                 cell.setInfo(comment[indexPath.row].message.objectId!, date: comment[indexPath.row].message.createdAt!, name: comment[indexPath.row].name, message: comment[indexPath.row].message["message"] as! String, image: comment[indexPath.row].image)
                 
                 if !comment[indexPath.row].imageLoaded{

@@ -11,10 +11,11 @@
 
 import UIKit
 import Parse
+import MobileCoreServices
 
 let defaultProfileImage = UIImage(named: "profile")
 
-class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate{
+class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     //TODO Implementar un cache de una sola sesión para agilizar los datos
     var likesLoaded = false
 
@@ -77,8 +78,17 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             objects[indexPath.row].notifyOnReady.append((self.tableView,indexPath))
         }
         
-        
-        print(self.objects[indexPath.row].message["photo_message"])
+        guard self.objects[indexPath.row].name != nil && self.objects[indexPath.row].message["message"] != nil else{
+            
+            let name = self.objects[indexPath.row].name == nil ? "" : self.objects[indexPath.row].name!
+            let message = self.objects[indexPath.row].message["message"] == nil ? "" : self.objects[indexPath.row].message["message"] as! String
+            
+            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: name, message: message , image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message["photo_message"] != nil , hasLiked: false, likeCount: 0)
+            
+            objects[indexPath.row].notifyOnReady.append((tableView, indexPath))
+            
+            return cell
+        }
         
         if likesLoaded{
             cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: self.objects[indexPath.row].name, message: self.objects[indexPath.row].message["message"] as! String, image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message["photo_message"] != nil , hasLiked: likes[indexPath.row].1, likeCount: likes[indexPath.row].0)
@@ -93,7 +103,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 75
+        return 90
     }
     
     
@@ -295,13 +305,42 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     
     func pressedButton(){
         let controller = UIAlertController(title: "Attach image", message: "Select an image to attach to your comment", preferredStyle: .ActionSheet)
+        
+        controller.addAction(UIAlertAction(title: "Take picture", style: .Default, handler: {
+            a in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+                let controller = UIImagePickerController()
+                controller.sourceType = UIImagePickerControllerSourceType.Camera
+                controller.mediaTypes = [kUTTypeImage as String]
+                controller.allowsEditing = true
+                controller.delegate = self
+                self.presentViewController(controller, animated: true, completion: nil)
+            }
+        }))
+        controller.addAction(UIAlertAction(title: "Select from library", style: .Default, handler: {
+            a in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+                let controller = UIImagePickerController()
+                controller.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+                controller.mediaTypes = [kUTTypeImage as String]
+                controller.allowsEditing = true
+                controller.delegate = self
+                self.presentViewController(controller, animated: true, completion: nil)
+            }
+        }))
         if(hasImage){
             controller.addAction(UIAlertAction(title: "Delete image", style: .Destructive, handler: {
-                _ in
+                a in
                 self.textField.imageView.image = UIImage(named: "camera_icon")
                 self.hasImage = false
             }))
         }
+        
+        controller.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+            a in
+        }))
+        
+        presentViewController(controller, animated: true, completion: nil)
     }
     
     func sendButtonPressed(){
@@ -330,7 +369,6 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         
         if(hasImage){
             comment["photo_message"] = PFFile(name: "image.png", data: UIImagePNGRepresentation(textField.imageView.image!)!)
-            
         }
         
         textField.userInteractionEnabled = false
@@ -351,11 +389,11 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                 return
             }
             
-            self.query()
             self.textField.text.text = ""
             self.textField.imageView.image = UIImage(named: "camera_icon")
             self.likesLoaded = false
             self.hasImage = false
+            self.query()
         }
         
     }
@@ -401,6 +439,27 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             vc.message = objects[index]
             vc.like = likes[index]
         }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
+        let originalmage = info[UIImagePickerControllerOriginalImage] as? UIImage
+
+        if let image = editedImage{
+            self.textField.imageView.image = image
+            hasImage = true
+        }
+        else if let image = originalmage{
+            self.textField.imageView.image = image
+            hasImage = true
+        }
+        
+        picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -449,6 +508,12 @@ class CommunityViewDataManager{
             self.name = user["name"] as! String
             self.loadReadyDelegate()
             
+            for (tv , ip) in self.notifyOnReady{
+                tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
+            }
+            
+            self.notifyOnReady.removeAll()
+            
             getImageInBackground(url: user["photo"] as! String){
                 image in
                 self.image = image
@@ -457,7 +522,6 @@ class CommunityViewDataManager{
                 for (tv , ip) in self.notifyOnReady{
                     tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
                 }
-                
                 
                 self.notifyOnReady.removeAll()
             }
