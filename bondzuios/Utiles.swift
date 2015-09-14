@@ -40,6 +40,7 @@ func getImageInBackground(url string : String, block : (UIImage->Void)){
     })
 }
 
+
 class Utiles
 {
     //Esconder hairline (separacion entre nav bar y toolbar)
