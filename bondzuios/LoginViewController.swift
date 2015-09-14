@@ -11,10 +11,14 @@ import Parse
 
 
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var txtEmail: UITextField!
-    @IBOutlet weak var txtPassword: UITextField!
+    @IBOutlet weak var mail: UITextField!
+    @IBOutlet weak var pass: UITextField!
+    @IBOutlet weak var name: UITextField!
+
+    @IBOutlet weak var join: UIButton!
+    @IBOutlet weak var joinfb: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +26,15 @@ class LoginViewController: UIViewController {
         self.navigationController?.navigationBar.barStyle = .Black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        pass.secureTextEntry = true
+        join.layer.borderWidth = 2
+        join.layer.borderColor = UIColor.whiteColor().CGColor
+        
+        join.layer.cornerRadius = 10
+        joinfb.layer.cornerRadius = 10
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dissmissKeyboards"))
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -46,6 +59,16 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func dissmissKeyboards(){
+        name.resignFirstResponder()
+        pass.resignFirstResponder()
+        mail.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 
     /*
     // MARK: - Navigation
