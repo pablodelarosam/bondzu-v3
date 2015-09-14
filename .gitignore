@@ -1,0 +1,4 @@
+Pods/*
+Podfile.lock
+bondzuios.xcodeproj/xcuserdata/*
+bondzuios.xcworkspace/xcuserdata/
