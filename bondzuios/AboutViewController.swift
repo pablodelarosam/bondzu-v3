@@ -34,10 +34,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     var animal : PFObject?
     
     override func viewDidAppear(animated: Bool) {
-
-        self.navigationController?.navigationBar.topItem?.title = "About"
         super.viewDidAppear(animated)
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -55,7 +52,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.topItem?.title = "About"
+        //self.navigationController?.navigationBar.topItem?.title = "About"
         blurContainer.addSubview(visualEffectView)
         adopt.image = UIImage(named: "whitePaw")
         goLive.image = UIImage(named: "whiteCam")

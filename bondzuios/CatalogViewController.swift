@@ -64,8 +64,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         layout.itemSize = CGSize(width: screenWidth / NUMBER_ITEMS_ROW, height: screenHeight / NUMBER_ITEMS_ROW)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
-        self.collectionView.collectionViewLayout = layout;*/
-    
+        self.collectionView.collectionViewLayout = layout;*/        
         
         self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
         self.toolbar.barStyle = .Black
@@ -81,10 +80,14 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         Utiles.moveHairLine(true, navHairLine: self.navHairLine, toolbar: self.toolbar)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController?.navigationBar.topItem?.title = "Home"
+    }
+    
     override func viewDidDisappear(animated: Bool) {
         Utiles.moveHairLine(false, navHairLine: self.navHairLine, toolbar: self.toolbar)
     }
-    
+
     override func viewDidLayoutSubviews() {
         visualEffectView.frame.size = CGSize(width: self.collectionView.frame.width , height: self.collectionView.frame.height)
     }
