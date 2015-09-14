@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import AVKit
+import AVFoundation
 import UIKit
 
 func captureScreen() -> UIImage {
@@ -57,6 +59,7 @@ func getImageInBackground(url string : String, block : (UIImage->Void)){
     })
 }
 
+
 class Utiles
 {
     //Esconder hairline (separacion entre nav bar y toolbar)
@@ -98,5 +101,20 @@ class Utiles
             }
         }
         return nil
+    }
+    
+    static func urlOfAVPlayer(player: AVPlayer?) -> NSURL?
+    {
+        if player != nil {
+            if let playerAsset = player!.currentItem?.asset as AVAsset?
+            {
+                if let urlAsset = playerAsset as? AVURLAsset
+                {
+                    return urlAsset.URL;
+                }
+            }
+        }
+        
+        return nil;
     }
 }

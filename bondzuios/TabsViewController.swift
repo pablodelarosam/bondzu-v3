@@ -9,10 +9,17 @@
 import UIKit
 
 class TabsViewController: UITabBarController {
-
+    var animal: AnimalV2!;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        for viewController in viewControllers!
+        {
+            if let vc = viewController as? AboutViewController
+            {
+                vc.animalID = self.animal.objectId;
+            }
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -20,7 +27,6 @@ class TabsViewController: UITabBarController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent

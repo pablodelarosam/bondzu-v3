@@ -7,14 +7,15 @@
 //
 
 import UIKit
-import MediaPlayer
+import AVKit
+import AVFoundation
 import Parse
 
 class ListaCamarasViewController: UITableViewController, UIPopoverPresentationControllerDelegate{
 
     var animalId: String!;
     var camaras = [Camera]();
-    var player: MPMoviePlayerController!
+    var player: AVPlayerViewController!
     let refreshcontrol = UIRefreshControl()    
     
     override func viewDidLoad() {
@@ -29,7 +30,6 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         self.refreshcontrol.beginRefreshing()
         self.tableView.setContentOffset(CGPoint(x: 0,y: self.tableView.contentOffset.y - self.refreshcontrol.frame.size.height), animated: true)
         
-        
         getCameras()
     }
     
@@ -43,9 +43,10 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         
         camara = self.camaras[indexPath.row]
         cell.textLabel?.text = camara.descripcion
+        
         if(self.player != nil)
-        {
-            if(camara.url == self.player.contentURL)
+        {            
+            if(camara.url == Utiles.urlOfAVPlayer(self.player.player))
             {
                 print("Esta viendo camara: \(camara.descripcion)")
                 cell.accessoryType = .Checkmark
@@ -60,13 +61,17 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         
         if let url = camara.url as NSURL!
         {
-            if(url != player.contentURL)
+            if(url != Utiles.urlOfAVPlayer(self.player.player))
             {
                 print(url)
-                player.movieSourceType = MPMovieSourceType.Streaming
-                player.contentURL = url;
-                player.prepareToPlay()
+                
+                /*player.movieSourceType = MPMovieSourceType.Streaming*/
+                /*player.contentURL = url;
+                player.prepareToPlay()*/
+                self.player.player = AVPlayer(URL: url)
                 self.dismissViewControllerAnimated(true, completion: nil)
+                self.player.player?.closedCaptionDisplayEnabled = false;
+                self.player.player?.play()     
             }
             else
             {
@@ -87,6 +92,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.None;
     }
+    
     
     func doneButtonClicked(sender: UIBarButtonItem)
     {

@@ -34,8 +34,8 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     var animal : PFObject?
     
     override func viewDidAppear(animated: Bool) {
-        //let live = UIBarButtonItem(title: "Cams", style: .Plain, target: self, action: "showCams:")
-        self.navigationController!.navigationBar.topItem!.title = "About"
+
+        self.navigationController?.navigationBar.topItem?.title = "About"
         super.viewDidAppear(animated)
         
     }
@@ -232,11 +232,23 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    func takeScreenshot() -> UIImage
+    {
+        let layer = UIApplication.sharedApplication().keyWindow!.layer
+        let scale = UIScreen.mainScreen().scale
+        UIGraphicsBeginImageContextWithOptions(layer.frame.size, false, scale);
+        
+        layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return screenshot;
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let liveStreamVC = segue.destinationViewController as! VideoViewController
         liveStreamVC.animalId = animalID
-        
+        liveStreamVC.backgroundImageNoCameras = takeScreenshot()
         
         //TESTING
         //liveStreamVC.animalId = "uoG4QimJN9"

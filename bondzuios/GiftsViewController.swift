@@ -28,7 +28,6 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         updateProductsThatShouldShow()
     }
     
-    
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
 
@@ -134,6 +133,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     {
         let query = PFQuery(className: "Productos");
         query.whereKey("animalId", equalTo: id)
+        query.orderByAscending("nombre")
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
             
