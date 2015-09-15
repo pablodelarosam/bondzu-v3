@@ -132,7 +132,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             
             self.objects = [CommunityViewDataManager]()
             self.likes = [(Int,Bool)]()
-            let messages = array as! [PFObject]
+            let messages = array!
             
             //Workaround si no hay mensajes. No remover
             self.toLoad = array!.count + 1
@@ -140,7 +140,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             for i in messages{
                 
                 
-                let o = CommunityViewDataManager(message: i, delegate: self.objectLoaded)
+                let o = CommunityViewDataManager(message: i as! PFObject , delegate: self.objectLoaded)
 
                 self.objects.append(o)
                 
@@ -514,16 +514,37 @@ class CommunityViewDataManager{
             
             self.notifyOnReady.removeAll()
             
-            getImageInBackground(url: user["photo"] as! String){
-                image in
-                self.image = image
-                self.imageLoaded = true
-                
-                for (tv , ip) in self.notifyOnReady{
-                    tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
+            if let profilePic = user["photo"] as? String{
+            
+                getImageInBackground(url: profilePic){
+                    image in
+                    self.image = image
+                    self.imageLoaded = true
+                    
+                    for (tv , ip) in self.notifyOnReady{
+                        tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
+                    }
+                    
+                    self.notifyOnReady.removeAll()
                 }
-                
-                self.notifyOnReady.removeAll()
+            }
+            else if let profilePic = user["photoFile"] as? PFFile{
+                profilePic.getDataInBackgroundWithBlock(
+                    { (data, error) -> Void in
+                        guard error == nil, let imageData = data else{
+                            print("Failed to retrive email")
+                            return
+                        }
+                        let image = UIImage(data: imageData)
+                        self.image = image
+                        self.imageLoaded = true
+                        
+                        for (tv , ip) in self.notifyOnReady{
+                            tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
+                        }
+                        
+                        self.notifyOnReady.removeAll()
+                })
             }
             
         }
@@ -532,3 +553,5 @@ class CommunityViewDataManager{
 }
 
 /*ALERTA. ESTAS EN OTRA CLASE */
+
+//TODO Ver si el sdk de fb ya es release

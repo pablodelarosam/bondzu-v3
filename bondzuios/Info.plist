@@ -50,5 +50,18 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb{FACEBOOK_APP_ID}</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>fb721077627906410</string>
+    <key>FacebookDisplayName</key>
+    <string>Bondzù</string>
 </dict>
 </plist>

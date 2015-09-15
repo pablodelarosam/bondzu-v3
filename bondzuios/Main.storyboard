@@ -836,7 +836,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="K2S-Rh-lyX">
-                                <rect key="frame" x="20" y="183" width="560" height="150"/>
+                                <rect key="frame" x="20" y="158" width="560" height="150"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P8U-cI-27Y">
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="50"/>
@@ -854,7 +854,7 @@
                                                 <animations/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="exg-V6-FlA" id="DnZ-UC-XEh"/>
                                                 </connections>
@@ -907,7 +907,7 @@
                                                 <animations/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="exg-V6-FlA" id="clM-Ev-NeM"/>
                                                 </connections>
@@ -1001,11 +1001,11 @@
                                 <animations/>
                             </stackView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_pic" translatesAutoresizingMaskIntoConstraints="NO" id="aw6-Ac-BdR">
-                                <rect key="frame" x="250" y="75" width="100" height="100"/>
+                                <rect key="frame" x="263" y="75" width="75" height="75"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="aw6-Ac-BdR" secondAttribute="height" multiplier="1:1" id="7MT-lT-fdO"/>
-                                    <constraint firstAttribute="width" constant="100" id="TMb-7u-cpA"/>
+                                    <constraint firstAttribute="width" constant="75" id="TMb-7u-cpA"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uur-5b-oPX">
@@ -1016,6 +1016,9 @@
                                 <state key="normal" title="Join using facebook">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="registerFacebook:" destination="exg-V6-FlA" eventType="touchUpInside" id="hk9-P8-W94"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMV-SL-ggu">
                                 <rect key="frame" x="292" y="469" width="16" height="21"/>
@@ -1055,6 +1058,9 @@
                                 <state key="normal" title="Join">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="register" destination="exg-V6-FlA" eventType="touchUpInside" id="qQl-R2-JVl"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -1062,7 +1068,7 @@
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="Uur-5b-oPX" secondAttribute="leading" id="0Do-PV-Dy3"/>
                             <constraint firstItem="jIh-gM-taB" firstAttribute="centerX" secondItem="JEk-NE-WPW" secondAttribute="centerX" id="3DX-pS-i4R"/>
-                            <constraint firstItem="bE1-fJ-bT8" firstAttribute="top" secondItem="jIh-gM-taB" secondAttribute="bottom" constant="15" id="Btl-br-Qxv"/>
+                            <constraint firstItem="bE1-fJ-bT8" firstAttribute="top" secondItem="jIh-gM-taB" secondAttribute="bottom" priority="999" constant="15" id="Btl-br-Qxv"/>
                             <constraint firstItem="aMV-SL-ggu" firstAttribute="top" secondItem="pC7-k2-cfd" secondAttribute="bottom" constant="8" id="Q3J-MZ-Pjn"/>
                             <constraint firstItem="pC7-k2-cfd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="K2S-Rh-lyX" secondAttribute="bottom" constant="5" id="QTn-uu-t2M"/>
                             <constraint firstItem="Uur-5b-oPX" firstAttribute="top" secondItem="aMV-SL-ggu" secondAttribute="bottom" constant="13" id="TKs-tO-d1F"/>
@@ -1085,6 +1091,7 @@
                         <outlet property="mail" destination="3yn-XL-dQj" id="EcJ-mt-oyU"/>
                         <outlet property="name" destination="vmA-SE-nde" id="nyn-Fc-gOY"/>
                         <outlet property="pass" destination="fyK-bq-zJQ" id="OLv-St-A6b"/>
+                        <outlet property="profile" destination="aw6-Ac-BdR" id="oCA-F0-heP"/>
                         <segue destination="zmZ-TO-0Iz" kind="show" identifier="loginSegue" id="Vh7-PO-hOE"/>
                     </connections>
                 </viewController>

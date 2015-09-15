@@ -154,7 +154,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
             }
             
             self.comment = [CommunityViewDataManager]()
-            let messages = array as! [PFObject]
+            let messages = array!
             
             //Workaround si no hay mensajes. No remover
             self.toLoad = array!.count + 1
@@ -162,7 +162,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
             for i in messages{
                 
                 
-                let o = CommunityViewDataManager(message: i, delegate: self.objectLoaded)
+                let o = CommunityViewDataManager(message: i as! PFObject , delegate: self.objectLoaded)
                 
                 self.comment.append(o)
                 
