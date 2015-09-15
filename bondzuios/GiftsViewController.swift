@@ -57,7 +57,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         print("animal id gifts: \(self.animalId)");
 
         //TEST
-        self.animalId = "uoG4QimJN9"
+        //self.animalId = "uoG4QimJN9"
         
         self.txtNoGifts.hidden = true
         getProductsOfAnimalWith(self.animalId)
@@ -124,6 +124,8 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         if(productos.count == 0)
         {
             self.txtNoGifts.hidden = false;
+        }else{
+            self.txtNoGifts.hidden = true;
         }
         for product in productos
         {
@@ -131,6 +133,12 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
             {
                 self.productsToShow.append(product)
             }
+        }
+        if(productsToShow.count == 0)
+        {
+            self.txtNoGifts.hidden = false;
+        }else{
+            self.txtNoGifts.hidden = true;
         }
         self.activityIndicator.stopAnimating()
         self.collectionView.reloadData()
