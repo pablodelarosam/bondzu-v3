@@ -295,12 +295,6 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="KFV-fy-Iz1">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="443"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <color key="color" red="0.70196080207824707" green="0.70196080207824707" blue="0.70196080207824707" alpha="1" colorSpace="calibratedRGB"/>
-                                </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="giftCell" id="hVF-h4-qUV" customClass="GiftCollectionViewCell" customModule="Bondzu" customModuleProvider="target">
                                         <rect key="frame" x="5" y="5" width="200" height="200"/>
@@ -349,6 +343,18 @@
                                     <outlet property="delegate" destination="Fbx-oJ-ciy" id="ked-jf-zgC"/>
                                 </connections>
                             </collectionView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="No gifts here." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ula-HD-hJl">
+                                <rect key="frame" x="0.0" y="272.5" width="600" height="55.5"/>
+                                <animations/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yPf-Ib-NSd">
+                                <rect key="frame" x="282" y="281.5" width="37" height="37"/>
+                                <animations/>
+                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -356,10 +362,15 @@
                             <constraint firstItem="eks-Yx-9hU" firstAttribute="leading" secondItem="pUp-3B-kYH" secondAttribute="leading" id="4pi-nx-fhn"/>
                             <constraint firstItem="eks-Yx-9hU" firstAttribute="top" secondItem="b9u-MS-Bj6" secondAttribute="bottom" id="6Wc-R9-kKK"/>
                             <constraint firstAttribute="trailing" secondItem="eks-Yx-9hU" secondAttribute="trailing" id="7yi-q6-vnX"/>
+                            <constraint firstItem="yPf-Ib-NSd" firstAttribute="centerY" secondItem="pUp-3B-kYH" secondAttribute="centerY" id="9sp-4x-5Sn"/>
+                            <constraint firstItem="ula-HD-hJl" firstAttribute="centerX" secondItem="pUp-3B-kYH" secondAttribute="centerX" id="DUJ-aG-iEP"/>
                             <constraint firstItem="b9u-MS-Bj6" firstAttribute="top" secondItem="wQU-cG-qBz" secondAttribute="bottom" id="Eqo-N9-TET"/>
+                            <constraint firstItem="ula-HD-hJl" firstAttribute="leading" secondItem="b9u-MS-Bj6" secondAttribute="leading" id="Id4-2y-zXd"/>
                             <constraint firstItem="eks-Yx-9hU" firstAttribute="leading" secondItem="b9u-MS-Bj6" secondAttribute="leading" id="Q5b-BK-4Ge"/>
+                            <constraint firstItem="yPf-Ib-NSd" firstAttribute="centerX" secondItem="pUp-3B-kYH" secondAttribute="centerX" id="SLp-ib-5A8"/>
                             <constraint firstItem="b9u-MS-Bj6" firstAttribute="trailing" secondItem="eks-Yx-9hU" secondAttribute="trailing" id="bZa-2M-L8o"/>
                             <constraint firstItem="eks-Yx-9hU" firstAttribute="bottom" secondItem="YES-ou-dap" secondAttribute="top" id="eFP-7Z-fQq"/>
+                            <constraint firstItem="ula-HD-hJl" firstAttribute="centerY" secondItem="pUp-3B-kYH" secondAttribute="centerY" id="eab-Jl-YkV"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Gifts" image="gifts" id="zee-wk-KAt">
@@ -372,9 +383,10 @@
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="Gifts" id="caL-BK-IvT"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="KFV-fy-Iz1" id="TKf-cH-keL"/>
+                        <outlet property="activityIndicator" destination="yPf-Ib-NSd" id="TYu-3f-wbE"/>
                         <outlet property="collectionView" destination="eks-Yx-9hU" id="opb-5y-tlS"/>
                         <outlet property="toolbar" destination="b9u-MS-Bj6" id="CQq-mm-ewT"/>
+                        <outlet property="txtNoGifts" destination="ula-HD-hJl" id="QAb-zd-yp5"/>
                         <segue destination="xX9-Oj-Liy" kind="showDetail" identifier="segueDetailGift" id="El6-pN-fK1"/>
                     </connections>
                 </viewController>

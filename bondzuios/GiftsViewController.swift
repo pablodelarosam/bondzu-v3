@@ -22,7 +22,8 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var collectionView: UICollectionView!
-    
+       
+    @IBOutlet weak var txtNoGifts: UITextView!
     @IBAction func segmentedControlChanged(sender: UISegmentedControl) {
         self.selectedSegment = sender.selectedSegmentIndex
         updateProductsThatShouldShow()
@@ -36,11 +37,6 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     override func viewDidAppear(animated: Bool) {        
         self.navigationController?.navigationBar.topItem?.title = "Gifts"
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem = nil
-        
-        //TEST
-        self.animalId = "uoG4QimJN9";
-        
-        getProductsOfAnimalWith(self.animalId)
         super.viewDidAppear(animated)
     }
     
@@ -58,6 +54,13 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         self.toolbar.barStyle = .Black
         self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.toolbar.tintColor = UIColor.whiteColor()
+        print("animal id gifts: \(self.animalId)");
+
+        //TEST
+        self.animalId = "uoG4QimJN9"
+        
+        self.txtNoGifts.hidden = true
+        getProductsOfAnimalWith(self.animalId)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -118,6 +121,10 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     {
         self.productsToShow.removeAll(keepCapacity: true)
         let selectedCategory = self.segments[self.selectedSegment];
+        if(productos.count == 0)
+        {
+            self.txtNoGifts.hidden = false;
+        }
         for product in productos
         {
             if product.categoria == selectedCategory
@@ -141,7 +148,13 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                 self.activityIndicator.startAnimating()
                 // The find succeeded.
                 print("Successfully retrieved \(objects!.count) products.")
-                
+                if(objects?.count == 0)
+                {
+                    print("NO GIFTS")
+                    self.txtNoGifts.hidden = false;
+                    self.activityIndicator.stopAnimating()
+                    return;
+                }
                 var imagen = UIImage();
                 var i = 0;
                 // Do something with the found objects

@@ -17,7 +17,12 @@ class TabsViewController: UITabBarController {
         {
             if let vc = viewController as? AboutViewController
             {
-                vc.animalID = self.animal.objectId;
+                vc.animalID = self.animal.objectId
+            }
+            
+            if let vc = viewController as? GiftsViewController
+            {
+                vc.animalId = self.animal.objectId
             }
         }
         // Do any additional setup after loading the view.
