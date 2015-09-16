@@ -8,7 +8,7 @@
 
 import UIKit
 import Parse
-//import ParseFacebookUtilsV4
+import FBSDKCoreKit
 
 import MobileCoreServices
 
@@ -44,6 +44,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIImagePickerC
         profile.userInteractionEnabled = true
         
         profile.layer.cornerRadius = 75/2
+        
+        if let user = PFUser.currentUser(){
+            performSegueWithIdentifier("loginSegue", sender: user)
+        }
+        
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -241,17 +246,77 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIImagePickerC
     }
     
     @IBAction func registerFacebook(sender: AnyObject) {
-        /*let fbPermission = ["user_about_me"]
-        PFFacebookUtils.logInInBackgroundWithReadPermissions(fbPermission) { (user, error) -> Void in
-            if user  == nil{
-                print("Uh oh. The user cancelled the Facebook login.")
-            } else if (user!.isNew) {
-                print("User signed up and logged in through Facebook!")
-                print(PFUser.currentUser())
-            } else {
-                print("User logged in through Facebook!")
+        
+        
+        func process(user : PFUser?, error : NSError?){
+            if error != nil{
+                print(error)
+                let a  = UIAlertController(title: "Error", message: "Unable to sign up", preferredStyle: UIAlertControllerStyle.Alert)
+                a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+                dispatch_async(dispatch_get_main_queue()){
+                    self.presentViewController(a, animated: true, completion: nil)
+                }
             }
-        }*/
+            else if user!.isNew{
+                FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
+                    (connection, dic, error) -> Void in
+                    if let dictionary = dic as? Dictionary<String, AnyObject>{
+                        let user = PFUser.currentUser()!
+                        user["name"] = dictionary["name"] as! String
+                        user.password = "\(random())"
+                        user["email"] = dictionary["email"] as! String
+                        user["photo"] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
+                        user.saveInBackgroundWithBlock({
+                            (saved, error) -> Void in
+                            if error != nil{
+                                print(error)
+                                user.deleteInBackgroundWithBlock({ (del, error) -> Void in
+                                    print("Usuario eliminado")
+                                })
+                            }
+                            else{
+                                dispatch_async(dispatch_get_main_queue()){
+                                    self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
+                                }
+                            }
+                            
+                        })
+                    }
+                })
+                print("usuario nuevo \(PFUser.currentUser()?.objectId)")
+            }
+            else{
+                dispatch_async(dispatch_get_main_queue()){
+                    self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
+                }
+            }
+        }
+
+        
+    
+        let fbPermission = ["user_about_me","email"]
+        let login = FBSDKLoginManager()
+        login.loginBehavior = .Native
+    
+        if let at = FBSDKAccessToken.currentAccessToken(){
+            PFFacebookUtils.logInInBackgroundWithAccessToken(at, block: process)
+            return
+        }
+        
+        login.logInWithReadPermissions(fbPermission, fromViewController: self){
+            (result, error) -> Void in
+            if error != nil{
+                print(error)
+            }
+            else if result.isCancelled{
+                print("Cancelado")
+            }
+            else{
+                PFFacebookUtils.logInInBackgroundWithAccessToken(FBSDKAccessToken.currentAccessToken(), block: process)
+            }
+        }
+        
+        
     }
     /*
     //MARK: - Navigation

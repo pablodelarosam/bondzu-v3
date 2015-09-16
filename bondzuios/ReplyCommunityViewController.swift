@@ -120,10 +120,10 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0{
-            return 75
+            return 90
         }
         else{
-            return 50
+            return 60
         }
     }
     
@@ -356,7 +356,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
-
+//TODO AQUI Y EN COMMUNITY LAS PERSONAS CON NOMBRE LARGO PUEDEN DESPLAZAR LA TIME LABEL
 
 
 

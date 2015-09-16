@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import Bolts
 import Stripe
-//import FBSDKCoreKit
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,14 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             clientKey: "lwOEFDvVC8SsM4Nl86YBzrkDOlOw8WHCyqu4UpBe");
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         Stripe.setDefaultPublishableKey(Constantes.STRIPE_PLUBISHABLE_KEY)
-        return true
-        //return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return true
-        //return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication:  sourceApplication, annotation: annotation)
+        
+        //return true
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication:  sourceApplication, annotation: annotation)
         
     }
     
@@ -50,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        //FBSDKAppEvents.activateApp()
+        FBSDKAppEvents.activateApp()
     }
     
     func applicationWillTerminate(application: UIApplication) {

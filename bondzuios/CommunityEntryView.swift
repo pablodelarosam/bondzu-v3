@@ -123,10 +123,11 @@ class CommunityEntryView: UITableViewCell {
         addSubview(imageIcon)
         
         nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        nameLabel.numberOfLines = 0
+        nameLabel.numberOfLines = 1
+        nameLabel.adjustsFontSizeToFitWidth = true
         addSubview(nameLabel)
         
-        timeLabel.numberOfLines = 0
+        timeLabel.numberOfLines = 1
         timeLabel.font = nameLabel.font.fontWithSize(nameLabel.font.pointSize - 2)
         timeLabel.textColor = UIColor.lightGrayColor()
         timeLabel.adjustsFontSizeToFitWidth = true
@@ -138,7 +139,7 @@ class CommunityEntryView: UITableViewCell {
         addSubview(commentLabel)
         
         likesLabel.font = commentLabel.font.fontWithSize(commentLabel.font.pointSize - 5)
-        likesLabel.numberOfLines = 0
+        likesLabel.numberOfLines = 1
         likesLabel.textColor = UIColor.lightGrayColor()
         likesLabel.textAlignment = .Center
         likesLabel.adjustsFontSizeToFitWidth = true

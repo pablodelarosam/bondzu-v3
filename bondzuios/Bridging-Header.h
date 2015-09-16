@@ -10,5 +10,6 @@
 #define bondzuios_Bridging_Header_h
 
 #import <Stripe/Stripe.h>
-//#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #endif
