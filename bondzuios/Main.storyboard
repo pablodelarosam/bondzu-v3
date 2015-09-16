@@ -826,7 +826,7 @@
         <!--Login-->
         <scene sceneID="VSz-5r-BFZ">
             <objects>
-                <viewController id="exg-V6-FlA" customClass="LoginViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="exg-V6-FlA" customClass="SignUpViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kVU-YW-uAd"/>
                         <viewControllerLayoutGuide type="bottom" id="bE1-fJ-bT8"/>

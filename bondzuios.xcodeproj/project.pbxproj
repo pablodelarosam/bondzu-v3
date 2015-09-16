@@ -17,8 +17,8 @@
 		544252871B7BBFAB0077C7A6 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */; };
 		5442528A1B7BF5860077C7A6 /* GiftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544252891B7BF5860077C7A6 /* GiftsViewController.swift */; };
 		5442528C1B7BF64B0077C7A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5442528B1B7BF64B0077C7A6 /* Main.storyboard */; };
-		54571F7E1B7924420092E359 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F7D1B7924420092E359 /* LoginViewController.swift */; };
-		54571F811B79270C0092E359 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F801B79270C0092E359 /* SignUpViewController.swift */; };
+		54571F7E1B7924420092E359 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F7D1B7924420092E359 /* SignUpViewController.swift */; };
+		54571F811B79270C0092E359 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F801B79270C0092E359 /* LoginViewController.swift */; };
 		54571F841B7928E10092E359 /* Utiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F831B7928E10092E359 /* Utiles.swift */; };
 		54571F861B7928F10092E359 /* Animacion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F851B7928F10092E359 /* Animacion.swift */; };
 		54571F881B792ADE0092E359 /* TabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F871B792ADE0092E359 /* TabsViewController.swift */; };
@@ -88,8 +88,8 @@
 		544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		544252891B7BF5860077C7A6 /* GiftsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftsViewController.swift; sourceTree = "<group>"; };
 		5442528B1B7BF64B0077C7A6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		54571F7D1B7924420092E359 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		54571F801B79270C0092E359 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		54571F7D1B7924420092E359 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		54571F801B79270C0092E359 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		54571F831B7928E10092E359 /* Utiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utiles.swift; sourceTree = "<group>"; };
 		54571F851B7928F10092E359 /* Animacion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animacion.swift; sourceTree = "<group>"; };
 		54571F871B792ADE0092E359 /* TabsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabsViewController.swift; sourceTree = "<group>"; };
@@ -290,7 +290,7 @@
 		54571F7C1B79241F0092E359 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				54571F7D1B7924420092E359 /* LoginViewController.swift */,
+				54571F7D1B7924420092E359 /* SignUpViewController.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -298,7 +298,7 @@
 		54571F7F1B7926E50092E359 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
-				54571F801B79270C0092E359 /* SignUpViewController.swift */,
+				54571F801B79270C0092E359 /* LoginViewController.swift */,
 			);
 			name = Signup;
 			sourceTree = "<group>";
@@ -547,7 +547,7 @@
 				B34FB9E71B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift in Sources */,
 				5442528A1B7BF5860077C7A6 /* GiftsViewController.swift in Sources */,
 				544252871B7BBFAB0077C7A6 /* CatalogViewController.swift in Sources */,
-				54571F7E1B7924420092E359 /* LoginViewController.swift in Sources */,
+				54571F7E1B7924420092E359 /* SignUpViewController.swift in Sources */,
 				54BC54C81B7BF8A1009244C7 /* GalleryViewController.swift in Sources */,
 				54E447AA1B74171300BF580F /* Producto.swift in Sources */,
 				54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */,
@@ -569,7 +569,7 @@
 				54571F841B7928E10092E359 /* Utiles.swift in Sources */,
 				54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */,
 				B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */,
-				54571F811B79270C0092E359 /* SignUpViewController.swift in Sources */,
+				54571F811B79270C0092E359 /* LoginViewController.swift in Sources */,
 				B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
