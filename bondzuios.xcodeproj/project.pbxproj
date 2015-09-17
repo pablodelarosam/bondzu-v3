@@ -124,11 +124,11 @@
 		54E447A41B74024B00BF580F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		54E447A61B74025100BF580F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		54E447A81B74025600BF580F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCamerasViewController.swift; sourceTree = "<group>"; };
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
 		B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommunityViewController.swift; sourceTree = "<group>"; };
 		B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
 		B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithImageButton.swift; sourceTree = "<group>"; };
-		54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCamerasViewController.swift; sourceTree = "<group>"; };
 		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B39719E41B8F5CC100509A72 /* AboutLateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutLateralView.swift; sourceTree = "<group>"; };
@@ -453,7 +453,7 @@
 				TargetAttributes = {
 					54305CA41B73F809003F9AB0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = P95F7PXU7A;
+						DevelopmentTeam = V5M688Z463;
 					};
 					54305CB91B73F80A003F9AB0 = {
 						CreatedOnToolsVersion = 6.4;

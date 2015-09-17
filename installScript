@@ -1,0 +1,5 @@
+export GEM_HOME=$HOME/Software/ruby
+#~/Software/ruby/bin/pod repo remove master
+~/Software/ruby/bin/pod install
+
+

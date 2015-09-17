@@ -188,11 +188,11 @@
                                 <rect key="frame" x="0.0" y="66" width="300" height="54"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nwb-QN-1N1" id="0pZ-HY-BXa">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="53.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="53"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F73-PD-tMz">
-                                            <rect key="frame" x="15" y="0.0" width="270" height="53.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="270" height="53"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -343,15 +343,15 @@
                                     <outlet property="delegate" destination="Fbx-oJ-ciy" id="ked-jf-zgC"/>
                                 </connections>
                             </collectionView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="No gifts here." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ula-HD-hJl">
-                                <rect key="frame" x="0.0" y="272.5" width="600" height="55.5"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" editable="NO" text="No gifts here." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ula-HD-hJl">
+                                <rect key="frame" x="0.0" y="273" width="600" height="55"/>
                                 <animations/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="33"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yPf-Ib-NSd">
-                                <rect key="frame" x="282" y="281.5" width="37" height="37"/>
+                                <rect key="frame" x="282" y="282" width="37" height="37"/>
                                 <animations/>
                                 <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
@@ -996,7 +996,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="HLT-B6-hUQ"/>
                                     <barButtonItem style="plain" id="IUJ-BD-s7i">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="CNW-Xj-K7h">
-                                            <rect key="frame" x="233" y="6.5" width="133" height="31"/>
+                                            <rect key="frame" x="233" y="7" width="133" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <animations/>
                                             <segments>
@@ -1395,24 +1395,10 @@
                                     <action selector="register" destination="exg-V6-FlA" eventType="touchUpInside" id="qQl-R2-JVl"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ko8-eS-FY9">
-                                <rect key="frame" x="20" y="266" width="560" height="56"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="gBP-0m-H4Y"/>
-                                </constraints>
-                                <state key="normal" title="Login">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="login:" destination="exg-V6-FlA" eventType="touchUpInside" id="4J7-3F-FF5"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-
                             <constraint firstAttribute="leadingMargin" secondItem="Uur-5b-oPX" secondAttribute="leading" id="0Do-PV-Dy3"/>
                             <constraint firstItem="jIh-gM-taB" firstAttribute="centerX" secondItem="JEk-NE-WPW" secondAttribute="centerX" id="3DX-pS-i4R"/>
                             <constraint firstItem="bE1-fJ-bT8" firstAttribute="top" secondItem="jIh-gM-taB" secondAttribute="bottom" priority="999" constant="15" id="Btl-br-Qxv"/>
@@ -1626,8 +1612,8 @@
         <image name="galleryselected" width="25" height="25"/>
         <image name="gifts" width="25" height="25"/>
         <image name="giftsselected" width="25" height="25"/>
+        <image name="profile_pic" width="110" height="110"/>
         <image name="tigre" width="320" height="568"/>
         <image name="whitePaw" width="48" height="48"/>
-        <image name="profile_pic" width="110" height="110"/>
     </resources>
 </document>
