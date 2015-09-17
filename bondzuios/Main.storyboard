@@ -1021,7 +1021,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMV-SL-ggu">
-                                <rect key="frame" x="292" y="469" width="16" height="21"/>
+                                <rect key="frame" x="292" y="474" width="16" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1052,7 +1052,7 @@
                                 <animations/>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pC7-k2-cfd">
-                                <rect key="frame" x="20" y="422" width="560" height="39"/>
+                                <rect key="frame" x="20" y="427" width="560" height="39"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Join">
@@ -1071,7 +1071,7 @@
                             <constraint firstItem="bE1-fJ-bT8" firstAttribute="top" secondItem="jIh-gM-taB" secondAttribute="bottom" priority="999" constant="15" id="Btl-br-Qxv"/>
                             <constraint firstItem="aMV-SL-ggu" firstAttribute="top" secondItem="pC7-k2-cfd" secondAttribute="bottom" constant="8" id="Q3J-MZ-Pjn"/>
                             <constraint firstItem="pC7-k2-cfd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="K2S-Rh-lyX" secondAttribute="bottom" constant="5" id="QTn-uu-t2M"/>
-                            <constraint firstItem="Uur-5b-oPX" firstAttribute="top" secondItem="aMV-SL-ggu" secondAttribute="bottom" constant="13" id="TKs-tO-d1F"/>
+                            <constraint firstItem="Uur-5b-oPX" firstAttribute="top" secondItem="aMV-SL-ggu" secondAttribute="bottom" constant="8" id="TKs-tO-d1F"/>
                             <constraint firstItem="K2S-Rh-lyX" firstAttribute="top" secondItem="aw6-Ac-BdR" secondAttribute="bottom" constant="8" id="TXa-0k-Kjb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Uur-5b-oPX" secondAttribute="trailing" id="Zrv-1z-Zii"/>
                             <constraint firstItem="aMV-SL-ggu" firstAttribute="centerX" secondItem="JEk-NE-WPW" secondAttribute="centerX" id="aI1-u9-agd"/>

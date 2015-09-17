@@ -25,6 +25,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     @IBOutlet weak var profile: UIImageView!
     var hasImage = false
     
+    var loading : LoadingView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -48,7 +50,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         if let user = PFUser.currentUser(){
             performSegueWithIdentifier("loginSegue", sender: user)
         }
-        
+                
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -171,18 +173,38 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             return
         }
         
+        self.loading = LoadingView(view: self.view)
+        
         let query = PFQuery(className: "User")
         query.whereKey("username", equalTo: (self.mail.text?.lowercaseString)!)
         query.countObjectsInBackgroundWithBlock {
             (v, e) -> Void in
             guard e == nil else{
-                let a = UIAlertController(title: "Error", message: "Unable to create user. Please try again later", preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                
+                dispatch_async(dispatch_get_main_queue()){
+
+                    self.loading?.finish()
+                    self.loading = nil
+                    
+                    let a = UIAlertController(title: "Error", message: "Unable to create user. Please try again later", preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    self.presentViewController(a, animated: true, completion: nil)
+                }
+                
                 return
             }
             guard v == 0 else{
-                let a = UIAlertController(title: "Error", message: "The email is already registered", preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                
+                
+                dispatch_async(dispatch_get_main_queue()){
+                    self.loading?.finish()
+                    self.loading = nil
+                    let a = UIAlertController(title: "Error", message: "The email is already registered", preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    
+                    self.presentViewController(a, animated: true, completion: nil)
+
+                }
                 return
             }
         }
@@ -201,23 +223,24 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             user.signUpInBackgroundWithBlock(){
                 (creado, e) -> Void in
                 guard e == nil && creado else{
-                    let a = UIAlertController(title: "Error", message: "Unable to create user. Please try again later", preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.loading?.finish()
+                        self.loading = nil
+                        let a = UIAlertController(title: "Error", message: "Unable to create user. Please try again later", preferredStyle: .Alert)
+                        a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                        
+                        self.presentViewController(a, animated: true, completion: nil)
+                    }
+                    
+                    
                     return
                 }
                 
-                PFUser.logInWithUsernameInBackground(self.mail
-                    .text!, password: self.pass.text!, block:
-                    { (user, error) -> Void in
-                        guard error == nil else{
-                            let a = UIAlertController(title: "Error", message: "Your user was created but we where unable to log in. Please enter your data in \"login here\"", preferredStyle: .Alert)
-                            a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-                            return
-                        }
-                        
-                        self.performSegueWithIdentifier("loginSegue", sender: self);
-                    }
-                )
+                print(PFUser.currentUser())
+                self.loading?.finish()
+                self.loading = nil
+                self.performSegueWithIdentifier("loginSegue", sender: self);
             }
            
         }
@@ -227,6 +250,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         
         
         if !hasImage{
+            self.loading?.finish()
+            self.loading = nil
             let alert = UIAlertController(title: "Empty profile image", message: "You can add a profile picture. Would you like to do it?", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "Sure!", style: .Default, handler:{
                 _ in
@@ -234,6 +259,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             }))
             alert.addAction(UIAlertAction(title: "No", style: .Default, handler:{
                 _ in
+                self.loading = LoadingView(view: self.view)
                 registerFinal()
             }))
             self.presentViewController(alert, animated: true, completion: nil)
@@ -251,9 +277,12 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         func process(user : PFUser?, error : NSError?){
             if error != nil{
                 print(error)
-                let a  = UIAlertController(title: "Error", message: "Unable to sign up", preferredStyle: UIAlertControllerStyle.Alert)
-                a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+                
                 dispatch_async(dispatch_get_main_queue()){
+                    self.loading?.finish()
+                    self.loading = nil
+                    let a  = UIAlertController(title: "Error", message: "Unable to sign up", preferredStyle: UIAlertControllerStyle.Alert)
+                    a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
                     self.presentViewController(a, animated: true, completion: nil)
                 }
             }
@@ -269,6 +298,13 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                         user.saveInBackgroundWithBlock({
                             (saved, error) -> Void in
                             if error != nil{
+                                dispatch_async(dispatch_get_main_queue()){
+                                    self.loading?.finish()
+                                    self.loading = nil
+                                    let a  = UIAlertController(title: "Error", message: "Unable to sign up", preferredStyle: UIAlertControllerStyle.Alert)
+                                    a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+                                    self.presentViewController(a, animated: true, completion: nil)
+                                }
                                 print(error)
                                 user.deleteInBackgroundWithBlock({ (del, error) -> Void in
                                     print("Usuario eliminado")
@@ -276,6 +312,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                             }
                             else{
                                 dispatch_async(dispatch_get_main_queue()){
+                                    self.loading?.finish()
+                                    self.loading = nil
                                     self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
                                 }
                             }
@@ -283,21 +321,24 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                         })
                     }
                 })
-                print("usuario nuevo \(PFUser.currentUser()?.objectId)")
             }
             else{
                 dispatch_async(dispatch_get_main_queue()){
+                    self.loading?.finish()
+                    self.loading = nil
                     self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
                 }
             }
         }
 
         
+        loading = LoadingView(view: self.view)
     
         let fbPermission = ["user_about_me","email"]
         let login = FBSDKLoginManager()
         login.loginBehavior = .Native
-    
+        
+        
         if let at = FBSDKAccessToken.currentAccessToken(){
             PFFacebookUtils.logInInBackgroundWithAccessToken(at, block: process)
             return
@@ -306,9 +347,17 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         login.logInWithReadPermissions(fbPermission, fromViewController: self){
             (result, error) -> Void in
             if error != nil{
-                print(error)
+                dispatch_async(dispatch_get_main_queue()){
+                    print(error)
+                    self.loading?.finish()
+                    self.loading = nil
+                }
             }
             else if result.isCancelled{
+                dispatch_async(dispatch_get_main_queue()){
+                    self.loading?.finish()
+                    self.loading = nil
+                }
                 print("Cancelado")
             }
             else{
@@ -327,5 +376,9 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         // Pass the selected object to the new view controller.
     }
     */
+    
+    //TODO agregar loading view a community y reply
+    
+    //TODO ver porque en community no jala el indicator
 
 }

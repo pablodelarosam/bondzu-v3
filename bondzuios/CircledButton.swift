@@ -53,6 +53,7 @@ import QuartzCore
     
     
     func load(){
+        self.clearsContextBeforeDrawing = false
         backgroundColor = UIColor.clearColor()
         let tpg = UITapGestureRecognizer(target: self, action: "tap:")
         addGestureRecognizer(tpg)

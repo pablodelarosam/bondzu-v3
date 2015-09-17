@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Parse
 /*extension UINavigationController {
     public override func supportedInterfaceOrientations() -> Int {
         return visibleViewController.supportedInterfaceOrientations()
@@ -35,6 +35,17 @@ extension UINavigationController {
     
     public override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    func logoutUser(){
+        FBSDKLoginManager().logOut()
+        PFUser.logOutInBackgroundWithBlock { (error) -> Void in
+            if error == nil{
+                dispatch_async(dispatch_get_main_queue()){
+                    self.popToRootViewControllerAnimated(true)
+                }
+            }
+        }
     }
 }
 

@@ -16,6 +16,8 @@ class CatalogViewController: UIViewController {
         self.navigationController?.navigationBar.barStyle = .Black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        let logout = UIBarButtonItem(title: "logout", style: .Plain, target: navigationController!, action: "logoutUser")
+        self.navigationItem.leftBarButtonItem = logout
     }
     
     override func viewWillAppear(animated: Bool) {

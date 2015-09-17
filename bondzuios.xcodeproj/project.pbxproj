@@ -58,6 +58,7 @@
 		B3BD86DB1BA92D8C00D5E036 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DA1BA92D8C00D5E036 /* ParseFacebookUtilsV4.framework */; settings = {ASSET_TAGS = (); }; };
 		B3BD86DD1BA92D9900D5E036 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */; settings = {ASSET_TAGS = (); }; };
 		B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */; settings = {ASSET_TAGS = (); }; };
+		B3D5D8DC1BAB0DFE008F6820 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */; settings = {ASSET_TAGS = (); }; };
 		B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F048B31B98983C005EB12D /* CommunityEntryView.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -129,6 +130,7 @@
 		B3BD86DA1BA92D8C00D5E036 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		B3F048B31B98983C005EB12D /* CommunityEntryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityEntryView.swift; sourceTree = "<group>"; };
 		D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bondzuios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -290,7 +292,7 @@
 		54571F7C1B79241F0092E359 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				54571F7D1B7924420092E359 /* SignUpViewController.swift */,
+				54571F801B79270C0092E359 /* LoginViewController.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -298,7 +300,7 @@
 		54571F7F1B7926E50092E359 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
-				54571F801B79270C0092E359 /* LoginViewController.swift */,
+				54571F7D1B7924420092E359 /* SignUpViewController.swift */,
 			);
 			name = Signup;
 			sourceTree = "<group>";
@@ -312,6 +314,7 @@
 				546490C01B7D3217007F3DEF /* Imagenes.swift */,
 				54C406481B7D67D20082768B /* Constantes.swift */,
 				B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */,
+				B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */,
 				B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */,
 				54571F811B79270C0092E359 /* LoginViewController.swift in Sources */,
+				B3D5D8DC1BAB0DFE008F6820 /* LoadingView.swift in Sources */,
 				B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
