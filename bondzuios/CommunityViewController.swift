@@ -12,14 +12,15 @@
 import UIKit
 import Parse
 import MobileCoreServices
+import MessageUI
 
 let defaultProfileImage = UIImage(named: "profile")
 
-class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate{
     //TODO Implementar un cache de una sola sesión para agilizar los datos
     var likesLoaded = false
 
-    var animalID = "om2qMFKhpB"
+    var animalID = ""
     var loaded = false
     var objects : [CommunityViewDataManager]!
     var likes : [(Int , Bool)]!
@@ -107,12 +108,11 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     }
     
     
-    //TODO NO SIRVE CON ANIMAL V2 ACTUALIZAR NOMBRE
     func query(){
         let query = PFQuery(className: "Messages")
         query.orderByDescending("createdAt")
         query.whereKeyExists("message")
-        query.whereKey("id_animal", equalTo: PFObject(withoutDataWithClassName: "Animal", objectId: animalID))
+        query.whereKey("animal_Id", equalTo: PFObject(withoutDataWithClassName: "AnimalV2", objectId: animalID))
         query.findObjectsInBackgroundWithBlock(){
             array, error in
             
@@ -149,9 +149,10 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             //Workaround si no hay mensajes. No remover
             self.objectLoaded()
             
-            dispatch_async(dispatch_get_main_queue()){
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
                 self.getLikes()
             }
+            
         }
         
     }
@@ -161,7 +162,9 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         
         if toLoad == 0{
             loaded = true
-            tableView.reloadData()
+            dispatch_async(dispatch_get_main_queue()){
+                self.tableView.reloadData()
+            }
         }
         
         
@@ -292,7 +295,24 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         }
     }
     
-    func report(messageId : String){}
+    func report(messageId : String){
+    
+        if(!MFMailComposeViewController.canSendMail()){
+            let a = UIAlertController(title: "Error", message: "Your device is not configured to send mail", preferredStyle: .Alert)
+            a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+            presentViewController(a, animated: true, completion: nil)
+            return
+        }
+        
+        //reports@bondzu.com
+        let controller = MFMailComposeViewController()
+        controller.setToRecipients(["reports@bondzu.com"])
+        controller.setSubject("Inappropriate message")
+        controller.setMessageBody("Hello.\nI think this message is inappropiate\n\n[Please do no dot delete this information]\nMessage id: \(messageId)", isHTML: false)
+        controller.delegate = self
+        controller.mailComposeDelegate = self
+        presentViewController(controller, animated: true, completion: nil)
+    }
     
     func reply(messageId : String){
         for i in 0..<objects.count{
@@ -355,14 +375,12 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         }
         
         
-        //TODO ACTUALIZAR PARA ANIMAL V2
         let comment = PFObject(className: "Messages")
         
         
         let animalObject =  Animal(withoutDataWithObjectId: animalID)
-
         
-        comment["id_animal"] = animalObject
+        comment["animal_Id"] = animalObject
         comment["message"] = text
         comment["id_user"] = PFUser.currentUser()!
         comment["likesRelation"] = [String]()
@@ -463,6 +481,11 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     }
     
     
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?){
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -525,7 +548,6 @@ class CommunityViewDataManager{
                         tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
                     }
                     
-                    self.notifyOnReady.removeAll()
                 }
             }
             else if let profilePic = user["photoFile"] as? PFFile{
@@ -553,5 +575,3 @@ class CommunityViewDataManager{
 }
 
 /*ALERTA. ESTAS EN OTRA CLASE */
-
-//TODO Ver si el sdk de fb ya es release

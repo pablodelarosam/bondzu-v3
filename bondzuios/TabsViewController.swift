@@ -19,8 +19,11 @@ class TabsViewController: UITabBarController {
             {
                 vc.animalID = self.animal.objectId
             }
-            
-            if let vc = viewController as? GiftsViewController
+            else if let vc = viewController as? CommunityViewController
+            {
+                vc.animalID = self.animal.objectId
+            }
+            else if let vc = viewController as? GiftsViewController
             {
                 vc.animalId = self.animal.objectId
             }

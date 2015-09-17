@@ -63,10 +63,10 @@ class CommunityReplyEntryCellTableViewCell: UITableViewCell {
         addSubview(profileIcon)
         
         nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        nameLabel.numberOfLines = 0
+        nameLabel.numberOfLines = 1
         addSubview(nameLabel)
         
-        timeLabel.numberOfLines = 0
+        timeLabel.numberOfLines = 1
         timeLabel.font = nameLabel.font.fontWithSize(nameLabel.font.pointSize - 2)
         timeLabel.textColor = UIColor.lightGrayColor()
         timeLabel.adjustsFontSizeToFitWidth = true
@@ -106,7 +106,12 @@ class CommunityReplyEntryCellTableViewCell: UITableViewCell {
         timeLabel.frame.origin = CGPoint(x: nameLabel.frame.origin.x + nameLabel.frame.width + padding / 2, y: nameLabel.frame.origin.y + nameLabel.frame.height - timeLabel.frame.height)
         commentLabel.frame = CGRect(x: nameLabel.frame.origin.x, y: nameLabel.frame.origin.y + nameLabel.frame.size.height, width: contentSizeWidth, height: messageHeight)
         
-        
+        if nameLabel.frame.width + timeLabel.frame.width > contentSizeWidth{
+            nameLabel.frame.size.width = contentSizeWidth * 0.8
+            timeLabel.frame.size.width = contentSizeWidth * 0.2
+            timeLabel.frame.origin.x = nameLabel.frame.origin.x + nameLabel.frame.width
+            nameLabel.adjustsFontSizeToFitWidth = true
+        }
     }
 
 

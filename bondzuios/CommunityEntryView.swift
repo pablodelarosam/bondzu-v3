@@ -124,7 +124,6 @@ class CommunityEntryView: UITableViewCell {
         
         nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         nameLabel.numberOfLines = 1
-        nameLabel.adjustsFontSizeToFitWidth = true
         addSubview(nameLabel)
         
         timeLabel.numberOfLines = 1
@@ -169,6 +168,9 @@ class CommunityEntryView: UITableViewCell {
         let gesture2 = UITapGestureRecognizer(target: self, action: "imageTaped")
         imageIcon.addGestureRecognizer(gesture2)
         imageIcon.userInteractionEnabled = true
+        
+        let gesture3 = UITapGestureRecognizer(target: self, action: "report")
+        reportButton.addGestureRecognizer(gesture3)
     }
     
     func like(){
@@ -178,6 +180,10 @@ class CommunityEntryView: UITableViewCell {
     
     func imageTaped(){
         delegate?.imageSelected(commentID)
+    }
+    
+    func report(){
+        delegate?.report(commentID)
     }
     
     override func layoutSubviews() {
@@ -225,9 +231,19 @@ class CommunityEntryView: UITableViewCell {
         reportButton.frame.size = reportButton.sizeThatFits(CGSize(width: contentSizeWidth * 0.5, height: buttonsHeight))
         reportButton.frame.origin = CGPoint(x: replyButton.frame.origin.x + contentSizeWidth * 0.5, y: frame.height - replyButton.frame.height - 3)
         
+        if nameLabel.frame.width + timeLabel.frame.width > contentSizeWidth + likesImageWidth + viewIconWidth{
+            nameLabel.frame.size.width = contentSizeWidth * 0.65
+            timeLabel.frame.size.width = contentSizeWidth * 0.35
+            timeLabel.frame.origin.x = nameLabel.frame.origin.x + nameLabel.frame.width
+            nameLabel.adjustsFontSizeToFitWidth = true
+        }
+        
     }
     
     func reply(){
         delegate?.reply(commentID)
     }
 }
+
+//TODO Ver porque el loading no funciona bajo ciertas condiciones
+//Animales que si tienen mensajes

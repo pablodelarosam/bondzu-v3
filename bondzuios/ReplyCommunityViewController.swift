@@ -8,8 +8,9 @@
 
 import UIKit
 import Parse
+import MessageUI
 
-class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, CommunitEntryEvent, UITableViewDelegate, UITableViewDataSource  {
+class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, CommunitEntryEvent, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate  {
     
     //TODO Implementar un cache de una sola sesión para agilizar los datos
     var likesLoaded = false
@@ -269,7 +270,23 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     }
     
     
-    func report(messageId : String){}
+    func report(messageId : String){
+        if(!MFMailComposeViewController.canSendMail()){
+            let a = UIAlertController(title: "Error", message: "Your device is not configured to send mail", preferredStyle: .Alert)
+            a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+            presentViewController(a, animated: true, completion: nil)
+            return
+        }
+        
+        //reports@bondzu.com
+        let controller = MFMailComposeViewController()
+        controller.setToRecipients(["reports@bondzu.com"])
+        controller.setSubject("Inappropriate message")
+        controller.setMessageBody("Hello.\nI think this message is inappropiate\n\n[Please do no dot delete this information]\nMessage id: \(messageId)", isHTML: false)
+        controller.delegate = self
+        controller.mailComposeDelegate = self
+        presentViewController(controller, animated: true, completion: nil)
+    }
     
     func reply(messageId : String){
         print("INVALID CALL FROM REPLY TO REPLY")
@@ -350,6 +367,10 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     
     func dissmisKeyboard(){
         self.textField.resignFirstResponder()
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?){
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     deinit{
