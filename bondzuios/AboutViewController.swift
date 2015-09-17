@@ -80,7 +80,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 }
                 
                 for animal in animals{
-                    if (animal as! PFObject).objectId == self.animalID{
+                    if (animal).objectId == self.animalID{
                         dispatch_async(dispatch_get_main_queue()){
                             let controller = UIAlertController(title: "Already adopted", message: "You cannot adopt the same animal twice", preferredStyle: UIAlertControllerStyle.Alert)
                             controller.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {

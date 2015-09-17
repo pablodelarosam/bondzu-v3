@@ -120,10 +120,10 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0{
-            return 75
+            return 90
         }
         else{
-            return 50
+            return 60
         }
     }
     
@@ -154,7 +154,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
             }
             
             self.comment = [CommunityViewDataManager]()
-            let messages = array as! [PFObject]
+            let messages = array!
             
             //Workaround si no hay mensajes. No remover
             self.toLoad = array!.count + 1
@@ -162,7 +162,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
             for i in messages{
                 
                 
-                let o = CommunityViewDataManager(message: i, delegate: self.objectLoaded)
+                let o = CommunityViewDataManager(message: i as! PFObject , delegate: self.objectLoaded)
                 
                 self.comment.append(o)
                 
@@ -356,7 +356,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
-
+//TODO AQUI Y EN COMMUNITY LAS PERSONAS CON NOMBRE LARGO PUEDEN DESPLAZAR LA TIME LABEL
 
 
 

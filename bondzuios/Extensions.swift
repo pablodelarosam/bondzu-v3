@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Parse
 /*extension UINavigationController {
     public override func supportedInterfaceOrientations() -> Int {
         return visibleViewController.supportedInterfaceOrientations()
@@ -35,6 +35,17 @@ extension UINavigationController {
     
     public override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    func logoutUser(){
+        FBSDKLoginManager().logOut()
+        PFUser.logOutInBackgroundWithBlock { (error) -> Void in
+            if error == nil{
+                dispatch_async(dispatch_get_main_queue()){
+                    self.popToRootViewControllerAnimated(true)
+                }
+            }
+        }
     }
 }
 
@@ -77,3 +88,21 @@ extension UIAlertController {
         return false
     }
 }
+
+extension String {
+
+    func isValidEmail() -> Bool {
+        
+        print("validate emilId: \(self)")
+        
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        
+        let result = emailTest.evaluateWithObject(self)
+
+        return result
+        
+    }
+}
+

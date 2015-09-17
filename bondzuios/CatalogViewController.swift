@@ -43,7 +43,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.barStyle = .Black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()                        
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         self.collectionView.backgroundView?.alpha = 0;
         screenSize = UIScreen.mainScreen().bounds
@@ -72,6 +72,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.segementedControl.tintColor = UIColor.whiteColor()
         self.activityIndicator.startAnimating()
         getAnimals();
+        let logout = UIBarButtonItem(title: "logout", style: .Plain, target: navigationController!, action: "logoutUser")
+        self.navigationItem.leftBarButtonItem = logout
     }
     
     
