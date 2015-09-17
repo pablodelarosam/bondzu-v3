@@ -27,6 +27,11 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     
     var loading : LoadingView?
     
+    override func viewDidAppear(animated: Bool) {
+        self.navigationItem.title = "Sign Up"
+        super.viewDidAppear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -167,7 +172,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         }
         
         guard pass.text?.characters.count >= 5 else{
-            let alert = UIAlertController(title: "Empty password", message: "Your password should contain at least 5 characters", preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Invalid password", message: "Your password should contain at least 5 characters", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {_ in self.pass.becomeFirstResponder()}))
             self.presentViewController(alert, animated: true, completion: nil)
             return
@@ -367,15 +372,14 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         
         
     }
-    /*
-    //MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        mail.text = ""
+        pass.text = ""
+        name.text = ""
+        hasImage = false
+        profile.image = UIImage(named: "profile_pic")
     }
-    */
     
     //TODO agregar loading view a community y reply
     
