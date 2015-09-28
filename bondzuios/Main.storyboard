@@ -1135,6 +1135,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Catalog" id="ZxD-C4-uER">
+                        <barButtonItem key="leftBarButtonItem" image="profileBar" style="plain" id="YH6-5Z-SAS">
+                            <connections>
+                                <segue destination="Ghg-Tb-hw5" kind="show" id="P3g-Jv-V2n"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="jge-UM-bIx">
                             <connections>
                                 <action selector="next:" destination="zmZ-TO-0Iz" id="Bmp-ul-dhv"/>
@@ -1430,7 +1435,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5da-Ww-02M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-711" y="-229"/>
+            <point key="canvasLocation" x="-779" y="-249"/>
         </scene>
         <!--Forgot Password-->
         <scene sceneID="Rph-cj-54H">
@@ -1800,7 +1805,68 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mzd-Qk-DJe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-711" y="458"/>
+            <point key="canvasLocation" x="-785" y="499"/>
+        </scene>
+        <!--Account-->
+        <scene sceneID="c8D-WO-aNu">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Ghg-Tb-hw5" customClass="AccountViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kk6-uq-yzf"/>
+                        <viewControllerLayoutGuide type="bottom" id="rDF-YP-jnQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Uz8-m7-Eoq">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Fh-HW-ueD">
+                                <rect key="frame" x="279" y="196" width="42" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="3e0-ht-wdv">
+                                <rect key="frame" x="0.0" y="236" width="600" height="364"/>
+                                <animations/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Ghg-Tb-hw5" id="Uqh-qQ-aY4"/>
+                                    <outlet property="delegate" destination="Ghg-Tb-hw5" id="1Jq-TP-b4O"/>
+                                </connections>
+                            </tableView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_pic" translatesAutoresizingMaskIntoConstraints="NO" id="DtU-sp-SNj">
+                                <rect key="frame" x="250" y="72" width="100" height="100"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="DtU-sp-SNj" secondAttribute="height" multiplier="1:1" id="Mj0-uD-GXC"/>
+                                    <constraint firstAttribute="width" constant="100" id="ymG-8z-BWn"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="5Fh-HW-ueD" firstAttribute="top" secondItem="DtU-sp-SNj" secondAttribute="bottom" constant="24" id="BDw-TF-REf"/>
+                            <constraint firstItem="DtU-sp-SNj" firstAttribute="centerX" secondItem="Uz8-m7-Eoq" secondAttribute="centerX" id="DKw-qj-zc3"/>
+                            <constraint firstItem="DtU-sp-SNj" firstAttribute="top" secondItem="kk6-uq-yzf" secondAttribute="bottom" constant="8" id="EA3-dh-cbR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3e0-ht-wdv" secondAttribute="trailing" constant="-20" id="VXe-6s-QSl"/>
+                            <constraint firstItem="rDF-YP-jnQ" firstAttribute="top" secondItem="3e0-ht-wdv" secondAttribute="bottom" id="X61-aw-HA1"/>
+                            <constraint firstItem="3e0-ht-wdv" firstAttribute="top" secondItem="5Fh-HW-ueD" secondAttribute="bottom" constant="19" id="gjL-hF-A8Q"/>
+                            <constraint firstItem="5Fh-HW-ueD" firstAttribute="centerX" secondItem="Uz8-m7-Eoq" secondAttribute="centerX" id="iRk-2p-AE3"/>
+                            <constraint firstItem="3e0-ht-wdv" firstAttribute="leading" secondItem="Uz8-m7-Eoq" secondAttribute="leadingMargin" constant="-20" id="quJ-hs-hJq"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Account" id="SZb-JU-stT"/>
+                    <connections>
+                        <outlet property="imageView" destination="DtU-sp-SNj" id="IJ8-ln-yAY"/>
+                        <outlet property="name" destination="5Fh-HW-ueD" id="LXR-rq-kiU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="skJ-AZ-GVD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="594" y="-994"/>
         </scene>
     </scenes>
     <resources>
@@ -1814,11 +1880,12 @@
         <image name="galleryselected" width="25" height="25"/>
         <image name="gifts" width="25" height="25"/>
         <image name="giftsselected" width="25" height="25"/>
+        <image name="profileBar" width="33" height="33"/>
         <image name="profile_pic" width="110" height="110"/>
         <image name="tigre" width="320" height="568"/>
         <image name="whitePaw" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Bpb-47-ovf"/>
+        <segue reference="Vh7-PO-hOE"/>
     </inferredMetricsTieBreakers>
 </document>

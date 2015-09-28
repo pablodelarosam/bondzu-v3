@@ -72,8 +72,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.segementedControl.tintColor = UIColor.whiteColor()
         self.activityIndicator.startAnimating()
         getAnimals();
-        let logout = UIBarButtonItem(title: "logout", style: .Plain, target: navigationController!, action: "logoutUser")
-        self.navigationItem.leftBarButtonItem = logout
     }
     
     
@@ -148,9 +146,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let nextVC : TabsViewController = segue.destinationViewController as! TabsViewController
-        
-        nextVC.animal = self.selectedAnimal;
+        if let nextVC = segue.destinationViewController as? TabsViewController{
+            nextVC.animal = self.selectedAnimal
+        }
     }
     
     func updateAnimalsThatShouldShow()

@@ -85,7 +85,6 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                             let controller = UIAlertController(title: "Already adopted", message: "You cannot adopt the same animal twice", preferredStyle: UIAlertControllerStyle.Alert)
                             controller.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {
                                 _ in
-                                controller.dismissViewControllerAnimated(false, completion: nil)
                             }))
                             self.presentViewController(controller, animated: true, completion: nil)
                         }
@@ -97,7 +96,13 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 relation.addObject(self.animal!)
                 PFUser.currentUser()!.saveInBackgroundWithBlock(){
                     a, b  in
-                    print("GUARDADO")
+                    dispatch_async(dispatch_get_main_queue()){
+                        let controller = UIAlertController(title: "Thank you!", message: "You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.",     preferredStyle: UIAlertControllerStyle.Alert)
+                        controller.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
+                            _ in
+                        }))
+                        self.presentViewController(controller, animated: true, completion: nil)
+                    }
                 }
                 
                 self.adopt.userInteractionEnabled = true
@@ -246,9 +251,6 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         let liveStreamVC = segue.destinationViewController as! VideoViewController
         liveStreamVC.animalId = animalID
         liveStreamVC.backgroundImageNoCameras = takeScreenshot()
-        
-        //TESTING
-        //liveStreamVC.animalId = "uoG4QimJN9"
     }
     
     func showCams(button: CircledButton)
