@@ -17,6 +17,7 @@
 		544252871B7BBFAB0077C7A6 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */; };
 		5442528A1B7BF5860077C7A6 /* GiftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544252891B7BF5860077C7A6 /* GiftsViewController.swift */; };
 		5442528C1B7BF64B0077C7A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5442528B1B7BF64B0077C7A6 /* Main.storyboard */; };
+		544677A81BB9EF6500F5B54D /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544677A71BB9EF6500F5B54D /* GalleryCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		54571F7E1B7924420092E359 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F7D1B7924420092E359 /* LoginViewController.swift */; };
 		54571F811B79270C0092E359 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F801B79270C0092E359 /* SignUpViewController.swift */; };
 		54571F841B7928E10092E359 /* Utiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F831B7928E10092E359 /* Utiles.swift */; };
@@ -88,6 +89,7 @@
 		544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		544252891B7BF5860077C7A6 /* GiftsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftsViewController.swift; sourceTree = "<group>"; };
 		5442528B1B7BF64B0077C7A6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		544677A71BB9EF6500F5B54D /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		54571F7D1B7924420092E359 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		54571F801B79270C0092E359 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		54571F831B7928E10092E359 /* Utiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utiles.swift; sourceTree = "<group>"; };
@@ -120,11 +122,11 @@
 		54E447A41B74024B00BF580F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		54E447A61B74025100BF580F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		54E447A81B74025600BF580F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCamerasViewController.swift; sourceTree = "<group>"; };
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
 		B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommunityViewController.swift; sourceTree = "<group>"; };
 		B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
 		B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithImageButton.swift; sourceTree = "<group>"; };
-		54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCamerasViewController.swift; sourceTree = "<group>"; };
 		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B39719E41B8F5CC100509A72 /* AboutLateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutLateralView.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				54BC54C71B7BF8A1009244C7 /* GalleryViewController.swift */,
+				544677A71BB9EF6500F5B54D /* GalleryCollectionViewCell.swift */,
 			);
 			name = GalleryTab;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
 				54E806321BA74DD2007AFD44 /* NoCamerasViewController.swift in Sources */,
 				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
+				544677A81BB9EF6500F5B54D /* GalleryCollectionViewCell.swift in Sources */,
 				B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */,
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,
 				5489932A1B98BE4400DDF263 /* AnimalV2.swift in Sources */,
