@@ -22,6 +22,10 @@ public class AboutLateralView: UIView {
         adoptersLabel.text = "\(adopters)"
     }
     
+    public func getAdopters() -> Int?{
+        return Int(adoptersLabel.text!)
+    }
+    
     var keeper1 : Usuario?{
         willSet{
             if let a = keeper1{

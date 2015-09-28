@@ -97,11 +97,27 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 PFUser.currentUser()!.saveInBackgroundWithBlock(){
                     a, b  in
                     dispatch_async(dispatch_get_main_queue()){
+                        
                         let controller = UIAlertController(title: "Thank you!", message: "You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.",     preferredStyle: UIAlertControllerStyle.Alert)
                         controller.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
                             _ in
                         }))
                         self.presentViewController(controller, animated: true, completion: nil)
+                        
+                        if let currentAnimal = self.animal{
+                            currentAnimal.incrementKey("adopters", byAmount: 1)
+                            currentAnimal.saveInBackgroundWithBlock({ b, e  in
+                                if !b || e != nil{
+                                    print("Error al actualizar el número de adopters");
+                                }
+                            })
+                            
+                            dispatch_async(dispatch_get_main_queue()){
+                                if let i = self.lateral.getAdopters(){
+                                    self.lateral.setAdopters(i + 1)
+                                }
+                            }
+                        }
                     }
                 }
                 
