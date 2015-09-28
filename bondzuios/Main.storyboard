@@ -1755,6 +1755,7 @@
                                         <state key="normal" title="Click here"/>
                                         <connections>
                                             <action selector="login:" destination="zAk-SE-3gN" eventType="touchUpInside" id="TFi-zY-ako"/>
+                                            <segue destination="h59-TV-RKg" kind="show" id="fkX-CB-M8Q"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1868,6 +1869,120 @@
             </objects>
             <point key="canvasLocation" x="594" y="-994"/>
         </scene>
+        <!--Forgot password?-->
+        <scene sceneID="ad6-j0-h4t">
+            <objects>
+                <viewController id="h59-TV-RKg" customClass="ForgotPasswordViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5Av-UJ-HSC"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zg8-b5-VIR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mi0-Lq-Bua">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="iic-zb-MEe">
+                                <rect key="frame" x="20" y="158" width="560" height="50"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kXY-xQ-7JU">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="50"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PSI-3g-lUp">
+                                                <rect key="frame" x="8" y="48" width="544" height="1"/>
+                                                <animations/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="aZU-P1-X4t"/>
+                                                </constraints>
+                                            </view>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="leo-1A-LJL">
+                                                <rect key="frame" x="46" y="14" width="509" height="29"/>
+                                                <animations/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="h59-TV-RKg" id="CxR-8W-fNc"/>
+                                                </connections>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="264" text="Mail:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ncm-4h-bEF">
+                                                <rect key="frame" x="8" y="16" width="36" height="21"/>
+                                                <animations/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="WST-7H-vQv"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="WST-7H-vQv"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                        </subviews>
+                                        <animations/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="10q-7K-4dy"/>
+                                            <constraint firstAttribute="trailing" secondItem="PSI-3g-lUp" secondAttribute="trailing" constant="8" id="9Qi-j0-EnD"/>
+                                            <constraint firstAttribute="bottom" secondItem="PSI-3g-lUp" secondAttribute="bottom" constant="1" id="BlB-Yt-FOI"/>
+                                            <constraint firstItem="Ncm-4h-bEF" firstAttribute="top" secondItem="kXY-xQ-7JU" secondAttribute="top" constant="16" id="O2A-6D-FvL"/>
+                                            <constraint firstItem="Ncm-4h-bEF" firstAttribute="leading" secondItem="kXY-xQ-7JU" secondAttribute="leading" constant="8" id="Rgo-op-dpf"/>
+                                            <constraint firstItem="PSI-3g-lUp" firstAttribute="top" secondItem="Ncm-4h-bEF" secondAttribute="bottom" constant="11" id="WXW-Hr-p9a"/>
+                                            <constraint firstItem="leo-1A-LJL" firstAttribute="top" secondItem="kXY-xQ-7JU" secondAttribute="top" constant="14" id="mpN-pC-U4x"/>
+                                            <constraint firstAttribute="trailing" secondItem="leo-1A-LJL" secondAttribute="trailing" constant="5" id="n0j-wI-oSJ"/>
+                                            <constraint firstItem="PSI-3g-lUp" firstAttribute="leading" secondItem="kXY-xQ-7JU" secondAttribute="leading" constant="8" id="ofF-pA-fBg"/>
+                                            <constraint firstItem="PSI-3g-lUp" firstAttribute="top" secondItem="leo-1A-LJL" secondAttribute="bottom" constant="5" id="ubQ-5u-5wm"/>
+                                            <constraint firstItem="leo-1A-LJL" firstAttribute="leading" secondItem="Ncm-4h-bEF" secondAttribute="trailing" constant="2" id="xBG-Dt-ffh"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <animations/>
+                            </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_pic" translatesAutoresizingMaskIntoConstraints="NO" id="Oj4-e7-F3i">
+                                <rect key="frame" x="263" y="75" width="75" height="75"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Oj4-e7-F3i" secondAttribute="height" multiplier="1:1" id="Cea-vd-FCi"/>
+                                    <constraint firstAttribute="width" constant="75" id="l8B-0F-JC3"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vz-T2-vwC">
+                                <rect key="frame" x="20" y="553" width="560" height="39"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="Recover password">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="iic-zb-MEe" firstAttribute="top" secondItem="Oj4-e7-F3i" secondAttribute="bottom" constant="8" id="7zl-lG-rqo"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="0vz-T2-vwC" secondAttribute="leading" id="HdZ-P4-c2h"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0vz-T2-vwC" secondAttribute="trailing" id="MWD-Ru-byd"/>
+                            <constraint firstItem="Zg8-b5-VIR" firstAttribute="top" secondItem="0vz-T2-vwC" secondAttribute="bottom" constant="8" id="RJw-qn-TGj"/>
+                            <constraint firstItem="0vz-T2-vwC" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iic-zb-MEe" secondAttribute="bottom" constant="5" id="S1S-AH-uFY"/>
+                            <constraint firstItem="iic-zb-MEe" firstAttribute="leading" secondItem="mi0-Lq-Bua" secondAttribute="leadingMargin" id="bcH-Pd-3UJ"/>
+                            <constraint firstItem="Oj4-e7-F3i" firstAttribute="top" secondItem="5Av-UJ-HSC" secondAttribute="bottom" constant="11" id="iUT-ed-nov"/>
+                            <constraint firstItem="iic-zb-MEe" firstAttribute="trailing" secondItem="mi0-Lq-Bua" secondAttribute="trailingMargin" id="jS5-Pu-C8e"/>
+                            <constraint firstItem="Oj4-e7-F3i" firstAttribute="centerX" secondItem="mi0-Lq-Bua" secondAttribute="centerX" id="ndc-4o-LDz"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Forgot password?" id="i5T-09-290"/>
+                    <connections>
+                        <outlet property="forgot" destination="0vz-T2-vwC" id="oSS-e2-Mh4"/>
+                        <outlet property="login" destination="0vz-T2-vwC" id="Z6C-le-X8R"/>
+                        <outlet property="mail" destination="leo-1A-LJL" id="9Xj-fO-YB4"/>
+                        <outlet property="profile" destination="Oj4-e7-F3i" id="SeA-f8-5qc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CP1-yV-aGc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-785" y="1165"/>
+        </scene>
     </scenes>
     <resources>
         <image name="about" width="25" height="25"/>
@@ -1886,6 +2001,6 @@
         <image name="whitePaw" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Vh7-PO-hOE"/>
+        <segue reference="Bpb-47-ovf"/>
     </inferredMetricsTieBreakers>
 </document>

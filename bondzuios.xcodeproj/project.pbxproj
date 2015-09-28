@@ -59,6 +59,7 @@
 		B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E41B8F5CC100509A72 /* AboutLateralView.swift */; settings = {ASSET_TAGS = (); }; };
 		B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E61B8F6F1800509A72 /* Usuario.swift */; settings = {ASSET_TAGS = (); }; };
 		B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B3A29EF11BB9EC0400F5EB8B /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B3BD86DB1BA92D8C00D5E036 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DA1BA92D8C00D5E036 /* ParseFacebookUtilsV4.framework */; settings = {ASSET_TAGS = (); }; };
 		B3BD86DD1BA92D9900D5E036 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */; settings = {ASSET_TAGS = (); }; };
 		B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */; settings = {ASSET_TAGS = (); }; };
@@ -135,6 +136,7 @@
 		B39719E41B8F5CC100509A72 /* AboutLateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutLateralView.swift; sourceTree = "<group>"; };
 		B39719E61B8F6F1800509A72 /* Usuario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Usuario.swift; path = bondzuios/Usuario.swift; sourceTree = "<group>"; };
 		B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		B3BD86DA1BA92D8C00D5E036 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				54305CCB1B73FA7B003F9AB0 /* Video */,
 				54305CCA1B73FA68003F9AB0 /* Modelos */,
 				5442528B1B7BF64B0077C7A6 /* Main.storyboard */,
+				B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */,
 				B3797FE41B8CC8E000924080 /* Bridging-Header.h */,
 				54305CAA1B73F809003F9AB0 /* AppDelegate.swift */,
 				54571F871B792ADE0092E359 /* TabsViewController.swift */,
@@ -596,6 +599,7 @@
 				54571F841B7928E10092E359 /* Utiles.swift in Sources */,
 				54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */,
 				B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */,
+				B3A29EF11BB9EC0400F5EB8B /* ForgotPasswordViewController.swift in Sources */,
 				54571F811B79270C0092E359 /* LoginViewController.swift in Sources */,
 				B3D5D8DC1BAB0DFE008F6820 /* LoadingView.swift in Sources */,
 				B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */,
