@@ -9,12 +9,14 @@
 import UIKit
 import Parse
 
-class GalleryViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+class GalleryViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+{
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     var pictures = [UIImage]();
     var animalId: String!;
-    let NUMBER_ITEMS_ROW: CGFloat = 3;
+    
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = "Gallery"
@@ -23,13 +25,10 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        //self.activityIndicator.startAnimating()
-        /*let cellWidth = ( UIScreen.mainScreen().bounds.width - 15 ) / NUMBER_ITEMS_ROW
-        let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)*/
+        self.activityIndicator.startAnimating()
+       
         getPictures();
-        // Do any additional setup after loading the view.
+        super.viewDidLoad()
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,11 +61,17 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-    }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.imageSelected(self.pictures[indexPath.row])
+    }    
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: -60.0, left: 5.0, bottom: 5.0, right: 5.0)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
+        return CGSize(width: (UIScreen.mainScreen().bounds.width/3) - 6, height: (UIScreen.mainScreen().bounds.width/3) - 6)
     }
     
     func getPictures() -> Void
@@ -88,12 +93,11 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
                     self.activityIndicator.stopAnimating()*/
                     return;
                 }
-                var imagen = UIImage();
-                var i = 0;
+                var imagen = UIImage();                
                 // Do something with the found objects
                 self.pictures.removeAll(keepCapacity: true)
                 if let objects = objects as? [PFObject] {
-                    for (i = 0; i < objects.count; i++)
+                    for (var i = 0; i < objects.count; i++)
                     {
                         print("i = \(i) objects.count = \(objects.count)")
                         let object = objects[i]
@@ -110,6 +114,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
                                         {
                                             print("RELOADING")
                                             self.collectionView.reloadData()
+                                            self.activityIndicator.stopAnimating()
                                         }
                                     }
                                     
@@ -123,6 +128,14 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }
+    }
+    
+    
+    func imageSelected(image: UIImage) {
+        let i = FullImageViewController()
+        i.background = captureScreen()
+        self.parentViewController!.presentViewController(i, animated: true, completion: nil)
+        i.loadImage(image)
     }
 
 }
