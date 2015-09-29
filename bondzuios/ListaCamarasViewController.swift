@@ -15,7 +15,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
 
     var animalId: String!;
     var camaras = [Camera]();
-    var player: AVPlayerViewController!
+    var player: AVPlayer!
     let refreshcontrol = UIRefreshControl()    
     
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         
         if(self.player != nil)
         {            
-            if(camara.url == Utiles.urlOfAVPlayer(self.player.player))
+            if(camara.url == Utiles.urlOfAVPlayer(self.player))
             {
                 print("Esta viendo camara: \(camara.descripcion)")
                 cell.accessoryType = .Checkmark
@@ -61,17 +61,17 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         
         if let url = camara.url as NSURL!
         {
-            if(url != Utiles.urlOfAVPlayer(self.player.player))
+            if(url != Utiles.urlOfAVPlayer(self.player))
             {
                 print(url)
                 
                 /*player.movieSourceType = MPMovieSourceType.Streaming*/
                 /*player.contentURL = url;
                 player.prepareToPlay()*/
-                self.player.player = AVPlayer(URL: url)
+                self.player = AVPlayer(URL: url)
                 self.dismissViewControllerAnimated(true, completion: nil)
-                self.player.player?.closedCaptionDisplayEnabled = false;
-                self.player.player?.play()     
+                self.player?.closedCaptionDisplayEnabled = false;
+                self.player?.play()
             }
             else
             {

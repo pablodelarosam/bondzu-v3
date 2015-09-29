@@ -15,7 +15,6 @@ import Parse
 
 class VideoViewController: AVPlayerViewController, UIPopoverPresentationControllerDelegate, NoCamerasDismissedProtocol{
     
-    var moviePlayerController:AVPlayerViewController!
     var url:NSURL!    
     var cameraButton: UIButton!
     let sizeCameraButton: CGFloat = 49
@@ -24,6 +23,17 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     var backgroundImageNoCameras: UIImage!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
+    
+    override func viewDidDisappear(animated: Bool) {
+        player?.pause()
+        player = nil;
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        player = AVPlayer()
+        getFirstCameraAndSetup()
+    }
     
     func dismiss() {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -31,37 +41,16 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //self.activityIndicator.startAnimating()        
-        getFirstCameraAndSetup()
-        self.navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == false, animated: true) 
+        self.navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == false, animated: true)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-    /*override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Landscape
-    }
-    
-    override func shouldAutorotate() -> Bool {
-        return true
-    }*/
-    
-    /*override func prefersStatusBarHidden() -> Bool {
-        return navigationController?.navigationBarHidden == true
-    }
-    
-    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
-        return UIStatusBarAnimation.Fade
-    }*/
     
     func doneButtonClick(notificacion: NSNotification)
     {
         print("Termino video");
-        //self.dismissMoviePlayerViewControllerAnimated()
         self.navigationController?.popViewControllerAnimated(false);
     }
     
@@ -71,7 +60,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         
         let popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController;
         popViewController.animalId = self.animalId                
-        popViewController.player = self;
+        popViewController.player = self.player;
         let navController: UINavigationController = UINavigationController(rootViewController: popViewController)
         navController.modalPresentationStyle = UIModalPresentationStyle.Popover
         popViewController.modalPresentationStyle = .Popover
@@ -122,12 +111,14 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
             
             if error == nil {
                 // The find succeeded.
-                print("Successfully retrieved \(objects!.count) cameras.")
+                //print("Successfully retrieved \(objects!.count) cameras.")
+                
+                
                 if(objects!.isEmpty)
                 {
-                    /*self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
-                    self.setup()*/
-                    self.performSegueWithIdentifier("noCamerasSegue", sender: self)
+                    self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
+                    self.setup()
+                    //self.performSegueWithIdentifier("noCamerasSegue", sender: self)
                     
                     return;
                 }
@@ -145,10 +136,10 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                             _url: object.objectForKey("url") as? String)
                         
                         let url = object.objectForKey("url") as? String
-                        print("url = \(url)")
+                        /*print("url = \(url)")
                         print("desciption = \(newCamera.descripcion)");
                         print("url = \(newCamera.url)");
-                        print("funcionando = \(newCamera.funcionando!)");
+                        print("funcionando = \(newCamera.funcionando!)");*/
                         if(newCamera.funcionando!)
                         {
                             self.url = NSURL(string: url!);
@@ -211,6 +202,10 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doneButtonClick:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
         
+    }
+    
+    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
+        self.popover = nil
     }
 }
 
