@@ -116,10 +116,9 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                 
                 if(objects!.isEmpty)
                 {
-                    self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
-                    self.setup()
-                    //self.performSegueWithIdentifier("noCamerasSegue", sender: self)
-                    
+                    //self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
+                    //self.setup()
+                    self.performSegueWithIdentifier("noCamerasSegue", sender: self)
                     return;
                 }
                 // Do something with the found objects
