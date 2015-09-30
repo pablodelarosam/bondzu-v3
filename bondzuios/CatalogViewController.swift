@@ -26,7 +26,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     let NUMBER_ITEMS_ROW: CGFloat = 3;
     
     var searching = false
-    var animals = [AnimalV2]()
     var searchedAnimals = [AnimalV2]()
     
     
@@ -142,7 +141,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.selectedAnimal = self.animalsToShow[indexPath.row];
+        self.selectedAnimal = searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row];
         performSegueWithIdentifier("catalogSegue", sender: self)
     }
     
@@ -283,7 +282,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     @IBAction func searchButtonPressed(sender: AnyObject) {
-        if searching{
+        if !searchBar.hidden{
             searching = false
             searchBar.resignFirstResponder()
             collectionView.reloadData()
