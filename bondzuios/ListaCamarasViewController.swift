@@ -15,7 +15,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
 
     var animalId: String!;
     var camaras = [Camera]();
-    var player: AVPlayer!
+    var player: AVPlayerViewController!
     let refreshcontrol = UIRefreshControl()    
     
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         
         if(self.player != nil)
         {            
-            if(camara.url == Utiles.urlOfAVPlayer(self.player))
+            if(camara.url == Utiles.urlOfAVPlayer(self.player.player))
             {
                 print("Esta viendo camara: \(camara.descripcion)")
                 cell.accessoryType = .Checkmark
@@ -61,17 +61,19 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         
         if let url = camara.url as NSURL!
         {
-            if(url != Utiles.urlOfAVPlayer(self.player))
+            if(url != Utiles.urlOfAVPlayer(self.player.player))
             {
                 print(url)
                 
                 /*player.movieSourceType = MPMovieSourceType.Streaming*/
                 /*player.contentURL = url;
                 player.prepareToPlay()*/
-                self.player = AVPlayer(URL: url)
+                player.player?.pause()
+                self.player.player = AVPlayer(URL: url)
+                self.player.player?.closedCaptionDisplayEnabled = false;
+                self.player.player?.play()
                 self.dismissViewControllerAnimated(true, completion: nil)
-                self.player?.closedCaptionDisplayEnabled = false;
-                self.player?.play()
+                self.player = nil
             }
             else
             {
@@ -97,6 +99,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     func doneButtonClicked(sender: UIBarButtonItem)
     {
         self.dismissViewControllerAnimated(true, completion: nil);
+        player = nil
     }
     
     func refresh(sender: AnyObject)
@@ -161,5 +164,9 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         // Pass the selected object to the new view controller.
     }
     */
+    
+    deinit{
+        print("PopOver is been dealloced");
+    }
 
 }

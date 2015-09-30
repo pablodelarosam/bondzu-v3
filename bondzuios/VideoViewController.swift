@@ -56,21 +56,17 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     func cameraButtonClicked(sender: AnyObject)
     {
-        print("Camera clicked");
-        
         let popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController;
         popViewController.animalId = self.animalId                
-        popViewController.player = self.player;
+        popViewController.player = self;
         let navController: UINavigationController = UINavigationController(rootViewController: popViewController)
         navController.modalPresentationStyle = UIModalPresentationStyle.Popover
         popViewController.modalPresentationStyle = .Popover
         self.popover = navController.popoverPresentationController as UIPopoverPresentationController!
         popViewController.preferredContentSize = CGSizeMake(200, 200)
         self.popover.delegate = self
-        //self.popover.sourceView = self.moviePlayerController.view
         self.popover.sourceView = self.view;
         self.popover.sourceRect = self.cameraButton.frame        
-        //self.moviePlayerController.presentViewController(navController, animated: true, completion: nil)
         self.presentViewController(navController, animated: true, completion: nil)
         
         /*var popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController
@@ -205,6 +201,10 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
         self.popover = nil
+    }
+    
+    deinit{
+        print("Video View controller is been deallocated")
     }
 }
 
