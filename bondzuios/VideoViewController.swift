@@ -27,6 +27,11 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     override func viewDidDisappear(animated: Bool) {
         player?.pause()
+        if let p = popover{
+            
+            p.delegate = nil
+            popover = nil
+        }
         player = nil;
     }
     
