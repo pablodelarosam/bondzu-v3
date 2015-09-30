@@ -1108,6 +1108,14 @@
                                     <outlet property="delegate" destination="zmZ-TO-0Iz" id="llV-eA-gzF"/>
                                 </connections>
                             </collectionView>
+                            <searchBar hidden="YES" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="lPO-4p-V5A">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <animations/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="zmZ-TO-0Iz" id="eEe-Ou-M7L"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1116,12 +1124,15 @@
                             <constraint firstItem="Pyp-R1-zGu" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="0AE-b0-UJD"/>
                             <constraint firstItem="H2M-B0-EM6" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="3l6-Ay-1gs"/>
                             <constraint firstItem="udw-w0-J2q" firstAttribute="top" secondItem="Wtm-vf-Fu8" secondAttribute="bottom" id="6vt-oV-wG6"/>
+                            <constraint firstItem="lPO-4p-V5A" firstAttribute="leading" secondItem="Pyp-R1-zGu" secondAttribute="leading" id="842-fQ-9JH"/>
                             <constraint firstItem="Wtm-vf-Fu8" firstAttribute="top" secondItem="Pyp-R1-zGu" secondAttribute="bottom" id="959-fC-0eu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lPO-4p-V5A" secondAttribute="trailing" constant="-20" id="9CM-gW-zeZ"/>
                             <constraint firstItem="GVe-ft-3f0" firstAttribute="top" secondItem="udw-w0-J2q" secondAttribute="bottom" id="I0p-6b-Ohi"/>
                             <constraint firstItem="Pyp-R1-zGu" firstAttribute="top" secondItem="8zC-eY-bcc" secondAttribute="bottom" id="JLd-kS-bG0"/>
                             <constraint firstItem="Wtm-vf-Fu8" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="Kbe-hS-oUK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Pyp-R1-zGu" secondAttribute="trailing" constant="-20" id="OqS-IX-JkK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="H2M-B0-EM6" secondAttribute="trailing" constant="-20" id="QqW-AQ-tH3"/>
+                            <constraint firstItem="lPO-4p-V5A" firstAttribute="top" secondItem="Pyp-R1-zGu" secondAttribute="top" id="RFJ-rK-hCt"/>
                             <constraint firstAttribute="trailingMargin" secondItem="udw-w0-J2q" secondAttribute="trailing" constant="-20" id="RTv-ka-gth"/>
                             <constraint firstItem="EQm-oB-lZH" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="T3U-0G-f8K"/>
                             <constraint firstItem="GVe-ft-3f0" firstAttribute="top" secondItem="EQm-oB-lZH" secondAttribute="bottom" id="akP-B5-M0o"/>
@@ -1142,7 +1153,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="jge-UM-bIx">
                             <connections>
-                                <action selector="next:" destination="zmZ-TO-0Iz" id="Bmp-ul-dhv"/>
+                                <action selector="searchButtonPressed:" destination="zmZ-TO-0Iz" id="tVv-bm-hXc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1152,6 +1163,8 @@
                         <outlet property="blurView" destination="EQm-oB-lZH" id="Q70-ff-k6h"/>
                         <outlet property="collectionView" destination="Wtm-vf-Fu8" id="A81-eT-Plc"/>
                         <outlet property="heightBanner" destination="izT-7I-5qA" id="wDL-yP-3Pf"/>
+                        <outlet property="searchBar" destination="lPO-4p-V5A" id="hBY-QX-ddN"/>
+                        <outlet property="searchBarButtonItem" destination="jge-UM-bIx" id="F3D-1b-GYV"/>
                         <outlet property="segementedControl" destination="CNW-Xj-K7h" id="6cu-QN-12G"/>
                         <outlet property="toolbar" destination="Pyp-R1-zGu" id="yfg-lO-QaR"/>
                         <segue destination="I7i-Py-ROq" kind="show" identifier="catalogSegue" id="WDA-SF-nDG"/>

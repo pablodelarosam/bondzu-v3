@@ -9,10 +9,11 @@
 import UIKit
 import Parse
 
-class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate{
 
     var navHairLine:UIImageView? = UIImageView()
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var segementedControl: UISegmentedControl!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var heightBanner: NSLayoutConstraint!
@@ -20,8 +21,16 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var barButtonItem : UIBarButtonItem?
+    
     let NUMBER_ITEMS_ROW: CGFloat = 3;
+    
+    var searching = false
     var animals = [AnimalV2]()
+    var searchedAnimals = [AnimalV2]()
+    
+    
+    
     var animalsToShow = [AnimalV2]()
     var selectedAnimal: AnimalV2!;
     
@@ -32,7 +41,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     @IBOutlet weak var blurView: UIView!
     var backgroundImages = [UIImage]();
     @IBOutlet weak var backgroundImage: UIImageView!
-    
+    @IBOutlet weak var searchBarButtonItem: UIBarButtonItem!
+
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) as UIVisualEffectView
     let animationDuration: NSTimeInterval = 0.9
     let switchingInterval: NSTimeInterval = 5
@@ -102,7 +112,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.animalsToShow.count
+        return searching ? self.searchedAnimals.count : self.animalsToShow.count
     }
 
     
@@ -110,7 +120,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("animalCell", forIndexPath: indexPath) as! AnimalCollectionViewCell
         
-        let animal = self.animalsToShow[indexPath.row] as AnimalV2
+        let animal = searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row]
         cell.nameLabel.text = animal.name;
         cell.speciesLabel.text = animal.specie;
         
@@ -196,29 +206,28 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                 if let objects = objects as? [PFObject] {
                     var i = 0 as Int;
                     for object in objects {
-                        print(object.objectId)
                         i++;
                         
                         let image = object.objectForKey("profilePhoto") as? PFFile;
-                        image?.getDataInBackgroundWithBlock
-                            {
-                                (imageData: NSData?, error: NSError?) -> Void in
-                                let animal = AnimalV2();
-                                if error == nil
+                        if image != nil{
+                            image?.getDataInBackgroundWithBlock
                                 {
-                                    animal.image = UIImage(data: imageData!);
-                                }
-                                animal.name = object.objectForKey("name") as! String;
-                                animal.objectId = object.objectId!;
-                                animal.specie = object.objectForKey("species") as! String;
-                                self.animalsToShow.append(animal);
-                                
-                                //self.activityIndicator.stopAnimating()
-                                //self.updateAnimalsThatShouldShow();
-                                self.collectionView.reloadData();
-                                
+                                    (imageData: NSData?, error: NSError?) -> Void in
+                                    let animal = AnimalV2();
+                                    if error == nil
+                                    {
+                                        animal.image = UIImage(data: imageData!);
+                                    }
+                                    animal.name = object.objectForKey("name") as! String;
+                                    animal.objectId = object.objectId!;
+                                    animal.specie = object.objectForKey("species") as! String;
+                                    self.animalsToShow.append(animal);
+                                    
+                                    //self.activityIndicator.stopAnimating()
+                                    //self.updateAnimalsThatShouldShow();
+                                    self.collectionView.reloadData();
                             }
-                        
+                        }
                     }
                 }
             } else {
@@ -229,4 +238,70 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
 
     }
 
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        guard searchBar.text != nil else{ return }
+        
+        if searchBar.text?.characters.count == 0{
+            searching = false
+            return
+        }
+        
+        searching = true
+        searchBar.resignFirstResponder()
+        searchedAnimals = animalsToShow.filter({ (element) -> Bool in
+            let name = element.name.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
+            let species = element.specie.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
+            
+            if name != nil || species != nil{
+                return true
+            }
+            return false
+        })
+        collectionView.reloadData()
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        guard searchBar.text != nil && searchBar.text?.characters.count != 0 else{
+            searching = false
+            collectionView.reloadData()
+            return
+        }
+        
+        searching = true
+        searchedAnimals = animalsToShow.filter({ (element) -> Bool in
+            let name = element.name.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
+            let species = element.specie.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
+            
+            if name != nil || species != nil{
+                return true
+            }
+            return false
+        })
+        collectionView.reloadData()
+        
+    }
+    
+    @IBAction func searchButtonPressed(sender: AnyObject) {
+        if searching{
+            searching = false
+            searchBar.resignFirstResponder()
+            collectionView.reloadData()
+            searchBar.hidden = true
+            navigationItem.rightBarButtonItem?.target = nil
+            navigationItem.rightBarButtonItem?.action = nil
+            if let bi = barButtonItem{
+                self.navigationItem.rightBarButtonItem = bi
+                barButtonItem = nil
+            }
+        }
+        else{
+            searching = true
+            searchBar.hidden = false
+            searchBar.becomeFirstResponder()
+            barButtonItem = self.navigationItem.rightBarButtonItem
+            let bbi = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "searchButtonPressed:");
+            navigationItem.rightBarButtonItem = bbi;
+        }
+    }
 }
