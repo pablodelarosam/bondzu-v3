@@ -27,6 +27,11 @@ class TabsViewController: UITabBarController {
             {
                 vc.animalId = self.animal.objectId
             }
+            
+            if let vc = viewController as? GalleryViewController
+            {
+                vc.animalId = self.animal.objectId
+            }
         }
         // Do any additional setup after loading the view.
     }

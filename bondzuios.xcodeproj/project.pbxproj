@@ -17,8 +17,9 @@
 		544252871B7BBFAB0077C7A6 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */; };
 		5442528A1B7BF5860077C7A6 /* GiftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544252891B7BF5860077C7A6 /* GiftsViewController.swift */; };
 		5442528C1B7BF64B0077C7A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5442528B1B7BF64B0077C7A6 /* Main.storyboard */; };
-		54571F7E1B7924420092E359 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F7D1B7924420092E359 /* SignUpViewController.swift */; };
-		54571F811B79270C0092E359 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F801B79270C0092E359 /* LoginViewController.swift */; };
+		544677A81BB9EF6500F5B54D /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544677A71BB9EF6500F5B54D /* GalleryCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		54571F7E1B7924420092E359 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F7D1B7924420092E359 /* LoginViewController.swift */; };
+		54571F811B79270C0092E359 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F801B79270C0092E359 /* SignUpViewController.swift */; };
 		54571F841B7928E10092E359 /* Utiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F831B7928E10092E359 /* Utiles.swift */; };
 		54571F861B7928F10092E359 /* Animacion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F851B7928F10092E359 /* Animacion.swift */; };
 		54571F881B792ADE0092E359 /* TabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F871B792ADE0092E359 /* TabsViewController.swift */; };
@@ -96,8 +97,9 @@
 		544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		544252891B7BF5860077C7A6 /* GiftsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftsViewController.swift; sourceTree = "<group>"; };
 		5442528B1B7BF64B0077C7A6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		54571F7D1B7924420092E359 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		54571F801B79270C0092E359 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		544677A71BB9EF6500F5B54D /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
+		54571F7D1B7924420092E359 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		54571F801B79270C0092E359 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		54571F831B7928E10092E359 /* Utiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utiles.swift; sourceTree = "<group>"; };
 		54571F851B7928F10092E359 /* Animacion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animacion.swift; sourceTree = "<group>"; };
 		54571F871B792ADE0092E359 /* TabsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabsViewController.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				54BC54C71B7BF8A1009244C7 /* GalleryViewController.swift */,
+				544677A71BB9EF6500F5B54D /* GalleryCollectionViewCell.swift */,
 			);
 			name = GalleryTab;
 			sourceTree = "<group>";
@@ -596,6 +599,7 @@
 				54E806321BA74DD2007AFD44 /* NoCamerasViewController.swift in Sources */,
 				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
 				B3A29EF61BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift in Sources */,
+				544677A81BB9EF6500F5B54D /* GalleryCollectionViewCell.swift in Sources */,
 				B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */,
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,
 				5489932A1B98BE4400DDF263 /* AnimalV2.swift in Sources */,

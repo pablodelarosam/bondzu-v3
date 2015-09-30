@@ -147,7 +147,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     func getProductsOfAnimalWith(id: String)
     {
         let query = PFQuery(className: "Productos");
-        query.whereKey("animalId", equalTo: id)
+        query.whereKey("animal_Id", equalTo: PFObject(withoutDataWithClassName: "AnimalV2", objectId: self.animalId))
         query.orderByAscending("nombre")
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
@@ -185,19 +185,79 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                                     //var id = object.objectId
                                     
                                     print(object.objectId)
+                                    var nom = "Nombre";
+                                    var cat = "Categoria";
+                                    var animalid = "-1";
+                                    var desc = "Descripcion";
+                                    var precio1 = 100.0;
+                                    var precio2 = 200.0;
+                                    var precio3 = 300.0;
+                                    var disponible = false;
+                                    var info = "Informacion";
+                                    var infoAmount  = "";
+                                    
+                                    if let _nombre = object.objectForKey("nombre") as? String
+                                    {
+                                        nom = _nombre
+                                    }
+                                    
+                                    if let _categoria = object.objectForKey("categoria") as? String
+                                    {
+                                        cat = _categoria
+                                    }
+                                    
+                                    if let _animalId = object.objectForKey("animal_Id") as? String
+                                    {
+                                        animalid = _animalId
+                                    }
+                                    
+                                    if let _descripcion = object.objectForKey("descripcion") as? String
+                                    {
+                                        desc = _descripcion
+                                    }
+                                    
+                                    if let _precio1 = object.objectForKey("precio1") as? Double
+                                    {
+                                        precio1 = _precio1
+                                    }
+                                    
+                                    if let _precio2 = object.objectForKey("precio2") as? Double
+                                    {
+                                        precio2 = _precio2
+                                    }
+                                    
+                                    if let _precio3 = object.objectForKey("precio3") as? Double
+                                    {
+                                        precio3 = _precio3
+                                    }
+                                    
+                                    if let _disp = object.objectForKey("disponible") as? Bool
+                                    {
+                                        disponible = _disp
+                                    }
+                                    
+                                    if let _info = object.objectForKey("info") as? String
+                                    {
+                                        info = _info
+                                    }
+                                    
+                                    if let _infoAmount = object.objectForKey("info_ammount") as? String{
+                                        infoAmount = _infoAmount
+                                    }
+                                    
                                     let producto = Producto(
                                         _id: object.objectId!,
-                                        _nombre: object.objectForKey("nombre") as! String,
+                                        _nombre: nom,
                                         pic: imagen,
-                                        _categoria: object.objectForKey("categoria") as! String,
-                                        _animalId: object.objectForKey("animalId") as! String,
-                                        _descripcion: object.objectForKey("descripcion") as! String,
-                                        _precio1: object.objectForKey("precio1") as! Double,
-                                        _precio2: object.objectForKey("precio2") as! Double,
-                                        _precio3: object.objectForKey("precio3") as! Double,
-                                        _disponible: object.objectForKey("disponible") as! Bool,
-                                        _info: object.objectForKey("info") as! String,
-                                        _infoAmount: object.objectForKey("info_ammount") as! String)
+                                        _categoria: cat,
+                                        _animalId: animalid,
+                                        _descripcion: desc,
+                                        _precio1: precio1,
+                                        _precio2: precio2,
+                                        _precio3: precio3,
+                                        _disponible: disponible,
+                                        _info: info,
+                                        _infoAmount: infoAmount)
                                     
                                     
                                     print("nombre = \(producto.nombre)")
