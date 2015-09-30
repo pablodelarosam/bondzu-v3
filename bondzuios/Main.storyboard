@@ -2166,14 +2166,13 @@
                     <navigationItem key="navigationItem" title="Forgot password?" id="i5T-09-290"/>
                     <connections>
                         <outlet property="forgot" destination="0vz-T2-vwC" id="oSS-e2-Mh4"/>
-                        <outlet property="login" destination="0vz-T2-vwC" id="Z6C-le-X8R"/>
                         <outlet property="mail" destination="leo-1A-LJL" id="9Xj-fO-YB4"/>
                         <outlet property="profile" destination="Oj4-e7-F3i" id="SeA-f8-5qc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CP1-yV-aGc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-785" y="1165"/>
+            <point key="canvasLocation" x="-798" y="1185"/>
         </scene>
     </scenes>
     <resources>
