@@ -61,6 +61,10 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             return 1
         }
         
+        if objects.count == 0{
+            return 1
+        }
+        
         return objects.count
     }
     
@@ -70,6 +74,9 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             return tableView.dequeueReusableCellWithIdentifier("loading")!
         }
         
+        if objects.count == 0{
+            return tableView.dequeueReusableCellWithIdentifier("noMessages")!
+        }
         
         let cell = tableView.dequeueReusableCellWithIdentifier("comment") as! CommunityEntryView
         
