@@ -163,8 +163,12 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         if indexPath.section == 1{
             self.navigationController?.logoutUser()
         }
-        else{
+        else if indexPath.row == 0{
             performSegueWithIdentifier("adoptedAnimals", sender: nil)
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
+        else if indexPath.row == 1{
+            performSegueWithIdentifier("activity", sender: nil)
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
     }

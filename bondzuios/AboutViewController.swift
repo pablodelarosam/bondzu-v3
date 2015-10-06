@@ -33,8 +33,11 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     var animalID = "oDUea7l41Y"
     var animal : PFObject?
     
+    var navBarTitle = "About"
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.navigationController?.navigationBar.topItem?.title = navBarTitle
     }
     
     override func viewWillLayoutSubviews() {
@@ -59,6 +62,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         adopt.text = "Adopt"
         goLive.text = "Go Live"
         goLive.target = showCams
+    
         
         adopt.target = {
             _ in
@@ -124,7 +128,8 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 self.adopt.userInteractionEnabled = true
             }
             
-        
+            
+            
         }
         
         let query = PFQuery(className: "AnimalV2")
@@ -137,6 +142,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 self.animal = animal
                 
                 dispatch_async(dispatch_get_main_queue()){
+                    self.navBarTitle = animal["name"] as! String
                     self.navigationController?.navigationBar.topItem?.title = (animal["name"] as! String)
                     self.lateral.setAdopters((animal["adopters"] as! NSNumber).integerValue)
                     self.speciesLabel.text = (animal["species"] as! String)
