@@ -295,7 +295,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             }
         }
         else{
-            searching = true
             searchBar.hidden = false
             searchBar.becomeFirstResponder()
             barButtonItem = self.navigationItem.rightBarButtonItem
