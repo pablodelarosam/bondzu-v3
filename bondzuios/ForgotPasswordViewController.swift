@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
 
@@ -23,9 +24,9 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         forgot.layer.borderWidth = 2
-        forgot.layer.borderColor = UIColor.whiteColor().CGColor
         forgot.layer.cornerRadius = 10
-        
+        self.forgotPassword.enabled = false;
+        forgot.layer.borderColor = forgot.titleLabel!.textColor.CGColor
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dissmissKeyboards"))
         
         profile.layer.cornerRadius = 75/2
@@ -33,6 +34,76 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
 
     func dissmissKeyboards(){
         mail.resignFirstResponder()
+    }
+    
+    @IBOutlet weak var forgotPassword: UIButton!
+    
+    @IBAction func emailChanged(sender: UITextField) {
+        if(sender.text!.isValidEmail())
+        {
+            self.forgotPassword.enabled = true
+            forgot.layer.borderColor = forgot.titleLabel!.textColor.CGColor
+        }else{
+            self.forgotPassword.enabled = false
+            forgot.layer.borderColor = forgot.titleLabel!.textColor.CGColor
+        }
+    }
+    
+    @IBAction func forgotPassword(sender: UIButton) {
+        checkIfNotFacebookUser(self.mail.text!)
+    }
+    
+    
+    
+    func checkIfNotFacebookUser(email: String)
+    {
+        
+        if let email = self.mail.text as String!{
+            if(email.isValidEmail())
+            {
+                let query = PFUser.query()
+                query?.whereKey("username", equalTo: email)
+                query?.findObjectsInBackgroundWithBlock{
+                    (objects: [AnyObject]?, error: NSError?) -> Void in
+                    if error == nil
+                    {
+                        if(objects?.count >= 1)
+                        {
+                            print(objects)
+                            PFUser.requestPasswordResetForEmailInBackground(email);
+                            
+                            let a = UIAlertController(title: "Done", message: "Check your email to reset your password", preferredStyle: .Alert)
+                            a.addAction(UIAlertAction(title: "Ok",
+                                style: UIAlertActionStyle.Default,
+                                handler: { (alert: UIAlertAction) -> Void in
+                                    self.navigationController?.popToRootViewControllerAnimated(true)
+                            }))
+                            
+                            self.presentViewController(a, animated: true, completion: nil)
+                        }
+                        else
+                        {
+                            let a = UIAlertController(title: "Error", message: "Try to log in using Facebook" , preferredStyle: .Alert)
+                            a.addAction(UIAlertAction(title: "Ok",
+                                style: UIAlertActionStyle.Default,
+                                handler: { (alert: UIAlertAction) -> Void in
+                                    self.navigationController?.popToRootViewControllerAnimated(true)
+                            }))
+                            
+                            self.presentViewController(a, animated: true, completion: nil)
+                        }
+                    }
+                }
+                
+            }else{
+                let a = UIAlertController(title: "Error", message: "Invalid email, please try again", preferredStyle: .Alert)
+                a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                
+                self.presentViewController(a, animated: true, completion: nil)
+            }
+            
+        }
+        
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
