@@ -64,6 +64,8 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         goLive.target = showCams
     
         
+        lateral.moreButton.addTarget(self, action: "segueToEvents", forControlEvents: UIControlEvents.TouchUpInside)
+        
         adopt.target = {
             _ in
             self.adopt.userInteractionEnabled = false
@@ -179,38 +181,24 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                     }
                 }
                 
-                if let events = animal["events"] as? NSArray{
-                    if events.count > 0{
-                        let e  = events[0] as! PFObject
-                        e.fetchInBackgroundWithBlock(){
-                            object, error in
-                            guard error == nil, let event = object else{
-                                return
+                
+                let eventsQuery = PFQuery(className: TableNames.Events_table.rawValue)
+                eventsQuery.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
+                eventsQuery.getFirstObjectInBackgroundWithBlock({
+                    (event, error) -> Void in
+                    
+                    if error == nil && event != nil{
+                        let photoFile = event![TableEventsColumnNames.Image_Name.rawValue] as! PFFile
+                        photoFile.getDataInBackgroundWithBlock({
+                            data, error in
+                            let img = UIImage(data: data!)!
+                            dispatch_async(dispatch_get_main_queue()){
+                                self.lateral.setEventData(img, title: event![TableEventsColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
                             }
-                            
-                            //TODO buscar evento con foto si existe
-                            
-                            if let photo = event["event_photo"] as? PFFile{
-                                photo.getDataInBackgroundWithBlock(){
-                                    data , error in
-                                    dispatch_async(dispatch_get_main_queue()){
-                                        guard error == nil, let imageData = data else{
-                                            self.lateral.setEventData( nil, title: event["title"] as! String)
-                                            return
-                                        }
-                                        
-                                        self.lateral.setEventData( UIImage(data: imageData), title: event["title"] as! String)
-                                    }
-                                }
-                            }
-                            else{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.lateral.setEventData( nil, title: event["title"] as! String)
-                                }
-                            }
-                        }
+                        })
                     }
-                }
+                    
+                })
                 
                 let keepersOptional = animal["keepers"] as? NSArray
                 
@@ -270,9 +258,15 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let liveStreamVC = segue.destinationViewController as! VideoViewController
-        liveStreamVC.animalId = animalID
-        liveStreamVC.backgroundImageNoCameras = takeScreenshot()
+        if segue.identifier == "liveStreamSegue"{
+            let liveStreamVC = segue.destinationViewController as! VideoViewController
+            liveStreamVC.animalId = animalID
+            liveStreamVC.backgroundImageNoCameras = takeScreenshot()
+        }
+        else if segue.identifier == "events"{
+            let eventsVC = segue.destinationViewController as! EventViewControllerTableViewController
+            eventsVC.animal = self.animal!
+        }
     }
     
     func showCams(button: CircledButton)
@@ -301,6 +295,10 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     func appendText(text : String){
         let textDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)]
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(text)", attributes: textDescriptor))
+    }
+    
+    func segueToEvents(){
+        self.performSegueWithIdentifier("events", sender: nil)
     }
     
 }

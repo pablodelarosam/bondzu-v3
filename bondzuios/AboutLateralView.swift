@@ -15,7 +15,7 @@ public class AboutLateralView: UIView {
     private var adoptersLabel = UILabel()
     private var eventImage = UIImageView()
     private var eventLabel = UILabel()
-    private var moreButton = UIButton()
+    public var moreButton = UIButton()
     
     
     public func setAdopters(adopters : Int){

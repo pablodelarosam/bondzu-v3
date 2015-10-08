@@ -59,6 +59,10 @@
 		B34FB9E71B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */; settings = {ASSET_TAGS = (); }; };
 		B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3797FE21B8CC1BE00924080 /* CircledButton.swift */; settings = {ASSET_TAGS = (); }; };
 		B37FC3531BC31F2F00B5692D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3521BC31F2F00B5692D /* Transaction.swift */; settings = {ASSET_TAGS = (); }; };
+		B37FC3561BC4383B00B5692D /* EventViewControllerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3551BC4383B00B5692D /* EventViewControllerTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B37FC3581BC4397700B5692D /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3571BC4397700B5692D /* EventTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		B37FC35A1BC43AB400B5692D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3591BC43AB400B5692D /* Event.swift */; settings = {ASSET_TAGS = (); }; };
+		B37FC35D1BC441C000B5692D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B37FC35F1BC441C000B5692D /* Localizable.strings */; };
 		B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E41B8F5CC100509A72 /* AboutLateralView.swift */; settings = {ASSET_TAGS = (); }; };
 		B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E61B8F6F1800509A72 /* Usuario.swift */; settings = {ASSET_TAGS = (); }; };
 		B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -141,6 +145,11 @@
 		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B37FC3521BC31F2F00B5692D /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		B37FC3551BC4383B00B5692D /* EventViewControllerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewControllerTableViewController.swift; sourceTree = "<group>"; };
+		B37FC3571BC4397700B5692D /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
+		B37FC3591BC43AB400B5692D /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		B37FC35E1BC441C000B5692D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B37FC3601BC4420800B5692D /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B39719E41B8F5CC100509A72 /* AboutLateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutLateralView.swift; sourceTree = "<group>"; };
 		B39719E61B8F6F1800509A72 /* Usuario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Usuario.swift; path = bondzuios/Usuario.swift; sourceTree = "<group>"; };
 		B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
@@ -222,6 +231,7 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
+				B37FC3541BC437D800B5692D /* Events */,
 				B3A29EED1BB9CDDB00F5EB8B /* Account */,
 				542186961B83A79900E6461D /* Extensions */,
 				544252851B7BBF910077C7A6 /* Catalog */,
@@ -280,6 +290,7 @@
 				B39719E61B8F6F1800509A72 /* Usuario.swift */,
 				548993291B98BE4400DDF263 /* AnimalV2.swift */,
 				B37FC3521BC31F2F00B5692D /* Transaction.swift */,
+				B37FC3591BC43AB400B5692D /* Event.swift */,
 			);
 			name = Modelos;
 			path = ..;
@@ -341,6 +352,7 @@
 				54C406481B7D67D20082768B /* Constantes.swift */,
 				B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */,
 				B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */,
+				B37FC35F1BC441C000B5692D /* Localizable.strings */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";
@@ -391,6 +403,15 @@
 				369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B37FC3541BC437D800B5692D /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				B37FC3551BC4383B00B5692D /* EventViewControllerTableViewController.swift */,
+				B37FC3571BC4397700B5692D /* EventTableViewCell.swift */,
+			);
+			name = Events;
 			sourceTree = "<group>";
 		};
 		B3A29EED1BB9CDDB00F5EB8B /* Account */ = {
@@ -497,6 +518,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"es-419",
 			);
 			mainGroup = 54305C9C1B73F809003F9AB0;
 			productRefGroup = 54305CA61B73F809003F9AB0 /* Products */;
@@ -515,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5442528C1B7BF64B0077C7A6 /* Main.storyboard in Resources */,
+				B37FC35D1BC441C000B5692D /* Localizable.strings in Resources */,
 				54305CB51B73F80A003F9AB0 /* LaunchScreen.xib in Resources */,
 				54305CB21B73F80A003F9AB0 /* Images.xcassets in Resources */,
 			);
@@ -585,6 +608,7 @@
 				549760FB1B7B0BED005782A6 /* Camera.swift in Sources */,
 				540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */,
 				B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */,
+				B37FC3561BC4383B00B5692D /* EventViewControllerTableViewController.swift in Sources */,
 				B33AD6D31BBD886700A5FE71 /* ActivityViewController.swift in Sources */,
 				B34FB9E71B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift in Sources */,
 				5442528A1B7BF5860077C7A6 /* GiftsViewController.swift in Sources */,
@@ -593,6 +617,7 @@
 				54BC54C81B7BF8A1009244C7 /* GalleryViewController.swift in Sources */,
 				54E447AA1B74171300BF580F /* Producto.swift in Sources */,
 				54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */,
+				B37FC35A1BC43AB400B5692D /* Event.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
 				546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */,
 				B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */,
@@ -622,6 +647,7 @@
 				54571F811B79270C0092E359 /* SignUpViewController.swift in Sources */,
 				B3D5D8DC1BAB0DFE008F6820 /* LoadingView.swift in Sources */,
 				B37FC3531BC31F2F00B5692D /* Transaction.swift in Sources */,
+				B37FC3581BC4397700B5692D /* EventTableViewCell.swift in Sources */,
 				B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -651,6 +677,15 @@
 				54305CB41B73F80A003F9AB0 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		B37FC35F1BC441C000B5692D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B37FC35E1BC441C000B5692D /* Base */,
+				B37FC3601BC4420800B5692D /* es-419 */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -693,7 +728,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -733,7 +768,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/lmag94/Documents/Bondzu/bondzuios/bondzuios/Bridging-Header.h";
@@ -761,6 +796,7 @@
 				PRODUCT_NAME = Bondzu;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -783,6 +819,7 @@
 				PRODUCT_NAME = Bondzu;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
