@@ -1420,27 +1420,58 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hep-9b-EYc" customClass="YTPlayerView">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            <view hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" horizontalCompressionResistancePriority="755" verticalCompressionResistancePriority="755" translatesAutoresizingMaskIntoConstraints="NO" id="hep-9b-EYc" customClass="YTPlayerView">
+                                <rect key="frame" x="25" y="72" width="550" height="310"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="hep-9b-EYc" secondAttribute="height" multiplier="71:40" id="zO9-eC-yEg"/>
+                                </constraints>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qCv-dC-mhI">
+                                <rect key="frame" x="282" y="208" width="37" height="37"/>
+                                <animations/>
+                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Título del video aquí" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlA-op-F6h">
+                                <rect key="frame" x="181" y="402" width="239" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5f-nZ-h7c">
+                                <rect key="frame" x="25" y="440" width="550" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hep-9b-EYc" firstAttribute="leading" secondItem="jfC-1x-53c" secondAttribute="leadingMargin" constant="-20" id="Dix-lf-yc7"/>
-                            <constraint firstItem="auX-GR-SqT" firstAttribute="top" secondItem="hep-9b-EYc" secondAttribute="bottom" id="Fpa-Ef-5GD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hep-9b-EYc" secondAttribute="trailing" constant="-20" id="Lde-fz-39v"/>
-                            <constraint firstItem="hep-9b-EYc" firstAttribute="top" secondItem="uUo-ED-5dr" secondAttribute="bottom" id="t6w-j7-ASn"/>
+                            <constraint firstItem="hep-9b-EYc" firstAttribute="leading" secondItem="jfC-1x-53c" secondAttribute="leadingMargin" constant="5" id="M0F-6q-yOC"/>
+                            <constraint firstItem="z5f-nZ-h7c" firstAttribute="leading" secondItem="jfC-1x-53c" secondAttribute="leadingMargin" constant="5" id="MdZ-WU-E2s"/>
+                            <constraint firstItem="qCv-dC-mhI" firstAttribute="centerX" secondItem="hep-9b-EYc" secondAttribute="centerX" id="QJ5-pL-zr4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="z5f-nZ-h7c" secondAttribute="trailing" constant="5" id="RNC-Vb-JPY"/>
+                            <constraint firstItem="hep-9b-EYc" firstAttribute="top" secondItem="uUo-ED-5dr" secondAttribute="bottom" constant="8" id="Tlc-NN-V7x"/>
+                            <constraint firstItem="qCv-dC-mhI" firstAttribute="centerY" secondItem="hep-9b-EYc" secondAttribute="centerY" id="bwf-ZN-0Uo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hep-9b-EYc" secondAttribute="trailing" constant="5" id="ghK-i3-jOF"/>
+                            <constraint firstItem="MlA-op-F6h" firstAttribute="centerX" secondItem="jfC-1x-53c" secondAttribute="centerX" id="k5i-iy-1O2"/>
+                            <constraint firstItem="z5f-nZ-h7c" firstAttribute="top" secondItem="MlA-op-F6h" secondAttribute="bottom" constant="8" id="pi9-y2-8nT"/>
+                            <constraint firstItem="MlA-op-F6h" firstAttribute="top" secondItem="hep-9b-EYc" secondAttribute="bottom" constant="20" id="qPZ-hj-bLL"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="c1" destination="Dix-lf-yc7" id="MFg-7V-Miz"/>
-                        <outlet property="c2" destination="Lde-fz-39v" id="alD-f0-JaG"/>
-                        <outlet property="c3" destination="t6w-j7-ASn" id="ofO-Bg-fcD"/>
-                        <outlet property="c4" destination="Fpa-Ef-5GD" id="EFL-GN-rte"/>
+                        <outlet property="c1" destination="zO9-eC-yEg" id="BdS-5b-c6N"/>
+                        <outlet property="c2" destination="ghK-i3-jOF" id="1mW-tM-Vwu"/>
+                        <outlet property="c3" destination="Tlc-NN-V7x" id="SBC-pP-Sky"/>
+                        <outlet property="c4" destination="M0F-6q-yOC" id="DiF-nC-Yql"/>
+                        <outlet property="loadingIndicator" destination="qCv-dC-mhI" id="TYY-Qs-nwJ"/>
                         <outlet property="player" destination="hep-9b-EYc" id="DUE-KK-ZZ3"/>
+                        <outlet property="videoDescription" destination="z5f-nZ-h7c" id="1mY-FI-v42"/>
+                        <outlet property="videoTitle" destination="MlA-op-F6h" id="ylJ-5T-wXu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="43s-Dg-bhZ" userLabel="First Responder" sceneMemberID="firstResponder"/>

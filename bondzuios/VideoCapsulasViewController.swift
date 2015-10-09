@@ -18,14 +18,24 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate {
     @IBOutlet var c3: NSLayoutConstraint!
     @IBOutlet var c4: NSLayoutConstraint!
 
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var player : YTPlayerView!
+    @IBOutlet weak var videoTitle: UILabel!
+    @IBOutlet weak var videoDescription: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        player.loadWithVideoId("zBjrcNL8pGo")
+        player.loadWithVideoId(capsule.videoID[0])
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "enteredFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "exitedFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
+        
+        videoTitle.text = capsule.title[0]
+        videoDescription.text = capsule.videoDescription[0]
+        
+        player.delegate = self
+        
+        navigationItem.title = NSLocalizedString("Video", comment: "")
 
     }
 
@@ -47,5 +57,9 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate {
         view.setNeedsUpdateConstraints()
 
     }
-
+    
+    func playerViewDidBecomeReady(playerView: YTPlayerView!) {
+        self.loadingIndicator.stopAnimating()
+        playerView.hidden = false
+    }
 }
