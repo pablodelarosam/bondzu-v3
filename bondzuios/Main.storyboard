@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5gB-Y4-jP7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5gB-Y4-jP7">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -315,11 +315,11 @@
                                 <rect key="frame" x="0.0" y="66" width="300" height="54"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nwb-QN-1N1" id="0pZ-HY-BXa">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="53.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="53"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F73-PD-tMz">
-                                            <rect key="frame" x="15" y="0.0" width="270" height="53.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="270" height="53"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -1226,13 +1226,16 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="HLT-B6-hUQ"/>
                                     <barButtonItem style="plain" id="IUJ-BD-s7i">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="CNW-Xj-K7h">
-                                            <rect key="frame" x="233" y="6.5" width="133" height="31"/>
+                                            <rect key="frame" x="233" y="7" width="133" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <animations/>
                                             <segments>
                                                 <segment title="Animalia"/>
                                                 <segment title="Video"/>
                                             </segments>
+                                            <connections>
+                                                <action selector="valueChanged:" destination="zmZ-TO-0Iz" eventType="valueChanged" id="fjh-cX-33v"/>
+                                            </connections>
                                         </segmentedControl>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="whQ-jD-Yoj"/>
@@ -1291,7 +1294,7 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rya-MM-4wk">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Camera" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rya-MM-4wk">
                                                     <rect key="frame" x="8" y="116" width="84" height="13"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -1348,7 +1351,7 @@
                             </searchBar>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Wtm-vf-Fu8" secondAttribute="trailing" constant="-20" id="09I-TX-onk"/>
                             <constraint firstItem="Pyp-R1-zGu" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="0AE-b0-UJD"/>
@@ -1398,11 +1401,51 @@
                         <outlet property="segementedControl" destination="CNW-Xj-K7h" id="6cu-QN-12G"/>
                         <outlet property="toolbar" destination="Pyp-R1-zGu" id="yfg-lO-QaR"/>
                         <segue destination="I7i-Py-ROq" kind="show" identifier="catalogSegue" id="WDA-SF-nDG"/>
+                        <segue destination="afL-ll-uJu" kind="show" identifier="capsule" id="xfc-50-eLr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P1S-4P-bCp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-64" y="-229"/>
+        </scene>
+        <!--Video Capsulas View Controller-->
+        <scene sceneID="JET-kS-w4L">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="afL-ll-uJu" customClass="VideoCapsulasViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uUo-ED-5dr"/>
+                        <viewControllerLayoutGuide type="bottom" id="auX-GR-SqT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jfC-1x-53c">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hep-9b-EYc" customClass="YTPlayerView">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hep-9b-EYc" firstAttribute="leading" secondItem="jfC-1x-53c" secondAttribute="leadingMargin" constant="-20" id="Dix-lf-yc7"/>
+                            <constraint firstItem="auX-GR-SqT" firstAttribute="top" secondItem="hep-9b-EYc" secondAttribute="bottom" id="Fpa-Ef-5GD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hep-9b-EYc" secondAttribute="trailing" constant="-20" id="Lde-fz-39v"/>
+                            <constraint firstItem="hep-9b-EYc" firstAttribute="top" secondItem="uUo-ED-5dr" secondAttribute="bottom" id="t6w-j7-ASn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="c1" destination="Dix-lf-yc7" id="MFg-7V-Miz"/>
+                        <outlet property="c2" destination="Lde-fz-39v" id="alD-f0-JaG"/>
+                        <outlet property="c3" destination="t6w-j7-ASn" id="ofO-Bg-fcD"/>
+                        <outlet property="c4" destination="Fpa-Ef-5GD" id="EFL-GN-rte"/>
+                        <outlet property="player" destination="hep-9b-EYc" id="DUE-KK-ZZ3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="43s-Dg-bhZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-48" y="495"/>
         </scene>
         <!--Sign Up-->
         <scene sceneID="VSz-5r-BFZ">
@@ -2107,7 +2150,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="81"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hY8-Bt-18H" id="2II-ir-dM5">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="80.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="H4c-A8-RCH">
@@ -2132,7 +2175,7 @@
                                 <rect key="frame" x="0.0" y="173" width="600" height="81"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="center" tableViewCell="pYr-Yq-HTB" id="EUI-Xt-U15">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="80.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vqy-CD-ais">

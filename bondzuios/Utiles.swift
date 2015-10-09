@@ -38,6 +38,10 @@ func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
     return newImage
 }
 
+
+/*
+    Important. This methods work in background but calls the block in the main thread
+*/
 func getImageInBackground(url string : String, block : (UIImage->Void)){
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
         
@@ -50,6 +54,10 @@ func getImageInBackground(url string : String, block : (UIImage->Void)){
         let data = NSData(contentsOfURL: url)
         
         guard data != nil else{
+            print("error getting image");
+            dispatch_async(dispatch_get_main_queue()){
+                block(UIImage())
+            }
             return
         }
         
