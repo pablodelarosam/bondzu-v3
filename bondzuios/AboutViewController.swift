@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 10/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  ARCHIVO LOCALIZADO
 
 //Ab1234**
 import UIKit
@@ -30,10 +30,10 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var adopt : CircledButton!
     @IBOutlet weak var goLive : CircledButton!
     
-    var animalID = "oDUea7l41Y"
+    var animalID = ""
     var animal : PFObject?
     
-    var navBarTitle = "About"
+    var navBarTitle = NSLocalizedString("About", comment: "")
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -55,26 +55,24 @@ class AboutViewController: UIViewController, UITextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.navigationController?.navigationBar.topItem?.title = "About"
         blurContainer.addSubview(visualEffectView)
         adopt.image = UIImage(named: "whitePaw")
         goLive.image = UIImage(named: "whiteCam")
-        adopt.text = "Adopt"
-        goLive.text = "Go Live"
+        adopt.text = NSLocalizedString("Adopt", comment: "")
+        goLive.text = NSLocalizedString("Go Live", comment: "")
         goLive.target = showCams
     
-        
         lateral.moreButton.addTarget(self, action: "segueToEvents", forControlEvents: UIControlEvents.TouchUpInside)
         
         adopt.target = {
             _ in
             self.adopt.userInteractionEnabled = false
             let user = PFUser.currentUser()!
-            let relation = user.relationForKey("adoptersRelation")
+            let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
             let query = relation.query()
             query?.findObjectsInBackgroundWithBlock(){
                 adopted , error in
-                
+
                 guard self.animal != nil else{
                     return
                 }
@@ -88,8 +86,8 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 for animal in animals{
                     if (animal).objectId == self.animalID{
                         dispatch_async(dispatch_get_main_queue()){
-                            let controller = UIAlertController(title: "Already adopted", message: "You cannot adopt the same animal twice", preferredStyle: UIAlertControllerStyle.Alert)
-                            controller.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {
+                            let controller = UIAlertController(title: NSLocalizedString("Already adopted", comment: ""), message: NSLocalizedString("You cannot adopt the same animal twice", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                            controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
                                 _ in
                             }))
                             self.presentViewController(controller, animated: true, completion: nil)
@@ -98,20 +96,20 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                     }
                 }
                 
-                let relation = user.relationForKey("adoptersRelation")
+                let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
                 relation.addObject(self.animal!)
                 PFUser.currentUser()!.saveInBackgroundWithBlock(){
                     a, b  in
                     dispatch_async(dispatch_get_main_queue()){
                         
-                        let controller = UIAlertController(title: "Thank you!", message: "You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.",     preferredStyle: UIAlertControllerStyle.Alert)
-                        controller.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
+                        let controller = UIAlertController(title: NSLocalizedString("Thank you!", comment: ""), message: NSLocalizedString("You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.", comment: ""),     preferredStyle: UIAlertControllerStyle.Alert)
+                        controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Default, handler: {
                             _ in
                         }))
                         self.presentViewController(controller, animated: true, completion: nil)
                         
                         if let currentAnimal = self.animal{
-                            currentAnimal.incrementKey("adopters", byAmount: 1)
+                            currentAnimal.incrementKey(TableAnimalColumnNames.Adopters.rawValue, byAmount: 1)
                             currentAnimal.saveInBackgroundWithBlock({ b, e  in
                                 if !b || e != nil{
                                     print("Error al actualizar el número de adopters");
@@ -134,7 +132,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
             
         }
         
-        let query = PFQuery(className: "AnimalV2")
+        let query = PFQuery(className: TableNames.Animal_table.rawValue)
         query.getObjectInBackgroundWithId(animalID){
             (animalObject: PFObject?, error: NSError?) -> Void in
             if error == nil{
@@ -144,20 +142,20 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 self.animal = animal
                 
                 dispatch_async(dispatch_get_main_queue()){
-                    self.navBarTitle = animal["name"] as! String
-                    self.navigationController?.navigationBar.topItem?.title = (animal["name"] as! String)
-                    self.lateral.setAdopters((animal["adopters"] as! NSNumber).integerValue)
-                    self.speciesLabel.text = (animal["species"] as! String)
+                    self.navBarTitle = animal[TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
+                    self.navigationController?.navigationBar.topItem?.title = (animal[TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
+                    self.lateral.setAdopters((animal[TableAnimalColumnNames.Adopters.rawValue] as! NSNumber).integerValue)
+                    self.speciesLabel.text = (animal[TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
                     
-                    for (name , value) in animal["characteristics"] as! [String:String]{
+                    for (name , value) in animal[TableAnimalColumnNames.Characteristics.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! [String:String]{
                         self.appendAnimalAttributeWithName(name, value: value)
                     }
                     
-                    self.appendHeadLine("About")
-                    self.appendText(animal["about"] as! String)
+                    self.appendHeadLine(NSLocalizedString("About", comment: ""))
+                    self.appendText(animal[TableAnimalColumnNames.About.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
                 }
                 
-                (animal["profilePhoto"] as! PFFile).getDataInBackgroundWithBlock(){
+                (animal[TableAnimalColumnNames.Photo.rawValue] as! PFFile).getDataInBackgroundWithBlock(){
                     data , error in
                     guard error == nil else{
                         print(error)
@@ -200,9 +198,10 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                     
                 })
                 
-                let keepersOptional = animal["keepers"] as? NSArray
+                let keepersOptional = animal[TableAnimalColumnNames.Keepers.rawValue] as? NSArray
                 
                 guard let keepers = keepersOptional else{
+                    print("El animal elegido no tiene keepers")
                     return
                 }
                 
@@ -215,7 +214,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                             return
                         }
                         
-                        let userObject = k["user"] as! PFObject
+                        let userObject = k[TableKeeperColumnNames.User.rawValue] as! PFObject
                         userObject.fetchIfNeededInBackgroundWithBlock(){
                             user, error in
                             guard error == nil , let selectedUser = user else{
@@ -223,18 +222,30 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                                 return
                             }
                             
-                            let cuidador = Usuario(name: selectedUser["name"] as! String , photo: selectedUser["photo"] as! String)
-                            cuidador.loadImage()
-                            cuidador.imageLoaderObserver = self.lateral.photoReady
                             
-                            if(count == 0){
-                                self.lateral.keeper1 = cuidador
+                            
+                            
+                            var cuidador : Usuario?
+                            
+                            if let pictureString = selectedUser[TableUserColumnNames.PhotoURL.rawValue] as? String{
+                                cuidador = Usuario(name: selectedUser[TableUserColumnNames.Name.rawValue] as! String , photo: pictureString)
                             }
-                            else{
-                                self.lateral.keeper2 = cuidador
+                            else if let pictureFile = selectedUser[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
+                                cuidador = Usuario(name: selectedUser[TableUserColumnNames.Name.rawValue] as! String, photoFile: pictureFile)
                             }
                             
-                            count++
+                            if cuidador != nil{
+                                cuidador!.imageLoaderObserver = self.lateral.photoReady
+            
+                                if(count == 0){
+                                    self.lateral.keeper1 = cuidador!
+                                }
+                                else{
+                                    self.lateral.keeper2 = cuidador!
+                                }
+                                
+                                count++
+                            }
                         }
                     })
                 }

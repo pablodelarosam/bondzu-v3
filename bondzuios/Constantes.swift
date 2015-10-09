@@ -22,6 +22,7 @@ let LOCALIZED_STRING = "locale"
 enum TableNames : String{
     case Events_table = "Calendar"
     case VideoCapsule_table = "Video"
+    case Animal_table = "AnimalV2"
 }
 
 enum TableVideoCapsuleNames : String{
@@ -44,4 +45,22 @@ enum TableEventsColumnNames : String{
 
 enum TableAnimalColumnNames : String{
     case Name = "name"
+    case Adopters = "adopters"
+    case Species = "species"
+    case Characteristics = "characteristics"
+    case About = "about"
+    case Photo = "profilePhoto"
+    case Keepers = "keepers"
+    
+}
+
+enum TableUserColumnNames : String{
+    case AdoptedAnimalsRelation = "adoptersRelation"
+    case PhotoURL = "photo"
+    case PhotoFile = "photoFile"
+    case Name = "name"
+}
+
+enum TableKeeperColumnNames : String{
+    case User = "user"
 }
