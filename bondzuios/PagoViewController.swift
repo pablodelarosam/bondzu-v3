@@ -8,6 +8,7 @@
 
 import UIKit
 import Stripe
+import Parse
 
 class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
 
@@ -26,7 +27,11 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
     @IBOutlet weak var switchSaveCard: UISwitch!
     var buttonDone: UIBarButtonItem!;
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     var producto: Producto!
+    
+    var txtCardValid = false;
+    var switchEnabled: Bool!;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +41,8 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
         self.txtAmount.enabled = false;
         self.buttonDone.enabled = false;
         self.paymentView.delegate = self;
+        self.activityIndicator.stopAnimating()
+        self.switchSaveCard.setOn(switchEnabled, animated: true)
         // Do any additional setup after loading the view.
     }
 
@@ -47,35 +54,31 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
     func nextButtonClicked(sender: AnyObject?)
     {
         print("Pay View Controller Next")
+        self.view.endEditing(true)
+        
+        let payment = Payments()
+        
+        
+        self.activityIndicator.startAnimating()
         let card = STPCard();
         card.number = self.paymentView.cardNumber;
         card.expMonth = self.paymentView.card!.expMonth;
         card.expYear = self.paymentView.card!.expYear;
         card.cvc = self.paymentView.card?.cvc;
         
-        STPAPIClient.sharedClient().createTokenWithCard(card, completion: { (token, error) -> Void in
-            if (error != nil)
-            {
-                print("ERROR");
-            }
-            else
-            {
-                if token != nil
-                {
-                    self.createBackendChargeWithToken(token!)
-                }
-            }
-        });
+        payment.makePaymentToCurrentUser(card: card, controller: self, amount: self.txtAmount.text!, activityIndicator: self.activityIndicator, saveCard: self.switchSaveCard.on, paymentView: self.paymentView, descripcion: self.producto!.descripcion)
     }
     
-    func createBackendChargeWithToken(token: STPToken)
-    {
-        print("Send token");
+    
+    @IBAction func txtNameChanged(sender: UITextField) {
+        self.buttonDone.enabled = (!sender.text!.isEmpty && self.txtCardValid)
     }
     
     func paymentCardTextFieldDidChange(textField: STPPaymentCardTextField) {
-        self.buttonDone.enabled = textField.valid;
+        self.buttonDone.enabled = textField.valid && !self.txtName.text!.isEmpty;
+        self.txtCardValid = textField.valid
     }
+    
     
 
     /*
