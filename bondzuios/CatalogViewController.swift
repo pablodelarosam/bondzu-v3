@@ -127,14 +127,13 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
 
 	    /*var initialThumbnail = UIImage(named: "question")
 	    cell.imageView.image = initialThumbnail*/
-	    let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
+	    /*let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
             dispatch_async(dispatch_get_global_queue(priority, 0)) {
                 // do some task
                 let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / self.NUMBER_ITEMS_ROW, height:self.screenWidth / self.NUMBER_ITEMS_ROW))
                 dispatch_async(dispatch_get_main_queue()) {
                     // update some UI
                     cell.imageView.image = photoFinal
-                    Imagenes.redondeaVista(cell.imageView, radio: cell.imageView.frame.size.width / 2);
                 }            
             }*/
 
@@ -146,7 +145,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             let photoFinal = imageWithImage(capsule.image, scaledToSize: CGSize(width:self.screenWidth / NUMBER_ITEMS_ROW, height:self.screenWidth / NUMBER_ITEMS_ROW))
             cell.imageView.image = photoFinal
         }
-        
+        Imagenes.redondeaVista(cell.imageView, radio: cell.imageView.frame.size.width / 2);
         cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;
         cell.imageView.layer.borderWidth = 5;
         return cell
