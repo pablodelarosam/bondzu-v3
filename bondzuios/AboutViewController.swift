@@ -222,9 +222,6 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                                 return
                             }
                             
-                            
-                            
-                            
                             var cuidador : Usuario?
                             
                             if let pictureString = selectedUser[TableUserColumnNames.PhotoURL.rawValue] as? String{

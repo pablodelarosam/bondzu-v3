@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 8/27/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+// ARCHIVO LOCALIZADO
 
 import UIKit
 
@@ -108,9 +108,9 @@ public class AboutLateralView: UIView {
         }
         
         
-        titleLabels[0].text = "Events"
-        titleLabels[1].text = "Keepers"
-        titleLabels[2].text = "Adopters"
+        titleLabels[0].text = NSLocalizedString("Events", comment: "")
+        titleLabels[1].text = NSLocalizedString("Keepers", comment: "")
+        titleLabels[2].text = NSLocalizedString("Adopters", comment: "")
         
         adoptersLabel.text = "0"
         adoptersLabel.font = adoptersLabel.font.fontWithSize(35)
@@ -139,13 +139,13 @@ public class AboutLateralView: UIView {
         addSubview(eventLabel)
         
         moreButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-        moreButton.setTitle("More", forState: .Normal)
+        moreButton.setTitle(NSLocalizedString("More", comment: ""), forState: .Normal)
         moreButton.titleLabel!.font = moreButton.titleLabel!.font.fontWithSize(7)
         addSubview(moreButton)
         
         addSubview(eventImage)
 
-        eventLabel.text = "No events found"
+        eventLabel.text = NSLocalizedString("No events found", comment: "")
         eventLabel.backgroundColor = UIColor.clearColor()
     }
     
@@ -253,14 +253,4 @@ public class AboutLateralView: UIView {
         setNeedsLayout()
     }
     
-    
-    
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }

@@ -6,10 +6,7 @@
   Copyright © 2015 Bondzu. All rights reserved.
 */
 
-"locale" = "";
-
-//Last update up here
-
+"locale" = "_en";
 "Error" = "Error";
 "Unable to store in calendar" = "Unable to store in calendar";
 "Done" = "Done";
@@ -24,3 +21,8 @@
 "Thank you!" = "Thank you!";
 "You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!." = "You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.";
 "OK" = "OK";
+"Events" = "Events";
+"Keepers" = "Keepers";
+"Adopters" = "Adopters";
+"More" = "More";
+"No events found" = "No events found";
