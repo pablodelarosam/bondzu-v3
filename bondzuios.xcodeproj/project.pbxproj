@@ -424,8 +424,8 @@
 			isa = PBXGroup;
 			children = (
 				B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */,
-				B3A29EF31BBAF05200F5EB8B /* AdopedAnimalsViewController.swift */,
 				B3A29EF51BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift */,
+				B3A29EF31BBAF05200F5EB8B /* AdopedAnimalsViewController.swift */,
 				B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */,
 				549417921BC6E185001A0A5E /* CardsTableViewController.swift */,
 			);

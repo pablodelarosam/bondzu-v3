@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 9/29/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo Localizado
 
 import UIKit
 
@@ -16,13 +16,10 @@ class AdoptedAnimalTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

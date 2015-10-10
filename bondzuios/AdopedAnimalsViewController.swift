@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 9/29/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo Localizado
 
 import UIKit
 import Parse
@@ -16,12 +16,12 @@ class AdopedAnimalsViewController: UITableViewController {
     var images : [UIImage?]!
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationItem.title = "Adopted Animals"
+        self.navigationItem.title = NSLocalizedString("Adopted Animals", comment: "")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let relation = PFUser.currentUser()!["adoptersRelation"] as! PFRelation
+        let relation = PFUser.currentUser()![TableUserColumnNames.AdoptedAnimalsRelation.rawValue] as! PFRelation
         let query = relation.query()!
         query.findObjectsInBackgroundWithBlock { (animals, error) -> Void in
             if error != nil{
@@ -32,7 +32,7 @@ class AdopedAnimalsViewController: UITableViewController {
             self.animals = animals as! [PFObject]
             
             for i in self.animals{
-                let file = i["profilePhoto"] as! PFFile
+                let file = i[TableAnimalColumnNames.Photo.rawValue] as! PFFile
                 file.getDataInBackgroundWithBlock({ (data, error) -> Void in
                     if data != nil && error == nil{
                         let img = UIImage(data: data!)
@@ -56,7 +56,6 @@ class AdopedAnimalsViewController: UITableViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
@@ -79,25 +78,12 @@ class AdopedAnimalsViewController: UITableViewController {
         if !loaded{
             return tableView.dequeueReusableCellWithIdentifier("Loading")!
         }
-    
         let cell = tableView.dequeueReusableCellWithIdentifier("content") as! AdoptedAnimalTableViewCell
         cell.animalImage.image = images[indexPath.row]
         Imagenes.redondeaVista(cell.animalImage, radio: cell.animalImage.frame.width / 2)
-        cell.name.text = (animals[indexPath.row]["name"] as! String)
-        cell.animalDescription.text = (animals[indexPath.row]["species"] as! String)
-        
-        
-        
+        cell.name.text = (animals[indexPath.row][TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
+        cell.animalDescription.text = (animals[indexPath.row][TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
         return cell
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 

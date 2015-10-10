@@ -21,7 +21,7 @@ class Transaction: NSObject {
     
     
     var price : Int{
-        return transaction["precio"] as! Int
+        return transaction[TableTransactionColumnNames.Price.rawValue] as! Int
     }
     
     var date : NSDate{
@@ -36,12 +36,13 @@ class Transaction: NSObject {
         transaction = object
         super.init()
                 
-        let producto = transaction["productoid"] as! PFObject
+        let producto = transaction[TableTransactionColumnNames.Product.rawValue] as! PFObject
         producto.fetchIfNeededInBackgroundWithBlock {
             (productoObtenido, error) -> Void in
             if error == nil && productoObtenido != nil{
-                self.itemDescrption = productoObtenido!["nombre"] as! String
-                if let animal = productoObtenido!["animal_Id"] as? PFObject{
+                print(TableProductColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: ""))
+                self.itemDescrption = productoObtenido![TableProductColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
+                if let animal = productoObtenido![TableProductColumnNames.AnimalID.rawValue] as? PFObject{
                     animal.fetchIfNeededInBackgroundWithBlock({ (animal, error) -> Void in
                         
                         guard error == nil else{
@@ -51,10 +52,10 @@ class Transaction: NSObject {
                         }
                         
                         let animalV2 = AnimalV2()
-                        animalV2.name = animal!["name"] as! String
+                        animalV2.name = animal![TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
                         animalV2.objectId = animal!.objectId!
                         self.animal = animalV2
-                        let file = animal!["profilePhoto"] as! PFFile
+                        let file = animal![TableAnimalColumnNames.Photo.rawValue] as! PFFile
                         file.getDataInBackgroundWithBlock({ (data, error) -> Void in
                             if error == nil && data != nil{
                                 let image = UIImage(data: data!)

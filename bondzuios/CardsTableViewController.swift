@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 08/10/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo Localizado
 
 import UIKit
 import Parse
@@ -14,18 +14,12 @@ class CardsTableViewController: UITableViewController {
     var cards = [Card]();
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationItem.title = "Payment"
+        self.navigationItem.title = NSLocalizedString("Payment", comment: "")
         super.viewDidAppear(animated)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl?.beginRefreshing()
         self.tableView.setContentOffset(CGPoint(x: 0,y: self.tableView.contentOffset.y - self.refreshControl!.frame.size.height), animated: true)
@@ -48,25 +42,21 @@ class CardsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return self.cards.count
     }
     
-    func refresh(sender: AnyObject)
-    {
+    func refresh(sender: AnyObject){
         self.getCards()
     }
     
-    func getCards()
-    {
+    func getCards(){
         
         PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
-            let id = PFUser.currentUser()!["stripeId"] as! String!
+            let id = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
             let dic : [String: String] =
             [
                 "customer_id" : id
@@ -74,10 +64,12 @@ class CardsTableViewController: UITableViewController {
             PFCloud.callFunctionInBackground("listCards", withParameters: dic) { (object , error) -> Void in
                 if(error != nil)
                 {
-                    self.refreshControl?.endRefreshing()
-                    let alert = UIAlertController(title: "Error", message: "Something went wront, please try again later", preferredStyle: .Alert);
-                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.refreshControl?.endRefreshing()
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert);
+                        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
                 }
                 else
                 {
@@ -125,15 +117,12 @@ class CardsTableViewController: UITableViewController {
             }
         })
     }
-
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cardCell", forIndexPath: indexPath)
         
-        cell.textLabel?.text = "\(self.cards[indexPath.row].brand) - Last 4 digits: \(self.cards[indexPath.row].number!)";
+        cell.textLabel?.text = "\(self.cards[indexPath.row].brand) " + NSLocalizedString("- Last 4 digits:", comment: "") + " \(self.cards[indexPath.row].number!)";
         cell.detailTextLabel?.text = "\(self.cards[indexPath.row].monthExp!) / \(self.cards[indexPath.row].yearExp!)"
-        // Configure the cell...
-
         return cell
     }
 
@@ -142,15 +131,15 @@ class CardsTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let addAsFriendAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete", handler: {(action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+        let addAsFriendAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: NSLocalizedString("Delete", comment: ""), handler: {(action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             
-            let addMenu = UIAlertController(title: nil, message: "Delete credit card: \(self.cards[indexPath.row].number)", preferredStyle: .ActionSheet);
+            let addMenu = UIAlertController(title: nil, message: NSLocalizedString("Delete credit card:", comment: "") +  " \(self.cards[indexPath.row].number)", preferredStyle: .ActionSheet);
             
-            let acceptAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: {(action:UIAlertAction!) -> Void in
+            let acceptAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Default, handler: {(action:UIAlertAction!) -> Void in
                 self.removeCard(self.cards[indexPath.row], index: indexPath.row);
             })
             
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: nil)
             addMenu.addAction(acceptAction)
             addMenu.addAction(cancelAction)
             tableView.setEditing(false, animated: true)
@@ -162,9 +151,8 @@ class CardsTableViewController: UITableViewController {
         return [addAsFriendAction]
     }
 
-    func removeCard(card: Card, index: Int)
-    {
-        let cus_id = PFUser.currentUser()!["stripeId"] as! String!
+    func removeCard(card: Card, index: Int){
+        let cus_id = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
         let card_id = card.id
         let dic : [String: String] =
         [
@@ -175,44 +163,15 @@ class CardsTableViewController: UITableViewController {
         PFCloud.callFunctionInBackground("deleteCard", withParameters: dic) { (object, error) -> Void in
             if(error != nil)
             {
-                let a = UIAlertController(title: "Error", message: "The credit card could not be removed", preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The credit card could not be removed", comment: ""), preferredStyle: .Alert)
+                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                 self.presentViewController(a, animated: true, completion: nil)
-            }else{
+            }
+            else{
                 self.cards.removeAtIndex(index)
                 self.tableView.reloadData()
             }
         }
     }
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

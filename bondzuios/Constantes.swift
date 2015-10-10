@@ -23,6 +23,7 @@ enum TableNames : String{
     case Events_table = "Calendar"
     case VideoCapsule_table = "Video"
     case Animal_table = "AnimalV2"
+    case Transactions = "Transacciones"
 }
 
 enum TableVideoCapsuleNames : String{
@@ -51,7 +52,7 @@ enum TableAnimalColumnNames : String{
     case About = "about"
     case Photo = "profilePhoto"
     case Keepers = "keepers"
-    
+    case Product = "Productos"
 }
 
 enum TableUserColumnNames : String{
@@ -59,8 +60,22 @@ enum TableUserColumnNames : String{
     case PhotoURL = "photo"
     case PhotoFile = "photoFile"
     case Name = "name"
+    case StripeID = "stripeId"
 }
 
 enum TableKeeperColumnNames : String{
     case User = "user"
+    case Name = "name"
+}
+
+enum TableTransactionColumnNames : String{
+    case User = "userid"
+    case Price = "precio"
+    case Product = "productoid"
+}
+
+enum TableProductColumnNames : String{
+    case Name = "nombre"
+    case Description = "descripcion"
+    case AnimalID = "animal_Id"
 }

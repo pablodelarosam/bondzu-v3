@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 9/28/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+// ARCHIVO LOCALIZADO
 
 import UIKit
 import Parse
@@ -37,29 +37,29 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             switch indexPath.row{
             case 0:
-                 cell.textLabel!.text = "Adoptions"
+                 cell.textLabel!.text = NSLocalizedString("Adoptions", comment: "")
             case 1:
-                 cell.textLabel!.text = "Activity"
+                 cell.textLabel!.text = NSLocalizedString("Activity", comment: "")
             case 2:
-                 cell.textLabel!.text = "Payment"
+                 cell.textLabel!.text = NSLocalizedString("Payment", comment: "")
             default:
-                cell.textLabel!.text = "Logout"
+                cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
             }
             cell.accessoryType = .DisclosureIndicator
             return cell
         }
         else{
             let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-            cell.textLabel!.text = "Logout"
+            cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
             return cell
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        name.text = (PFUser.currentUser()!["name"] as! String)
+        name.text = (PFUser.currentUser()![TableUserColumnNames.Name.rawValue] as! String)
         self.originalImage = imageView.image
-        if let photo = PFUser.currentUser()!["photo"] as? String{
+        if let photo = PFUser.currentUser()![TableUserColumnNames.PhotoURL.rawValue] as? String{
             getImageInBackground(url: photo){
                 image in
                 if !self.changedImage{
@@ -69,7 +69,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
             }
         }
-        else if let photo = PFUser.currentUser()!["photoFile"] as? PFFile{
+        else if let photo = PFUser.currentUser()![TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
             photo.getDataInBackgroundWithBlock({ (data, error) -> Void in
                 guard error == nil && !self.changedImage, let imageData = data else{
                     return
@@ -88,13 +88,12 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func changeIcon(){
-        let controller = UIAlertController(title: "Attach image", message: "Select an image to set as profile picture", preferredStyle: .ActionSheet)
+        let controller = UIAlertController(title: NSLocalizedString("Attach image", comment: ""), message: NSLocalizedString("Select an image to set as profile picture", comment: ""), preferredStyle: .ActionSheet)
         
-        controller.addAction(UIAlertAction(title: "Take picture", style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Take picture", comment: ""), style: .Default, handler: {
             a in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
                 let controller = UIImagePickerController()
@@ -105,7 +104,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.presentViewController(controller, animated: true, completion: nil)
             }
         }))
-        controller.addAction(UIAlertAction(title: "Select from library", style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Select from library", comment: ""), style: .Default, handler: {
             a in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
                 let controller = UIImagePickerController()
@@ -117,7 +116,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }))
         
-        controller.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: {
             _ in
         }))
         
@@ -146,8 +145,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let file = PFFile(data: UIImagePNGRepresentation(imageView.image!)!)
         let user = PFUser.currentUser()!
-        user["photo" ] = NSNull()
-        user["photoFile"] = file
+        user[TableUserColumnNames.PhotoURL.rawValue] = NSNull()
+        user[TableUserColumnNames.PhotoFile.rawValue] = file
         user.saveInBackgroundWithBlock { (salvado, error) -> Void in
             if error != nil{
                 print("No se guardo \(error?.description)")
@@ -177,16 +176,5 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

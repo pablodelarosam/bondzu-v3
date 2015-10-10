@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 10/1/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 import Parse
@@ -17,14 +17,14 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.title = "Activity"
+        self.navigationItem.title = NSLocalizedString("Activity", comment: "")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let q = PFQuery(className: "Transacciones")
-        q.whereKey("userid", equalTo: PFUser.currentUser()!)
+        let q = PFQuery(className: TableNames.Transactions.rawValue)
+        q.whereKey(TableTransactionColumnNames.User.rawValue, equalTo: PFUser.currentUser()!)
         q.findObjectsInBackgroundWithBlock { (arr, error) -> Void in
             if error == nil, let array = arr{
                 self.toLoad = array.count + 1
@@ -44,7 +44,6 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -94,16 +93,7 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         return nil
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
 
 
