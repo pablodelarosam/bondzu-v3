@@ -118,6 +118,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("animalCell", forIndexPath: indexPath) as! AnimalCollectionViewCell
+        cell.layer.shouldRasterize = true;
+        cell.layer.rasterizationScale = UIScreen.mainScreen().scale;
         
         let animal = searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row]
         cell.nameLabel.text = animal.name;
@@ -128,15 +130,24 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         var initialThumbnail = UIImage(named: "question")
         cell.imageView.image = initialThumbnail*/
         
-        let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / NUMBER_ITEMS_ROW, height:self.screenWidth / NUMBER_ITEMS_ROW))
-        cell.imageView.image = photoFinal
         
-        Imagenes.redondeaVista(cell.imageView, radio: cell.imageView.frame.size.width / 2);
+        let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            // do some task
+            let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / self.NUMBER_ITEMS_ROW, height:self.screenWidth / self.NUMBER_ITEMS_ROW))
+            dispatch_async(dispatch_get_main_queue()) {
+                // update some UI
+                cell.imageView.image = photoFinal
+                Imagenes.redondeaVista(cell.imageView, radio: cell.imageView.frame.size.width / 2);
+            }            
+        }
+        
         cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;
         cell.imageView.layer.borderWidth = 5;
         
         /*cell.layer.borderColor = UIColor.whiteColor().CGColor;
-        cell.layer.borderWidth = 1;*/
+        cell.layer.borderWidth = 1;*/                
+        
         return cell
     }
     
