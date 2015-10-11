@@ -321,8 +321,8 @@
 		544252851B7BBF910077C7A6 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
-				544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */,
 				548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */,
+				544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */,
 			);
 			name = Catalog;
 			sourceTree = "<group>";
