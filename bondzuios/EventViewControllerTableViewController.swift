@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 10/6/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 import Parse
@@ -18,7 +18,7 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
     var events = [Event]()
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationItem.title = "Events"
+        self.navigationItem.title = NSLocalizedString("Events", comment: "")
         super.viewWillAppear(animated)
     }
     

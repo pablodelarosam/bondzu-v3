@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 12/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import Foundation
 import Parse
@@ -20,15 +20,15 @@ class Animal: PFObject, PFSubclassing
     
     //TODO Actualizar para AnimalV2
     class func parseClassName() -> String {
-        return "AnimalV2"
+        return TableNames.Animal_table.rawValue
     }
     
     var id: String? {
         get {
-            return self["objectId"] as? String
+            return self[TableAnimalColumnNames.ID.rawValue] as? String
         }
         set {
-            self["objectId"] = newValue
+            self[TableAnimalColumnNames.ID.rawValue] = newValue
         }
     }
     

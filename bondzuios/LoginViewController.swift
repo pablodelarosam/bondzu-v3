@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 10/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 import Parse
@@ -22,7 +22,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     var loading : LoadingView?
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationItem.title = "Log In"
+        self.navigationItem.title = NSLocalizedString("Log In", comment: "")
         super.viewDidAppear(animated)
     }
     
@@ -79,8 +79,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 dispatch_async(dispatch_get_main_queue()){
                     self.loading?.finish()
                     self.loading = nil
-                    let a  = UIAlertController(title: "Error", message: "Unable to sign up", preferredStyle: UIAlertControllerStyle.Alert)
-                    a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to sign up", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     self.presentViewController(a, animated: true, completion: nil)
                 }
             }
@@ -89,18 +89,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     (connection, dic, error) -> Void in
                     if let dictionary = dic as? Dictionary<String, AnyObject>{
                         let user = PFUser.currentUser()!
-                        user["name"] = dictionary["name"] as! String
+                        user[TableUserColumnNames.Name.rawValue] = dictionary["name"] as! String
                         user.password = "\(random())"
-                        user["email"] = dictionary["email"] as! String
-                        user["photo"] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
+                        user[TableUserColumnNames.Mail.rawValue] = dictionary["email"] as! String
+                        user[TableUserColumnNames.PhotoURL.rawValue] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
                         user.saveInBackgroundWithBlock({
                             (saved, error) -> Void in
                             if error != nil{
                                 dispatch_async(dispatch_get_main_queue()){
                                     self.loading?.finish()
                                     self.loading = nil
-                                    let a  = UIAlertController(title: "Error", message: "Unable to sign up", preferredStyle: UIAlertControllerStyle.Alert)
-                                    a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+                                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to sign up", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                                     self.presentViewController(a, animated: true, completion: nil)
                                 }
                                 print(error)
@@ -171,14 +171,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     {
         
         guard mail.text?.characters.count != 0 else{
-            let alert = UIAlertController(title: "Empty mail", message: "Please introduce your mail", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {_ in self.mail.becomeFirstResponder()}))
+            let alert = UIAlertController(title: NSLocalizedString("Empty mail", comment: ""), message: NSLocalizedString("Invalid email, please try again", comment: ""), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.mail.becomeFirstResponder()}))
             self.presentViewController(alert, animated: true, completion: nil)
             return
         }
         guard pass.text?.characters.count >= 1 else{
-            let alert = UIAlertController(title: "Empty password", message: "Please introduce your password", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {_ in self.pass.becomeFirstResponder()}))
+            let alert = UIAlertController(title: NSLocalizedString("Empty password", comment: ""), message: NSLocalizedString("Please introduce your password", comment: ""), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.pass.becomeFirstResponder()}))
             self.presentViewController(alert, animated: true, completion: nil)
             return
         }
@@ -191,8 +191,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 dispatch_async(dispatch_get_main_queue()){
                     self.loading?.finish()
                     self.loading = nil
-                    let ac = UIAlertController(title: "Error", message: "Unable to login.\nPlease check your login data and your Internet connection", preferredStyle: .Alert)
-                    ac.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to login.\nPlease check your login data and your Internet connection", comment: ""), preferredStyle: .Alert)
+                    ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     self.presentViewController(ac, animated: true, completion: nil)
                 }
 
@@ -209,8 +209,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 dispatch_async(dispatch_get_main_queue()){
                     self.loading?.finish()
                     self.loading = nil
-                    let ac = UIAlertController(title: "Error", message: "Unable to login.\nPlease check your login data", preferredStyle: .Alert)
-                    ac.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to login.\nPlease check your login data and your Internet connection", comment: ""), preferredStyle: .Alert)
+                    ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     self.presentViewController(ac, animated: true, completion: nil)
                 }
             }

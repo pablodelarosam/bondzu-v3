@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 9/10/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizdado
 
 import UIKit
 
@@ -44,11 +44,11 @@ class CommunityReplyEntryCellTableViewCell: UITableViewCell {
         let seconds = now.timeIntervalSinceDate(date)
         
         if seconds < 86400{
-            timeLabel.text = "today"
+            timeLabel.text = NSLocalizedString("Today", comment: "")
         }
         else{
             let days = Int(seconds / 86400)
-            timeLabel.text = "\(days) " + (days == 1 ? "day ago" : "days ago")
+            timeLabel.text = "\(days) " + (days == 1 ? NSLocalizedString("day ago", comment: "") : NSLocalizedString("days ago", comment: ""))
         }
         
         hidden = false

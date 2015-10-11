@@ -12,8 +12,11 @@ import UIKit
 class Constantes
 {
     static let COLOR_NARANJA_NAVBAR:UIColor = UIColor.orangeColor()
+    #if DEBUG
     static let STRIPE_PLUBISHABLE_KEY = "pk_test_5A3XM2TUHd6pob50dw7jhxA0"
-    
+    #else
+    static let STRIPE_PLUBISHABLE_KEY = "pk_test_5A3XM2TUHd6pob50dw7jhxA0"
+    #endif
 }
 
 let LOCALIZED_STRING = "locale"
@@ -23,7 +26,11 @@ enum TableNames : String{
     case Events_table = "Calendar"
     case VideoCapsule_table = "Video"
     case Animal_table = "AnimalV2"
-    case Transactions = "Transacciones"
+    case Transactions_table = "Transacciones"
+    case Messages_table = "Messages"
+    case Reply_table = "Comment"
+    case Gallery_table = "Gallery"
+    case Products = "Productos"
 }
 
 enum TableVideoCapsuleNames : String{
@@ -53,6 +60,7 @@ enum TableAnimalColumnNames : String{
     case Photo = "profilePhoto"
     case Keepers = "keepers"
     case Product = "Productos"
+    case ID = "objectId"
 }
 
 enum TableUserColumnNames : String{
@@ -61,6 +69,8 @@ enum TableUserColumnNames : String{
     case PhotoFile = "photoFile"
     case Name = "name"
     case StripeID = "stripeId"
+    case UserName = "username"
+    case Mail = "email"
 }
 
 enum TableKeeperColumnNames : String{
@@ -78,4 +88,33 @@ enum TableProductColumnNames : String{
     case Name = "nombre"
     case Description = "descripcion"
     case AnimalID = "animal_Id"
+    case Picture = "photo"
+    case Category = "categoria"
+    case Price1 = "precio1"
+    case Price2 = "precio2"
+    case Price3 = "precio3"
+    case Available = "disponible"
+    case Information = "info"
+    case InformationUsage = "info_ammount"
+}
+
+enum TableMessagesColumnNames : String{
+    case Date = "createdAt"
+    case Message = "message"
+    case Animal = "animal_Id"
+    case LikesRelation = "likesRelation"
+    case Photo = "photo_message"
+    case User = "id_user"
+}
+
+enum TableReplyColumnNames : String{
+    case Message = "message"
+    case Date = "createdAt"
+    case ParentMessage = "parent"
+    case User = "id_user"
+}
+
+enum TableGalleryColumnNames : String{
+    case Animal = "animal_id"
+    case Image = "image"
 }

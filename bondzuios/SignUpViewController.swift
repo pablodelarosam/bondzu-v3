@@ -380,9 +380,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         hasImage = false
         profile.image = UIImage(named: "profile_pic")
     }
-    
-    //TODO agregar loading view a community y reply
-    
+        
     //TODO ver porque en community no jala el indicator
 
 }

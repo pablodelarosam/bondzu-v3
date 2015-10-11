@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 12/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 import Parse
@@ -19,7 +19,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = "Gallery"
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Gallery", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
         super.viewDidAppear(animated)
     }
@@ -47,18 +47,10 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("picCell", forIndexPath: indexPath) as! GalleryCollectionViewCell
-        
         let img = self.pictures[indexPath.row] as UIImage
-        
-        // Imagen en caso de que no haya
-        /*
-        var initialThumbnail = UIImage(named: "question")
-        cell.imageView.image = initialThumbnail*/
-        
-        /*let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / NUMBER_ITEMS_ROW, height:self.screenWidth / NUMBER_ITEMS_ROW))*/
         cell.imageView.image = img
-        
         return cell
+        
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -74,10 +66,9 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
         return CGSize(width: (UIScreen.mainScreen().bounds.width/3) - 6, height: (UIScreen.mainScreen().bounds.width/3) - 6)
     }
     
-    func getPictures() -> Void
-    {
-        let query = PFQuery(className:"Gallery")
-        query.whereKey("animal_id", equalTo: PFObject(withoutDataWithClassName: "AnimalV2", objectId: self.animalId))
+    func getPictures() -> Void{
+        let query = PFQuery(className:TableNames.Gallery_table.rawValue)
+        query.whereKey(TableGalleryColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
         
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
@@ -101,7 +92,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
                     {
                         print("i = \(i) objects.count = \(objects.count)")
                         let object = objects[i]
-                        if let img = object.objectForKey("image") as? PFFile
+                        if let img = object.objectForKey(TableGalleryColumnNames.Image.rawValue) as? PFFile
                         {
                             let image = img
                             image.getDataInBackgroundWithBlock {

@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 17/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo Localizado
 
 import UIKit
 import Parse
@@ -35,7 +35,7 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         self.txtDescription.text = self.producto.infoAmount;
         self.txtDescription.font = UIFont.systemFontOfSize(18);
         self.navigationItem.title = self.producto.nombre
-        let buttonBack = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Done, target: self, action: "backButtonClicked:");
+        let buttonBack = UIBarButtonItem(title: NSLocalizedString("Back", comment: ""), style: UIBarButtonItemStyle.Done, target: self, action: "backButtonClicked:");
         self.navigationItem.leftBarButtonItem = buttonBack
         self.navigationController?.navigationBar.barStyle = .Black;
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR;
@@ -49,14 +49,13 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func donate(sender: UIButton) {
         print("DONATE");
         self.activityIndicator.startAnimating()
         PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
-            let id = PFUser.currentUser()!["stripeId"] as! String!
+            let id = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
             let dic : [String: String] =
             [
                 "customer_id" : id
@@ -65,8 +64,8 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 if(error != nil)
                 {
                     self.activityIndicator.stopAnimating()
-                    let alert = UIAlertController(title: "Error", message: "Something went wront, please try again later", preferredStyle: .Alert);
-                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert);
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
                 else
@@ -137,10 +136,10 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                                         alertTableView.userInteractionEnabled = true
                                         alertTableView.allowsSelection = true
                                         
-                                        self.alertController = UIAlertController(title: "Cards", message: "Please select a card", preferredStyle: UIAlertControllerStyle.Alert)
+                                        self.alertController = UIAlertController(title: NSLocalizedString("Cards", comment: ""), message: NSLocalizedString("Please select a card", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
                                         self.alertController.setValue(vController, forKey: "contentViewController")
-                                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil)
-                                        let addAction = UIAlertAction(title: "Add a new card", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                                        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
+                                        let addAction = UIAlertAction(title: NSLocalizedString("Add a new card", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                                             self.saveCardSwitchEnabled = true;
                                             self.performSegueWithIdentifier("paySegue", sender: self)
                                         })
@@ -176,13 +175,14 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.alertController.dismissViewControllerAnimated(true, completion: nil)
         let cardSelected = self.cards[indexPath.row] as Card;
-        let alert = UIAlertController(title: "Payment", message: "Please provide the CVC (3 numbers at the back of your card) of the card with last 4 digits: \(cardSelected.number) in order to complete the payment", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: NSLocalizedString("Payment", comment: ""), message:String(format: NSLocalizedString("Please provide the CVC (3 numbers at the back of your card) of the card with last 4 digits: %@ in order to complete the payment", comment: ""), arguments: ["\(cardSelected.number)"])
+            , preferredStyle: UIAlertControllerStyle.Alert)
         alert.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            textField.placeholder = "cvc"
+            textField.placeholder = NSLocalizedString("cvc", comment: "")
             textField.keyboardType = UIKeyboardType.DecimalPad
         }
         
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
             
             let txtFieldCvv = alert.textFields![0] as UITextField
             if(txtFieldCvv.text?.characters.count >= 3)
@@ -194,7 +194,7 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil));
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil));
         
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -222,20 +222,8 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
     }
-    func backButtonClicked(sender: UIBarButtonItem)
-    {
+    func backButtonClicked(sender: UIBarButtonItem){
         self.dismissViewControllerAnimated(true, completion: nil);
     }
-
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

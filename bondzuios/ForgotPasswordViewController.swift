@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 9/28/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 import Parse
@@ -62,7 +62,7 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
             if(email.isValidEmail())
             {
                 let query = PFUser.query()
-                query?.whereKey("username", equalTo: email)
+                query?.whereKey(TableUserColumnNames.UserName.rawValue, equalTo: email)
                 query?.findObjectsInBackgroundWithBlock{
                     (objects: [AnyObject]?, error: NSError?) -> Void in
                     if error == nil
@@ -72,8 +72,8 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
                             print(objects)
                             PFUser.requestPasswordResetForEmailInBackground(email);
                             
-                            let a = UIAlertController(title: "Done", message: "Check your email to reset your password", preferredStyle: .Alert)
-                            a.addAction(UIAlertAction(title: "Ok",
+                            let a = UIAlertController(title: NSLocalizedString("Done", comment: ""), message: NSLocalizedString("Check your email to reset your password", comment: ""), preferredStyle: .Alert)
+                            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
                                 style: UIAlertActionStyle.Default,
                                 handler: { (alert: UIAlertAction) -> Void in
                                     self.navigationController?.popToRootViewControllerAnimated(true)
@@ -83,8 +83,8 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
                         }
                         else
                         {
-                            let a = UIAlertController(title: "Error", message: "Try to log in using Facebook" , preferredStyle: .Alert)
-                            a.addAction(UIAlertAction(title: "Ok",
+                            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Try to log in using Facebook" , comment: ""), preferredStyle: .Alert)
+                            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
                                 style: UIAlertActionStyle.Default,
                                 handler: { (alert: UIAlertAction) -> Void in
                                     self.navigationController?.popToRootViewControllerAnimated(true)
@@ -96,8 +96,8 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
                 }
                 
             }else{
-                let a = UIAlertController(title: "Error", message: "Invalid email, please try again", preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Invalid email, please try again", comment: ""), preferredStyle: .Alert)
+                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                 
                 self.presentViewController(a, animated: true, completion: nil)
             }

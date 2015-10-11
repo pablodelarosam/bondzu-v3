@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 9/8/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 
@@ -35,7 +35,7 @@ class TextFieldWithImageButton: UIView, UITextFieldDelegate  {
     func load(){
         
         imageView.image = UIImage(named: "camera_icon")
-        text.placeholder = "Share your thoughts..."
+        text.placeholder = NSLocalizedString("Share your thoughts...", comment: "")
         
         backgroundColor = UIColor.lightGrayColor()
         text.backgroundColor = UIColor.whiteColor()

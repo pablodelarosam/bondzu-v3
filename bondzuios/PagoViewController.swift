@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 19/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 import Stripe
@@ -35,7 +35,7 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.buttonDone = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: "nextButtonClicked:");
+        self.buttonDone = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: UIBarButtonItemStyle.Done, target: self, action: "nextButtonClicked:");
         self.navigationItem.rightBarButtonItem = buttonDone
         self.txtAmount.text = "\(self.producto.precio1)";
         self.txtAmount.enabled = false;

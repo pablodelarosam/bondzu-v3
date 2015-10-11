@@ -4,11 +4,11 @@
 //
 //  Created by Ricardo Lopez Focil on 9/3/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo Localizado
 
 import UIKit
 
-protocol CommunitEntryEvent{
+@objc protocol CommunitEntryEvent{
     
     //Funcion que informa cuando alguien da like
     func like(messageId : String, like : Bool)
@@ -46,7 +46,7 @@ class CommunityEntryView: UITableViewCell {
     var likeCount = 0;
 
     
-    var delegate : CommunitEntryEvent?
+    weak var delegate : CommunitEntryEvent?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -92,11 +92,11 @@ class CommunityEntryView: UITableViewCell {
         let seconds = now.timeIntervalSinceDate(date)
         
         if seconds < 86400{
-            timeLabel.text = "today"
+            timeLabel.text = NSLocalizedString("Today", comment: "")
         }
         else{
             let days = Int(seconds / 86400)
-            timeLabel.text = "\(days) " + (days == 1 ? "day ago" : "days ago")
+            timeLabel.text = "\(days) " + (days == 1 ? NSLocalizedString("day ago", comment: "") : NSLocalizedString("days ago", comment: ""))
         }
         
         heartImageView.highlighted = hasLiked
@@ -144,14 +144,14 @@ class CommunityEntryView: UITableViewCell {
         likesLabel.adjustsFontSizeToFitWidth = true
         addSubview(likesLabel)
     
-        replyButton.setTitle("Reply", forState: .Normal)
+        replyButton.setTitle(NSLocalizedString("Reply", comment: ""), forState: .Normal)
         replyButton.titleLabel?.font = likesLabel.font
         replyButton.tintColor = UIColor.lightGrayColor()
         replyButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
         replyButton.addTarget(self, action: "reply", forControlEvents: UIControlEvents.TouchUpInside)
         addSubview(replyButton)
 
-        reportButton.setTitle("Report", forState: .Normal)
+        reportButton.setTitle(NSLocalizedString("Report", comment: ""), forState: .Normal)
         reportButton.titleLabel?.font = likesLabel.font
         reportButton.tintColor = UIColor.lightGrayColor()
         reportButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)

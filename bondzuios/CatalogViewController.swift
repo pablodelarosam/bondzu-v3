@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 12/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo Localizado
 
 import UIKit
 import Parse
@@ -82,7 +82,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = "Home"
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Home", comment: "")
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -123,17 +123,14 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / NUMBER_ITEMS_ROW, height:self.screenWidth / NUMBER_ITEMS_ROW))
             cell.imageView.image = photoFinal
 
-
-
-	    /*var initialThumbnail = UIImage(named: "question")
-	    cell.imageView.image = initialThumbnail*/
-	    /*let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
+            /*var initialThumbnail = UIImage(named: "question")
+            cell.imageView.image = initialThumbnail*/
+            /*let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
             dispatch_async(dispatch_get_global_queue(priority, 0)) {
                 // do some task
                 let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / self.NUMBER_ITEMS_ROW, height:self.screenWidth / self.NUMBER_ITEMS_ROW))
                 dispatch_async(dispatch_get_main_queue()) {
-                    // update some UI
-                    cell.imageView.image = photoFinal
+                cell.imageView.image = photoFinal
                 }            
             }*/
 
@@ -198,22 +195,20 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func getAnimals(){
-        let query = PFQuery(className:"AnimalV2")
-        query.whereKeyExists("objectId");
-        query.orderByAscending("name");
+        let query = PFQuery(className:TableNames.Animal_table.rawValue)
+        query.whereKeyExists(TableAnimalColumnNames.ID.rawValue);
+        query.orderByAscending(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: ""));
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
-            
             if error == nil {
                 // The find succeeded.
                 print("Successfully retrieved \(objects!.count) animals.")
-                // Do something with the found objects
                 if let objects = objects as? [PFObject] {
                     var i = 0 as Int;
                     for object in objects {
                         i++;
                         
-                        let image = object.objectForKey("profilePhoto") as? PFFile;
+                        let image = object.objectForKey(TableAnimalColumnNames.Photo.rawValue) as? PFFile;
                         if image != nil{
                             image?.getDataInBackgroundWithBlock
                                 {
@@ -223,9 +218,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                                     {
                                         animal.image = UIImage(data: imageData!);
                                     }
-                                    animal.name = object.objectForKey("name") as! String;
+                                    animal.name = object.objectForKey(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
                                     animal.objectId = object.objectId!;
-                                    animal.specie = object.objectForKey("species") as! String;
+                                    animal.specie = object.objectForKey(TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
                                     self.animalsToShow.append(animal);
                                     if self.segementedControl.selectedSegmentIndex == 0{
                                         self.collectionView.reloadData();
@@ -235,7 +230,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                     }
                 }
             } else {
-                // Log details of the failure
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }

@@ -23,7 +23,7 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let q = PFQuery(className: TableNames.Transactions.rawValue)
+        let q = PFQuery(className: TableNames.Transactions_table.rawValue)
         q.whereKey(TableTransactionColumnNames.User.rawValue, equalTo: PFUser.currentUser()!)
         q.findObjectsInBackgroundWithBlock { (arr, error) -> Void in
             if error == nil, let array = arr{

@@ -4,10 +4,11 @@
 //
 //  Created by Ricardo Lopez on 12/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 //NOTA: El codigo en reply es copiado de esta clase. Por tanto, si se realizan cambios a secciones como ver imagen, like etc se deberá modificar en ambos códigos. La herencia no es posible debido al cambio en el modelo de datos.
 //TODO: Código homogeneo para funciones como like
+
 
 import UIKit
 import Parse
@@ -35,7 +36,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     @IBOutlet weak var textField: TextFieldWithImageButton!
 
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = "Community"
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Community", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
         super.viewDidAppear(animated)
     }
@@ -53,7 +54,6 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -86,12 +86,12 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             objects[indexPath.row].notifyOnReady.append((self.tableView,indexPath))
         }
         
-        guard self.objects[indexPath.row].name != nil && self.objects[indexPath.row].message["message"] != nil else{
+        guard self.objects[indexPath.row].name != nil && self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] != nil else{
             
             let name = self.objects[indexPath.row].name == nil ? "" : self.objects[indexPath.row].name!
-            let message = self.objects[indexPath.row].message["message"] == nil ? "" : self.objects[indexPath.row].message["message"] as! String
+            let message = self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] == nil ? "" : self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] as! String
             
-            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: name, message: message , image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message["photo_message"] != nil , hasLiked: false, likeCount: 0)
+            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: name, message: message , image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message[TableMessagesColumnNames.Photo.rawValue] != nil , hasLiked: false, likeCount: 0)
             
             objects[indexPath.row].notifyOnReady.append((tableView, indexPath))
             
@@ -99,12 +99,11 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         }
         
         if likesLoaded{
-            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: self.objects[indexPath.row].name, message: self.objects[indexPath.row].message["message"] as! String, image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message["photo_message"] != nil , hasLiked: likes[indexPath.row].1, likeCount: likes[indexPath.row].0)
+            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: self.objects[indexPath.row].name, message: self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] as! String, image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message[TableMessagesColumnNames.Photo.rawValue] != nil , hasLiked: likes[indexPath.row].1, likeCount: likes[indexPath.row].0)
 
         }
         else{
-            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: self.objects[indexPath.row].name, message: self.objects[indexPath.row].message["message"] as! String, image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message["photo_message"] != nil , hasLiked: false, likeCount: 0)
-
+            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: self.objects[indexPath.row].name, message: self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] as! String, image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message[TableMessagesColumnNames.Photo.rawValue] != nil , hasLiked: false, likeCount: 0)
         }
         
         return cell
@@ -114,19 +113,18 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         return 90
     }
     
-    
     func query(){
-        let query = PFQuery(className: "Messages")
-        query.orderByDescending("createdAt")
-        query.whereKeyExists("message")
-        query.whereKey("animal_Id", equalTo: PFObject(withoutDataWithClassName: "AnimalV2", objectId: animalID))
+        let query = PFQuery(className: TableNames.Messages_table.rawValue)
+        query.orderByDescending(TableMessagesColumnNames.Date.rawValue)
+        query.whereKeyExists(TableMessagesColumnNames.Message.rawValue)
+        query.whereKey(TableMessagesColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: animalID))
         query.findObjectsInBackgroundWithBlock(){
             array, error in
             
             guard error == nil else{
                 dispatch_async(dispatch_get_main_queue()){
-                    let controller = UIAlertController(title: "Cannot load community", message: "Please check your Internet conection and try again", preferredStyle: UIAlertControllerStyle.Alert)
-                    controller.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: {
+                    let controller = UIAlertController(title: NSLocalizedString("Cannot load community", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                    controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
                         _ in
                         controller.dismissViewControllerAnimated(false){
                             self.tabBarController?.selectedIndex = 0
@@ -177,15 +175,14 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         
     }
     
-    
     //CALL ASYNC
     func getLikes(){
         let uid = PFUser.currentUser()?.objectId!
         for object in objects{
             var valor = (0,false)
-            if let i = object.message["likesRelation"] as? [String]{
-                valor.0 = i.count
+            if let i = object.message[TableMessagesColumnNames.LikesRelation.rawValue] as? [String]{
                 
+                valor.0 = i.count
                 
                 for ids in i{
                     if ids == uid{
@@ -211,7 +208,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         
         for j in 0..<objects.count{
             if objects[j].message.objectId! == messageId{
-                i.loadParseImage(objects[j].message["photo_message"] as! PFFile)
+                i.loadParseImage(objects[j].message[TableMessagesColumnNames.Photo.rawValue] as! PFFile)
                 break
             }
         }
@@ -241,20 +238,18 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                         return
                     }
                     
-                    if let array = newMessage["likesRelation"] as? [String]{
+                    if let array = newMessage[TableMessagesColumnNames.LikesRelation.rawValue] as? [String]{
                         if like{
                             if !array.contains(PFUser.currentUser()!.objectId!){
                                 var newArray = array
                                 newArray.append(PFUser.currentUser()!.objectId!)
-                                self.objects[i].message["likesRelation"] = newArray
+                                self.objects[i].message[TableMessagesColumnNames.LikesRelation.rawValue] = newArray
                                 self.objects[i].message.saveInBackgroundWithBlock(){
                                     bool , error in
                                     guard error == nil && bool else{
                                         destroy()
                                         return
                                     }
-                                    
-                                    print("LIKE")
                                 }
                             }
                         }
@@ -270,29 +265,25 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                                     }
                                 }
                                 
-                                self.objects[i].message["likesRelation"] = newArray
+                                self.objects[i].message[TableMessagesColumnNames.LikesRelation.rawValue] = newArray
                                 self.objects[i].message.saveInBackgroundWithBlock(){
                                     bool , error in
                                     guard error == nil && bool else{
                                         destroy()
                                         return
                                     }
-                                    
-                                    print("UNLIKE")
                                 }
                             }
                         }
                     }
                     else if like{
-                        newMessage["likesRelation"] = [PFUser.currentUser()!.objectId!]
+                        newMessage[TableMessagesColumnNames.LikesRelation.rawValue] = [PFUser.currentUser()!.objectId!]
                         self.objects[i].message.saveInBackgroundWithBlock(){
                             bool , error in
                             guard error == nil && bool else{
                                 destroy()
                                 return
                             }
-                            
-                            print("LIKE")
                         }
                     }
                 })
@@ -305,8 +296,8 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     func report(messageId : String){
     
         if(!MFMailComposeViewController.canSendMail()){
-            let a = UIAlertController(title: "Error", message: "Your device is not configured to send mail", preferredStyle: .Alert)
-            a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Your device is not configured to send mail", comment: ""), preferredStyle: .Alert)
+            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
             presentViewController(a, animated: true, completion: nil)
             return
         }
@@ -314,8 +305,8 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         //reports@bondzu.com
         let controller = MFMailComposeViewController()
         controller.setToRecipients(["reports@bondzu.com"])
-        controller.setSubject("Inappropriate message")
-        controller.setMessageBody("Hello.\nI think this message is inappropiate\n\n[Please do no dot delete this information]\nMessage id: \(messageId)", isHTML: false)
+        controller.setSubject(NSLocalizedString("Inappropriate message", comment: ""))
+        controller.setMessageBody(NSLocalizedString("Hello.\nI think this message is inappropiate\n\n[Please do no dot delete this information]\nMessage id:", comment: "") + " \(messageId)", isHTML: false)
         controller.delegate = self
         controller.mailComposeDelegate = self
         presentViewController(controller, animated: true, completion: nil)
@@ -331,9 +322,9 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     }
     
     func pressedButton(){
-        let controller = UIAlertController(title: "Attach image", message: "Select an image to attach to your comment", preferredStyle: .ActionSheet)
+        let controller = UIAlertController(title: NSLocalizedString("Attach image", comment: ""), message: NSLocalizedString("Select an image to attach to your comment", comment: ""), preferredStyle: .ActionSheet)
         
-        controller.addAction(UIAlertAction(title: "Take picture", style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Take picture", comment: ""), style: .Default, handler: {
             a in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
                 let controller = UIImagePickerController()
@@ -344,7 +335,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                 self.presentViewController(controller, animated: true, completion: nil)
             }
         }))
-        controller.addAction(UIAlertAction(title: "Select from library", style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Select from library", comment: ""), style: .Default, handler: {
             a in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
                 let controller = UIImagePickerController()
@@ -356,14 +347,14 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             }
         }))
         if(hasImage){
-            controller.addAction(UIAlertAction(title: "Delete image", style: .Destructive, handler: {
+            controller.addAction(UIAlertAction(title: NSLocalizedString("Delete image", comment: ""), style: .Destructive, handler: {
                 a in
                 self.textField.imageView.image = UIImage(named: "camera_icon")
                 self.hasImage = false
             }))
         }
         
-        controller.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: {
             a in
         }))
         
@@ -372,8 +363,8 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     
     func sendButtonPressed(){
         guard let text = textField.text.text   where  textField.text.text!.characters.count != 0 else{
-            let controller = UIAlertController(title: "Empty message", message: "Your message should not be empty", preferredStyle: UIAlertControllerStyle.Alert)
-            controller.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: {
+            let controller = UIAlertController(title: NSLocalizedString("Empty message", comment: ""), message: NSLocalizedString("Your message should not be empty", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+            controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Cancel, handler: {
                 _ in
                 controller.dismissViewControllerAnimated(false, completion: nil)
             }))
@@ -382,18 +373,18 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         }
         
         
-        let comment = PFObject(className: "Messages")
+        let comment = PFObject(className: TableNames.Messages_table.rawValue)
         
         
         let animalObject =  Animal(withoutDataWithObjectId: animalID)
         
-        comment["animal_Id"] = animalObject
-        comment["message"] = text
-        comment["id_user"] = PFUser.currentUser()!
-        comment["likesRelation"] = [String]()
+        comment[TableMessagesColumnNames.Animal.rawValue] = animalObject
+        comment[TableMessagesColumnNames.Message.rawValue] = text
+        comment[TableMessagesColumnNames.User.rawValue] = PFUser.currentUser()!
+        comment[TableMessagesColumnNames.LikesRelation.rawValue] = [String]()
         
         if(hasImage){
-            comment["photo_message"] = PFFile(name: "image.png", data: UIImagePNGRepresentation(textField.imageView.image!)!)
+            comment[TableMessagesColumnNames.Photo.rawValue] = PFFile(name: "image.png", data: UIImagePNGRepresentation(textField.imageView.image!)!)
         }
         
         textField.userInteractionEnabled = false
@@ -405,8 +396,8 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             self.textField.userInteractionEnabled = true
             
             guard error == nil && bool else{
-                let controller = UIAlertController(title: "Error", message: "Please check your internet connection and try again later", preferredStyle: UIAlertControllerStyle.Alert)
-                controller.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: {
+                let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Cancel, handler: {
                     _ in
                     controller.dismissViewControllerAnimated(false, completion: nil)
                 }))
@@ -429,7 +420,6 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         if let info = notification.userInfo{
             if let frame = info[UIKeyboardFrameEndUserInfoKey]?.CGRectValue{
                 guard tabBarController != nil else{
-                    print("AY NANITA")
                     return
                 }
                 self.view.frame.origin.y = 0 - frame.height + (self.tabBarController?.tabBar.frame.size.height)!
@@ -450,10 +440,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     func dissmisKeyboard(){
         self.textField.text.resignFirstResponder()
     }
-
     
-    
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "reply"{
@@ -487,25 +474,14 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?){
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 /*ALERTA. ESTAS EN OTRA CLASE */
@@ -528,14 +504,14 @@ class CommunityViewDataManager{
         
         loadReadyDelegate = delegate
         
-        let user = message["id_user"] as! PFObject
+        let user = message[TableMessagesColumnNames.User.rawValue] as! PFObject
         user.fetchInBackgroundWithBlock(){
             object, error in
             guard error == nil , let user = object else{
                 return
             }
             
-            self.name = user["name"] as! String
+            self.name = user[TableUserColumnNames.Name.rawValue] as! String
             self.loadReadyDelegate()
             
             for (tv , ip) in self.notifyOnReady{
@@ -544,7 +520,7 @@ class CommunityViewDataManager{
             
             self.notifyOnReady.removeAll()
             
-            if let profilePic = user["photo"] as? String{
+            if let profilePic = user[TableUserColumnNames.PhotoURL.rawValue] as? String{
             
                 getImageInBackground(url: profilePic){
                     image in
@@ -557,7 +533,7 @@ class CommunityViewDataManager{
                     
                 }
             }
-            else if let profilePic = user["photoFile"] as? PFFile{
+            else if let profilePic = user[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
                 profilePic.getDataInBackgroundWithBlock(
                     { (data, error) -> Void in
                         guard error == nil, let imageData = data else{

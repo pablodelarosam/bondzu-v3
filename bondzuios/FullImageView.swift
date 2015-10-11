@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 9/9/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo Localizado
 
 import UIKit
 import Parse
@@ -116,7 +116,7 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
                 self.frame = CGRect(x: 0, y: 0, width: w.bounds.width, height: w.bounds.height)
             }
             
-            button.setTitle("Done", forState: UIControlState.Normal)
+            button.setTitle(NSLocalizedString("Done", comment: ""), forState: UIControlState.Normal)
         
             
             activityIndicatorView.hidesWhenStopped = true
