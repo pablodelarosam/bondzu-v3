@@ -40,3 +40,54 @@
 "Delete" = "Delete";
 "Delete credit card:" = "Delete credit card:";
 "The credit card could not be removed" = "The credit card could not be removed";
+"Home" = "Home"; //String que representa la pantalla de inicio
+"Community" = "Community";
+"Cannot load community" = "Cannot load community";
+"Please check your Internet conection and try again" = "Please check your Internet conection and try again later";
+"Your device is not configured to send mail" = "Your device is not configured to send mail";
+"Hello.\nI think this message is inappropiate\n\n[Please do no dot delete this information]\nMessage id:" = "Hello.\nI think this message is inappropiate\n\n[Please do no dot delete this information]\nMessage id:";
+"Select an image to attach to your comment" = "Select an image to attach to your comment";
+"Delete image" = "Delete image";
+"Empty message" = "Empty message";
+"Your message should not be empty" = "Your message should not be empty";
+"Reply" = "Reply";
+"Inappropriate message" = "Inappropriate message";
+"Today" = "Today";
+"day ago" = "day ago";
+"days ago" = "days ago";
+"Report" = "Report";
+"Share your thoughts..." = "Share your thoughts...";
+"Gallery" = "Gallery";
+"Back" = "Back";
+"Cards" = "Cards"; //Tarjetas de debito o crédito
+"Please select a card" = "Please select a card";
+"Add a new card" = "Add a new card";
+"Payment" = "Payment";
+"Please provide the CVC (3 numbers at the back of your card) of the card with last 4 digits: %@ in order to complete the payment" = "Please provide the CVC (3 numbers at the back of your card) of the card with last 4 digits: %@ in order to complete the payment";
+"cvc" = "cvc"; //Codigo de verificacion de la tarjeta
+"Name" = "Name";
+"Category" = "Category";
+"Description" = "Description";
+"Information" = "Information";
+"Gifts" = "Gifts";
+"Next" = "Next";
+"Comida" = "Food"; //NAME OF CATEGORY IN PARSE.Table products
+"Medicina" = "Medications"; //NAME OF CATEGORY IN PARSE.Table products
+"Juguetes" = "Toys"; //NAME OF CATEGORY IN PARSE.Table products
+"Recuerdos" = "To remember me forever"; //NAME OF CATEGORY IN PARSE. Table products
+
+
+
+//
+"The transaction could not be completed" = "The transaction could not be completed";
+"Great!" = "Great!";
+"Thanks for your helpful donation" = "Thanks for your helpful donation";
+"Check your email to reset your password" = "Check your email to reset your password";
+"Try to log in using Facebook" = "Try to log in using Facebook";
+"Invalid email, please try again" = "Invalid email, please try again";
+"Log In" = "Log In";
+"Unable to sign up" = "Unable to sign up";
+"Empty mail" = "Empty mail";
+"Empty password" = "Empty password";
+"Please introduce your password" = "Please introduce your password"
+"Unable to login.\nPlease check your login data and your Internet connection" = "Unable to login.\nPlease check your login data and your Internet connection";
