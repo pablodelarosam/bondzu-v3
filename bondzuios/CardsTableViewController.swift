@@ -124,7 +124,8 @@ class CardsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cardCell", forIndexPath: indexPath)
-        
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
+        //cell.label.adjustsFontSizeToFitWidth = true
         cell.textLabel?.text = "\(self.cards[indexPath.row].brand) " + NSLocalizedString("- Last 4 digits:", comment: "") + " \(self.cards[indexPath.row].number!)";
         cell.detailTextLabel?.text = "\(self.cards[indexPath.row].monthExp!) / \(self.cards[indexPath.row].yearExp!)"
         return cell

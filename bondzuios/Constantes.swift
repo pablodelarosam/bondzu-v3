@@ -15,7 +15,7 @@ class Constantes
     #if DEBUG
     static let STRIPE_PLUBISHABLE_KEY = "pk_test_5A3XM2TUHd6pob50dw7jhxA0"
     #else
-    static let STRIPE_PLUBISHABLE_KEY = "pk_test_5A3XM2TUHd6pob50dw7jhxA0"
+    static let STRIPE_PLUBISHABLE_KEY = "pk_live_HoLJQSZCGnDDLDUJ8KAGpvop"
     #endif
 }
 
