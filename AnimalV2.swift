@@ -10,7 +10,7 @@ import Foundation
 
 class AnimalV2
 {
-    var image: UIImage!;
+    var image =  UIImage();
     var name: String!;
     var specie: String!;
     var objectId: String!;

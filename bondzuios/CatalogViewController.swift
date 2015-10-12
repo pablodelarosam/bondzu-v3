@@ -11,7 +11,7 @@ import Parse
 
 class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, CapsuleLoadingDelegate{
 
-    let initialThumbnail = UIImage(named: "aboutselected")!
+    let initialThumbnail = UIImage()
     
     var navHairLine:UIImageView? = UIImageView()
     
@@ -220,29 +220,36 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                 if let objects = objects as? [PFObject] {
                     var i = 0 as Int;
                     for object in objects {
-                        i++;
-                        
                         let image = object.objectForKey(TableAnimalColumnNames.Photo.rawValue) as? PFFile;
                         if image != nil{
-                            image?.getDataInBackgroundWithBlock
-                                {
+                            
+                            let animal = AnimalV2();
+                            animal.name = object.objectForKey(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
+                            animal.objectId = object.objectId!;
+                            animal.specie = object.objectForKey(TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
+                            self.animalsToShow.append(animal);
+                            image?.getDataInBackgroundWithBlock{
                                     (imageData: NSData?, error: NSError?) -> Void in
-                                    let animal = AnimalV2();
                                     if error == nil
                                     {
-                                        animal.image = UIImage(data: imageData!);
-                                    }
-                                    animal.name = object.objectForKey(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
-                                    animal.objectId = object.objectId!;
-                                    animal.specie = object.objectForKey(TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
-                                    self.animalsToShow.append(animal);
-                                    if self.segementedControl.selectedSegmentIndex == 0{
-                                        self.collectionView.reloadData();
+                                        animal.image = UIImage(data: imageData!)!;
+                                        if self.segementedControl.selectedSegmentIndex == 0{
+                                            dispatch_async(dispatch_get_main_queue()){
+                                                self.collectionView.reloadData()
+                                            }
+                                        }
                                     }
                             }
+                            i++;
+                        }
+                    }
+                    dispatch_async(dispatch_get_main_queue()){
+                        if self.segementedControl.selectedSegmentIndex == 0{
+                            self.collectionView.reloadData()
                         }
                     }
                 }
+                
             } else {
                 print("Error: \(error!) \(error!.userInfo)")
             }
@@ -255,7 +262,14 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             (array, error) -> Void in
             if error == nil, let capsulesArray = array{
                 for object in capsulesArray as! [PFObject]{
-                    _ = Capsule(object: object, delegate: self)
+                    let c = Capsule(object: object, delegate: self)
+                    self.videoCapsules.append(c)
+                }
+                
+                if self.segementedControl.selectedSegmentIndex == 1{
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.collectionView.reloadData()
+                    }
                 }
             }
         }
@@ -348,9 +362,10 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func capsuleDidFinishLoading(capsule: Capsule) {
-        videoCapsules.append(capsule)
-        if segementedControl.selectedSegmentIndex == 1{
-            collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: videoCapsules.count - 1, inSection: 0)])
+        dispatch_async(dispatch_get_main_queue()){
+            if self.segementedControl.selectedSegmentIndex == 1{
+                self.collectionView.reloadData()
+            }
         }
     }
     

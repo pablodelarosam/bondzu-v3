@@ -59,7 +59,7 @@ class Transaction: NSObject {
                         file.getDataInBackgroundWithBlock({ (data, error) -> Void in
                             if error == nil && data != nil{
                                 let image = UIImage(data: data!)
-                                animalV2.image = image
+                                animalV2.image = image!
                                 self.loaded = true
                                 self.delegate?.transaccionDidFinishLoading(self)
                             }
