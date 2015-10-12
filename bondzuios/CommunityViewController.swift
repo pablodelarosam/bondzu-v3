@@ -35,6 +35,10 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: TextFieldWithImageButton!
 
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Community", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil

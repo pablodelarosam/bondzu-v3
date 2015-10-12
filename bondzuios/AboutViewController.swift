@@ -40,6 +40,10 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         self.navigationController?.navigationBar.topItem?.title = navBarTitle
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewWillLayoutSubviews() {
         heightConstraint.constant = UIScreen.mainScreen().bounds.height / 3
         widthConstraint.constant = UIScreen.mainScreen().bounds.width / 3

@@ -32,6 +32,10 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
         profile.layer.cornerRadius = 75/2
     }
 
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     func dissmissKeyboards(){
         mail.resignFirstResponder()
     }

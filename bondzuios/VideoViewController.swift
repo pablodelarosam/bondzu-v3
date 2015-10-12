@@ -53,8 +53,13 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         super.didReceiveMemoryWarning()
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     func doneButtonClick(notificacion: NSNotification)
     {
+        
         self.navigationController?.popViewControllerAnimated(false);
     }
     

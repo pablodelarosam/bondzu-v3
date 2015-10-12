@@ -74,6 +74,10 @@ extension UITabBarController {
     public override func childViewControllerForStatusBarStyle() -> UIViewController? {
         return self.selectedViewController
     }
+    
+    public override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
 }
 
 extension UIAlertController {

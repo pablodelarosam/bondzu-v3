@@ -36,6 +36,10 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         super.viewDidAppear(animated)
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()

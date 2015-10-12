@@ -13,6 +13,10 @@ class CardsTableViewController: UITableViewController {
     
     var cards = [Card]();
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidAppear(animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Payment", comment: "")
         super.viewDidAppear(animated)

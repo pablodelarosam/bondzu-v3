@@ -14,7 +14,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var name: UILabel!
-    
+
     var originalImage : UIImage?
     
     var changedImage = false
@@ -53,6 +53,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
             return cell
         }
+    }
+
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
     
     override func viewDidLoad() {

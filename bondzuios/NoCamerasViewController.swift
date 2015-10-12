@@ -36,6 +36,10 @@ class NoCamerasViewController: UIViewController{
         // Do any additional setup after loading the view.
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     @IBAction func doneClicked(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
         self.dismissProtocol.dismiss();

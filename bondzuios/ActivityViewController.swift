@@ -15,6 +15,10 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
     var toLoad = 0
     var loaded = false
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.title = NSLocalizedString("Activity", comment: "")

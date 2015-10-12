@@ -12,11 +12,17 @@ import Parse
 class GalleryViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 {
     
+    
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     var pictures = [UIImage]();
     var animalId: String!;
     
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Gallery", comment: "")

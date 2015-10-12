@@ -17,6 +17,10 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
     var animal : PFObject!
     var events = [Event]()
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Events", comment: "")
         super.viewWillAppear(animated)

@@ -43,6 +43,10 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         self.activityIndicator.stopAnimating()
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
     }

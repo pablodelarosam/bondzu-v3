@@ -32,6 +32,10 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         super.viewDidAppear(animated)
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

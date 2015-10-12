@@ -33,6 +33,10 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         getCameras()
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.camaras.count;
     }

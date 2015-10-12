@@ -15,6 +15,11 @@ class AdopedAnimalsViewController: UITableViewController {
     var animals : [PFObject]!
     var images : [UIImage?]!
     
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidAppear(animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Adopted Animals", comment: "")
     }

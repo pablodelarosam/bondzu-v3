@@ -31,6 +31,10 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     
     @IBOutlet weak var noGiftsLabel: UITextView!
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
 

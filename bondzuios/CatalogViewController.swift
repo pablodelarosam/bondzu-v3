@@ -51,6 +51,10 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     let animationDuration: NSTimeInterval = 0.9
     let switchingInterval: NSTimeInterval = 5
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.heightBanner.constant = 0;

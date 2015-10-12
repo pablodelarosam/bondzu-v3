@@ -67,6 +67,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         return true
     }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
 
     
     @IBAction func registerFacebook(sender: AnyObject) {

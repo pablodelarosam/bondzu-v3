@@ -24,6 +24,10 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate {
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var videoDescription: UILabel!
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         player.loadWithVideoId(capsule.videoID[0])
