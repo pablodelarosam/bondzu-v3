@@ -231,11 +231,58 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             if hasImage{
                 user[TableUserColumnNames.PhotoFile.rawValue] = PFFile(data: UIImagePNGRepresentation(profile.image!)!)
             }
-            user.signUpInBackgroundWithBlock(){
-                (creado, e) -> Void in
-                guard e == nil && creado else{
-                    
-                    dispatch_async(dispatch_get_main_queue()){
+            
+                
+            let dic : [String: String] =
+            [
+                "email" : self.mail.text!,
+                "description" : "Cuenta creada para \(self.mail.text!)"
+            ]
+                
+            PFCloud.callFunctionInBackground("createCustomer", withParameters: dic) { (result: AnyObject?, error: NSError?) in
+                print("create Customer result = \(result)")
+                
+                if(error == nil)
+                {
+                    do {
+                        if let data = result?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                            
+                            let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                            if let jsonDict = jsonDict {
+                                // work with dictionary here
+                                let key = "id";
+                                print("customer_id: \(jsonDict[key])")
+                                if let id = jsonDict[key] as? String{
+                                    user[TableUserColumnNames.StripeID.rawValue] = id
+                                    
+                                    user.signUpInBackgroundWithBlock(){
+                                        (creado, e) -> Void in
+                                        guard e == nil && creado else{
+                                            
+                                            dispatch_async(dispatch_get_main_queue()){
+                                                self.loading?.finish()
+                                                self.loading = nil
+                                                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+                                                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
+                                                
+                                                self.presentViewController(a, animated: true, completion: nil)
+                                            }
+                                            
+                                            
+                                            return
+                                        }
+                                    }
+                                    print(PFUser.currentUser())
+                                    self.loading?.finish()
+                                    self.loading = nil
+                                    self.performSegueWithIdentifier("loginSegue", sender: self);
+                                }
+                            }
+                            
+                        }
+                    } catch let error as NSError {
+                        // error handling
+                        print("error : \(error)")
                         self.loading?.finish()
                         self.loading = nil
                         let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
@@ -243,17 +290,17 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                         
                         self.presentViewController(a, animated: true, completion: nil)
                     }
-                    
-                    
-                    return
                 }
-                
-                print(PFUser.currentUser())
-                self.loading?.finish()
-                self.loading = nil
-                self.performSegueWithIdentifier("loginSegue", sender: self);
+                else
+                {
+                    self.loading?.finish()
+                    self.loading = nil
+                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
+                    
+                    self.presentViewController(a, animated: true, completion: nil)
+                }
             }
-           
         }
 
 
