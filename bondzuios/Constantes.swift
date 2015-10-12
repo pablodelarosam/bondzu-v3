@@ -31,6 +31,8 @@ enum TableNames : String{
     case Reply_table = "Comment"
     case Gallery_table = "Gallery"
     case Products = "Productos"
+    case User = "User"
+    case Camera = "Camera"
 }
 
 enum TableVideoCapsuleNames : String{
@@ -117,4 +119,13 @@ enum TableReplyColumnNames : String{
 enum TableGalleryColumnNames : String{
     case Animal = "animal_id"
     case Image = "image"
+}
+
+enum TableCameraColumnNames : String{
+    case Animal = "animal_Id"
+    case Description = "description"
+    case AnimalName = "animal_name"
+    case CameraType = "type"
+    case Working = "funcionando"
+    case PlayBackURL = "url"
 }

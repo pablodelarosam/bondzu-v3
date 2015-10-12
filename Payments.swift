@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 09/10/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import Foundation
 import Stripe
@@ -19,8 +19,7 @@ class Payments
             activityIndicator!.startAnimating()
         }
         PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
-            let key = "stripeId"
-            if let cusId = PFUser.currentUser()![key] as! String!
+            if let cusId = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
             {
                 self.createChargeToExistingCard(cusId: cusId, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, cardId: cardid)
             }
@@ -38,8 +37,8 @@ class Payments
                     activityIndicator?.stopAnimating()
                 }
                 
-                let a = UIAlertController(title: "Error", message: "The transaction could not be completed", preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
+                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                 controller.presentViewController(a, animated: true, completion: nil)
             }
             else
@@ -49,10 +48,9 @@ class Payments
                     if(saveCard)
                     {
                         print("Current user: \(PFUser.currentUser()!.email)");
-                        let key = "stripeId"
                         
                         PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
-                            if let cusId = PFUser.currentUser()![key] as! String!
+                            if let cusId = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
                             {
                                 self.saveCardOfCustomer(id: cusId, token: token!, paymentView: paymentView!, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion)
                             }
@@ -95,8 +93,8 @@ class Payments
                             activityIndicator!.stopAnimating()
                         }
                         
-                        let a = UIAlertController(title: "Error", message: "The transaction could not be completed", preferredStyle: .Alert)
-                        a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                        let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
+                        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                         controller.presentViewController(a, animated: true, completion: nil)
                     }
                     else
@@ -110,8 +108,8 @@ class Payments
             }
             else
             {
-                let a = UIAlertController(title: "Error", message: "The transaction could not be completed", preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
+                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                 controller.presentViewController(a, animated: true, completion: nil)
             }
         }
@@ -144,14 +142,14 @@ class Payments
                 
                 if(error == nil)
                 {
-                    let a = UIAlertController(title: "Great!", message: "Thanks for your helpful donation", preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) -> Void in
+                    let a = UIAlertController(title: NSLocalizedString("Great!", comment: ""), message: NSLocalizedString("Thanks for your helpful donation", comment: ""), preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: { (action: UIAlertAction) -> Void in
                         controller.navigationController?.popToRootViewControllerAnimated(true);
                     }))
                     controller.presentViewController(a, animated: true, completion: nil)
                 }else{
-                    let a = UIAlertController(title: "Error", message: "The transaction could not be completed", preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     controller.presentViewController(a, animated: true, completion: nil)
                 }
                 
@@ -163,8 +161,8 @@ class Payments
                 activityIndicator!.stopAnimating()
             }
             print("Error")
-            let a = UIAlertController(title: "Error", message: "The transaction could not be completed", preferredStyle: .Alert)
-            a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
+            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
             controller.presentViewController(a, animated: true, completion: nil)
         }
         
@@ -206,14 +204,14 @@ class Payments
                 
                 if(error == nil)
                 {
-                    let a = UIAlertController(title: "Great!", message: "Thanks for your helpful donation", preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) -> Void in
+                    let a = UIAlertController(title: NSLocalizedString("Great!", comment: ""), message: NSLocalizedString("Thanks for your helpful donation", comment: ""), preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: { (action: UIAlertAction) -> Void in
                         controller.navigationController?.popToRootViewControllerAnimated(true);
                     }))
                     controller.presentViewController(a, animated: true, completion: nil)
                 }else{
-                    let a = UIAlertController(title: "Error", message: "The transaction could not be completed", preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Default, handler: nil))
                     controller.presentViewController(a, animated: true, completion: nil)
                 }
                 
@@ -225,8 +223,8 @@ class Payments
                 activityIndicator!.stopAnimating()
             }
             print("Error")
-            let a = UIAlertController(title: "Error", message: "The transaction could not be completed", preferredStyle: .Alert)
-            a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
+            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
             controller.presentViewController(a, animated: true, completion: nil)
         }
     }

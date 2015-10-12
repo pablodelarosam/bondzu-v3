@@ -3,7 +3,7 @@
 //  
 //
 //  Created by Luis Mariano Arobes on 10/08/15.
-//
+//  Archivo Localizado
 //
 
 import UIKit
@@ -20,9 +20,9 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     
     override func viewDidLoad() {
         //NSLocalizedString("CAMERAS", comment: "Choose a camera");
-        self.title = "Cams";        
+        self.title = NSLocalizedString("Cams", comment: "");
         //NSLocalizedString("DONE",comment: "Listo");
-        let buttonDone = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: "doneButtonClicked:");
+        let buttonDone = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: UIBarButtonItemStyle.Done, target: self, action: "doneButtonClicked:");
         self.navigationItem.rightBarButtonItem = buttonDone
         
         self.refreshcontrol.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
@@ -48,7 +48,6 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         {            
             if(camara.url == Utiles.urlOfAVPlayer(self.player.player))
             {
-                print("Esta viendo camara: \(camara.descripcion)")
                 cell.accessoryType = .Checkmark
             }
         }
@@ -57,7 +56,6 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let camara = self.camaras[indexPath.row] as Camera;
-        print("Seleccionó camara: \(camara.descripcion)")
         
         if let url = camara.url as NSURL!
         {
@@ -109,39 +107,32 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     
     func getCameras()
     {
-        let query = PFQuery(className: "Camera");
-        query.whereKey("animal_id", equalTo: PFObject(withoutDataWithClassName: "Animal", objectId: self.animalId))
+        let query = PFQuery(className: TableNames.Camera.rawValue);
+        query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 // The find succeeded.
                 self.camaras.removeAll(keepCapacity: true)
-                print("Successfully retrieved \(objects!.count) cameras.")
                 // Do something with the found objects
                 if let objects = objects as? [PFObject] {
                     for object in objects {
                         
                         print(object.objectId)
                         let newCamera = Camera(_obj_id: object.objectId as String!,
-                            _description: object.objectForKey("description") as! String,
+                            _description: object.objectForKey(TableCameraColumnNames.Description.rawValue) as! String,
                             _animalId: self.animalId,
-                            _type: object.objectForKey("type") as! Int,
-                            _animalName: object.objectForKey("animal_name") as! String,
-                            _funcionando: object.objectForKey("funcionando") as! Bool,
-                            _url: object.objectForKey("url") as? String)
+                            _type: object.objectForKey(TableCameraColumnNames.CameraType.rawValue) as! Int,
+                            _animalName: object.objectForKey(TableCameraColumnNames.AnimalName.rawValue) as! String,
+                            _funcionando: object.objectForKey(TableCameraColumnNames.Working.rawValue) as! Bool,
+                            _url: object.objectForKey(TableCameraColumnNames.PlayBackURL.rawValue) as? String)
                         
-                        let url = object.objectForKey("url") as? String
-                        print("url = \(url)")
-                        print("desciption = \(newCamera.descripcion)");
-                        print("url = \(newCamera.url)");
-                        print("funcionando = \(newCamera.funcionando!)");
                         if(newCamera.funcionando!)
                         {
                             self.camaras.append(newCamera);
                         }
                     }
-                    print("Cameras = \(self.camaras)")
                     self.tableView.reloadData()
                     if(self.refreshcontrol.refreshing)
                     {
@@ -149,21 +140,11 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
                     }
                 }
             } else {
-                // Log details of the failure
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     deinit{
         print("PopOver is been dealloced");

@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 03/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 import AVKit
@@ -55,7 +55,6 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     func doneButtonClick(notificacion: NSNotification)
     {
-        print("Termino video");
         self.navigationController?.popViewControllerAnimated(false);
     }
     
@@ -92,7 +91,6 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     func rotated()
     {
-        print("ROTATED");
         let widthMoviePlayer = self.view.bounds.width;
         let heightMoviePlayer = self.view.bounds.height;
         self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
@@ -105,8 +103,8 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     //Obtiene la primera camara funcionando y la despliega
     func getFirstCameraAndSetup()
     {
-        let query = PFQuery(className: "Camera");
-        query.whereKey("animal_id", equalTo: PFObject(withoutDataWithClassName: "Animal", objectId: self.animalId))
+        let query = PFQuery(className: TableNames.Camera.rawValue);
+        query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
             
@@ -128,18 +126,14 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                         
                         print(object.objectId)
                         let newCamera = Camera(_obj_id: object.objectId as String!,
-                            _description: object.objectForKey("description") as! String,
+                            _description: object.objectForKey(TableCameraColumnNames.Description.rawValue) as! String,
                             _animalId: self.animalId,
-                            _type: object.objectForKey("type") as! Int,
+                            _type: object.objectForKey(TableCameraColumnNames.CameraType.rawValue) as! Int,
                             _animalName: object.objectForKey("animal_name") as! String,
                             _funcionando: object.objectForKey("funcionando") as! Bool,
-                            _url: object.objectForKey("url") as? String)
+                            _url: object.objectForKey(TableCameraColumnNames.PlayBackURL.rawValue) as? String)
                         
                         let url = object.objectForKey("url") as? String
-                        /*print("url = \(url)")
-                        print("desciption = \(newCamera.descripcion)");
-                        print("url = \(newCamera.url)");
-                        print("funcionando = \(newCamera.funcionando!)");*/
                         if(newCamera.funcionando!)
                         {
                             self.url = NSURL(string: url!);
@@ -153,7 +147,6 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                 self.performSegueWithIdentifier("noCamerasSegue", sender: self)
                 return;
             } else {
-                // Log details of the failure
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }

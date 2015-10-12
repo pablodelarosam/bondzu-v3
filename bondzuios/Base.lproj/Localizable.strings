@@ -75,10 +75,6 @@
 "Medicina" = "Medications"; //NAME OF CATEGORY IN PARSE.Table products
 "Juguetes" = "Toys"; //NAME OF CATEGORY IN PARSE.Table products
 "Recuerdos" = "To remember me forever"; //NAME OF CATEGORY IN PARSE. Table products
-
-
-
-//
 "The transaction could not be completed" = "The transaction could not be completed";
 "Great!" = "Great!";
 "Thanks for your helpful donation" = "Thanks for your helpful donation";
@@ -89,5 +85,28 @@
 "Unable to sign up" = "Unable to sign up";
 "Empty mail" = "Empty mail";
 "Empty password" = "Empty password";
-"Please introduce your password" = "Please introduce your password"
+"Please introduce your password" = "Please introduce your password";
 "Unable to login.\nPlease check your login data and your Internet connection" = "Unable to login.\nPlease check your login data and your Internet connection";
+"Sign Up" = "Sign Up";
+"Your name should not be empty" = "Your name should not be empty";
+"Your mail should not be empty" = "Your mail should not be empty";
+"Please insert a valid email address" = "Please insert a valid email address";
+"Invalid password" = "Invalid password";
+"Your password should contain at least 5 characters" = "Your password should contain at least 5 characters";
+"The email is already registered" = "The email is already registered";
+"Empty profile image" = "Empty profile image";
+"You can add a profile picture. Would you like to do it?" = "You can add a profile picture. Would you like to do it?";
+"Sure!" = "Sure!";
+"No" = "No";
+"Cams" = "Cams";
+"Empty name" = "Empty name";
+"Invalid mail" = "Invalid mail";
+
+
+
+
+
+
+
+
+

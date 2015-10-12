@@ -4,7 +4,7 @@
 //
 //  Created by Ricardo Lopez Focil on 10/6/15.
 //  Copyright © 2015 Bondzu. All rights reserved.
-//
+//  Archivo Localizado
 
 import UIKit
 import Parse

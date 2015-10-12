@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mariano Arobes on 10/08/15.
 //  Copyright (c) 2015 Bondzu. All rights reserved.
-//
+//  Archivo localizado
 
 import UIKit
 import Parse
@@ -28,7 +28,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     var loading : LoadingView?
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationItem.title = "Sign Up"
+        self.navigationItem.title = NSLocalizedString("Sign Up", comment: "")
         super.viewDidAppear(animated)
     }
     
@@ -62,6 +62,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         return UIInterfaceOrientationMask.Portrait
     }
     
+    /*
     @IBAction func login(sender: UIButton)
     {
         /*let vc : UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("Tabs") as! UITabBarController
@@ -72,6 +73,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         }
         
     }
+    */
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -90,9 +92,9 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     }
 
     func changeIcon(){
-        let controller = UIAlertController(title: "Attach image", message: "Select an image to attach to your profile", preferredStyle: .ActionSheet)
+        let controller = UIAlertController(title: NSLocalizedString("Attach image", comment: ""), message: NSLocalizedString("Select an image to set as profile picture", comment: ""), preferredStyle: .ActionSheet)
         
-        controller.addAction(UIAlertAction(title: "Take picture", style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Take picture", comment: ""), style: .Default, handler: {
             a in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
                 let controller = UIImagePickerController()
@@ -103,7 +105,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                 self.presentViewController(controller, animated: true, completion: nil)
             }
         }))
-        controller.addAction(UIAlertAction(title: "Select from library", style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Select from library", comment: ""), style: .Default, handler: {
             a in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
                 let controller = UIImagePickerController()
@@ -115,14 +117,14 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             }
         }))
         if(hasImage){
-            controller.addAction(UIAlertAction(title: "Delete image", style: .Destructive, handler: {
+            controller.addAction(UIAlertAction(title: NSLocalizedString("Delete image", comment: ""), style: .Destructive, handler: {
                 a in
                 self.profile.image = UIImage(named: "profile_pic")
                 self.hasImage = false
             }))
         }
         
-        controller.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: {
             a in
         }))
         
@@ -152,36 +154,36 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
 
     @IBAction func register(){
         guard name.text?.characters.count != 0 else{
-            let alert = UIAlertController(title: "Empty name", message: "Your name should not be empty", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {_ in self.name.becomeFirstResponder()}))
+            let alert = UIAlertController(title: NSLocalizedString("Empty name", comment: ""), message: NSLocalizedString("Your name should not be empty", comment: ""), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.name.becomeFirstResponder()}))
             self.presentViewController(alert, animated: true, completion: nil)
             return
         }
         guard mail.text?.characters.count != 0 else{
-            let alert = UIAlertController(title: "Empty mail", message: "Your mail should not be empty", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {_ in self.mail.becomeFirstResponder()}))
+            let alert = UIAlertController(title: NSLocalizedString("Empty mail", comment: ""), message: NSLocalizedString("Your mail should not be empty", comment: ""), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.mail.becomeFirstResponder()}))
             self.presentViewController(alert, animated: true, completion: nil)
             return
         }
         
         guard (mail.text?.isValidEmail() == true) else{
-            let alert = UIAlertController(title: "Invalid mail", message: "Please insert a valid mail", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {_ in self.mail.becomeFirstResponder()}))
+            let alert = UIAlertController(title: NSLocalizedString("Invalid mail", comment: ""), message: NSLocalizedString("Please insert a valid email address", comment: ""), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.mail.becomeFirstResponder()}))
             self.presentViewController(alert, animated: true, completion: nil)
             return
         }
         
         guard pass.text?.characters.count >= 5 else{
-            let alert = UIAlertController(title: "Invalid password", message: "Your password should contain at least 5 characters", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {_ in self.pass.becomeFirstResponder()}))
+            let alert = UIAlertController(title: NSLocalizedString("Invalid password", comment: ""), message: NSLocalizedString("Your password should contain at least 5 characters", comment: ""), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.pass.becomeFirstResponder()}))
             self.presentViewController(alert, animated: true, completion: nil)
             return
         }
         
         self.loading = LoadingView(view: self.view)
         
-        let query = PFQuery(className: "User")
-        query.whereKey("username", equalTo: (self.mail.text?.lowercaseString)!)
+        let query = PFQuery(className: TableNames.User.rawValue)
+        query.whereKey(TableUserColumnNames.UserName.rawValue, equalTo: (self.mail.text?.lowercaseString)!)
         query.countObjectsInBackgroundWithBlock {
             (v, e) -> Void in
             guard e == nil else{
@@ -191,8 +193,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                     self.loading?.finish()
                     self.loading = nil
                     
-                    let a = UIAlertController(title: "Error", message: "Unable to create user. Please try again later", preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     self.presentViewController(a, animated: true, completion: nil)
                 }
                 
@@ -204,8 +206,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                 dispatch_async(dispatch_get_main_queue()){
                     self.loading?.finish()
                     self.loading = nil
-                    let a = UIAlertController(title: "Error", message: "The email is already registered", preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The email is already registered", comment: ""), preferredStyle: .Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     
                     self.presentViewController(a, animated: true, completion: nil)
 
@@ -220,10 +222,10 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             user.username = self.mail.text?.lowercaseString
             user.password = self.pass.text
             user.email = self.mail.text?.lowercaseString
-            user["name"] = self.name.text
+            user[TableUserColumnNames.Name.rawValue] = self.name.text
             
             if hasImage{
-                user["photoFile"] = PFFile(data: UIImagePNGRepresentation(profile.image!)!)
+                user[TableUserColumnNames.PhotoFile.rawValue] = PFFile(data: UIImagePNGRepresentation(profile.image!)!)
             }
             user.signUpInBackgroundWithBlock(){
                 (creado, e) -> Void in
@@ -232,8 +234,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                     dispatch_async(dispatch_get_main_queue()){
                         self.loading?.finish()
                         self.loading = nil
-                        let a = UIAlertController(title: "Error", message: "Unable to create user. Please try again later", preferredStyle: .Alert)
-                        a.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                        let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+                        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                         
                         self.presentViewController(a, animated: true, completion: nil)
                     }
@@ -257,12 +259,12 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         if !hasImage{
             self.loading?.finish()
             self.loading = nil
-            let alert = UIAlertController(title: "Empty profile image", message: "You can add a profile picture. Would you like to do it?", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Sure!", style: .Default, handler:{
+            let alert = UIAlertController(title: NSLocalizedString("Empty profile image", comment: ""), message: NSLocalizedString("You can add a profile picture. Would you like to do it?", comment: ""), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Sure!", comment: ""), style: .Default, handler:{
                 _ in
                 self.changeIcon()
             }))
-            alert.addAction(UIAlertAction(title: "No", style: .Default, handler:{
+            alert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .Default, handler:{
                 _ in
                 self.loading = LoadingView(view: self.view)
                 registerFinal()
@@ -286,8 +288,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                 dispatch_async(dispatch_get_main_queue()){
                     self.loading?.finish()
                     self.loading = nil
-                    let a  = UIAlertController(title: "Error", message: "Unable to sign up", preferredStyle: UIAlertControllerStyle.Alert)
-                    a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     self.presentViewController(a, animated: true, completion: nil)
                 }
             }
@@ -296,23 +298,22 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                     (connection, dic, error) -> Void in
                     if let dictionary = dic as? Dictionary<String, AnyObject>{
                         let user = PFUser.currentUser()!
-                        user["name"] = dictionary["name"] as! String
+                        user[TableUserColumnNames.Name.rawValue] = dictionary["name"] as! String
                         user.password = "\(random())"
-                        user["email"] = dictionary["email"] as! String
-                        user["photo"] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
+                        user[TableUserColumnNames.Mail.rawValue] = dictionary["email"] as! String
+                        user[TableUserColumnNames.PhotoURL.rawValue] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
                         user.saveInBackgroundWithBlock({
                             (saved, error) -> Void in
                             if error != nil{
                                 dispatch_async(dispatch_get_main_queue()){
                                     self.loading?.finish()
                                     self.loading = nil
-                                    let a  = UIAlertController(title: "Error", message: "Unable to sign up", preferredStyle: UIAlertControllerStyle.Alert)
-                                    a.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+                                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                                     self.presentViewController(a, animated: true, completion: nil)
                                 }
                                 print(error)
                                 user.deleteInBackgroundWithBlock({ (del, error) -> Void in
-                                    print("Usuario eliminado")
                                 })
                             }
                             else{
@@ -363,7 +364,6 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                     self.loading?.finish()
                     self.loading = nil
                 }
-                print("Cancelado")
             }
             else{
                 PFFacebookUtils.logInInBackgroundWithAccessToken(FBSDKAccessToken.currentAccessToken(), block: process)

@@ -16,7 +16,6 @@
 		54305CC11B73F80A003F9AB0 /* bondzuiosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54305CC01B73F80A003F9AB0 /* bondzuiosTests.swift */; };
 		544252871B7BBFAB0077C7A6 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */; };
 		5442528A1B7BF5860077C7A6 /* GiftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544252891B7BF5860077C7A6 /* GiftsViewController.swift */; };
-		5442528C1B7BF64B0077C7A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5442528B1B7BF64B0077C7A6 /* Main.storyboard */; };
 		544677A81BB9EF6500F5B54D /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544677A71BB9EF6500F5B54D /* GalleryCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		54571F7E1B7924420092E359 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F7D1B7924420092E359 /* LoginViewController.swift */; };
 		54571F811B79270C0092E359 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54571F801B79270C0092E359 /* SignUpViewController.swift */; };
@@ -32,7 +31,6 @@
 		549417931BC6E185001A0A5E /* CardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549417921BC6E185001A0A5E /* CardsTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		549417951BC6E3DB001A0A5E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549417941BC6E3DB001A0A5E /* Card.swift */; settings = {ASSET_TAGS = (); }; };
 		549760FB1B7B0BED005782A6 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FA1B7B0BED005782A6 /* Camera.swift */; };
-		549760FD1B7B12B9005782A6 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FC1B7B12B9005782A6 /* Animal.swift */; };
 		54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3CE291B84FB5200E106D9 /* PagoViewController.swift */; };
 		54AFB1F21BC8826A00238D6B /* Payments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AFB1F11BC8826A00238D6B /* Payments.swift */; settings = {ASSET_TAGS = (); }; };
 		54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC54C41B7BF879009244C7 /* CommunityViewController.swift */; };
@@ -60,12 +58,14 @@
 		B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */; settings = {ASSET_TAGS = (); }; };
 		B34FB9E71B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */; settings = {ASSET_TAGS = (); }; };
+		B358A1221BCB314200DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B358A1241BCB314200DC9525 /* Main.storyboard */; };
 		B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3797FE21B8CC1BE00924080 /* CircledButton.swift */; settings = {ASSET_TAGS = (); }; };
 		B37FC3531BC31F2F00B5692D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3521BC31F2F00B5692D /* Transaction.swift */; settings = {ASSET_TAGS = (); }; };
 		B37FC3561BC4383B00B5692D /* EventViewControllerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3551BC4383B00B5692D /* EventViewControllerTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B37FC3581BC4397700B5692D /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3571BC4397700B5692D /* EventTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		B37FC35A1BC43AB400B5692D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3591BC43AB400B5692D /* Event.swift */; settings = {ASSET_TAGS = (); }; };
 		B37FC35D1BC441C000B5692D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B37FC35F1BC441C000B5692D /* Localizable.strings */; };
+		B38FC2571BCA407200363EF2 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FC1B7B12B9005782A6 /* Animal.swift */; };
 		B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E41B8F5CC100509A72 /* AboutLateralView.swift */; settings = {ASSET_TAGS = (); }; };
 		B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E61B8F6F1800509A72 /* Usuario.swift */; settings = {ASSET_TAGS = (); }; };
 		B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -107,7 +107,6 @@
 		54305CC01B73F80A003F9AB0 /* bondzuiosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bondzuiosTests.swift; sourceTree = "<group>"; };
 		544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		544252891B7BF5860077C7A6 /* GiftsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiftsViewController.swift; sourceTree = "<group>"; };
-		5442528B1B7BF64B0077C7A6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		544677A71BB9EF6500F5B54D /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		54571F7D1B7924420092E359 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		54571F801B79270C0092E359 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +149,8 @@
 		B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommunityViewController.swift; sourceTree = "<group>"; };
 		B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
 		B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithImageButton.swift; sourceTree = "<group>"; };
+		B358A1231BCB314200DC9525 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B358A1261BCB314500DC9525 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
 		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B37FC3521BC31F2F00B5692D /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
@@ -254,7 +255,7 @@
 				54305CCA1B73FA68003F9AB0 /* Modelos */,
 				54571F821B7928850092E359 /* Utiles */,
 				54305CCB1B73FA7B003F9AB0 /* Video */,
-				5442528B1B7BF64B0077C7A6 /* Main.storyboard */,
+				B358A1241BCB314200DC9525 /* Main.storyboard */,
 				B3797FE41B8CC8E000924080 /* Bridging-Header.h */,
 				54305CAA1B73F809003F9AB0 /* AppDelegate.swift */,
 				54571F871B792ADE0092E359 /* TabsViewController.swift */,
@@ -551,7 +552,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5442528C1B7BF64B0077C7A6 /* Main.storyboard in Resources */,
+				B358A1221BCB314200DC9525 /* Main.storyboard in Resources */,
 				B37FC35D1BC441C000B5692D /* Localizable.strings in Resources */,
 				54305CB51B73F80A003F9AB0 /* LaunchScreen.xib in Resources */,
 				54305CB21B73F80A003F9AB0 /* Images.xcassets in Resources */,
@@ -620,6 +621,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B38FC2571BCA407200363EF2 /* Animal.swift in Sources */,
 				549760FB1B7B0BED005782A6 /* Camera.swift in Sources */,
 				540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */,
 				B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */,
@@ -638,7 +640,6 @@
 				B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */,
 				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
 				B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */,
-				549760FD1B7B12B9005782A6 /* Animal.swift in Sources */,
 				B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,
 				B3B7B9271BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift in Sources */,
@@ -697,6 +698,15 @@
 				54305CB41B73F80A003F9AB0 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		B358A1241BCB314200DC9525 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B358A1231BCB314200DC9525 /* Base */,
+				B358A1261BCB314500DC9525 /* es-419 */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		B37FC35F1BC441C000B5692D /* Localizable.strings */ = {
@@ -812,6 +822,7 @@
 				INFOPLIST_FILE = bondzuios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Bondzu;
 				PROVISIONING_PROFILE = "";
