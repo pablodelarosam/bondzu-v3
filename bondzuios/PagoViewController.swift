@@ -66,7 +66,7 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
         card.expYear = self.paymentView.card!.expYear;
         card.cvc = self.paymentView.card?.cvc;
         
-        payment.makePaymentToCurrentUser(card: card, controller: self, amount: self.txtAmount.text!, activityIndicator: self.activityIndicator, saveCard: self.switchSaveCard.on, paymentView: self.paymentView, descripcion: self.producto!.descripcion)
+        payment.makePaymentToCurrentUser(card: card, controller: self, amount: self.txtAmount.text!, activityIndicator: self.activityIndicator, saveCard: self.switchSaveCard.on, paymentView: self.paymentView, descripcion: self.producto!.descripcion, productId: self.producto.objectId, transDescription: "Gifts / Donations - \(self.producto.nombre) - Bondzu")
     }
     
     
