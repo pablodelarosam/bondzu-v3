@@ -218,7 +218,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                                         info = _info
                                     }
                                     
-                                    if let _infoAmount = object.objectForKey(TableProductColumnNames.InformationUsage.rawValue) as? String{
+                                    if let _infoAmount = object.objectForKey(TableProductColumnNames.InformationUsage.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as? String{
                                         infoAmount = _infoAmount
                                     }
                                     
