@@ -12,7 +12,7 @@ import Parse
 
 class Payments
 {
-    func makePaymentToCurrentUserWithExistingCard(cardid cardid: String, amount: String, activityIndicator: UIActivityIndicatorView?, descripcion: String, controller: UIViewController)
+    func makePaymentToCurrentUserWithExistingCard(cardid cardid: String, amount: String, activityIndicator: UIActivityIndicatorView?, descripcion: String, controller: UIViewController, productId: String, transDescription: String)
     {
         if(activityIndicator != nil)
         {
@@ -21,12 +21,12 @@ class Payments
         PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
             if let cusId = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
             {
-                self.createChargeToExistingCard(cusId: cusId, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, cardId: cardid)
+                self.createChargeToExistingCard(cusId: cusId, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, cardId: cardid, productId: productId, transDescription: transDescription)
             }
         })
     }
     
-    func makePaymentToCurrentUser(card card: STPCard, controller: UIViewController, amount: String, activityIndicator: UIActivityIndicatorView?, saveCard: Bool, paymentView: STPPaymentCardTextField?, descripcion: String) -> Void
+    func makePaymentToCurrentUser(card card: STPCard, controller: UIViewController, amount: String, activityIndicator: UIActivityIndicatorView?, saveCard: Bool, paymentView: STPPaymentCardTextField?, descripcion: String, productId: String, transDescription: String) -> Void
     {
         STPAPIClient.sharedClient().createTokenWithCard(card, completion: { (token, error) -> Void in
             if (error != nil)
@@ -52,21 +52,21 @@ class Payments
                         PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
                             if let cusId = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
                             {
-                                self.saveCardOfCustomer(id: cusId, token: token!, paymentView: paymentView!, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion)
+                                self.saveCardOfCustomer(id: cusId, token: token!, paymentView: paymentView!, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, productId: productId, transDescription: transDescription)
                             }
                         })
                         
                     }
                     else
                     {
-                        self.createBackendChargeWithToken(token!, amount: amount, descripcion: descripcion, activityIndicator: activityIndicator, controller: controller)
+                        self.createBackendChargeWithToken(token!, amount: amount, descripcion: descripcion, productId: productId, activityIndicator: activityIndicator, controller: controller, transDescription: transDescription)
                     }
                 }
             }
         });
     }
     
-    private func saveCardOfCustomer(id id: String, token: STPToken, paymentView: STPPaymentCardTextField, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String)
+    private func saveCardOfCustomer(id id: String, token: STPToken, paymentView: STPPaymentCardTextField, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, productId: String, transDescription: String)
     {
         
         let dic : [String: String] =
@@ -101,7 +101,7 @@ class Payments
                     {
                         if token != nil
                         {
-                            self.createBackendChargeWithToken(token!, amount: amount, descripcion: descripcion, activityIndicator: activityIndicator, controller: controller)
+                            self.createBackendChargeWithToken(token!, amount: amount, descripcion: descripcion, productId: productId, activityIndicator: activityIndicator, controller: controller, transDescription: transDescription)
                         }
                     }
                 });
@@ -115,7 +115,7 @@ class Payments
         }
     }
     
-    private func createBackendChargeWithToken(token: STPToken, amount: String, descripcion: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController)
+    private func createBackendChargeWithToken(token: STPToken, amount: String, descripcion: String, productId: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, transDescription: String)
     {
         print("Send token");
         
@@ -136,9 +136,30 @@ class Payments
                 let res = result as? NSObject
                 print("result")
                 print(res)
+                
+                do {
+                    if let data = result?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                        
+                        let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                        if let jsonDict = jsonDict {
+                            // work with dictionary here
+                            let key = "id";
+                            print("transid: \(jsonDict[key])")
+                            if let id = jsonDict[key] as? String{
+                                self.saveTransactionInParse(transcationId: id, productid: productId, amount: amount, descripcion: transDescription)
+                            }
+                        }
+                        
+                    }
+                } catch let error as NSError {
+                    // error handling
+                    print("error : \(error)")
+                }
+                
                 if(activityIndicator != nil){
                     activityIndicator!.stopAnimating()
                 }
+                
                 
                 if(error == nil)
                 {
@@ -178,7 +199,7 @@ class Payments
         }*/
     }
     
-    private func createChargeToExistingCard(cusId cusId: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, cardId: String)
+    private func createChargeToExistingCard(cusId cusId: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, cardId: String, productId: String, transDescription: String)
     {
         if let doubleAmount = Double(amount) as Double!
         {
@@ -198,6 +219,26 @@ class Payments
                 let res = result as? NSObject
                 print("result")
                 print(res)
+                
+                do {
+                    if let data = result?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                        
+                        let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                        if let jsonDict = jsonDict {
+                            // work with dictionary here
+                            let key = "id";
+                            print("transid: \(jsonDict[key])")
+                            if let id = jsonDict[key] as? String{
+                                self.saveTransactionInParse(transcationId: id, productid: productId, amount: amount, descripcion: transDescription)
+                            }
+                        }
+                        
+                    }
+                } catch let error as NSError {
+                    // error handling
+                    print("error : \(error)")
+                }
+                
                 if(activityIndicator != nil){
                     activityIndicator!.stopAnimating()
                 }
@@ -227,5 +268,22 @@ class Payments
             a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
             controller.presentViewController(a, animated: true, completion: nil)
         }
+    }
+    
+    private func saveTransactionInParse(transcationId transactionId: String, productid: String, amount: String, descripcion: String)
+    {
+        let transaction  = PFObject(className: TableNames.Transactions_table.rawValue)
+        transaction[TableTransactionColumnNames.User.rawValue] = PFUser.currentUser()
+        transaction[TableTransactionColumnNames.Product.rawValue] = PFObject(withoutDataWithClassName: TableNames.Products.rawValue, objectId: productid)
+        transaction[TableTransactionColumnNames.Transaction.rawValue] = transactionId
+        transaction[TableTransactionColumnNames.Description.rawValue] = descripcion
+        
+        if let amountDouble = Double(amount) as Double?
+        {
+            let amountNumber = NSNumber(double: amountDouble)
+            transaction[TableTransactionColumnNames.Price.rawValue] = amountNumber
+        }
+        
+        transaction.saveInBackground()
     }
 }

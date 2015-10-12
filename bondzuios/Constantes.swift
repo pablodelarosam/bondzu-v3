@@ -84,6 +84,8 @@ enum TableTransactionColumnNames : String{
     case User = "userid"
     case Price = "precio"
     case Product = "productoid"
+    case Description = "descripcion"
+    case Transaction = "transaccionid"    
 }
 
 enum TableProductColumnNames : String{
