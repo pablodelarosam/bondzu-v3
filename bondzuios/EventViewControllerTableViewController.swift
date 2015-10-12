@@ -31,6 +31,7 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
         
         let query = PFQuery(className: TableNames.Events_table.rawValue)
         query.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
+        query.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())
         query.findObjectsInBackgroundWithBlock { (array, error) -> Void in
             if error == nil, let eventsArray = array{
                 for event in eventsArray{

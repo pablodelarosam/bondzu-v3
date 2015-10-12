@@ -186,6 +186,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 
                 let eventsQuery = PFQuery(className: TableNames.Events_table.rawValue)
                 eventsQuery.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
+                eventsQuery.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())
                 eventsQuery.getFirstObjectInBackgroundWithBlock({
                     (event, error) -> Void in
                     

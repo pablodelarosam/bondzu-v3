@@ -438,6 +438,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         guard gestureRecognizer != nil else{
             return
         }
+        
         tableView.removeGestureRecognizer(gestureRecognizer!)
     }
     

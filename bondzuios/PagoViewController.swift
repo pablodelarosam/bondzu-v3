@@ -10,7 +10,7 @@ import UIKit
 import Stripe
 import Parse
 
-class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
+class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate, UITextFieldDelegate{
 
     
     @IBOutlet weak var lblName: UILabel!
@@ -43,7 +43,10 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
         self.paymentView.delegate = self;
         self.activityIndicator.stopAnimating()
         self.switchSaveCard.setOn(switchEnabled, animated: true)
-        // Do any additional setup after loading the view.
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -83,6 +86,38 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate{
         self.txtCardValid = textField.valid
     }
     
+    
+    func keyBoardShow(notification : NSNotification){
+        
+        
+        if let info = notification.userInfo{
+            if let frame = info[UIKeyboardFrameEndUserInfoKey]?.CGRectValue{
+                
+                var yTabBar : CGFloat = 0.0
+                
+                if let t = tabBarController{
+                    yTabBar = (t.tabBar.frame.size.height)
+                }
+            
+                let posIndicator = self.view.frame.size.height - switchSaveCard.frame.origin.y
+                let kbSize = frame.height -  yTabBar
+                if self.view.frame.size.height - posIndicator > kbSize{
+                    self.view.frame.origin.y = (self.view.frame.size.height - (switchSaveCard.frame.origin.y + switchSaveCard.frame.size.height)) - ((switchSaveCard.frame.origin.y +  switchSaveCard.frame.size.height) -  txtName.frame.origin.y)
+                    //-((switchSaveCard.frame.origin.y +  switchSaveCard.frame.size.height) -  txtName.frame.origin.y)
+                }
+            }
+        }
+    }
+    
+    func keyBoardHide(notification : NSNotification){
+        self.view.frame.origin.y = 0
+    }
+    
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
 
     /*
