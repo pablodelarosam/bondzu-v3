@@ -100,8 +100,8 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate, UIT
                 }
             
                 let kbOriginY = self.view.frame.height - frame.height - yTabBar
-                if kbOriginY > switchSaveCard.frame.origin.y{
-                    self.view.frame.origin.y = switchSaveCard.frame.origin.y - kbOriginY
+                if kbOriginY < switchSaveCard.frame.origin.y{
+                    self.view.frame.origin.y = -switchSaveCard.frame.origin.y + kbOriginY
                 }
             }
         }
