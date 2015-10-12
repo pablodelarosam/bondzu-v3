@@ -189,7 +189,7 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             {
                 let payments = Payments()
                 //make payment to existing customer
-                payments.makePaymentToCurrentUserWithExistingCard(cardid: cardSelected.id, amount: String(self.producto.precio1), activityIndicator: self.activityIndicator, descripcion: self.producto.descripcion, controller: self)
+                payments.makePaymentToCurrentUserWithExistingCard(cardid: cardSelected.id, amount: String(self.producto.precio1), activityIndicator: self.activityIndicator, descripcion: self.producto.descripcion, controller: self, productId: self.producto.objectId, transDescription: "Gifts / Donations - \(self.producto.nombre) - Bondzu")
             }
             
         }))
