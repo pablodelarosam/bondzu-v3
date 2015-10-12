@@ -11,6 +11,8 @@ import Parse
 
 class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, CapsuleLoadingDelegate{
 
+    let initialThumbnail = UIImage(named: "aboutselected")!
+    
     var navHairLine:UIImageView? = UIImageView()
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -115,32 +117,40 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("animalCell", forIndexPath: indexPath) as! AnimalCollectionViewCell
         cell.layer.shouldRasterize = true;
         cell.layer.rasterizationScale = UIScreen.mainScreen().scale;
+        cell.imageView.image = initialThumbnail
         
+        cell.tab = segementedControl.selectedSegmentIndex
+        cell.row = indexPath.row
+
         if segementedControl.selectedSegmentIndex == 0{
             let animal = searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row]
             cell.nameLabel.text = animal.name;
             cell.speciesLabel.text = animal.specie;
-            let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / NUMBER_ITEMS_ROW, height:self.screenWidth / NUMBER_ITEMS_ROW))
-            cell.imageView.image = photoFinal
 
-            /*var initialThumbnail = UIImage(named: "question")
-            cell.imageView.image = initialThumbnail*/
-            /*let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
-            dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                // do some task
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / self.NUMBER_ITEMS_ROW, height:self.screenWidth / self.NUMBER_ITEMS_ROW))
                 dispatch_async(dispatch_get_main_queue()) {
-                cell.imageView.image = photoFinal
+                    if cell.tab == self.segementedControl.selectedSegmentIndex && cell.row == indexPath.row{
+                        cell.imageView.image = photoFinal
+                    }
                 }            
-            }*/
+            }
 
         }
         else{
             let capsule = searching ? self.searchedVideoCapsules[indexPath.row] : self.videoCapsules[indexPath.row]
             cell.nameLabel.text = capsule.title[0]
             cell.speciesLabel.text = capsule.animalName;
-            let photoFinal = imageWithImage(capsule.image, scaledToSize: CGSize(width:self.screenWidth / NUMBER_ITEMS_ROW, height:self.screenWidth / NUMBER_ITEMS_ROW))
-            cell.imageView.image = photoFinal
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                let photoFinal = imageWithImage(capsule.image, scaledToSize: CGSize(width:self.screenWidth / self.NUMBER_ITEMS_ROW, height:self.screenWidth / self.NUMBER_ITEMS_ROW))
+                dispatch_async(dispatch_get_main_queue()) {
+                    if cell.tab == self.segementedControl.selectedSegmentIndex && cell.row == indexPath.row{
+                        cell.imageView.image = photoFinal
+                    }
+                }
+            }
+            
         }
         Imagenes.redondeaVista(cell.imageView, radio: cell.imageView.frame.size.width / 2);
         cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;

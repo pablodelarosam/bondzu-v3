@@ -12,4 +12,7 @@ class AnimalCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var speciesLabel: UILabel!
+    
+    var tab = 0
+    var row = 0
 }
