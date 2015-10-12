@@ -16,6 +16,8 @@ protocol NoCamerasDismissedProtocol
 class NoCamerasViewController: UIViewController{
 
     @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var infoLabel: UITextView!
+    
     
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark)) as UIVisualEffectView
     @IBOutlet weak var blur: UIView!
@@ -29,6 +31,8 @@ class NoCamerasViewController: UIViewController{
         self.blur.alpha = 0.95
         
         self.backgroundImage.image = backImage
+        
+        infoLabel.text = NSLocalizedString("I need time for myself Just like everyone else. Please come back later", comment: "")
         // Do any additional setup after loading the view.
     }
     

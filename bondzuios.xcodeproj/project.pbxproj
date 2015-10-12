@@ -150,7 +150,7 @@
 		B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
 		B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithImageButton.swift; sourceTree = "<group>"; };
 		B358A1231BCB314200DC9525 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B358A1261BCB314500DC9525 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
+		B358A1281BCB432900DC9525 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
 		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B37FC3521BC31F2F00B5692D /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
@@ -704,7 +704,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B358A1231BCB314200DC9525 /* Base */,
-				B358A1261BCB314500DC9525 /* es-419 */,
+				B358A1281BCB432900DC9525 /* es-419 */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

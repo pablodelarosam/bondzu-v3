@@ -29,6 +29,8 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         updateProductsThatShouldShow()
     }
     
+    @IBOutlet weak var noGiftsLabel: UITextView!
+    
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
 
@@ -51,6 +53,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         self.toolbar.tintColor = UIColor.whiteColor()
         self.txtNoGifts.hidden = true
         getProductsOfAnimalWith(self.animalId)
+        noGiftsLabel.text = NSLocalizedString("No gifts here.", comment: "")
     }
     
     override func viewWillAppear(animated: Bool) {

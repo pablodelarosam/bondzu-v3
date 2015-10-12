@@ -295,6 +295,7 @@
                     <connections>
                         <outlet property="backgroundImage" destination="rHc-LH-EZg" id="BdX-66-ihh"/>
                         <outlet property="blur" destination="wv7-CN-4Xo" id="GBi-iR-od0"/>
+                        <outlet property="infoLabel" destination="w9y-pv-yUr" id="PGv-bw-ofH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M4T-H1-dPd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -590,6 +591,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="yPf-Ib-NSd" id="TYu-3f-wbE"/>
                         <outlet property="collectionView" destination="eks-Yx-9hU" id="opb-5y-tlS"/>
+                        <outlet property="noGiftsLabel" destination="ula-HD-hJl" id="iiS-v0-fk0"/>
                         <outlet property="toolbar" destination="b9u-MS-Bj6" id="CQq-mm-ewT"/>
                         <outlet property="txtNoGifts" destination="ula-HD-hJl" id="QAb-zd-yp5"/>
                         <segue destination="xX9-Oj-Liy" kind="showDetail" identifier="segueDetailGift" id="El6-pN-fK1"/>
@@ -1194,7 +1196,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n7y-uE-6sO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1274" y="-1226"/>
+            <point key="canvasLocation" x="1305" y="-857"/>
         </scene>
         <!--Tabs View Controller-->
         <scene sceneID="NKG-0e-tzV">
