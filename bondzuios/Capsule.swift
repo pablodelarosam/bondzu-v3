@@ -14,10 +14,10 @@ protocol CapsuleLoadingDelegate{
     func capsuleDidFailLoading(capsule : Capsule)
 }
 
-class Capsule: NSObject {
+class Capsule : Equatable{
     
     class func videoPattern(id : String) -> String{
-        return "http://img.youtube.com/vi/\(id)/mqdefault.jpg"
+        return "https://img.youtube.com/vi/\(id)/mqdefault.jpg"
     }
     
     var videoID : [String]
@@ -34,7 +34,6 @@ class Capsule: NSObject {
         title = object[TableVideoCapsuleNames.Title.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! [String]
         videoDescription = object[TableVideoCapsuleNames.Description.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! [String]
         publishedOn = object.updatedAt!
-        super.init()
         self.delegate = delegate
         let animal = object[TableVideoCapsuleNames.AnimalID.rawValue] as! PFObject
         animal.fetchInBackgroundWithBlock {
@@ -55,4 +54,8 @@ class Capsule: NSObject {
             
         }
     }
+}
+
+func ==(lhs: Capsule, rhs: Capsule) -> Bool{
+    return lhs.videoID[0] == rhs.videoID[0]
 }

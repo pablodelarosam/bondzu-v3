@@ -54,7 +54,7 @@ func getImageInBackground(url string : String, block : (UIImage->Void)){
         let data = NSData(contentsOfURL: url)
         
         guard data != nil else{
-            print("error getting image");
+            print("error getting image \(url)");
             dispatch_async(dispatch_get_main_queue()){
                 block(UIImage())
             }

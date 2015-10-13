@@ -27,6 +27,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     let NUMBER_ITEMS_ROW: CGFloat = 3;
     
+    var toLoadAnimals = 0
+    var toLoadVideos = 0
+    
     var searching = false
     
     var searchedAnimals = [AnimalV2]()
@@ -109,10 +112,21 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if segementedControl.selectedSegmentIndex == 0{
-            return searching ? self.searchedAnimals.count : self.animalsToShow.count
+            if toLoadAnimals == 0{
+                return searching ? self.searchedAnimals.count : self.animalsToShow.count
+            }
+            else{
+                return 0;
+            }
+            
         }
         else{
-            return searching ? self.searchedVideoCapsules.count : self.videoCapsules.count
+            if toLoadVideos == 0{
+                return searching ? self.searchedVideoCapsules.count : self.videoCapsules.count
+            }
+            else{
+                return 0
+            }
         }
     }
     
@@ -216,8 +230,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             (objects: [AnyObject]?, error: NSError?) -> Void in
             if error == nil {
                 // The find succeeded.
-                print("Successfully retrieved \(objects!.count) animals.")
                 if let objects = objects as? [PFObject] {
+                    self.toLoadAnimals = objects.count
                     var i = 0 as Int;
                     for object in objects {
                         let image = object.objectForKey(TableAnimalColumnNames.Photo.rawValue) as? PFFile;
@@ -229,16 +243,23 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                             animal.specie = object.objectForKey(TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
                             self.animalsToShow.append(animal);
                             image?.getDataInBackgroundWithBlock{
-                                    (imageData: NSData?, error: NSError?) -> Void in
-                                    if error == nil
-                                    {
-                                        animal.image = UIImage(data: imageData!)!;
+                                (imageData: NSData?, error: NSError?) -> Void in
+                                if error == nil{
+                                    animal.image = UIImage(data: imageData!)!;
+                                    dispatch_async(dispatch_get_main_queue()){
+                                        self.toLoadAnimals--
                                         if self.segementedControl.selectedSegmentIndex == 0{
-                                            dispatch_async(dispatch_get_main_queue()){
-                                                self.collectionView.reloadData()
-                                            }
+                                            self.collectionView.reloadData()
                                         }
                                     }
+                                }
+                                else{
+                                    dispatch_async(dispatch_get_main_queue()){
+                                        let index = self.animalsToShow.indexOf(animal)
+                                        self.animalsToShow.removeAtIndex(index!)
+                                         self.toLoadAnimals--
+                                    }
+                                }
                             }
                             i++;
                         }
@@ -261,6 +282,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         videoQuery.findObjectsInBackgroundWithBlock {
             (array, error) -> Void in
             if error == nil, let capsulesArray = array{
+                self.toLoadVideos = capsulesArray.count
+                
                 for object in capsulesArray as! [PFObject]{
                     let c = Capsule(object: object, delegate: self)
                     self.videoCapsules.append(c)
@@ -363,11 +386,18 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     func capsuleDidFinishLoading(capsule: Capsule) {
         dispatch_async(dispatch_get_main_queue()){
+            self.toLoadVideos--
             if self.segementedControl.selectedSegmentIndex == 1{
                 self.collectionView.reloadData()
             }
         }
     }
     
-    func capsuleDidFailLoading(capsule: Capsule) {}
+    func capsuleDidFailLoading(capsule: Capsule) {
+        dispatch_async(dispatch_get_main_queue()){
+            let index = self.videoCapsules.indexOf(capsule)
+            self.videoCapsules.removeAtIndex(index!)
+            self.toLoadVideos--
+        }
+    }
 }

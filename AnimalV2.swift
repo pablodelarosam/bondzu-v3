@@ -8,10 +8,16 @@
 
 import Foundation
 
-class AnimalV2
+class AnimalV2 : Equatable
 {
     var image =  UIImage();
     var name: String!;
     var specie: String!;
     var objectId: String!;
+    
+}
+
+
+func ==(lhs: AnimalV2, rhs: AnimalV2) -> Bool{
+    return lhs.objectId == rhs.objectId
 }
