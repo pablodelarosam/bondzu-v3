@@ -68,6 +68,8 @@
 		B38FC2571BCA407200363EF2 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FC1B7B12B9005782A6 /* Animal.swift */; };
 		B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E41B8F5CC100509A72 /* AboutLateralView.swift */; settings = {ASSET_TAGS = (); }; };
 		B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E61B8F6F1800509A72 /* Usuario.swift */; settings = {ASSET_TAGS = (); }; };
+		B39DC4CC1BCFFF45002AC47C /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B39DC4CA1BCFFF45002AC47C /* Stripe.framework */; };
+		B39DC4CD1BCFFF45002AC47C /* youtube_ios_player_helper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B39DC4CB1BCFFF45002AC47C /* youtube_ios_player_helper.framework */; };
 		B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B3A29EF11BB9EC0400F5EB8B /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B3A29EF41BBAF05200F5EB8B /* AdopedAnimalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF31BBAF05200F5EB8B /* AdopedAnimalsViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -161,6 +163,12 @@
 		B37FC3601BC4420800B5692D /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B39719E41B8F5CC100509A72 /* AboutLateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutLateralView.swift; sourceTree = "<group>"; };
 		B39719E61B8F6F1800509A72 /* Usuario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Usuario.swift; path = bondzuios/Usuario.swift; sourceTree = "<group>"; };
+		B39DC4B31BCFF762002AC47C /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = "Pods/../build/Debug-iphoneos/Stripe.framework"; sourceTree = "<group>"; };
+		B39DC4B41BCFF763002AC47C /* youtube_ios_player_helper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = youtube_ios_player_helper.framework; path = "Pods/../build/Debug-iphoneos/youtube_ios_player_helper.framework"; sourceTree = "<group>"; };
+		B39DC4C61BCFFD29002AC47C /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = "Pods/../build/Release-iphoneos/Stripe.framework"; sourceTree = "<group>"; };
+		B39DC4C71BCFFD29002AC47C /* youtube_ios_player_helper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = youtube_ios_player_helper.framework; path = "Pods/../build/Debug-iphoneos/youtube_ios_player_helper.framework"; sourceTree = "<group>"; };
+		B39DC4CA1BCFFF45002AC47C /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = "Pods/../build/Debug-iphoneos/Stripe.framework"; sourceTree = "<group>"; };
+		B39DC4CB1BCFFF45002AC47C /* youtube_ios_player_helper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = youtube_ios_player_helper.framework; path = "Pods/../build/Debug-iphoneos/youtube_ios_player_helper.framework"; sourceTree = "<group>"; };
 		B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		B3A29EF31BBAF05200F5EB8B /* AdopedAnimalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdopedAnimalsViewController.swift; sourceTree = "<group>"; };
@@ -191,11 +199,13 @@
 				54E447A51B74024B00BF580F /* libsqlite3.dylib in Frameworks */,
 				54E447A71B74025100BF580F /* Accounts.framework in Frameworks */,
 				54E447A91B74025600BF580F /* Social.framework in Frameworks */,
+				59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */,
+				B39DC4CC1BCFFF45002AC47C /* Stripe.framework in Frameworks */,
+				B39DC4CD1BCFFF45002AC47C /* youtube_ios_player_helper.framework in Frameworks */,
 				B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */,
 				B3BD86DD1BA92D9900D5E036 /* FBSDKCoreKit.framework in Frameworks */,
 				54E4479B1B74022D00BF580F /* QuartzCore.framework in Frameworks */,
 				B3BD86DB1BA92D8C00D5E036 /* ParseFacebookUtilsV4.framework in Frameworks */,
-				59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */,
 				54E447911B74020500BF580F /* Parse.framework in Frameworks */,
 				54E447901B74020500BF580F /* Bolts.framework in Frameworks */,
 			);
@@ -444,6 +454,12 @@
 		CBF380E5CDA199239CE20526 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B39DC4CA1BCFFF45002AC47C /* Stripe.framework */,
+				B39DC4CB1BCFFF45002AC47C /* youtube_ios_player_helper.framework */,
+				B39DC4C61BCFFD29002AC47C /* Stripe.framework */,
+				B39DC4C71BCFFD29002AC47C /* youtube_ios_player_helper.framework */,
+				B39DC4B31BCFF762002AC47C /* Stripe.framework */,
+				B39DC4B41BCFF763002AC47C /* youtube_ios_player_helper.framework */,
 				B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */,
 				B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */,
 				B3BD86DA1BA92D8C00D5E036 /* ParseFacebookUtilsV4.framework */,
@@ -818,6 +834,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
 				);
 				INFOPLIST_FILE = bondzuios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -836,12 +854,14 @@
 			baseConfigurationReference = 369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bondzu, S.A. de C.V. (P95F7PXU7A)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bondzu, S.A. de C.V. (P95F7PXU7A)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
 				);
 				INFOPLIST_FILE = bondzuios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
