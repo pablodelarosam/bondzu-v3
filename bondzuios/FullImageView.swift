@@ -59,7 +59,7 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
         
         UIView.animateWithDuration(0.5,
             animations: {
-                fullImageView?.frame.origin = CGPoint(x: 0, y: fullImageView!.frame.size.height)
+                self.fullImageView?.frame.origin = CGPoint(x: 0, y: self.fullImageView!.frame.size.height)
             },
             completion: {
                 _ in

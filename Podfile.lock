@@ -2,11 +2,14 @@ PODS:
   - Stripe (5.1.2):
     - Stripe/Core (= 5.1.2)
   - Stripe/Core (5.1.2)
+  - youtube-ios-player-helper (0.1.4)
 
 DEPENDENCIES:
   - Stripe
+  - youtube-ios-player-helper (~> 0.1.1)
 
 SPEC CHECKSUMS:
   Stripe: 141b28d157f12db2e1624315cf19f1b6bd5af84d
+  youtube-ios-player-helper: 84b1485ebb4b7c6b619c6e05edcb55186723a7c6
 
 COCOAPODS: 0.38.2

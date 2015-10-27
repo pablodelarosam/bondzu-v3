@@ -25,7 +25,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     var barButtonItem : UIBarButtonItem?
     
-    let NUMBER_ITEMS_ROW: CGFloat = 3;
+    let NUMBER_ITEMS_ROW: CGFloat = 2;
     
     var toLoadAnimals = 0
     var toLoadVideos = 0
@@ -60,10 +60,17 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.heightBanner.constant = 0;
         self.navigationController?.navigationBar.barStyle = .Black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        
+        let cellWidth = ( UIScreen.mainScreen().bounds.width - 15 * NUMBER_ITEMS_ROW) / NUMBER_ITEMS_ROW
+        let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth + 20)
+        cellLayout.minimumInteritemSpacing = 5
         
         self.collectionView.backgroundView?.alpha = 0;
         screenSize = UIScreen.mainScreen().bounds
