@@ -45,9 +45,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         profile.layer.cornerRadius = 75/2
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
-    }
     
     
     override func didReceiveMemoryWarning() {

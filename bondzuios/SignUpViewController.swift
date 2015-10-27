@@ -61,10 +61,6 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         }
                 
     }
-
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
-    }
     
     /*
     @IBAction func login(sender: UIButton)

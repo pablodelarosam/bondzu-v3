@@ -549,7 +549,7 @@
                                     <outlet property="delegate" destination="Fbx-oJ-ciy" id="ked-jf-zgC"/>
                                 </connections>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yPf-Ib-NSd">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yPf-Ib-NSd">
                                 <rect key="frame" x="282" y="282" width="37" height="37"/>
                                 <animations/>
                                 <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1283,12 +1283,6 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="1CZ-LH-EII">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="417"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <color key="color" red="0.99215686270000003" green="0.53725490200000003" blue="0.08235294118" alpha="1" colorSpace="calibratedRGB"/>
-                                </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="animalCell" id="7nG-jh-GD8" customClass="AnimalCollectionViewCell" customModule="Bondzu" customModuleProvider="target">
                                         <rect key="frame" x="10" y="0.0" width="100" height="135"/>
@@ -1354,6 +1348,11 @@
                                     <outlet property="delegate" destination="zmZ-TO-0Iz" id="eEe-Ou-M7L"/>
                                 </connections>
                             </searchBar>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="1CZ-LH-EII">
+                                <rect key="frame" x="281" y="298" width="37" height="37"/>
+                                <animations/>
+                                <color key="color" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1361,10 +1360,12 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Wtm-vf-Fu8" secondAttribute="trailing" constant="-20" id="09I-TX-onk"/>
                             <constraint firstItem="Pyp-R1-zGu" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="0AE-b0-UJD"/>
                             <constraint firstItem="H2M-B0-EM6" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="3l6-Ay-1gs"/>
+                            <constraint firstItem="1CZ-LH-EII" firstAttribute="centerX" secondItem="uRj-vP-Bur" secondAttribute="centerX" id="68p-ka-K1V"/>
                             <constraint firstItem="udw-w0-J2q" firstAttribute="top" secondItem="Wtm-vf-Fu8" secondAttribute="bottom" id="6vt-oV-wG6"/>
                             <constraint firstItem="lPO-4p-V5A" firstAttribute="leading" secondItem="Pyp-R1-zGu" secondAttribute="leading" id="842-fQ-9JH"/>
                             <constraint firstItem="Wtm-vf-Fu8" firstAttribute="top" secondItem="Pyp-R1-zGu" secondAttribute="bottom" id="959-fC-0eu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="lPO-4p-V5A" secondAttribute="trailing" constant="-20" id="9CM-gW-zeZ"/>
+                            <constraint firstItem="1CZ-LH-EII" firstAttribute="centerY" secondItem="uRj-vP-Bur" secondAttribute="centerY" id="Awb-It-cH3"/>
                             <constraint firstItem="GVe-ft-3f0" firstAttribute="top" secondItem="udw-w0-J2q" secondAttribute="bottom" id="I0p-6b-Ohi"/>
                             <constraint firstItem="Pyp-R1-zGu" firstAttribute="top" secondItem="8zC-eY-bcc" secondAttribute="bottom" id="JLd-kS-bG0"/>
                             <constraint firstItem="Wtm-vf-Fu8" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="Kbe-hS-oUK"/>
@@ -1377,11 +1378,19 @@
                             <constraint firstItem="EQm-oB-lZH" firstAttribute="top" secondItem="Pyp-R1-zGu" secondAttribute="bottom" id="cJe-Ol-10X"/>
                             <constraint firstItem="Wtm-vf-Fu8" firstAttribute="top" secondItem="Pyp-R1-zGu" secondAttribute="bottom" id="dIP-id-NsE"/>
                             <constraint firstItem="GVe-ft-3f0" firstAttribute="top" secondItem="H2M-B0-EM6" secondAttribute="bottom" id="dhP-YM-lP3"/>
+                            <constraint firstItem="1CZ-LH-EII" firstAttribute="centerX" secondItem="Wtm-vf-Fu8" secondAttribute="centerX" id="eQC-MG-B3d"/>
                             <constraint firstItem="H2M-B0-EM6" firstAttribute="top" secondItem="8zC-eY-bcc" secondAttribute="bottom" id="gea-qW-hYH"/>
                             <constraint firstItem="udw-w0-J2q" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="gx2-Sc-aJY"/>
+                            <constraint firstItem="1CZ-LH-EII" firstAttribute="centerY" secondItem="Wtm-vf-Fu8" secondAttribute="centerY" id="leR-5f-afc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EQm-oB-lZH" secondAttribute="trailing" constant="-20" id="rW4-v7-v0V"/>
                             <constraint firstItem="udw-w0-J2q" firstAttribute="top" secondItem="Wtm-vf-Fu8" secondAttribute="bottom" id="xlE-pN-Ts8"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="68p-ka-K1V"/>
+                                <exclude reference="Awb-It-cH3"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Catalog" id="ZxD-C4-uER">
                         <barButtonItem key="leftBarButtonItem" image="profileBar" style="plain" id="YH6-5Z-SAS">
@@ -1411,7 +1420,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P1S-4P-bCp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-64" y="-229"/>
+            <point key="canvasLocation" x="-63" y="-262"/>
         </scene>
         <!--Video Capsulas View Controller-->
         <scene sceneID="JET-kS-w4L">
