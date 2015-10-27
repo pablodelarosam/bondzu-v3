@@ -229,6 +229,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         CATransaction.commit()
     }
     
+    ///Performs the animal and video query. Note: The animalV2 filling should be migrated to the model
     func getAnimals(){
         let query = PFQuery(className:TableNames.Animal_table.rawValue)
         query.whereKeyExists(TableAnimalColumnNames.ID.rawValue);
@@ -305,7 +306,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         }
         
     }
-
+    
+    ///Dissmises the keyboard
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         guard searchBar.text != nil else{ return }
         
@@ -316,18 +318,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         searching = true
         searchBar.resignFirstResponder()
-        searchedAnimals = animalsToShow.filter({ (element) -> Bool in
-            let name = element.name.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
-            let species = element.specie.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
-            
-            if name != nil || species != nil{
-                return true
-            }
-            return false
-        })
-        collectionView.reloadData()
     }
     
+    ///Function that is called when the search bar text changes. It determines if the user is searching and returns the result data.
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         
         guard searchBar.text != nil && searchBar.text?.characters.count != 0 else{
@@ -365,6 +358,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     }
     
+    ///Called when the search bar has to be either shown or dissmised
     @IBAction func searchButtonPressed(sender: AnyObject) {
         if !searchBar.hidden{
             searching = false
