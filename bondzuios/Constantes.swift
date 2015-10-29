@@ -9,6 +9,28 @@
 import Foundation
 import UIKit
 
+#if DEBUG
+    enum PFCloudFunctionNames : String{
+        case ListCards = "listCards_test"
+        case DeleteCard = "deleteCard_test_test"
+        case CreateCard = "createCard_test"
+        case CreateCharge = "createCharge_test"
+        case CreateChargeExistingCard = "createChargeExistingCard_test"
+        case CreateCustomer = "createCustomer_test"
+        
+    }
+#else
+    enum PFCloudFunctionNames : String{
+        case ListCards = "listCards"
+        case DeleteCard = "deleteCard"
+        case CreateCard = "createCard"
+        case CreateCharge = "createCharge"
+        case CreateChargeExistingCard = "createChargeExistingCard"
+        case CreateCustomer = "createCustomer"
+    }
+#endif
+
+
 class Constantes
 {
     static let COLOR_NARANJA_NAVBAR:UIColor = UIColor.orangeColor()

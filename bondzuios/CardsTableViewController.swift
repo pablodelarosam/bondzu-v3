@@ -65,7 +65,7 @@ class CardsTableViewController: UITableViewController {
             [
                 "customer_id" : id
             ]
-            PFCloud.callFunctionInBackground("listCards", withParameters: dic) { (object , error) -> Void in
+            PFCloud.callFunctionInBackground(PFCloudFunctionNames.ListCards.rawValue, withParameters: dic) { (object , error) -> Void in
                 if(error != nil)
                 {
                     dispatch_async(dispatch_get_main_queue()){
@@ -165,7 +165,7 @@ class CardsTableViewController: UITableViewController {
             "card_id" : card_id
         ]
         
-        PFCloud.callFunctionInBackground("deleteCard", withParameters: dic) { (object, error) -> Void in
+        PFCloud.callFunctionInBackground(PFCloudFunctionNames.DeleteCard.rawValue, withParameters: dic) { (object, error) -> Void in
             if(error != nil)
             {
                 let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The credit card could not be removed", comment: ""), preferredStyle: .Alert)

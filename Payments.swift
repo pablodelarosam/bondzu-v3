@@ -75,7 +75,7 @@ class Payments
             "source" : token.tokenId
         ]
         
-        PFCloud.callFunctionInBackground("createCard", withParameters: dic) { (result: AnyObject?, error: NSError?) in
+        PFCloud.callFunctionInBackground(PFCloudFunctionNames.CreateCard.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
             if(error == nil)
             {
                 let card = STPCard();
@@ -132,7 +132,7 @@ class Payments
                 "description": descripcion
             ]
             
-            PFCloud.callFunctionInBackground("createCharge", withParameters: dic) { (result: AnyObject?, error: NSError?) in
+            PFCloud.callFunctionInBackground(PFCloudFunctionNames.CreateCharge.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
                 let res = result as? NSObject
                 print("result")
                 print(res)
@@ -187,16 +187,6 @@ class Payments
             controller.presentViewController(a, animated: true, completion: nil)
         }
         
-        
-        /*
-        PFCloud.callFunctionInBackground("createCharge", withParameters: ["amount":self.txtAmount.text, "currency":"mxn", "source": token, "description": "hola"] as [NSObject: AnyObject]? ) { (object, error) -> Void in
-        if(error != nil)
-        {
-        print("error");
-        }else{
-        
-        }
-        }*/
     }
     
     private func createChargeToExistingCard(cusId cusId: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, cardId: String, productId: String, transDescription: String)
@@ -215,7 +205,7 @@ class Payments
                 "description": descripcion
             ]
             
-            PFCloud.callFunctionInBackground("createChargeExistingCard", withParameters: dic) { (result: AnyObject?, error: NSError?) in
+            PFCloud.callFunctionInBackground(PFCloudFunctionNames.CreateChargeExistingCard.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
                 let res = result as? NSObject
                 print("result")
                 print(res)

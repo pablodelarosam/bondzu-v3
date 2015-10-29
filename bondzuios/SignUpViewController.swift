@@ -235,7 +235,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                 "description" : "Cuenta creada para \(self.mail.text!)"
             ]
                 
-            PFCloud.callFunctionInBackground("createCustomer", withParameters: dic) { (result: AnyObject?, error: NSError?) in
+            PFCloud.callFunctionInBackground(PFCloudFunctionNames.CreateCustomer.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
                 print("create Customer result = \(result)")
                 
                 if(error == nil)

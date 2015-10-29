@@ -64,7 +64,7 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             [
                 "customer_id" : id
             ]
-            PFCloud.callFunctionInBackground("listCards", withParameters: dic) { (object , error) -> Void in
+            PFCloud.callFunctionInBackground(PFCloudFunctionNames.ListCards.rawValue, withParameters: dic) { (object , error) -> Void in
                 if(error != nil)
                 {
                     self.activityIndicator.stopAnimating()
