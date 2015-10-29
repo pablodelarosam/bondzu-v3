@@ -130,7 +130,8 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     func imageSelected(image: UIImage) {
         let i = FullImageViewController()
-        i.background = captureScreen()
+        i.modalTransitionStyle = .CoverVertical
+        
         self.parentViewController!.presentViewController(i, animated: true, completion: nil)
         i.loadImage(image)
     }

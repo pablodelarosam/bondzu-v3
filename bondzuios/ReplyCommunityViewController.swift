@@ -184,7 +184,6 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     
     func imageSelected(messageId: String) {
         let i = FullImageViewController()
-        i.background = captureScreen()
         i.loadParseImage(message.message[TableMessagesColumnNames.Photo.rawValue] as! PFFile)
         self.parentViewController!.presentViewController(i, animated: true, completion: nil)
     }

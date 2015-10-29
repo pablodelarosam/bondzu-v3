@@ -15,8 +15,9 @@ import Parse
 extension UINavigationController {
     
     public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return visibleViewController!.supportedInterfaceOrientations()
+        return UIInterfaceOrientationMask.Portrait
     }
+    
     public override func shouldAutorotate() -> Bool {
         return visibleViewController!.shouldAutorotate()
     }
@@ -46,12 +47,12 @@ extension UINavigationController {
 }
 
 extension UITabBarController {
+    
     public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if let selected = selectedViewController {
-            return selected.supportedInterfaceOrientations()
-        }
-        return super.supportedInterfaceOrientations()
+        return UIInterfaceOrientationMask.Portrait
     }
+    
+    
     public override func shouldAutorotate() -> Bool {
         if let selected = selectedViewController {
             return selected.shouldAutorotate()

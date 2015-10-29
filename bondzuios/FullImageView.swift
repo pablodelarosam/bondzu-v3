@@ -11,7 +11,7 @@ import Parse
 
 class FullImageViewController: UIViewController, UINavigationControllerDelegate {
     
-    private var fullImageView : FullImageView?
+    private weak var fullImageView : FullImageView?
     
     
     func loadImage(image : UIImage){
@@ -31,14 +31,7 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
             self.fullImageView?.image = UIImage(data: imageData)
         }
     }
-    
-    var background = UIImage(){
-        didSet{
-            if let f = fullImageView{
-                f.image = background
-            }
-        }
-    }
+
     
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -46,44 +39,29 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
     
     
     override func viewDidLoad() {
-        view = UIImageView(image: captureScreen())
         setNeedsStatusBarAppearanceUpdate()
-        fullImageView = FullImageView()
-        fullImageView!.bgImage.image = background
+        view = UIImageView(image: captureScreen())
+        view.userInteractionEnabled = true
+        let fiv =  FullImageView()
+        fullImageView = fiv
         fullImageView!.delegate = self
+        self.view.addSubview(fullImageView!)
     }
     
     func dismiss(){
         fullImageView!.delegate = nil
-        fullImageView?.delegate = nil
+        self.dismissViewControllerAnimated(true, completion: nil)
         
-        UIView.animateWithDuration(0.5,
-            animations: {
-                self.fullImageView?.frame.origin = CGPoint(x: 0, y: self.fullImageView!.frame.size.height)
-            },
-            completion: {
-                _ in
-                self.fullImageView?.removeFromSuperview()
-                self.dismissViewControllerAnimated(false, completion: nil)
-                
-            }
-        )
-        
+      
     }
-    
     
     
     class FullImageView : UIView{
 
         var button = UIButton()
         
-        var delegate : FullImageViewController?{
-            didSet{
-                if let d = delegate{
-                    button.addTarget(d, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
-                }
-            }
-        }
+        var delegate : FullImageViewController?
+        
         
         var imageview = UIImageView()
         var bgImage = UIImageView()
@@ -105,19 +83,19 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
         //TODO Version 2 Agregar un dismisal al bajar el dedo
         
         func dismiss(){
+            print("DISMISEANDO");
             delegate?.dismiss()
-            removeFromSuperview()
         }
         
         func load(){
             
-            if let w = UIApplication.sharedApplication().keyWindow{
+            /*if let w = UIApplication.sharedApplication().keyWindow{
                 w.addSubview(self)
                 self.frame = CGRect(x: 0, y: 0, width: w.bounds.width, height: w.bounds.height)
-            }
+            }*/
             
             button.setTitle(NSLocalizedString("Done", comment: ""), forState: UIControlState.Normal)
-        
+            button.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
             
             activityIndicatorView.hidesWhenStopped = true
             bgImage.contentMode = .ScaleAspectFill
@@ -192,7 +170,14 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
             
             button.sizeToFit()
             button.frame.origin = CGPoint(x: 20, y: 20)
+            
+            
         }
+        
 
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.AllButUpsideDown
     }
 }

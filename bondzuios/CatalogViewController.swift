@@ -19,7 +19,15 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     //MARK: Constants
     
     ///Number of items per row. Possibly there will be a modification that takes landscape mode in mind or even different devices so this can become a computed variable.
-    private let NUMBER_ITEMS_ROW: CGFloat = 2
+    private var NUMBER_ITEMS_ROW: CGFloat{
+
+        return 2
+        
+        /*let orientation = UIDevice.currentDevice().orientation
+        if orientation == .Portrait || orientation == .PortraitUpsideDown || orientation == .FaceUp || orientation == .FaceDown{ return 2 }
+        return 3*/
+        
+    }
     
     
     ///The image that appears when imageWithImage haven't finished processing
@@ -413,7 +421,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         
-        let cellWidth = ( UIScreen.mainScreen().bounds.width - 15 * NUMBER_ITEMS_ROW) / NUMBER_ITEMS_ROW
+        let cellWidth = ( min(UIScreen.mainScreen().bounds.width , UIScreen.mainScreen().bounds.height) - 15 * NUMBER_ITEMS_ROW) / NUMBER_ITEMS_ROW
         let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth + 20)
         cellLayout.minimumInteritemSpacing = 5
@@ -459,8 +467,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        //Height is a workaround as the view is not yet rotated
-        let cellWidth = ( UIScreen.mainScreen().bounds.height - 15 * NUMBER_ITEMS_ROW) / NUMBER_ITEMS_ROW
+        let cellWidth = ( min(UIScreen.mainScreen().bounds.height, UIScreen.mainScreen().bounds.width) - 15 * NUMBER_ITEMS_ROW) / NUMBER_ITEMS_ROW
         let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth + 20)
         cellLayout.minimumInteritemSpacing = 5

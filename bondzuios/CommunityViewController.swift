@@ -207,7 +207,6 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     
     func imageSelected(messageId: String) {
         let i = FullImageViewController()
-        i.background = captureScreen()
         self.parentViewController!.presentViewController(i, animated: true, completion: nil)
         
         for j in 0..<objects.count{

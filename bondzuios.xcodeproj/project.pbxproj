@@ -356,13 +356,13 @@
 			children = (
 				54571F851B7928F10092E359 /* Animacion.swift */,
 				B3797FE21B8CC1BE00924080 /* CircledButton.swift */,
+				B3AE26B71BDEFD3600DACA35 /* CircledImageView.swift */,
 				54C406481B7D67D20082768B /* Constantes.swift */,
 				B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */,
 				546490C01B7D3217007F3DEF /* Imagenes.swift */,
 				B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */,
 				B37FC35F1BC441C000B5692D /* Localizable.strings */,
 				54571F831B7928E10092E359 /* Utiles.swift */,
-				B3AE26B71BDEFD3600DACA35 /* CircledImageView.swift */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";

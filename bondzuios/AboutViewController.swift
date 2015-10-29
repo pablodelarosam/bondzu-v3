@@ -48,12 +48,10 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         heightConstraint.constant = UIScreen.mainScreen().bounds.height / 3
         widthConstraint.constant = UIScreen.mainScreen().bounds.width / 3
         visualEffectView.frame.size = CGSize( width: UIScreen.mainScreen().bounds.width ,height: heightConstraint.constant)
-        Imagenes.redondeaVista(visibleImage, radio: visibleImage.frame.size.width/2)
         blurContainer.alpha = 1
     }
     
     override func viewDidLayoutSubviews() {
-        Imagenes.redondeaVista(visibleImage, radio: visibleImage.bounds.size.height/2)
         blurContainer.alpha = 0.8
     }
 
