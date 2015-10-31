@@ -9,11 +9,13 @@
 import UIKit
 import Parse
 import FBSDKCoreKit
+import WebKit
+
 
 import MobileCoreServices
 
 
-class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WKNavigationDelegate {
     
     @IBOutlet weak var mail: UITextField!
     @IBOutlet weak var pass: UITextField!
@@ -23,9 +25,43 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     @IBOutlet weak var joinfb: UIButton!
     
     @IBOutlet weak var profile: UIImageView!
+    @IBOutlet weak var termsButton: UIButton!
+
+   var done: UIBarButtonItem!
+    
+    weak var webView : WKWebView?
+    
     var hasImage = false
     
     var loading : LoadingView?
+    
+    
+    
+    @IBAction func showTerms(sender: AnyObject) {
+        let w = WKWebView(frame: CGRect(x: self.view.frame.origin.x, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height), configuration: WKWebViewConfiguration())
+        w.scrollView.contentInset = UIEdgeInsets(top: navigationController!.navigationBar.frame.size.height, left: 10, bottom: 10, right: 10)
+        let request = NSURLRequest(URL: privacyURL!)
+        w.loadRequest(request)
+        view.addSubview(w)
+        webView = w
+        webView?.navigationDelegate = self
+        UIView.animateWithDuration(0.7, animations: {
+            self.webView!.frame = CGRect(x: self.view.frame.origin.x, y: self.view.frame.origin.y, width: self.webView!.frame.width, height: self.webView!.frame.height)
+            })
+        
+        navigationItem.leftBarButtonItem = done
+    }
+    
+    @IBAction func clickedDone(sender: AnyObject) {
+        webView?.navigationDelegate = nil
+        navigationItem.leftBarButtonItem = nil
+        webView?.stopLoading()
+        UIView.animateWithDuration(0.7, animations: {
+            self.webView!.frame = CGRect(x: 0, y: self.view.frame.height, width: self.webView!.frame.width, height: self.webView!.frame.height)
+            }, completion: { _ in
+                self.webView?.removeFromSuperview()
+        })
+    }
     
     override func viewDidAppear(animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Sign Up", comment: "")
@@ -54,12 +90,12 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         profile.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changeIcon"))
         profile.userInteractionEnabled = true
         
-        profile.layer.cornerRadius = 75/2
-        
         if let user = PFUser.currentUser(){
             performSegueWithIdentifier("loginSegue", sender: user)
         }
-                
+        
+        termsButton.titleLabel!.adjustsFontSizeToFitWidth = true
+        done = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .Done, target: self, action: "clickedDone:")
     }
     
     /*
@@ -430,4 +466,11 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         
     //TODO ver porque en community no jala el indicator
 
+    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
+        if let w = self.webView{
+            let javascript = "var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');document.getElementsByTagName('head')[0].appendChild(meta);"
+            w.evaluateJavaScript(javascript, completionHandler: nil)
+        }
+    }
+    
 }

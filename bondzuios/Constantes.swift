@@ -42,6 +42,7 @@ class Constantes
 }
 
 let LOCALIZED_STRING = "locale"
+let privacyURL = NSURL(string: "http://bondzu.com/privacy.html")
 
 
 enum TableNames : String{

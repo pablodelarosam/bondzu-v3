@@ -1511,7 +1511,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="K2S-Rh-lyX">
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="K2S-Rh-lyX">
                                 <rect key="frame" x="20" y="158" width="560" height="150"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P8U-cI-27Y">
@@ -1676,16 +1676,15 @@
                                 </subviews>
                                 <animations/>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_pic" translatesAutoresizingMaskIntoConstraints="NO" id="aw6-Ac-BdR">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="profile_pic" translatesAutoresizingMaskIntoConstraints="NO" id="aw6-Ac-BdR" customClass="CircledImageView" customModule="Bondzu" customModuleProvider="target">
                                 <rect key="frame" x="263" y="75" width="75" height="75"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="aw6-Ac-BdR" secondAttribute="height" multiplier="1:1" id="7MT-lT-fdO"/>
-                                    <constraint firstAttribute="width" constant="75" id="TMb-7u-cpA"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uur-5b-oPX">
-                                <rect key="frame" x="20" y="503" width="560" height="39"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uur-5b-oPX">
+                                <rect key="frame" x="20" y="468" width="560" height="39"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.38691384337549012" blue="0.8141974803664922" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
@@ -1699,8 +1698,8 @@
                                     <action selector="registerFacebook:" destination="exg-V6-FlA" eventType="touchUpInside" id="hk9-P8-W94"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMV-SL-ggu">
-                                <rect key="frame" x="292" y="474" width="16" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMV-SL-ggu">
+                                <rect key="frame" x="292" y="439" width="16" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1709,8 +1708,8 @@
                                     <rect key="frame" x="292" y="321" width="16" height="4"/>
                                 </variation>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jIh-gM-taB">
-                                <rect key="frame" x="158" y="555" width="285" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jIh-gM-taB">
+                                <rect key="frame" x="158" y="520" width="285" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTK-t8-Rzn">
                                         <rect key="frame" x="0.0" y="0.0" width="196" height="30"/>
@@ -1733,8 +1732,8 @@
                                 </subviews>
                                 <animations/>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pC7-k2-cfd">
-                                <rect key="frame" x="20" y="427" width="560" height="39"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pC7-k2-cfd">
+                                <rect key="frame" x="20" y="392" width="560" height="39"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Join">
@@ -1747,13 +1746,24 @@
                                     <action selector="register" destination="exg-V6-FlA" eventType="touchUpInside" id="qQl-R2-JVl"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcN-Ud-lv7">
+                                <rect key="frame" x="120" y="562" width="361" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="By signing up you acept our terms and conditions"/>
+                                <connections>
+                                    <action selector="showTerms:" destination="exg-V6-FlA" eventType="touchUpInside" id="Pw7-iM-HJJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="Uur-5b-oPX" secondAttribute="leading" id="0Do-PV-Dy3"/>
                             <constraint firstItem="jIh-gM-taB" firstAttribute="centerX" secondItem="JEk-NE-WPW" secondAttribute="centerX" id="3DX-pS-i4R"/>
-                            <constraint firstItem="bE1-fJ-bT8" firstAttribute="top" secondItem="jIh-gM-taB" secondAttribute="bottom" priority="999" constant="15" id="Btl-br-Qxv"/>
+                            <constraint firstItem="dcN-Ud-lv7" firstAttribute="centerX" secondItem="JEk-NE-WPW" secondAttribute="centerX" id="4D9-cX-7nT"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="dcN-Ud-lv7" secondAttribute="trailing" constant="1" id="FwW-o2-8og"/>
                             <constraint firstItem="aMV-SL-ggu" firstAttribute="top" secondItem="pC7-k2-cfd" secondAttribute="bottom" constant="8" id="Q3J-MZ-Pjn"/>
                             <constraint firstItem="pC7-k2-cfd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="K2S-Rh-lyX" secondAttribute="bottom" constant="5" id="QTn-uu-t2M"/>
                             <constraint firstItem="Uur-5b-oPX" firstAttribute="top" secondItem="aMV-SL-ggu" secondAttribute="bottom" constant="8" id="TKs-tO-d1F"/>
@@ -1763,9 +1773,12 @@
                             <constraint firstItem="aw6-Ac-BdR" firstAttribute="top" secondItem="kVU-YW-uAd" secondAttribute="bottom" constant="11" id="au6-7A-v8r"/>
                             <constraint firstItem="K2S-Rh-lyX" firstAttribute="trailing" secondItem="JEk-NE-WPW" secondAttribute="trailingMargin" id="cNf-6e-aQp"/>
                             <constraint firstAttribute="leadingMargin" secondItem="pC7-k2-cfd" secondAttribute="leading" id="hVD-li-wkJ"/>
+                            <constraint firstItem="dcN-Ud-lv7" firstAttribute="top" secondItem="jIh-gM-taB" secondAttribute="bottom" constant="8" id="o8i-dp-440"/>
                             <constraint firstItem="aw6-Ac-BdR" firstAttribute="centerX" secondItem="JEk-NE-WPW" secondAttribute="centerX" id="qP9-d5-cI8"/>
                             <constraint firstItem="K2S-Rh-lyX" firstAttribute="leading" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" id="t67-V8-cNs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pC7-k2-cfd" secondAttribute="trailing" id="wf5-Os-d1b"/>
+                            <constraint firstItem="dcN-Ud-lv7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JEk-NE-WPW" secondAttribute="leadingMargin" constant="1" id="xle-eq-4rT"/>
+                            <constraint firstItem="bE1-fJ-bT8" firstAttribute="top" secondItem="dcN-Ud-lv7" secondAttribute="bottom" constant="8" id="zdn-RW-3gh"/>
                             <constraint firstItem="wTK-t8-Rzn" firstAttribute="top" secondItem="Uur-5b-oPX" secondAttribute="bottom" constant="13" id="zgn-6K-el0"/>
                         </constraints>
                     </view>
@@ -1777,6 +1790,7 @@
                         <outlet property="name" destination="vmA-SE-nde" id="nyn-Fc-gOY"/>
                         <outlet property="pass" destination="fyK-bq-zJQ" id="OLv-St-A6b"/>
                         <outlet property="profile" destination="aw6-Ac-BdR" id="oCA-F0-heP"/>
+                        <outlet property="termsButton" destination="dcN-Ud-lv7" id="scZ-FN-v1J"/>
                         <segue destination="zmZ-TO-0Iz" kind="show" identifier="loginSegue" id="Vh7-PO-hOE"/>
                     </connections>
                 </viewController>
