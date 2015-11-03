@@ -72,9 +72,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return UIStatusBarStyle.LightContent
     }
 
+  
     
     @IBAction func registerFacebook(sender: AnyObject) {
-        
         
         func process(user : PFUser?, error : NSError?){
             if error != nil{
@@ -83,46 +83,95 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 dispatch_async(dispatch_get_main_queue()){
                     self.loading?.finish()
                     self.loading = nil
-                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to sign up", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
                     a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     self.presentViewController(a, animated: true, completion: nil)
                 }
             }
             else if user!.isNew{
-                FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
-                    (connection, dic, error) -> Void in
-                    if let dictionary = dic as? Dictionary<String, AnyObject>{
-                        let user = PFUser.currentUser()!
-                        user[TableUserColumnNames.Name.rawValue] = dictionary["name"] as! String
-                        user.password = "\(random())"
-                        user[TableUserColumnNames.Mail.rawValue] = dictionary["email"] as! String
-                        user[TableUserColumnNames.PhotoURL.rawValue] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
-                        user.saveInBackgroundWithBlock({
-                            (saved, error) -> Void in
-                            if error != nil{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to sign up", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                                    self.presentViewController(a, animated: true, completion: nil)
+                
+                let dic : [String: String] =
+                [
+                    "email" : self.mail.text!,
+                    "description" : "Cuenta creada para \(self.mail.text!)"
+                ]
+                
+                PFCloud.callFunctionInBackground("createCustomer", withParameters: dic) { (result: AnyObject?, error: NSError?) in
+                    print("create Customer result = \(result)")
+                    
+                    if(error == nil){
+                        do {
+                            if let data = result?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                                
+                                let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                                if let jsonDict = jsonDict {
+                                    // work with dictionary here
+                                    let key = "id";
+                                    print("customer_id: \(jsonDict[key])")
+                                    if let id = jsonDict[key] as? String{
+                                        user![TableUserColumnNames.StripeID.rawValue] = id
+                                        
+                                        
+                                        FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
+                                            (connection, dic, error) -> Void in
+                                            if let dictionary = dic as? Dictionary<String, AnyObject>{
+                                                let user = PFUser.currentUser()!
+                                                user[TableUserColumnNames.Name.rawValue] = dictionary["name"] as! String
+                                                user.password = "\(random())"
+                                                user[TableUserColumnNames.Mail.rawValue] = dictionary["email"] as! String
+                                                user[TableUserColumnNames.PhotoURL.rawValue] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
+                                                user.saveInBackgroundWithBlock({
+                                                    (saved, error) -> Void in
+                                                    if error != nil{
+                                                        dispatch_async(dispatch_get_main_queue()){
+                                                            self.loading?.finish()
+                                                            self.loading = nil
+                                                            let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                                                            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
+                                                            self.presentViewController(a, animated: true, completion: nil)
+                                                        }
+                                                        print(error)
+                                                        user.deleteInBackgroundWithBlock({ (del, error) -> Void in
+                                                        })
+                                                    }
+                                                    else{
+                                                        dispatch_async(dispatch_get_main_queue()){
+                                                            self.loading?.finish()
+                                                            self.loading = nil
+                                                            self.performSegueWithIdentifier("catalog", sender: PFUser.currentUser()!)
+                                                        }
+                                                    }
+                                                    
+                                                })
+                                            }
+                                        })
+                                        
+                                        
+                                        
+                                    }
                                 }
-                                print(error)
-                                user.deleteInBackgroundWithBlock({ (del, error) -> Void in
-                                    print("Usuario eliminado")
-                                })
+                                
                             }
-                            else{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    self.performSegueWithIdentifier("catalog", sender: PFUser.currentUser()!)
-                                }
-                            }
+                        } catch let error as NSError {
+                            // error handling
+                            print("error : \(error)")
+                            self.loading?.finish()
+                            self.loading = nil
+                            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+                            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                             
-                        })
+                            self.presentViewController(a, animated: true, completion: nil)
+                        }
                     }
-                })
+                    else
+                    {
+                        self.loading?.finish()
+                        self.loading = nil
+                        let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+                        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
+                        self.presentViewController(a, animated: true, completion: nil)
+                    }
+                }
             }
             else{
                 dispatch_async(dispatch_get_main_queue()){
@@ -160,7 +209,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     self.loading?.finish()
                     self.loading = nil
                 }
-                print("Cancelado")
             }
             else{
                 PFFacebookUtils.logInInBackgroundWithAccessToken(FBSDKAccessToken.currentAccessToken(), block: process)
@@ -169,7 +217,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         
     }
-
+    
     
     @IBAction func login(sender: UIButton)
     {

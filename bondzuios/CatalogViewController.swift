@@ -27,6 +27,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     let NUMBER_ITEMS_ROW: CGFloat = 3;
     
+    
     var toLoadAnimals = 0
     var toLoadVideos = 0
     

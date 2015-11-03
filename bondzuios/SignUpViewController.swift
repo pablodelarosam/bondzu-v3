@@ -18,7 +18,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     @IBOutlet weak var mail: UITextField!
     @IBOutlet weak var pass: UITextField!
     @IBOutlet weak var name: UITextField!
-
+    
     @IBOutlet weak var join: UIButton!
     @IBOutlet weak var joinfb: UIButton!
     
@@ -59,29 +59,15 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         if let user = PFUser.currentUser(){
             performSegueWithIdentifier("loginSegue", sender: user)
         }
-                
+        
     }
-
+    
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
     }
     
-    /*
-    @IBAction func login(sender: UIButton)
-    {
-        /*let vc : UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("Tabs") as! UITabBarController
-        self.presentViewController(vc, animated: true, completion: nil);*/
-        
-        if let _ =  PFUser.logInWithUsername("demouser@demo.com", password: "demo_user"){
-            self.performSegueWithIdentifier("loginSegue", sender: self)
-        }
-        
-    }
-    */
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func dissmissKeyboards(){
@@ -94,7 +80,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         textField.resignFirstResponder()
         return true
     }
-
+    
     func changeIcon(){
         let controller = UIAlertController(title: NSLocalizedString("Attach image", comment: ""), message: NSLocalizedString("Select an image to set as profile picture", comment: ""), preferredStyle: .ActionSheet)
         
@@ -155,7 +141,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     @IBAction func register(){
         guard name.text?.characters.count != 0 else{
             let alert = UIAlertController(title: NSLocalizedString("Empty name", comment: ""), message: NSLocalizedString("Your name should not be empty", comment: ""), preferredStyle: .Alert)
@@ -193,7 +179,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             guard e == nil else{
                 
                 dispatch_async(dispatch_get_main_queue()){
-
+                    
                     self.loading?.finish()
                     self.loading = nil
                     
@@ -214,7 +200,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                     a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     
                     self.presentViewController(a, animated: true, completion: nil)
-
+                    
                 }
                 return
             }
@@ -232,13 +218,12 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                 user[TableUserColumnNames.PhotoFile.rawValue] = PFFile(data: UIImagePNGRepresentation(profile.image!)!)
             }
             
-                
             let dic : [String: String] =
             [
                 "email" : self.mail.text!,
                 "description" : "Cuenta creada para \(self.mail.text!)"
             ]
-                
+            
             PFCloud.callFunctionInBackground("createCustomer", withParameters: dic) { (result: AnyObject?, error: NSError?) in
                 print("create Customer result = \(result)")
                 
@@ -297,14 +282,10 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                     self.loading = nil
                     let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
                     a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    
                     self.presentViewController(a, animated: true, completion: nil)
                 }
             }
         }
-
-
-        
         
         
         if !hasImage{
@@ -331,7 +312,6 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     
     @IBAction func registerFacebook(sender: AnyObject) {
         
-        
         func process(user : PFUser?, error : NSError?){
             if error != nil{
                 print(error)
@@ -345,39 +325,89 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                 }
             }
             else if user!.isNew{
-                FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
-                    (connection, dic, error) -> Void in
-                    if let dictionary = dic as? Dictionary<String, AnyObject>{
-                        let user = PFUser.currentUser()!
-                        user[TableUserColumnNames.Name.rawValue] = dictionary["name"] as! String
-                        user.password = "\(random())"
-                        user[TableUserColumnNames.Mail.rawValue] = dictionary["email"] as! String
-                        user[TableUserColumnNames.PhotoURL.rawValue] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
-                        user.saveInBackgroundWithBlock({
-                            (saved, error) -> Void in
-                            if error != nil{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                                    self.presentViewController(a, animated: true, completion: nil)
+                
+                let dic : [String: String] =
+                [
+                    "email" : self.mail.text!,
+                    "description" : "Cuenta creada para \(self.mail.text!)"
+                ]
+                
+                PFCloud.callFunctionInBackground("createCustomer", withParameters: dic) { (result: AnyObject?, error: NSError?) in
+                    print("create Customer result = \(result)")
+                    
+                    if(error == nil){
+                        do {
+                            if let data = result?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                                
+                                let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                                if let jsonDict = jsonDict {
+                                    // work with dictionary here
+                                    let key = "id";
+                                    print("customer_id: \(jsonDict[key])")
+                                    if let id = jsonDict[key] as? String{
+                                        user![TableUserColumnNames.StripeID.rawValue] = id
+                                        
+                                        
+                                        FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
+                                            (connection, dic, error) -> Void in
+                                            if let dictionary = dic as? Dictionary<String, AnyObject>{
+                                                let user = PFUser.currentUser()!
+                                                user[TableUserColumnNames.Name.rawValue] = dictionary["name"] as! String
+                                                user.password = "\(random())"
+                                                user[TableUserColumnNames.Mail.rawValue] = dictionary["email"] as! String
+                                                user[TableUserColumnNames.PhotoURL.rawValue] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
+                                                user.saveInBackgroundWithBlock({
+                                                    (saved, error) -> Void in
+                                                    if error != nil{
+                                                        dispatch_async(dispatch_get_main_queue()){
+                                                            self.loading?.finish()
+                                                            self.loading = nil
+                                                            let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                                                            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
+                                                            self.presentViewController(a, animated: true, completion: nil)
+                                                        }
+                                                        print(error)
+                                                        user.deleteInBackgroundWithBlock({ (del, error) -> Void in
+                                                        })
+                                                    }
+                                                    else{
+                                                        dispatch_async(dispatch_get_main_queue()){
+                                                            self.loading?.finish()
+                                                            self.loading = nil
+                                                            self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
+                                                        }
+                                                    }
+                                                    
+                                                })
+                                            }
+                                        })
+                                        
+                                        
+                                        
+                                    }
                                 }
-                                print(error)
-                                user.deleteInBackgroundWithBlock({ (del, error) -> Void in
-                                })
+                                
                             }
-                            else{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
-                                }
-                            }
+                        } catch let error as NSError {
+                            // error handling
+                            print("error : \(error)")
+                            self.loading?.finish()
+                            self.loading = nil
+                            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+                            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                             
-                        })
+                            self.presentViewController(a, animated: true, completion: nil)
+                        }
                     }
-                })
+                    else
+                    {
+                        self.loading?.finish()
+                        self.loading = nil
+                        let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+                        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
+                        self.presentViewController(a, animated: true, completion: nil)
+                    }
+                }
             }
             else{
                 dispatch_async(dispatch_get_main_queue()){
@@ -387,10 +417,10 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
                 }
             }
         }
-
+        
         
         loading = LoadingView(view: self.view)
-    
+        
         let fbPermission = ["user_about_me","email"]
         let login = FBSDKLoginManager()
         login.loginBehavior = .Native
@@ -431,7 +461,4 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         hasImage = false
         profile.image = UIImage(named: "profile_pic")
     }
-        
-    //TODO ver porque en community no jala el indicator
-
 }

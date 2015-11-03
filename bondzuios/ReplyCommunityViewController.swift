@@ -144,7 +144,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
                         _ in
                         self.navigationController?.popViewControllerAnimated(true)
                         controller.dismissViewControllerAnimated(false){
-                            navigationController?.popViewControllerAnimated(true)
+                            self.navigationController?.popViewControllerAnimated(true)
                         }
                     }))
                     self.presentViewController(controller, animated: true, completion: nil)

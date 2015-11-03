@@ -26,29 +26,30 @@ class AdopedAnimalsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let relation = PFUser.currentUser()![TableUserColumnNames.AdoptedAnimalsRelation.rawValue] as! PFRelation
-        let query = relation.query()!
-        query.findObjectsInBackgroundWithBlock { (animals, error) -> Void in
-            if error != nil{
-                print(error)
-                return
-            }
-            self.images = Array<UIImage?>(count: (animals?.count)!, repeatedValue: UIImage())
-            self.animals = animals as! [PFObject]
-            
-            for i in self.animals{
-                let file = i[TableAnimalColumnNames.Photo.rawValue] as! PFFile
-                file.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                    if data != nil && error == nil{
-                        let img = UIImage(data: data!)
-                        let index = self.animals.indexOf(i)
-                        self.images[index!] = img
-                        
-                        dispatch_async(dispatch_get_main_queue()){
-                            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index!, inSection: 0)], withRowAnimation: .Automatic)
+        if let relation = PFUser.currentUser()![TableUserColumnNames.AdoptedAnimalsRelation.rawValue] as? PFRelation{
+            let query = relation.query()!
+            query.findObjectsInBackgroundWithBlock { (animals, error) -> Void in
+                if error != nil{
+                    print(error)
+                    return
+                }
+                self.images = Array<UIImage?>(count: (animals?.count)!, repeatedValue: UIImage())
+                self.animals = animals as! [PFObject]
+                
+                for i in self.animals{
+                    let file = i[TableAnimalColumnNames.Photo.rawValue] as! PFFile
+                    file.getDataInBackgroundWithBlock({ (data, error) -> Void in
+                        if data != nil && error == nil{
+                            let img = UIImage(data: data!)
+                            let index = self.animals.indexOf(i)
+                            self.images[index!] = img
+                            
+                            dispatch_async(dispatch_get_main_queue()){
+                                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index!, inSection: 0)], withRowAnimation: .Automatic)
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
             
             dispatch_async(dispatch_get_main_queue()){
@@ -56,7 +57,13 @@ class AdopedAnimalsViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
-        
+        else{
+            dispatch_async(dispatch_get_main_queue()){
+                self.animals = [PFObject]()
+                self.loaded = true
+                self.tableView.reloadData()
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
