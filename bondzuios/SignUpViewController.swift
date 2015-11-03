@@ -34,7 +34,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     var hasImage = false
     
     var loading : LoadingView?
-    
+    var activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
     
     
     @IBAction func showTerms(sender: AnyObject) {
@@ -50,6 +50,9 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             })
         
         navigationItem.leftBarButtonItem = done
+        w.addSubview(activityView)
+        activityView.center = w.center
+        activityView.startAnimating()
     }
     
     @IBAction func clickedDone(sender: AnyObject) {
@@ -61,6 +64,11 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             }, completion: { _ in
                 self.webView?.removeFromSuperview()
         })
+        
+        if activityView.isAnimating(){
+            activityView.stopAnimating()
+            activityView.removeFromSuperview()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -96,6 +104,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         
         termsButton.titleLabel!.adjustsFontSizeToFitWidth = true
         done = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .Done, target: self, action: "clickedDone:")
+        
+        activityView.color = UIColor.orangeColor()
     }
     
     /*
@@ -468,8 +478,13 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
 
     func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
         if let w = self.webView{
+            
             let javascript = "var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');document.getElementsByTagName('head')[0].appendChild(meta);"
             w.evaluateJavaScript(javascript, completionHandler: nil)
+            
+            
+            activityView.stopAnimating()
+            activityView.removeFromSuperview()
         }
     }
     
