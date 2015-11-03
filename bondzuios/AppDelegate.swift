@@ -11,6 +11,7 @@ import Parse
 import Bolts
 import Stripe
 import FBSDKCoreKit
+import ParseFacebookUtilsV4
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

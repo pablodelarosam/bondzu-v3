@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import ParseFacebookUtilsV4
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 

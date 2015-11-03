@@ -35,7 +35,7 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
         query.findObjectsInBackgroundWithBlock { (array, error) -> Void in
             if error == nil, let eventsArray = array{
                 for event in eventsArray{
-                    let toAppendAnyTime = Event(object: event as! PFObject)
+                    let toAppendAnyTime = Event(object: event)
                     toAppendAnyTime.delegate = self
                 }
             }

@@ -149,7 +149,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             for i in messages{
                 
                 
-                let o = CommunityViewDataManager(message: i as! PFObject , delegate: self.objectLoaded)
+                let o = CommunityViewDataManager(message: i, delegate: self.objectLoaded)
 
                 self.objects.append(o)
                 

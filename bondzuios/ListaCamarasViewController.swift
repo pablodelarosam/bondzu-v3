@@ -114,13 +114,13 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         let query = PFQuery(className: TableNames.Camera.rawValue);
         query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
+            (objects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 // The find succeeded.
                 self.camaras.removeAll(keepCapacity: true)
                 // Do something with the found objects
-                if let objects = objects as? [PFObject] {
+                if let objects = objects{
                     for object in objects {
                         
                         print(object.objectId)

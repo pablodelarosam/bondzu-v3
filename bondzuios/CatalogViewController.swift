@@ -188,13 +188,14 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
 
         if segementedControl.selectedSegmentIndex == 0{
             performSegueWithIdentifier("catalogSegue", sender: searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row])
+            searching = false
+            searchBar.resignFirstResponder()
         }
         else{
             performSegueWithIdentifier("capsule", sender: searching ? self.searchedVideoCapsules[indexPath.row] : self.videoCapsules[indexPath.row])
+            searching = false
+            searchBar.resignFirstResponder()
         }
-        
-        
-
     }
     
     //MARK: Video Capsule Delegate
@@ -243,10 +244,10 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         query.whereKeyExists(TableAnimalColumnNames.ID.rawValue);
         query.orderByAscending(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: ""));
         query.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
+            (objects: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
                 // The find succeeded.
-                if let objects = objects as? [PFObject] {
+                if let objects = objects{
                     self.toLoadAnimals = objects.count
                     var i = 0 as Int;
                     for object in objects {
@@ -300,7 +301,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             if error == nil, let capsulesArray = array{
                 self.toLoadVideos = capsulesArray.count
                 
-                for object in capsulesArray as! [PFObject]{
+                for object in capsulesArray{
                     let c = Capsule(object: object, delegate: self)
                     self.videoCapsules.append(c)
                 }
@@ -384,6 +385,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             searchBar.hidden = false
             searchBar.becomeFirstResponder()
             barButtonItem = self.navigationItem.rightBarButtonItem
+            self.searchBar(searchBar, textDidChange: searchBar.text != nil ? searchBar.text! : "")
             let bbi = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "searchButtonPressed:");
             navigationItem.rightBarButtonItem = bbi;
         }

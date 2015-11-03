@@ -135,7 +135,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         query.whereKey(TableProductColumnNames.AnimalID.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
         query.orderByAscending(TableProductColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: ""))
         query.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
+            (objects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 self.activityIndicator.startAnimating()
@@ -149,7 +149,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                 var i = 0;
                 // Do something with the found objects
                 self.productos.removeAll(keepCapacity: true)
-                if let objects = objects as? [PFObject] {
+                if let objects = objects{
                     for (i = 0; i < objects.count; i++)
                     {
                         let object = objects[i]

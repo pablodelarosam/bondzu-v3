@@ -161,7 +161,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
             for i in messages{
                 
                 
-                let o = CommunityViewDataManager(message: i as! PFObject , delegate: self.objectLoaded)
+                let o = CommunityViewDataManager(message: i, delegate: self.objectLoaded)
                 
                 self.comment.append(o)
                 

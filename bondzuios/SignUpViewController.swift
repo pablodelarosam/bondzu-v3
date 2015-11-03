@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import FBSDKCoreKit
 import WebKit
-
+import ParseFacebookUtilsV4
 
 import MobileCoreServices
 

@@ -111,7 +111,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         let query = PFQuery(className: TableNames.Camera.rawValue);
         query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
+            (objects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 // The find succeeded.
@@ -120,13 +120,11 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                 
                 if(objects!.isEmpty)
                 {
-                    //self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
-                    //self.setup()
                     self.performSegueWithIdentifier("noCamerasSegue", sender: self)
                     return;
                 }
                 // Do something with the found objects
-                if let objects = objects as? [PFObject] {
+                if let objects = objects{
                     for object in objects {
                         
                         print(object.objectId)

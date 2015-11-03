@@ -68,7 +68,7 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
                 let query = PFUser.query()
                 query?.whereKey(TableUserColumnNames.UserName.rawValue, equalTo: email)
                 query?.findObjectsInBackgroundWithBlock{
-                    (objects: [AnyObject]?, error: NSError?) -> Void in
+                    (objects: [PFObject]?, error: NSError?) -> Void in
                     if error == nil
                     {
                         if(objects?.count >= 1)

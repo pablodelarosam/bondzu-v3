@@ -34,7 +34,7 @@ class AdopedAnimalsViewController: UITableViewController {
                 return
             }
             self.images = Array<UIImage?>(count: (animals?.count)!, repeatedValue: UIImage())
-            self.animals = animals as! [PFObject]
+            self.animals = animals!
             
             for i in self.animals{
                 let file = i[TableAnimalColumnNames.Photo.rawValue] as! PFFile

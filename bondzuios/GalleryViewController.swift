@@ -77,7 +77,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
         query.whereKey(TableGalleryColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
         
         query.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
+            (objects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
                 //self.activityIndicator.startAnimating()
@@ -93,7 +93,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
                 var imagen = UIImage();                
                 // Do something with the found objects
                 self.pictures.removeAll(keepCapacity: true)
-                if let objects = objects as? [PFObject] {
+                if let objects = objects{
                     for (var i = 0; i < objects.count; i++)
                     {
                         print("i = \(i) objects.count = \(objects.count)")
