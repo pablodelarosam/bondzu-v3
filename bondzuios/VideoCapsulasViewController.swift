@@ -24,6 +24,10 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate {
     @IBOutlet weak var videoTitle: UILabel!
     @IBOutlet weak var videoDescription: UILabel!
     
+    @IBOutlet weak var toolbar: UIToolbar!
+    
+    var requiredToolbar = false
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
@@ -40,30 +44,47 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate {
         player.delegate = self
         
         navigationItem.title = NSLocalizedString("Video", comment: "")
+        toolbar.hidden = !requiredToolbar
 
     }
-
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func done(sender: AnyObject) {
+        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
    
     func enteredFullScreen(){
-        view.removeConstraints([c1,c2,c3,c4])
-        view.setNeedsUpdateConstraints()
+        dispatch_async(dispatch_get_main_queue()){
+            self.view.removeConstraints([self.c1,self.c2,self.c3,self.c4])
+            self.view.setNeedsUpdateConstraints()
+        }
     }
 
     func exitedFullScreen(){
-        view.addConstraints([c1,c2,c3,c4])
-        view.setNeedsUpdateConstraints()
-
+        dispatch_async(dispatch_get_main_queue()){
+            self.view.addConstraints([self.c1,self.c2,self.c3,self.c4])
+            self.view.setNeedsUpdateConstraints()
+        }
     }
     
     func playerViewDidBecomeReady(playerView: YTPlayerView!) {
-        self.loadingIndicator.stopAnimating()
-        playerView.hidden = false
+        dispatch_async(dispatch_get_main_queue()){
+            self.loadingIndicator.stopAnimating()
+            playerView.hidden = false
+
+        }
+        
+    }
+    
+    func requireToolBar(required : Bool){
+        if let t = toolbar{
+            t.hidden = !required
+        }
+        else{
+            requiredToolbar = required
+        }
     }
 }

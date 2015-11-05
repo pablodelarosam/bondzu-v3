@@ -22,6 +22,8 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     var animalId: String!
     var backgroundImageNoCameras: UIImage!
     
+    var dissmising = false
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     
@@ -36,8 +38,10 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     }
     
     override func viewWillAppear(animated: Bool) {
-        player = AVPlayer()
-        getFirstCameraAndSetup()
+        if !dissmising{
+            player = AVPlayer()
+            getFirstCameraAndSetup()
+        }
     }
     
     func dismiss() {
@@ -46,7 +50,9 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == false, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        print(self.navigationItem)
+        print(self.navigationController)
     }
     
     override func didReceiveMemoryWarning() {
@@ -114,13 +120,25 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
             (objects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
-                // The find succeeded.
-                //print("Successfully retrieved \(objects!.count) cameras.")
-                
                 
                 if(objects!.isEmpty)
                 {
-                    self.performSegueWithIdentifier("noCamerasSegue", sender: self)
+                    let query = PFQuery(className: TableNames.VideoCapsule_table.rawValue)
+                    query.whereKey(TableVideoCapsuleNames.AnimalID.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
+                    query.findObjectsInBackgroundWithBlock({ (array, error) -> Void in
+                        
+                        guard error == nil, let videos = array  where videos.count > 0 else{
+                            self.performSegueWithIdentifier("noCamerasSegue", sender: self)
+                            return
+                        }
+                        let videoID = random() % videos.count
+                        let capsule = Capsule(object: videos[videoID], delegate: nil)
+                        dispatch_async(dispatch_get_main_queue()){
+                            self.performSegueWithIdentifier("loadCapsule", sender: capsule)
+                        }
+                        return
+                    })
+
                     return;
                 }
                 // Do something with the found objects
@@ -145,8 +163,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                         }
                     }
                 }
-                /*self.url = NSURL(string: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8");
-                self.setup() //LLAMADA*/
+                
                 self.performSegueWithIdentifier("noCamerasSegue", sender: self)
                 return;
             } else {
@@ -161,6 +178,12 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         {
             vc.backImage = self.backgroundImageNoCameras
             vc.dismissProtocol = self
+        }
+        else if segue.identifier == "loadCapsule"{
+            
+            let vc = viewController as!  VideoCapsulasViewController
+            vc.requireToolBar(true)
+            vc.capsule = sender as! Capsule
         }
     }
     
@@ -202,6 +225,14 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
         self.popover = nil
+    }
+    
+    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+        dissmising = true
+        super.dismissViewControllerAnimated(true, completion: {
+            _ in
+            self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        })
     }
     
     deinit{

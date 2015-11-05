@@ -312,5 +312,6 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         self.performSegueWithIdentifier("events", sender: nil)
     }
     
+    @IBAction func unwind(segue : UIStoryboardSegue){}
 }
 
