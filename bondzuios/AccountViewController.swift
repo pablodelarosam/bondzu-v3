@@ -6,6 +6,14 @@
 //  Copyright © 2015 Bondzu. All rights reserved.
 // ARCHIVO LOCALIZADO
 
+/*
+Archivo afectado issue #25
+Funciones 
+    viewDidLoad
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+
+*/
+
 import UIKit
 import Parse
 import MobileCoreServices

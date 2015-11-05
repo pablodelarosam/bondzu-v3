@@ -6,6 +6,13 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
+
+/*
+    affected issue #25
+    getCameraAndSetup
+
+*/
+
 import UIKit
 import AVKit
 import AVFoundation

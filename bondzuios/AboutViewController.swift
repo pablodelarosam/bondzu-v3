@@ -6,7 +6,11 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  ARCHIVO LOCALIZADO
 
-//Ab1234**
+/*
+    Archivo afectado issue #25
+    Funciones viewDidLoad
+*/
+
 import UIKit
 import Parse
 
@@ -55,6 +59,8 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         blurContainer.alpha = 0.8
     }
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         blurContainer.addSubview(visualEffectView)
@@ -255,8 +261,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    func takeScreenshot() -> UIImage
-    {
+    func takeScreenshot() -> UIImage{
         let layer = UIApplication.sharedApplication().keyWindow!.layer
         let scale = UIScreen.mainScreen().scale
         UIGraphicsBeginImageContextWithOptions(layer.frame.size, false, scale);
@@ -280,14 +285,12 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    func showCams(button: CircledButton)
-    {
+    func showCams(button: CircledButton){
         self.performSegueWithIdentifier("liveStreamSegue", sender: self)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
@@ -311,7 +314,5 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     func segueToEvents(){
         self.performSegueWithIdentifier("events", sender: nil)
     }
-    
-    @IBAction func unwind(segue : UIStoryboardSegue){}
 }
 

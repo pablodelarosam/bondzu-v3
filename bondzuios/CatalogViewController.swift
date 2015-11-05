@@ -8,6 +8,10 @@
 
 //TODO posible bug here. Searching may do a circle reference here.
 
+/*
+    Affected issue #25
+    getAnimals
+*/
 
 import UIKit
 import Parse

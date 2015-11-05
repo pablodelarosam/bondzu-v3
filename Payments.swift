@@ -6,6 +6,10 @@
 //  Copyright © 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
+/*
+    Affected? issue #25
+*/
+
 import Foundation
 import Stripe
 import Parse

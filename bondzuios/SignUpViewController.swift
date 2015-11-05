@@ -6,6 +6,12 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
+/*
+    Affected #25
+    registerFinal
+    registerFacebook
+*/
+
 import UIKit
 import Parse
 import FBSDKCoreKit

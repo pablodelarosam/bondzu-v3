@@ -6,6 +6,12 @@
 //  Copyright © 2015 Bondzu. All rights reserved.
 //  Archivo Localizado
 
+/*
+    Archivo afectado issue #25
+    viewDidLoad
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+*/
+
 import UIKit
 import Parse
 

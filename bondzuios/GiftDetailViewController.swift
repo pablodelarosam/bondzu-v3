@@ -6,6 +6,12 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo Localizado
 
+
+/*
+    affected issue #25
+    Donate
+*/
+
 import UIKit
 import Parse
 import Stripe

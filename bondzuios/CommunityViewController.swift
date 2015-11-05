@@ -7,8 +7,15 @@
 //  Archivo localizado
 
 //NOTA: El codigo en reply es copiado de esta clase. Por tanto, si se realizan cambios a secciones como ver imagen, like etc se deberá modificar en ambos códigos. La herencia no es posible debido al cambio en el modelo de datos.
-//TODO: Código homogeneo para funciones como like
 
+/*
+    Affected issue #25
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    getLikes
+    imageSelected
+    like
+    sendButtonPressed
+*/
 
 import UIKit
 import Parse
@@ -18,7 +25,7 @@ import MessageUI
 let defaultProfileImage = UIImage(named: "profile")
 
 class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate{
-    //TODO Implementar un cache de una sola sesión para agilizar los datos
+    
     var likesLoaded = false
 
     var animalID = ""
@@ -489,6 +496,12 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
 
 
 /*ALERTA. ESTAS EN OTRA CLASE */
+
+
+/*
+Affected issue #25
+init
+*/
 
 class CommunityViewDataManager{
     

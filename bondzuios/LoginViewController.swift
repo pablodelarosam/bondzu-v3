@@ -6,6 +6,13 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
+
+/*
+    issue #25
+    registerFacebook
+
+*/
+
 import UIKit
 import Parse
 import ParseFacebookUtilsV4

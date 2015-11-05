@@ -10,6 +10,15 @@ import UIKit
 import Parse
 import MessageUI
 
+/*
+    Affected issue #25
+    CellForRowAtIndexPath
+    imageSelected
+    like
+    textFieldShpouldReturn
+*/
+
+
 class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, CommunitEntryEvent, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate  {
     
     //TODO Implementar un cache de una sola sesión para agilizar los datos

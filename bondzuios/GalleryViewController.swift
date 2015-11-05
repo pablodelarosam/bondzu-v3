@@ -6,6 +6,11 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
+/*
+    Affected #25
+    getPictures
+*/
+
 import UIKit
 import Parse
 

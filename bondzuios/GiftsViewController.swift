@@ -6,6 +6,12 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archvivo Localizado
 
+/*
+    issue #25
+    getProductsOfAnimalWith
+*/
+
+
 import UIKit
 import Parse
 

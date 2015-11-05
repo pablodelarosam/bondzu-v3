@@ -6,6 +6,11 @@
 //  Archivo Localizado
 //
 
+/*
+    issue #25
+    getCameras
+*/
+
 import UIKit
 import AVKit
 import AVFoundation

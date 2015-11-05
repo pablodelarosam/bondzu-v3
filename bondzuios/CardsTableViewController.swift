@@ -6,6 +6,12 @@
 //  Copyright © 2015 Bondzu. All rights reserved.
 //  Archivo Localizado
 
+/*
+    Affected issue #25
+    getCards
+    removeCard
+*/
+
 import UIKit
 import Parse
 
