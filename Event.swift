@@ -9,14 +9,16 @@
 import UIKit
 import Parse
 
+@objc
 protocol EventLoadingDelegate{
     func eventDidFailLoading(event : Event!)
     func eventDidFinishLoading(event : Event!)
 }
 
+
 class Event: NSObject {
 
-    var delegate : EventLoadingDelegate?
+    weak var delegate : EventLoadingDelegate?
     
     var eventName = ""
     var eventDescription = ""
@@ -25,9 +27,10 @@ class Event: NSObject {
     var eventImage = UIImage()
     
     
-    init(object : PFObject){
+    init(object : PFObject , delegate : EventLoadingDelegate? = nil){
         
         super.init()
+        self.delegate = delegate
         
         eventName = object[TableEventsColumnNames.Name.rawValue +  NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         eventDescription = object[TableEventsColumnNames.Description.rawValue +  NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String

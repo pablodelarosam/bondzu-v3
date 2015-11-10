@@ -11,10 +11,11 @@
     Funciones viewDidLoad
 */
 
+//TODO: Aqui hay un mega bloque de funciones que se llaman en background cuando ni siquiera era necesario.
 import UIKit
 import Parse
 
-class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol {
+class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol, EventLoadingDelegate {
 
     @IBOutlet weak var backgroundImage : UIImageView!
     @IBOutlet weak var visibleImage : UIImageView!
@@ -164,23 +165,15 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 }
                 
                 
-                
                 //FIXME: Afectacion #25
                 let eventsQuery = PFQuery(className: TableNames.Events_table.rawValue)
                 eventsQuery.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
                 eventsQuery.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())
                 eventsQuery.getFirstObjectInBackgroundWithBlock({
-                    (event, error) -> Void in
-                    
-                    if error == nil && event != nil{
-                        let photoFile = event![TableEventsColumnNames.Image_Name.rawValue] as! PFFile
-                        photoFile.getDataInBackgroundWithBlock({
-                            data, error in
-                            let img = UIImage(data: data!)!
-                            dispatch_async(dispatch_get_main_queue()){
-                                self.lateral.setEventData(img, title: event![TableEventsColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
-                            }
-                        })
+                    (eventObject, error) -> Void in
+    
+                    if error == nil && eventObject != nil{
+                        _ = Event(object: eventObject!, delegate: self)
                     }
                     
                 })
@@ -192,42 +185,33 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 
                 var count = 0
                 for keeper in self.animal!.keepers!{
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
-                        keeper.fetchIfNeededInBackgroundWithBlock({
-                            object, error in
-                            guard error == nil , let k = object else{
-                                print("error al obtener a los cuidadores")
-                                return
-                            }
-                            
-                            //FIXME: Checar si no era necesario cargar a fetchIfNeededWithBlock
-                            Keeper.getKeeper(k, imageLoaderObserver: {
-                                (user, bool) -> (Void) in
-                                if user != nil{
-                                    self.lateral.photoDidLoad(user!, completed: bool)
-                                    
-                                    if(count == 0){
-                                        dispatch_async(dispatch_get_main_queue()){
-                                            self.lateral.keeper1 = user
-                                        }
+                    keeper.fetchIfNeededInBackgroundWithBlock({
+                        object, error in
+                        guard error == nil , let k = object else{
+                            print("error al obtener a los cuidadores")
+                            return
+                        }
+                        
+                        Keeper.getKeeper(k, imageLoaderObserver: {
+                            (user, bool) -> (Void) in
+                            if user != nil{
+                                self.lateral.photoDidLoad(user!, completed: bool)
+                                if(count == 0){
+                                    dispatch_async(dispatch_get_main_queue()){
+                                        self.lateral.keeper1 = user
                                     }
-                                    else{
-                                        dispatch_async(dispatch_get_main_queue()){
-                                            self.lateral.keeper2 = user
-                                        }
+                                }//Keeper 1 object
+                                else{
+                                    dispatch_async(dispatch_get_main_queue()){
+                                        self.lateral.keeper2 = user
                                     }
-                                    
-                                    count++
-                                    
-                                }
-
-                            })
-                            
-                            
-                        })
-                    }
-                }
-            }
+                                }//Keeper 2 object
+                                count++
+                            } // Valid user
+                        })//Retrive keeper
+                    }) //Get keepers In background
+                } //For keepers
+            } // Get animal
             else {
                 print(error)
                 self.navigationController?.popViewControllerAnimated(true)
@@ -306,5 +290,13 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         }
 
     }
+    
+    func eventDidFinishLoading(event: Event!) {
+        dispatch_async(dispatch_get_main_queue()){
+            self.lateral.setEventData(event.eventImage, title: event.eventName)
+        }
+    }
+    
+    func eventDidFailLoading(event: Event!) {}
 }
 
