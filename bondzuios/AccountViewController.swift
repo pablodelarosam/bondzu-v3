@@ -72,9 +72,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         name.text = (PFUser.currentUser()![TableUserColumnNames.Name.rawValue] as! String)
         self.originalImage = imageView.image
+        //WARNING: COMPLETED IS NOT USED
         if let photo = PFUser.currentUser()![TableUserColumnNames.PhotoURL.rawValue] as? String{
             getImageInBackground(url: photo){
-                image in
+                image , completed  in
                 if !self.changedImage{
                     self.imageView.image = image
                     self.originalImage = image

@@ -14,7 +14,7 @@
 import UIKit
 import Parse
 
-class AboutViewController: UIViewController, UITextViewDelegate {
+class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol {
 
     @IBOutlet weak var backgroundImage : UIImageView!
     @IBOutlet weak var visibleImage : UIImageView!
@@ -35,7 +35,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var goLive : CircledButton!
     
     var animalID = ""
-    var animal : PFObject?
+    var animal : AnimalV2?
     
     var navBarTitle = NSLocalizedString("About", comment: "")
     
@@ -58,10 +58,9 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     override func viewDidLayoutSubviews() {
         blurContainer.alpha = 0.8
     }
-
-    
     
     override func viewDidLoad() {
+    
         super.viewDidLoad()
         blurContainer.addSubview(visualEffectView)
         adopt.image = UIImage(named: "whitePaw")
@@ -105,7 +104,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                 }
                 
                 let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
-                relation.addObject(self.animal!)
+                relation.addObject(self.animal!.originalObject)
                 PFUser.currentUser()!.saveInBackgroundWithBlock(){
                     a, b  in
                     dispatch_async(dispatch_get_main_queue()){
@@ -116,7 +115,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                         }))
                         self.presentViewController(controller, animated: true, completion: nil)
                         
-                        if let currentAnimal = self.animal{
+                        if let currentAnimal = self.animal?.originalObject{
                             currentAnimal.incrementKey(TableAnimalColumnNames.Adopters.rawValue, byAmount: 1)
                             currentAnimal.saveInBackgroundWithBlock({ b, e  in
                                 if !b || e != nil{
@@ -138,56 +137,35 @@ class AboutViewController: UIViewController, UITextViewDelegate {
             
             
             
-        }
+        } //Clara afectación #25
         
         let query = PFQuery(className: TableNames.Animal_table.rawValue)
         query.getObjectInBackgroundWithId(animalID){
             (animalObject: PFObject?, error: NSError?) -> Void in
             if error == nil{
                 guard let animal = animalObject else{
+                    print("ERROR FATAL VIEWDIDLOAD ABOUTVIEWCONTROLLER")
                     return
                 }
-                self.animal = animal
+                
+                self.animal = AnimalV2(object: animal, delegate: self)
                 
                 dispatch_async(dispatch_get_main_queue()){
-                    self.navBarTitle = animal[TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
-                    self.navigationController?.navigationBar.topItem?.title = (animal[TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
-                    self.lateral.setAdopters((animal[TableAnimalColumnNames.Adopters.rawValue] as! NSNumber).integerValue)
-                    self.speciesLabel.text = (animal[TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
+                    self.navBarTitle = self.animal!.name
+                    self.navigationController?.navigationBar.topItem?.title = self.animal!.name
+                    self.lateral.setAdopters(self.animal!.adopters)
+                    self.speciesLabel.text = self.animal!.specie
                     
-                    for (name , value) in animal[TableAnimalColumnNames.Characteristics.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! [String:String]{
+                    for (name , value) in self.animal!.characteristics{
                         self.appendAnimalAttributeWithName(name, value: value)
                     }
-                    
                     self.appendHeadLine(NSLocalizedString("About", comment: ""))
-                    self.appendText(animal[TableAnimalColumnNames.About.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
-                }
-                
-                (animal[TableAnimalColumnNames.Photo.rawValue] as! PFFile).getDataInBackgroundWithBlock(){
-                    data , error in
-                    guard error == nil else{
-                        print(error)
-                        return
-                    }
-                    
-                    guard let imageData = data else{
-                        print("data is null\n")
-                        return
-                    }
-                    
-                    let image = UIImage(data: imageData)
-                    self.visibleImage.hidden = false
-                    self.image = image
-                    
-                    let sizedImage = imageWithImage(image!, scaledToSize: self.backgroundImage.frame.size)
-                    
-                    dispatch_async(dispatch_get_main_queue()){
-                        self.backgroundImage.image = sizedImage
-                        self.visibleImage.image = sizedImage
-                    }
+                    self.appendText(self.animal!.about)
                 }
                 
                 
+                
+                //FIXME: Afectacion #25
                 let eventsQuery = PFQuery(className: TableNames.Events_table.rawValue)
                 eventsQuery.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
                 eventsQuery.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())
@@ -207,56 +185,52 @@ class AboutViewController: UIViewController, UITextViewDelegate {
                     
                 })
                 
-                let keepersOptional = animal[TableAnimalColumnNames.Keepers.rawValue] as? NSArray
-                
-                guard let keepers = keepersOptional else{
+                guard self.animal?.keepers != nil  else{
                     print("El animal elegido no tiene keepers")
                     return
                 }
                 
                 var count = 0
-                for keeper in keepers{
-                    (keeper as! PFObject).fetchIfNeededInBackgroundWithBlock({
-                        object, error in
-                        guard error == nil , let k = object else{
-                            print("error al obtener a los cuidadores")
-                            return
-                        }
-                        
-                        let userObject = k[TableKeeperColumnNames.User.rawValue] as! PFObject
-                        userObject.fetchIfNeededInBackgroundWithBlock(){
-                            user, error in
-                            guard error == nil , let selectedUser = user else{
+                for keeper in self.animal!.keepers!{
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+                        keeper.fetchIfNeededInBackgroundWithBlock({
+                            object, error in
+                            guard error == nil , let k = object else{
                                 print("error al obtener a los cuidadores")
                                 return
                             }
                             
-                            var cuidador : Usuario?
-                            
-                            if let pictureString = selectedUser[TableUserColumnNames.PhotoURL.rawValue] as? String{
-                                cuidador = Usuario(name: selectedUser[TableUserColumnNames.Name.rawValue] as! String , photo: pictureString)
-                            }
-                            else if let pictureFile = selectedUser[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
-                                cuidador = Usuario(name: selectedUser[TableUserColumnNames.Name.rawValue] as! String, photoFile: pictureFile)
-                            }
-                            
-                            if cuidador != nil{
-                                cuidador!.imageLoaderObserver = self.lateral.photoReady
-            
-                                if(count == 0){
-                                    self.lateral.keeper1 = cuidador!
+                            //FIXME: Checar si no era necesario cargar a fetchIfNeededWithBlock
+                            Keeper.getKeeper(k, imageLoaderObserver: {
+                                (user, bool) -> (Void) in
+                                if user != nil{
+                                    self.lateral.photoDidLoad(user!, completed: bool)
+                                    
+                                    if(count == 0){
+                                        dispatch_async(dispatch_get_main_queue()){
+                                            self.lateral.keeper1 = user
+                                        }
+                                    }
+                                    else{
+                                        dispatch_async(dispatch_get_main_queue()){
+                                            self.lateral.keeper2 = user
+                                        }
+                                    }
+                                    
+                                    count++
+                                    
                                 }
-                                else{
-                                    self.lateral.keeper2 = cuidador!
-                                }
-                                
-                                count++
-                            }
-                        }
-                    })
+
+                            })
+                            
+                            
+                        })
+                    }
                 }
-            } else {
+            }
+            else {
                 print(error)
+                self.navigationController?.popViewControllerAnimated(true)
             }
         }
     }
@@ -281,7 +255,7 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         }
         else if segue.identifier == "events"{
             let eventsVC = segue.destinationViewController as! EventViewControllerTableViewController
-            eventsVC.animal = self.animal!
+            eventsVC.animal = self.animal?.originalObject
         }
     }
     
@@ -293,7 +267,6 @@ class AboutViewController: UIViewController, UITextViewDelegate {
         super.didReceiveMemoryWarning()
     }
     
-
     func appendAnimalAttributeWithName(name : String, value: String){
         let nameDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Light", size: 10), size: 10)]
         let valueDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Light", size: 10), size: 10), NSForegroundColorAttributeName : UIColor.darkGrayColor()]
@@ -313,6 +286,25 @@ class AboutViewController: UIViewController, UITextViewDelegate {
     
     func segueToEvents(){
         self.performSegueWithIdentifier("events", sender: nil)
+    }
+    
+    func animalDidFailLoading( animal : AnimalV2 ) {
+        print("No se pudo cargar imagen")
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func animalDidFinishLoading( animal : AnimalV2 ) {
+        let image = self.animal!.image
+        self.visibleImage.hidden = false
+        self.image = image
+        
+        self.animal!.image = imageWithImage(self.animal!.image!, scaledToSize: self.backgroundImage.frame.size)
+        
+        dispatch_async(dispatch_get_main_queue()){
+            self.backgroundImage.image = self.animal!.image
+            self.visibleImage.image = self.animal!.image
+        }
+
     }
 }
 

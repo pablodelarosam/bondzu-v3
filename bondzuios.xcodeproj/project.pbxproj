@@ -57,6 +57,7 @@
 		B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */; };
 		B34FB9E71B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */; };
 		B358A1221BCB314200DC9525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B358A1241BCB314200DC9525 /* Main.storyboard */; };
+		B358A2671BF164A100278B61 /* Keeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B358A2661BF164A100278B61 /* Keeper.swift */; };
 		B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3797FE21B8CC1BE00924080 /* CircledButton.swift */; };
 		B37FC3531BC31F2F00B5692D /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3521BC31F2F00B5692D /* Transaction.swift */; };
 		B37FC3561BC4383B00B5692D /* EventViewControllerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37FC3551BC4383B00B5692D /* EventViewControllerTableViewController.swift */; };
@@ -150,6 +151,7 @@
 		B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithImageButton.swift; sourceTree = "<group>"; };
 		B358A1231BCB314200DC9525 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B358A1281BCB432900DC9525 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
+		B358A2661BF164A100278B61 /* Keeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keeper.swift; path = bondzuios/Keeper.swift; sourceTree = "<group>"; };
 		B3797FE21B8CC1BE00924080 /* CircledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledButton.swift; sourceTree = "<group>"; };
 		B3797FE41B8CC8E000924080 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		B37FC3521BC31F2F00B5692D /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
@@ -300,12 +302,13 @@
 				548993291B98BE4400DDF263 /* AnimalV2.swift */,
 				549760FA1B7B0BED005782A6 /* Camera.swift */,
 				B3C1FB771BC70CF3003AD700 /* Capsule.swift */,
+				549417941BC6E3DB001A0A5E /* Card.swift */,
 				B37FC3591BC43AB400B5692D /* Event.swift */,
+				B358A2661BF164A100278B61 /* Keeper.swift */,
+				54AFB1F11BC8826A00238D6B /* Payments.swift */,
 				54E4478C1B73FDB200BF580F /* Producto.swift */,
 				B37FC3521BC31F2F00B5692D /* Transaction.swift */,
 				B39719E61B8F6F1800509A72 /* Usuario.swift */,
-				549417941BC6E3DB001A0A5E /* Card.swift */,
-				54AFB1F11BC8826A00238D6B /* Payments.swift */,
 			);
 			name = Modelos;
 			path = ..;
@@ -482,6 +485,7 @@
 				54305CA31B73F809003F9AB0 /* Resources */,
 				A165DC895CA7DA4FC73B2B8C /* Embed Pods Frameworks */,
 				9DCA7311741A3C9F59F56D47 /* Copy Pods Resources */,
+				B358A2681BF24B1000278B61 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -607,6 +611,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B358A2681BF24B1000278B61 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:|WARNING:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"";
+		};
 		BC2C39C2EFA03B187CC99C14 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -657,6 +674,7 @@
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
 				54E806321BA74DD2007AFD44 /* NoCamerasViewController.swift in Sources */,
 				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
+				B358A2671BF164A100278B61 /* Keeper.swift in Sources */,
 				B3A29EF61BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift in Sources */,
 				544677A81BB9EF6500F5B54D /* GalleryCollectionViewCell.swift in Sources */,
 				B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */,

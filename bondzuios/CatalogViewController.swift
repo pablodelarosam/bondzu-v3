@@ -158,7 +158,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             cell.speciesLabel.text = animal.specie;
             let width = UIScreen.mainScreen().bounds.width
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width: width / self.NUMBER_ITEMS_ROW, height:width / self.NUMBER_ITEMS_ROW))
+                let photoFinal = imageWithImage(animal.image!, scaledToSize: CGSize(width: width / self.NUMBER_ITEMS_ROW, height:width / self.NUMBER_ITEMS_ROW))
                 dispatch_async(dispatch_get_main_queue()) {
                     if cell.tab == self.segementedControl.selectedSegmentIndex && cell.row == indexPath.row{
                         cell.imageView.image = photoFinal

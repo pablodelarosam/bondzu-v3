@@ -538,9 +538,9 @@ class CommunityViewDataManager{
             self.notifyOnReady.removeAll()
             
             if let profilePic = user[TableUserColumnNames.PhotoURL.rawValue] as? String{
-            
+                //WARNING: UNUSED COMPLETED
                 getImageInBackground(url: profilePic){
-                    image in
+                    image, completed in
                     self.image = image
                     self.imageLoaded = true
                     

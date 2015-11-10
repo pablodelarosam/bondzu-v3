@@ -100,7 +100,6 @@ enum TableUserColumnNames : String{
 
 enum TableKeeperColumnNames : String{
     case User = "user"
-    case Name = "name"
 }
 
 enum TableTransactionColumnNames : String{

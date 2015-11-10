@@ -27,36 +27,27 @@ public class AboutLateralView: UIView {
     }
     
     var keeper1 : Usuario?{
-        willSet{
-            if let a = keeper1{
-                a.imageLoaderObserver = nil
-            }
-        }
         didSet{
             if let a = keeper1{
-                a.imageLoaderObserver = photoReady
                 keeperOneLabel.text = a.name
                 if let b = a.image{
                     keeperOneImageView.image = b
                 }
+                self.setNeedsLayout()
             }
         }
     }
     
     var keeper2 : Usuario?{
-        willSet{
-            if let a = keeper2{
-                a.imageLoaderObserver = nil
-            }
-        }
         didSet{
             if let a = keeper2{
-                a.imageLoaderObserver = photoReady
                 keeperTwoLabel.text = a.name
                 if let b = a.image{
                     keeperTwoImageView.image = b
                 }
             }
+            self.setNeedsLayout()
+
         }
     }
     
@@ -153,7 +144,7 @@ public class AboutLateralView: UIView {
         
         //NOTA TODO FEATURE VERSION 2.0
         /*
-            Arreglar problema que ocurre cuando la imagen del cuidador 2 de carga antes que la del cuidador 1
+        Arreglar problema que ocurre cuando la imagen del cuidador 2 de carga antes que la del cuidador 1
         */
         super.layoutSubviews()
         
@@ -169,7 +160,7 @@ public class AboutLateralView: UIView {
         for i in separators{
             i.frame.size.width = width
         }
-      
+        
         separators[0].frame.origin.y = contentHeight + 1
         separators[1].frame.origin.y = thirdFrameOriginY - 2
         
@@ -201,8 +192,8 @@ public class AboutLateralView: UIView {
                 keeperTwoImageView.frame.origin = CGPoint(x: frame.size.width/4 * 3 - keeperOneImageView.frame.width / 2 , y: titleLabels[1].frame.origin.y + titleLabelHeight + 3)
                 keeperTwoLabel.frame = CGRect(x: frame.width / 2, y: keeperOneImageView.frame.origin.y + keeperOneImageView.frame.height + 3 , width: imageWidth, height: microContentHeight - keeperOneImageView.frame.height - 9)
                 Imagenes.redondeaVista(keeperTwoImageView, radio: keeperOneImageView.frame.width / 2)
-
-
+                
+                
             }
             else{
                 let imageWidth = width
@@ -242,7 +233,7 @@ public class AboutLateralView: UIView {
     }
     
     
-    
+    @available(*, deprecated=8.0, message="This method was deprecated for a new api that takes a completed flag. Use photoDidLoad instead")
     func photoReady( user : Usuario){
         if(user == keeper1){
             keeperOneImageView.image = keeper1?.image
@@ -252,5 +243,17 @@ public class AboutLateralView: UIView {
         }
         setNeedsLayout()
     }
+    
+    //WARNING: Incomplete implementation
+    func photoDidLoad( user : Usuario, completed : Bool){
+        if(user == keeper1){
+            keeperOneImageView.image = keeper1?.image
+        }
+        else if(user == keeper2){
+            keeperTwoImageView.image = keeper2?.image
+        }
+        setNeedsLayout()
+    }
+
     
 }
