@@ -9,7 +9,14 @@
 import UIKit
 import Parse
 
+enum UsuarioTransactionResult{
+    case Success
+    case ParseError
+    case AlreadyAdopted
+}
+
 class Usuario: NSObject {
+    
     
     var name : String
     var image : UIImage?
@@ -98,5 +105,53 @@ class Usuario: NSObject {
     
     init(name : String) {
         self.name = name
+    }
+    
+    
+    /** 
+    This function attemp to save a new adoption.
+     
+    The value is returned after a lot of web requests so THIS METHOD SHOULD BE CALLED IN BACKGROUND.
+        
+    - parameter animal: The Parse object id of the animal to adopt.
+    - parameter user: The user making the adoption. If none is specified the current user is selected.
+    
+    - returns: 0 in case the transaction succeds. 1 in case there were a Parse Error. 2
+    */
+    class func adoptAnimal(animalID : String, user : PFUser = PFUser.currentUser()!) -> UsuarioTransactionResult{
+
+        if(NSThread.isMainThread()){
+            mainThreadWarning()
+        }
+        
+        let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
+        let query = relation.query()
+       
+        do{
+            let animals = try query!.findObjects()
+            
+            //Check if the animal is already adopted
+            for animal in animals{
+                if (animal).objectId == animalID{
+                    return UsuarioTransactionResult.AlreadyAdopted
+                }
+            }
+            
+            let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
+            relation.addObject(PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: animalID))
+            try user.save()
+            
+            let animal = PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: animalID)
+            animal.incrementKey(TableAnimalColumnNames.Adopters.rawValue, byAmount: 1)
+            //No need to fecth this result
+            animal.saveEventually()
+            return UsuarioTransactionResult.Success
+            
+        }
+        catch{
+            print("Error in Usuario.adopt: \(error)")
+            return UsuarioTransactionResult.ParseError
+        }
+        
     }
 }

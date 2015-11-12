@@ -32,7 +32,16 @@ class AnimalV2 : Equatable
     var originalObject : PFObject!
     var keepers : [PFObject]?
     
-    init(object : PFObject, delegate : AnimalV2LoadingProtocol?){
+    
+    /**
+     Instanciates a new AnimalV2 object
+     
+     - parameter object: The PFObject to parse.
+     - parameter delegate: The delegate to notify when the image is ready.
+     - parameter loadImage: This parameter will be only taken in mind if the delegate is nil. It tells the wether the associated image is loaded or notociated image. The default value is false
+     
+    */
+    init(object : PFObject, delegate : AnimalV2LoadingProtocol?, loadImage : Bool = false){
         self.objectId = object.objectId!
         self.name = object[TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         self.adopters = (object[TableAnimalColumnNames.Adopters.rawValue] as! NSNumber).integerValue
@@ -44,31 +53,33 @@ class AnimalV2 : Equatable
         
         self.keepers = object[TableAnimalColumnNames.Keepers.rawValue] as? [PFObject]
         
-        (object[TableAnimalColumnNames.Photo.rawValue] as! PFFile).getDataInBackgroundWithBlock(){
-            data , error in
-            guard error == nil else{
-                print(error)
-                delegate?.animalDidFailLoading(self)
-                return
+        if delegate != nil || loadImage{
+            
+            (object[TableAnimalColumnNames.Photo.rawValue] as! PFFile).getDataInBackgroundWithBlock(){
+                data , error in
+                guard error == nil else{
+                    print(error)
+                    delegate?.animalDidFailLoading(self)
+                    return
+                }
+                
+                guard let imageData = data else{
+                    print("data is null\n")
+                    delegate?.animalDidFailLoading(self)
+                    return
+                }
+                
+                self.image = UIImage(data: imageData)
+                
+                guard self.image != nil else{
+                    print("Fallo en conversion")
+                    delegate?.animalDidFailLoading(self)
+                    return
+                }
+                
+                delegate?.animalDidFinishLoading(self)
             }
-            
-            guard let imageData = data else{
-                print("data is null\n")
-                delegate?.animalDidFailLoading(self)
-                return
-            }
-            
-            self.image = UIImage(data: imageData)
-            
-            guard self.image != nil else{
-                print("Fallo en conversion")
-                delegate?.animalDidFailLoading(self)
-                return
-            }
-            
-            delegate?.animalDidFinishLoading(self)
         }
-        
     }
     
     @available(*, deprecated=1.0, message="Please use the new object constructor!")

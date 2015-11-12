@@ -111,6 +111,10 @@ func getImageInBackground(url string : String, block : ((UIImage?, Bool)->Void))
 }
 
 
+func mainThreadWarning(){
+    print("You are blocking the main thread!\nTo debug put a symbolic link in mainThreadWarning.\nPrinted from Utiles.mainThreadWarning()")
+}
+
 class Utiles{
     //Esconder hairline (separacion entre nav bar y toolbar)
     static func moveHairLine(appearing: Bool, navHairLine: UIImageView?, toolbar: UIToolbar?){

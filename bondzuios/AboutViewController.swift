@@ -6,10 +6,7 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  ARCHIVO LOCALIZADO
 
-/*
-    Archivo afectado issue #25
-    Funciones viewDidLoad
-*/
+
 
 //TODO: Aqui hay un mega bloque de funciones que se llaman en background cuando ni siquiera era necesario.
 import UIKit
@@ -74,72 +71,52 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         
         adopt.target = {
             _ in
-            self.adopt.userInteractionEnabled = false
-            let user = PFUser.currentUser()!
-            let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
-            let query = relation.query()
-            query?.findObjectsInBackgroundWithBlock(){
-                adopted , error in
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+                self.adopt.userInteractionEnabled = false
+                let result = Usuario.adoptAnimal(self.animalID)
+                
+                var title = ""
+                var message = ""
+                var actionTitle = ""
 
-                guard self.animal != nil else{
-                    return
-                }
-                
-                guard error == nil , let animals = adopted else{
-                    self.adopt!.userInteractionEnabled = true
-                    print("error al obtener información")
-                    return
-                }
-                
-                for animal in animals{
-                    if (animal).objectId == self.animalID{
-                        dispatch_async(dispatch_get_main_queue()){
-                            let controller = UIAlertController(title: NSLocalizedString("Already adopted", comment: ""), message: NSLocalizedString("You cannot adopt the same animal twice", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                            controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
-                                _ in
-                            }))
-                            self.presentViewController(controller, animated: true, completion: nil)
-                        }
-                        return
-                    }
-                }
-                
-                let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
-                relation.addObject(self.animal!.originalObject)
-                PFUser.currentUser()!.saveInBackgroundWithBlock(){
-                    a, b  in
-                    dispatch_async(dispatch_get_main_queue()){
+                self.adopt?.userInteractionEnabled = true
+
+                dispatch_async(dispatch_get_main_queue()){
+                    if result == UsuarioTransactionResult.Success{
                         
-                        let controller = UIAlertController(title: NSLocalizedString("Thank you!", comment: ""), message: NSLocalizedString("You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.", comment: ""),     preferredStyle: UIAlertControllerStyle.Alert)
-                        controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Default, handler: {
-                            _ in
-                        }))
-                        self.presentViewController(controller, animated: true, completion: nil)
+                        title = NSLocalizedString("Thank you!", comment: "")
+                        message = NSLocalizedString("You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.", comment: "")
+                        actionTitle = NSLocalizedString("OK", comment: "")
                         
-                        if let currentAnimal = self.animal?.originalObject{
-                            currentAnimal.incrementKey(TableAnimalColumnNames.Adopters.rawValue, byAmount: 1)
-                            currentAnimal.saveInBackgroundWithBlock({ b, e  in
-                                if !b || e != nil{
-                                    print("Error al actualizar el número de adopters");
-                                }
-                            })
-                            
-                            dispatch_async(dispatch_get_main_queue()){
-                                if let i = self.lateral.getAdopters(){
-                                    self.lateral.setAdopters(i + 1)
-                                }
-                            }
+                        if let adopters = self.lateral.getAdopters(){
+                            self.lateral.setAdopters(adopters + 1)
                         }
                     }
+                    else if result == UsuarioTransactionResult.AlreadyAdopted{
+                        
+                        title = NSLocalizedString("Already adopted", comment: "")
+                        message =  NSLocalizedString("You cannot adopt the same animal twice", comment: "")
+                        actionTitle = NSLocalizedString("Cancel", comment: "")
+                       
+                    }
+                    else if result == UsuarioTransactionResult.ParseError{
+                        
+                        title = NSLocalizedString("Error", comment: "")
+                        message = NSLocalizedString("Something went wront, please try again later", comment: "")
+                        actionTitle = NSLocalizedString("Cancel", comment: "")
+
+                    }
+                    
+                    let controller = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                    controller.addAction(UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Cancel, handler: {
+                        _ in
+                    }))
+                    self.presentViewController(controller, animated: true, completion: nil)
                 }
                 
-                self.adopt.userInteractionEnabled = true
             }
             
-            
-            
-        } //Clara afectación #25
-        
+        }
         let query = PFQuery(className: TableNames.Animal_table.rawValue)
         query.getObjectInBackgroundWithId(animalID){
             (animalObject: PFObject?, error: NSError?) -> Void in
@@ -165,7 +142,6 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 }
                 
                 
-                //FIXME: Afectacion #25
                 let eventsQuery = PFQuery(className: TableNames.Events_table.rawValue)
                 eventsQuery.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
                 eventsQuery.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())

@@ -27,7 +27,7 @@ class Keeper {
        (keeperObject[TableKeeperColumnNames.User.rawValue] as! PFObject).fetchInBackgroundWithBlock {
             (object, error) -> Void in
             if error == nil{
-                let u = Usuario(object: object!, imageLoaderObserver: imageLoaderObserver)
+                _ = Usuario(object: object!, imageLoaderObserver: imageLoaderObserver)
             }
             else{
                 dispatch_async(dispatch_get_main_queue()){
