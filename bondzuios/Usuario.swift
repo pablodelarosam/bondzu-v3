@@ -36,7 +36,7 @@ class Usuario : NSObject{
         self.name = object[TableUserColumnNames.Name.rawValue] as! String
         self.originalObject = object
         super.init()
-        //WARNING: Esto no se hace. Arregla el issue #44 pero se debe hacer ben cambiando el frame de lateral about view
+        //WARNING: Esto no se hace. Arregla el issue #44 pero se debe hacer bien cambiando el frame de lateral about view
         self.image = UIImage()
         if imageLoaderObserver != nil || loadImage{
             if let image = object[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
@@ -180,4 +180,40 @@ class Usuario : NSObject{
         }
         
     }
+    
+    
+    /**
+     This function attemp to get a
+     
+     The value is returned after a lot of web requests so THIS METHOD SHOULD BE CALLED IN BACKGROUND.
+     
+     - parameter imageDelegate: This method will pass the delegate to animal objects in case you want to know when they are fully loaded
+     
+     - returns: a bool telling if the operation succeded and an array of adopted animals in case of success
+     */
+    func getAdoptedAnimals(imageDelegate : AnimalV2LoadingProtocol?) -> (Bool , [AnimalV2]?){
+        if(NSThread.isMainThread()){
+            mainThreadWarning()
+        }
+        
+        let relation = originalObject.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
+        let query = relation.query()
+        
+        do{
+            let animals = try query!.findObjects()
+            var adopted = [AnimalV2]()
+            
+            for animal in animals{
+                adopted.append(AnimalV2(object: animal, delegate: imageDelegate))
+            }
+
+            return (true, adopted)
+        }
+        catch{
+            print(error)
+            return (false, nil)
+        }
+    }
+    
+    
 }

@@ -9,7 +9,9 @@
 /*
     Afectado #25
 
-    Keeper debería ser un modelo. no un objeto
+    Keeper debería ser un modelo. no un objeto.
+    Implementar esto es complejo debido a que es posible que se necesiten o no los keepers posterioremnte. 
+    Idealmente, que quien necesite los keepers los tramite mediante el constructor de Keepers o hacer que el constructor de Keeper regrese un Usuario
 */
 
 import Foundation
@@ -31,7 +33,7 @@ class AnimalV2 : Equatable
     var about : String
     var originalObject : PFObject!
     var keepers : [PFObject]?
-    
+    var animalDescription : String
     
     /**
      Instanciates a new AnimalV2 object
@@ -42,6 +44,7 @@ class AnimalV2 : Equatable
      
     */
     init(object : PFObject, delegate : AnimalV2LoadingProtocol?, loadImage : Bool = false){
+        self.originalObject = object
         self.objectId = object.objectId!
         self.name = object[TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         self.adopters = (object[TableAnimalColumnNames.Adopters.rawValue] as! NSNumber).integerValue
@@ -49,8 +52,7 @@ class AnimalV2 : Equatable
         self.characteristics = object[TableAnimalColumnNames.Characteristics.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! [String:String]
         self.about = object[TableAnimalColumnNames.About.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         self.image = UIImage()
-        self.originalObject = object
-        
+        self.animalDescription = object[TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         self.keepers = object[TableAnimalColumnNames.Keepers.rawValue] as? [PFObject]
         
         if delegate != nil || loadImage{
@@ -82,7 +84,8 @@ class AnimalV2 : Equatable
         }
     }
     
-    @available(*, deprecated=1.0, message="Please use the new object constructor!")
+    
+    @available(*, deprecated=9.0, message="Please use the new object constructor!")
     init(){
         name = ""
         specie = ""
@@ -90,6 +93,7 @@ class AnimalV2 : Equatable
         adopters = 0
         characteristics = [:]
         about = ""
+        animalDescription = ""
     }
     
 }
