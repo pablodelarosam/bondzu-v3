@@ -15,9 +15,9 @@ enum UsuarioTransactionResult{
     case AlreadyAdopted
 }
 
-class Usuario: NSObject {
+class Usuario : NSObject{
     
-    
+    private var originalObject : PFObject!
     var name : String
     var image : UIImage?
 
@@ -26,60 +26,64 @@ class Usuario: NSObject {
         This is the default initializer for a user
      
         - parameter object: The PFObject containing the user.
-        - parameter imageLoaderObserver: A observer that tells its delegate when the image have loaded (or failed). The observer parameters are described below.
+        - parameter getImage: Ignored if imageLoaderObserver is not null. It tell wether the image will be loaded or not
+        - parameter imageLoaderObserver: A observer that tells its delegate when the image have loaded (or failed). If nil is passed as argument and you want to retrive the photo, set fetchImage to true. The observer parameters are described below.
             - Usuario: The object that has finished (or failed) loading.
             - Bool: Its value tells its delegate if the image could be loaded or not.
      
-    */
-    init(object : PFObject, imageLoaderObserver: ((Usuario, Bool)->(Void))?){
+     */
+    init(object : PFObject, loadImage : Bool = false,  imageLoaderObserver: ((Usuario, Bool)->(Void))?){
         self.name = object[TableUserColumnNames.Name.rawValue] as! String
+        self.originalObject = object
         super.init()
         //WARNING: Esto no se hace. Arregla el issue #44 pero se debe hacer ben cambiando el frame de lateral about view
         self.image = UIImage()
-        if let image = object[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
-            image.getDataInBackgroundWithBlock({
-                (imageData, error) -> Void in
-                
-                guard error == nil, let unwrapedData = imageData else{
-                    dispatch_async(dispatch_get_main_queue()){
-                        imageLoaderObserver?(self,false)
+        if imageLoaderObserver != nil || loadImage{
+            if let image = object[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
+                image.getDataInBackgroundWithBlock({
+                    (imageData, error) -> Void in
+                    
+                    guard error == nil, let unwrapedData = imageData else{
+                        dispatch_async(dispatch_get_main_queue()){
+                            imageLoaderObserver?(self,false)
+                        }
+                        print(error)
+                        return
                     }
-                    print(error)
-                    return
-                }
-                
-                self.image = UIImage(data: unwrapedData)
-                
-                if self.image != nil{
-                    dispatch_async(dispatch_get_main_queue()){
-                        imageLoaderObserver?(self,true)
+                    
+                    self.image = UIImage(data: unwrapedData)
+                    
+                    if self.image != nil{
+                        dispatch_async(dispatch_get_main_queue()){
+                            imageLoaderObserver?(self,true)
+                        }
                     }
-                }
-                else{
-                    dispatch_async(dispatch_get_main_queue()){
-                        imageLoaderObserver?(self,false)
+                    else{
+                        dispatch_async(dispatch_get_main_queue()){
+                            imageLoaderObserver?(self,false)
+                        }
                     }
-                }
-            })
-        }
-        else if let image = object[TableUserColumnNames.PhotoURL.rawValue] as? String{
-            getImageInBackground(url: image, block: { (image, created) -> Void in
-                if(created){
-                    self.image = image!
-                    dispatch_async(dispatch_get_main_queue()){
-                        imageLoaderObserver?(self,true)
-                    }                }
-                else{
-                    dispatch_async(dispatch_get_main_queue()){
-                        imageLoaderObserver?(self,false)
+                })
+            }
+            else if let image = object[TableUserColumnNames.PhotoURL.rawValue] as? String{
+                getImageInBackground(url: image, block: { (image, created) -> Void in
+                    if(created){
+                        self.image = image!
+                        dispatch_async(dispatch_get_main_queue()){
+                            imageLoaderObserver?(self,true)
+                        }                }
+                    else{
+                        dispatch_async(dispatch_get_main_queue()){
+                            imageLoaderObserver?(self,false)
+                        }
                     }
+                })
+            }
+            else{
+                print("Modelo de usuario incompleto\n \(object.objectId)")
+                dispatch_async(dispatch_get_main_queue()){
+                    imageLoaderObserver?(self,false)
                 }
-            })
-        }
-        else{
-            print("Modelo de usuario incompleto\n \(object.objectId)")
-            dispatch_async(dispatch_get_main_queue()){
-                imageLoaderObserver?(self,false)
             }
         }
     }
@@ -103,8 +107,30 @@ class Usuario: NSObject {
         }
     }
     
-    init(name : String) {
-        self.name = name
+    /**
+     This method updates the user profile image. The process will be held asyncronuslly by the function and the result will be informed trought a callback
+     
+     - parameter image: The image that is going to be used by the user.
+     - parameter callback: The function to call when the update is done.
+     
+     #### Note: callback will be called on the main thread ####
+     
+     */
+    func setNewProfileImage(image : UIImage , callback : ((Bool)->Void)){
+        let file = PFFile(data: UIImagePNGRepresentation(image)!)
+        originalObject[TableUserColumnNames.PhotoURL.rawValue] = NSNull()
+        originalObject[TableUserColumnNames.PhotoFile.rawValue] = file
+        originalObject.saveInBackgroundWithBlock({
+            (_, error) -> Void in
+            dispatch_async(dispatch_get_main_queue()){
+                if error != nil{
+                    callback(false)
+                }
+                else{
+                    callback(true)
+                }
+            }
+        })
     }
     
     
