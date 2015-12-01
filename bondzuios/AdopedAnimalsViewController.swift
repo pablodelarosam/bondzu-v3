@@ -50,11 +50,11 @@ class AdopedAnimalsViewController: UITableViewController {
                         }
                     })
                 }
-            }
-            
-            dispatch_async(dispatch_get_main_queue()){
-                self.loaded = true
-                self.tableView.reloadData()
+                
+                dispatch_async(dispatch_get_main_queue()){
+                    self.loaded = true
+                    self.tableView.reloadData()
+                }
             }
         }
         else{
