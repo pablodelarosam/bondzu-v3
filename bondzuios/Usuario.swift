@@ -20,7 +20,7 @@ class Usuario : NSObject{
     private var originalObject : PFObject!
     var name : String
     var image : UIImage?
-
+    var stripeID : String
     
     /**
         This is the default initializer for a user
@@ -34,6 +34,7 @@ class Usuario : NSObject{
      */
     init(object : PFObject, loadImage : Bool = false,  imageLoaderObserver: ((Usuario, Bool)->(Void))?){
         self.name = object[TableUserColumnNames.Name.rawValue] as! String
+        self.stripeID = object[TableUserColumnNames.StripeID.rawValue] as! String!
         self.originalObject = object
         super.init()
         //WARNING: Esto no se hace. Arregla el issue #44 pero se debe hacer bien cambiando el frame de lateral about view
@@ -91,12 +92,14 @@ class Usuario : NSObject{
     @available(*, deprecated=8.0, message="Now each model is responsable for its data model. Please call PFObject initializer")
     init(name : String , photo : String){
         self.name = name
+        self.stripeID = ""
         super.init()
     }
     
     @available(*, deprecated=8.0, message="Now each model is responsable for its data model. Please call PFObject initializer")
     init(name : String , photoFile : PFFile){
         self.name = name
+        self.stripeID = ""
         super.init()
         photoFile.getDataInBackgroundWithBlock {
             (imgData, error) -> Void in
