@@ -8,15 +8,10 @@
 
 //TODO posible bug here. Searching may do a circle reference here.
 
-/*
-    Affected issue #25
-    getAnimals
-*/
-
 import UIKit
 import Parse
 
-class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, CapsuleLoadingDelegate{
+class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, CapsuleLoadingDelegate, AnimalV2LoadingProtocol{
 
     //NOTE: To avoid possible bugs the search bar appears in the place of the segment control. Therefore is impossible to change the view while searching.
     
@@ -24,15 +19,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     ///Number of items per row. Possibly there will be a modification that takes landscape mode in mind or even different devices so this can become a computed variable.
     private var NUMBER_ITEMS_ROW: CGFloat{
-
         return 2
-        
-        /*let orientation = UIDevice.currentDevice().orientation
-        if orientation == .Portrait || orientation == .PortraitUpsideDown || orientation == .FaceUp || orientation == .FaceDown{ return 2 }
-        return 3*/
-        
     }
-    
     
     ///The image that appears when imageWithImage haven't finished processing
     private let initialThumbnail = UIImage()
@@ -250,40 +238,11 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
-                // The find succeeded.
                 if let objects = objects{
                     self.toLoadAnimals = objects.count
-                    var i = 0 as Int;
                     for object in objects {
-                        let image = object.objectForKey(TableAnimalColumnNames.Photo.rawValue) as? PFFile;
-                        if image != nil{
-                            
-                            let animal = AnimalV2();
-                            animal.name = object.objectForKey(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
-                            animal.objectId = object.objectId!;
-                            animal.specie = object.objectForKey(TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
-                            self.animalsToShow.append(animal);
-                            image?.getDataInBackgroundWithBlock{
-                                (imageData: NSData?, error: NSError?) -> Void in
-                                if error == nil{
-                                    animal.image = UIImage(data: imageData!)!;
-                                    dispatch_async(dispatch_get_main_queue()){
-                                        self.toLoadAnimals--
-                                        if self.segementedControl.selectedSegmentIndex == 0{
-                                            self.collectionView.reloadData()
-                                        }
-                                    }
-                                }
-                                else{
-                                    dispatch_async(dispatch_get_main_queue()){
-                                        let index = self.animalsToShow.indexOf(animal)
-                                        self.animalsToShow.removeAtIndex(index!)
-                                         self.toLoadAnimals--
-                                    }
-                                }
-                            }
-                            i++;
-                        }
+                        let animal = AnimalV2(object: object, delegate: self);
+                        self.animalsToShow.append(animal)
                     }
                     dispatch_async(dispatch_get_main_queue()){
                         if self.segementedControl.selectedSegmentIndex == 0{
@@ -291,8 +250,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                         }
                     }
                 }
-                
-            } else {
+            }
+            else {
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }
@@ -479,5 +438,25 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         cellLayout.minimumInteritemSpacing = 5
     }
 
-   
+   //MARK: AnimalV2 Loading protocol
+    
+    func animalDidFailLoading(animal: AnimalV2) {
+        
+        self.animalsToShow.removeAtIndex(self.animalsToShow.indexOf(animal)!)
+        print("no se pudo cargar animal \(animal.objectId)")
+        self.toLoadAnimals--
+        
+        if self.segementedControl.selectedSegmentIndex == 0{
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func animalDidFinishLoading(animal: AnimalV2) {
+        self.toLoadAnimals--
+        
+        if self.segementedControl.selectedSegmentIndex == 0{
+            self.collectionView.reloadData()
+        }
+
+    }
 }
