@@ -6,24 +6,16 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
-/*
-    Affected #25
-    getPictures
-*/
-
 import UIKit
 import Parse
 
-class GalleryViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
-{
-    
-    
-    
+class GalleryViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GalleryLoadingProtocol{
+
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     var pictures = [UIImage]();
     var animalId: String!;
-    
+    var galleryToLoad = 0;
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
@@ -37,14 +29,12 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidLoad() {
         self.activityIndicator.startAnimating()
-       
         getPictures();
         super.viewDidLoad()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -56,12 +46,10 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("picCell", forIndexPath: indexPath) as! GalleryCollectionViewCell
         let img = self.pictures[indexPath.row] as UIImage
         cell.imageView.image = img
         return cell
-        
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -73,66 +61,34 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
         return CGSize(width: (UIScreen.mainScreen().bounds.width/3) - 6, height: (UIScreen.mainScreen().bounds.width/3) - 6)
     }
     
     func getPictures() -> Void{
         let query = PFQuery(className:TableNames.Gallery_table.rawValue)
         query.whereKey(TableGalleryColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
-        
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
-            
             if error == nil {
-                //self.activityIndicator.startAnimating()
-                // The find succeeded.
-                print("Successfully retrieved \(objects!.count) pictures.")
-                if(objects?.count == 0)
-                {
+                if(objects?.count == 0){
                     print("NO Pictures")
-                    /*self.txtNoPics.hidden = false;
-                    self.activityIndicator.stopAnimating()*/
                     return;
                 }
-                var imagen = UIImage();                
-                // Do something with the found objects
                 self.pictures.removeAll(keepCapacity: true)
                 if let objects = objects{
-                    for (var i = 0; i < objects.count; i++)
-                    {
-                        print("i = \(i) objects.count = \(objects.count)")
-                        let object = objects[i]
-                        if let img = object.objectForKey(TableGalleryColumnNames.Image.rawValue) as? PFFile
-                        {
-                            let image = img
-                            image.getDataInBackgroundWithBlock {
-                                (imageData: NSData?, error: NSError?) -> Void in
-                                if error == nil {
-                                    if let imageData = imageData {
-                                        imagen = UIImage(data:imageData)!
-                                        self.pictures.append(imagen);
-                                        if(i == objects.count)
-                                        {
-                                            print("RELOADING")
-                                            self.collectionView.reloadData()
-                                            self.activityIndicator.stopAnimating()
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                        }
+                    self.galleryToLoad = objects.count
+                    for object in objects{
+                        _ = Gallery(object: object, delegate: self)
                     }
                 }
-            } else {
-                // Log details of the failure
+            }
+            else{
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }
     }
     
-    
+
     func imageSelected(image: UIImage) {
         let i = FullImageViewController()
         i.modalTransitionStyle = .CoverVertical
@@ -140,5 +96,26 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.parentViewController!.presentViewController(i, animated: true, completion: nil)
         i.loadImage(image)
     }
-
+    
+    func galleryImageDidFinishLoading(gallery: Gallery) {
+        self.pictures.append(gallery.image!);
+        galleryToLoad--;
+        
+        if galleryToLoad == 0{
+            finishLoading()
+        }
+    }
+    
+    func galleryImageDidFailLoading(gallery: Gallery) {
+        galleryToLoad--;
+        
+        if galleryToLoad == 0{
+            finishLoading()
+        }
+    }
+    
+    func finishLoading(){
+        self.collectionView.reloadData()
+        self.activityIndicator.stopAnimating()
+    }
 }
