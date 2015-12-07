@@ -76,8 +76,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         self.navigationController?.popViewControllerAnimated(false);
     }
     
-    func cameraButtonClicked(sender: AnyObject)
-    {
+    func cameraButtonClicked(sender: AnyObject){
         let popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController;
         popViewController.animalId = self.animalId                
         popViewController.player = self;
@@ -90,17 +89,6 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         self.popover.sourceView = self.view;
         self.popover.sourceRect = self.cameraButton.frame        
         self.presentViewController(navController, animated: true, completion: nil)
-        
-        /*var popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController
-        popViewController.modalPresentationStyle = .Popover
-        popViewController.preferredContentSize = CGSizeMake(200, 200)
-        
-        let popover = popViewController.popoverPresentationController
-        popover?.permittedArrowDirections = UIPopoverArrowDirection.Down;
-        popover?.delegate = self
-        popover?.sourceView = self.moviePlayerController.view
-        popover?.sourceRect = self.cameraButton.frame
-        self.moviePlayerController.presentViewController(popViewController, animated: true, completion: nil)*/
     }
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -112,8 +100,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         let widthMoviePlayer = self.view.bounds.width;
         let heightMoviePlayer = self.view.bounds.height;
         self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
-        if(self.popover != nil)
-        {
+        if(self.popover != nil){
             self.popover.sourceRect = self.cameraButton.frame
         }
     }
@@ -150,27 +137,17 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                 }
                 // Do something with the found objects
                 if let objects = objects{
-                    for object in objects {
-                        
-                        print(object.objectId)
-                        let newCamera = Camera(_obj_id: object.objectId as String!,
-                            _description: object.objectForKey(TableCameraColumnNames.Description.rawValue) as! String,
-                            _animalId: self.animalId,
-                            _type: object.objectForKey(TableCameraColumnNames.CameraType.rawValue) as! Int,
-                            _animalName: object.objectForKey("animal_name") as! String,
-                            _funcionando: object.objectForKey("funcionando") as! Bool,
-                            _url: object.objectForKey(TableCameraColumnNames.PlayBackURL.rawValue) as? String)
-                        
-                        let url = object.objectForKey("url") as? String
-                        if(newCamera.funcionando!)
+                    for object in objects{
+                        let newCamera = Camera(object: object)
+                        if(newCamera.funcionando! && newCamera.url != nil)
                         {
-                            self.url = NSURL(string: url!);
+                            self.url = newCamera.url!;
                             self.setup()
                             return
                         }
                     }
                 }
-                
+    
                 self.performSegueWithIdentifier("noCamerasSegue", sender: self)
                 return;
             } else {
@@ -197,12 +174,6 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     func setup()
     {
         
-        /*self.moviePlayerController = AVPlayerViewController();
-        self.moviePlayerController.player = AVPlayer(URL: url);*/
-        
-        /*self.moviePlayerController.moviePlayer.fullscreen = true;
-        self.moviePlayerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen;*/
-        
         let sizeScreen = UIScreen.mainScreen().bounds;
         let widthMoviePlayer = sizeScreen.width;
         let heightMoviePlayer = sizeScreen.height;
@@ -210,17 +181,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         self.cameraButton  = UIButton(type: UIButtonType.Custom)
         self.cameraButton.setImage(image, forState: UIControlState.Normal)
         self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
-        
-        self.cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)        
-        
-        //self.presentViewController(self.moviePlayerController, animated: false, completion: nil)
-        /*self.moviePlayerController.view.addSubview(self.cameraButton);
-        self.moviePlayerController.player?.play();
-        self.moviePlayerController.player!.closedCaptionDisplayEnabled = false;*/
-        
-        
-        //self.activityIndicator.stopAnimating()
-        
+        self.cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
         self.player = AVPlayer(URL: url);
         self.view.addSubview(self.cameraButton);
         self.player?.play();

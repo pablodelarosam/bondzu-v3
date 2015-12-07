@@ -149,7 +149,6 @@ enum TableCameraColumnNames : String{
     case Animal = "animal_Id"
     case Description = "description"
     case AnimalName = "animal_name"
-    case CameraType = "type"
     case Working = "funcionando"
     case PlayBackURL = "url"
 }

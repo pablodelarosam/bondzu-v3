@@ -132,7 +132,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
                         let newCamera = Camera(_obj_id: object.objectId as String!,
                             _description: object.objectForKey(TableCameraColumnNames.Description.rawValue) as! String,
                             _animalId: self.animalId,
-                            _type: object.objectForKey(TableCameraColumnNames.CameraType.rawValue) as! Int,
+                            _type: 0,
                             _animalName: object.objectForKey(TableCameraColumnNames.AnimalName.rawValue) as! String,
                             _funcionando: object.objectForKey(TableCameraColumnNames.Working.rawValue) as! Bool,
                             _url: object.objectForKey(TableCameraColumnNames.PlayBackURL.rawValue) as? String)
