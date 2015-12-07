@@ -68,8 +68,6 @@
 		B38FC2571BCA407200363EF2 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549760FC1B7B12B9005782A6 /* Animal.swift */; };
 		B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E41B8F5CC100509A72 /* AboutLateralView.swift */; };
 		B39719E71B8F6F1800509A72 /* Usuario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39719E61B8F6F1800509A72 /* Usuario.swift */; };
-		B39DC4CC1BCFFF45002AC47C /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B39DC4CA1BCFFF45002AC47C /* Stripe.framework */; };
-		B39DC4CD1BCFFF45002AC47C /* youtube_ios_player_helper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B39DC4CB1BCFFF45002AC47C /* youtube_ios_player_helper.framework */; };
 		B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EEE1BB9CDF100F5EB8B /* AccountViewController.swift */; };
 		B3A29EF11BB9EC0400F5EB8B /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */; };
 		B3A29EF41BBAF05200F5EB8B /* AdopedAnimalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF31BBAF05200F5EB8B /* AdopedAnimalsViewController.swift */; };
@@ -80,6 +78,8 @@
 		B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */; };
 		B3C1FB781BC70CF4003AD700 /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C1FB771BC70CF3003AD700 /* Capsule.swift */; };
 		B3D5D8DC1BAB0DFE008F6820 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */; };
+		B3ECF12D1C0DFF56005B84DA /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3ECF12B1C0DFF56005B84DA /* Stripe.framework */; };
+		B3ECF12E1C0DFF56005B84DA /* youtube_ios_player_helper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3ECF12C1C0DFF56005B84DA /* youtube_ios_player_helper.framework */; };
 		B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F048B31B98983C005EB12D /* CommunityEntryView.swift */; };
 /* End PBXBuildFile section */
 
@@ -179,6 +179,8 @@
 		B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		B3C1FB771BC70CF3003AD700 /* Capsule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Capsule.swift; path = bondzuios/Capsule.swift; sourceTree = "<group>"; };
 		B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		B3ECF12B1C0DFF56005B84DA /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stripe.framework; path = "Pods/../build/Release-iphoneos/Stripe.framework"; sourceTree = "<group>"; };
+		B3ECF12C1C0DFF56005B84DA /* youtube_ios_player_helper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = youtube_ios_player_helper.framework; path = "Pods/../build/Release-iphoneos/youtube_ios_player_helper.framework"; sourceTree = "<group>"; };
 		B3F048B31B98983C005EB12D /* CommunityEntryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityEntryView.swift; sourceTree = "<group>"; };
 		D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bondzuios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -188,6 +190,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3ECF12D1C0DFF56005B84DA /* Stripe.framework in Frameworks */,
+				B3ECF12E1C0DFF56005B84DA /* youtube_ios_player_helper.framework in Frameworks */,
 				54E447931B74021900BF580F /* AudioToolbox.framework in Frameworks */,
 				54E447951B74021D00BF580F /* CFNetwork.framework in Frameworks */,
 				54E447971B74022300BF580F /* CoreGraphics.framework in Frameworks */,
@@ -200,8 +204,6 @@
 				54E447A71B74025100BF580F /* Accounts.framework in Frameworks */,
 				54E447A91B74025600BF580F /* Social.framework in Frameworks */,
 				59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */,
-				B39DC4CC1BCFFF45002AC47C /* Stripe.framework in Frameworks */,
-				B39DC4CD1BCFFF45002AC47C /* youtube_ios_player_helper.framework in Frameworks */,
 				B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */,
 				B3BD86DD1BA92D9900D5E036 /* FBSDKCoreKit.framework in Frameworks */,
 				54E4479B1B74022D00BF580F /* QuartzCore.framework in Frameworks */,
@@ -454,6 +456,8 @@
 		CBF380E5CDA199239CE20526 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B3ECF12B1C0DFF56005B84DA /* Stripe.framework */,
+				B3ECF12C1C0DFF56005B84DA /* youtube_ios_player_helper.framework */,
 				B39DC4CA1BCFFF45002AC47C /* Stripe.framework */,
 				B39DC4CB1BCFFF45002AC47C /* youtube_ios_player_helper.framework */,
 				B39DC4C61BCFFD29002AC47C /* Stripe.framework */,

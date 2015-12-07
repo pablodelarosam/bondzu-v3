@@ -53,7 +53,9 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-bondzuios/Stripe.framework'
+  install_framework 'Pods-bondzuios/youtube_ios_player_helper.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-bondzuios/Stripe.framework'
+  install_framework 'Pods-bondzuios/youtube_ios_player_helper.framework'
 fi
