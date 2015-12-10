@@ -21,7 +21,7 @@ import ParseFacebookUtilsV4
 import MobileCoreServices
 
 
-class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WKNavigationDelegate {
+class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WKNavigationDelegate, LoginManagerResultDelegate {
     
     @IBOutlet weak var mail: UITextField!
     @IBOutlet weak var pass: UITextField!
@@ -88,7 +88,6 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         self.navigationController?.navigationBar.barStyle = .Black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
@@ -114,22 +113,8 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         activityView.color = UIColor.orangeColor()
     }
     
-    /*
-    @IBAction func login(sender: UIButton)
-    {
-        /*let vc : UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("Tabs") as! UITabBarController
-        self.presentViewController(vc, animated: true, completion: nil);*/
-        
-        if let _ =  PFUser.logInWithUsername("demouser@demo.com", password: "demo_user"){
-            self.performSegueWithIdentifier("loginSegue", sender: self)
-        }
-        
-    }
-    */
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func dissmissKeyboards(){
@@ -205,6 +190,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     }
 
     @IBAction func register(){
+        
         guard name.text?.characters.count != 0 else{
             let alert = UIAlertController(title: NSLocalizedString("Empty name", comment: ""), message: NSLocalizedString("Your name should not be empty", comment: ""), preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.name.becomeFirstResponder()}))
@@ -234,127 +220,6 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         
         self.loading = LoadingView(view: self.view)
         
-        let query = PFQuery(className: TableNames.User.rawValue)
-        query.whereKey(TableUserColumnNames.UserName.rawValue, equalTo: (self.mail.text?.lowercaseString)!)
-        query.countObjectsInBackgroundWithBlock {
-            (v, e) -> Void in
-            guard e == nil else{
-                
-                dispatch_async(dispatch_get_main_queue()){
-
-                    self.loading?.finish()
-                    self.loading = nil
-                    
-                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    self.presentViewController(a, animated: true, completion: nil)
-                }
-                
-                return
-            }
-            guard v == 0 else{
-                
-                
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The email is already registered", comment: ""), preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    
-                    self.presentViewController(a, animated: true, completion: nil)
-
-                }
-                return
-            }
-        }
-        
-        
-        func registerFinal(){
-            let user = PFUser()
-            user.username = self.mail.text?.lowercaseString
-            user.password = self.pass.text
-            user.email = self.mail.text?.lowercaseString
-            user[TableUserColumnNames.Name.rawValue] = self.name.text
-            
-            if hasImage{
-                user[TableUserColumnNames.PhotoFile.rawValue] = PFFile(data: UIImagePNGRepresentation(profile.image!)!)
-            }
-            
-                
-            let dic : [String: String] =
-            [
-                "email" : self.mail.text!,
-                "description" : "Cuenta creada para \(self.mail.text!)"
-            ]
-                
-            PFCloud.callFunctionInBackground(PFCloudFunctionNames.CreateCustomer.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
-                print("create Customer result = \(result)")
-                
-                if(error == nil)
-                {
-                    do {
-                        if let data = result?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                            
-                            let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
-                            if let jsonDict = jsonDict {
-                                // work with dictionary here
-                                let key = "id";
-                                print("customer_id: \(jsonDict[key])")
-                                if let id = jsonDict[key] as? String{
-                                    user[TableUserColumnNames.StripeID.rawValue] = id
-                                    
-                                    user.signUpInBackgroundWithBlock(){
-                                        (creado, e) -> Void in
-                                        guard e == nil && creado else{
-                                            
-                                            dispatch_async(dispatch_get_main_queue()){
-                                                self.loading?.finish()
-                                                self.loading = nil
-                                                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
-                                                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                                                
-                                                self.presentViewController(a, animated: true, completion: nil)
-                                            }
-                                            
-                                            
-                                            return
-                                        }
-                                    }
-                                    print(PFUser.currentUser())
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    self.performSegueWithIdentifier("loginSegue", sender: self);
-                                }
-                            }
-                            
-                        }
-                    } catch let error as NSError {
-                        // error handling
-                        print("error : \(error)")
-                        self.loading?.finish()
-                        self.loading = nil
-                        let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
-                        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                        
-                        self.presentViewController(a, animated: true, completion: nil)
-                    }
-                }
-                else
-                {
-                    self.loading?.finish()
-                    self.loading = nil
-                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    
-                    self.presentViewController(a, animated: true, completion: nil)
-                }
-            }
-        }
-
-
-        
-        
-        
         if !hasImage{
             self.loading?.finish()
             self.loading = nil
@@ -366,110 +231,22 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             alert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .Default, handler:{
                 _ in
                 self.loading = LoadingView(view: self.view)
-                registerFinal()
+                let lm = LoginManager()
+                lm.registerUser(self.name.text!, email: self.mail.text!, password: self.pass.text!, image: nil, delegate: self)
             }))
             self.presentViewController(alert, animated: true, completion: nil)
             return
         }
         else{
-            registerFinal()
+            let lm = LoginManager()
+            lm.registerUser(self.name.text!, email: self.mail.text!, password: self.pass.text!, image: self.profile.image , delegate: self)
         }
-        
     }
     
     @IBAction func registerFacebook(sender: AnyObject) {
-        
-        
-        func process(user : PFUser?, error : NSError?){
-            if error != nil{
-                print(error)
-                
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    self.presentViewController(a, animated: true, completion: nil)
-                }
-            }
-            else if user!.isNew{
-                FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
-                    (connection, dic, error) -> Void in
-                    if let dictionary = dic as? Dictionary<String, AnyObject>{
-                        let user = PFUser.currentUser()!
-                        user[TableUserColumnNames.Name.rawValue] = dictionary["name"] as! String
-                        user.password = "\(random())"
-                        user[TableUserColumnNames.Mail.rawValue] = dictionary["email"] as! String
-                        user[TableUserColumnNames.PhotoURL.rawValue] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
-                        user.saveInBackgroundWithBlock({
-                            (saved, error) -> Void in
-                            if error != nil{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                                    self.presentViewController(a, animated: true, completion: nil)
-                                }
-                                print(error)
-                                user.deleteInBackgroundWithBlock({ (del, error) -> Void in
-                                })
-                            }
-                            else{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
-                                }
-                            }
-                            
-                        })
-                    }
-                })
-            }
-            else{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                    self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
-                }
-            }
-        }
-
-        
         loading = LoadingView(view: self.view)
-    
-        let fbPermission = ["user_about_me","email"]
-        let login = FBSDKLoginManager()
-        login.loginBehavior = .Native
-        
-        
-        if let at = FBSDKAccessToken.currentAccessToken(){
-            PFFacebookUtils.logInInBackgroundWithAccessToken(at, block: process)
-            return
-        }
-        
-        login.logInWithReadPermissions(fbPermission, fromViewController: self){
-            (result, error) -> Void in
-            if error != nil{
-                dispatch_async(dispatch_get_main_queue()){
-                    print(error)
-                    self.loading?.finish()
-                    self.loading = nil
-                }
-            }
-            else if result.isCancelled{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                }
-            }
-            else{
-                PFFacebookUtils.logInInBackgroundWithAccessToken(FBSDKAccessToken.currentAccessToken(), block: process)
-            }
-        }
-        
-        
+        let lm = LoginManager()
+        lm.loginWithFacebook(self, finishingDelegate: self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -479,9 +256,7 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
         hasImage = false
         profile.image = UIImage(named: "profile_pic")
     }
-        
-    //TODO ver porque en community no jala el indicator
-
+    
     func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
         if let w = self.webView{
             
@@ -492,6 +267,62 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             activityView.stopAnimating()
             activityView.removeFromSuperview()
         }
+    }
+    
+    
+    //MARK: Login Manager Result Delegate implementation
+    
+    /**
+    In this implementantion. On failing this mathod is responsable of the following:
+    
+    * Dismiss the loading view
+    * Move the user to the catalog
+
+    */
+    func loginManagerDidLogin(user : PFUser){
+        self.loading?.finish()
+        self.loading = nil
+        self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
+    }
+    
+    /**
+     In this implementantion. On failing this mathod is responsable of the following:
+     
+     * Dismiss the loading view
+     * Move the user to the catalog
+     
+     */
+    func loginManagerDidRegister(user : PFUser){
+        self.loading?.finish()
+        self.loading = nil
+        self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
+    }
+    
+    /**
+     In this implementantion. On failing this mathod is responsable of the following:
+
+     * Dismiss the loading view
+     * Tell the user something went wrong
+     */
+    func loginManagerDidFailed(){
+        self.loading?.finish()
+        self.loading = nil
+        let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
+        self.presentViewController(a, animated: true, completion: nil)
+        
+        
+        //NSLocalizedString("The email is already registered", comment: "")
+    }
+    
+    /**
+     In this implementantion. On Cancel this mathod is responsable of the following:
+     
+     * Dismiss the loading view
+     */
+    func loginManagerDidCanceled(){
+        self.loading?.finish()
+        self.loading = nil
     }
     
 }

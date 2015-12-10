@@ -6,11 +6,6 @@
 //  Archivo Localizado
 //
 
-/*
-    issue #25
-    getCameras
-*/
-
 import UIKit
 import AVKit
 import AVFoundation
@@ -68,13 +63,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         
         if let url = camara.url as NSURL!
         {
-            if(url != Utiles.urlOfAVPlayer(self.player.player))
-            {
-                print(url)
-                
-                /*player.movieSourceType = MPMovieSourceType.Streaming*/
-                /*player.contentURL = url;
-                player.prepareToPlay()*/
+            if(url != Utiles.urlOfAVPlayer(self.player.player)){
                 player.player?.pause()
                 self.player.player = AVPlayer(URL: url)
                 self.player.player?.closedCaptionDisplayEnabled = false;
@@ -82,18 +71,13 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
                 self.dismissViewControllerAnimated(true, completion: nil)
                 self.player = nil
             }
-            else
-            {
-                print("Se selecciono video que ya se esta reproduciendo")
-            }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        if(self.refreshcontrol.refreshing)
-        {
+        if(self.refreshcontrol.refreshing){
             self.refreshcontrol.endRefreshing()
         }
     }
@@ -103,24 +87,20 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
     }
     
     
-    func doneButtonClicked(sender: UIBarButtonItem)
-    {
+    func doneButtonClicked(sender: UIBarButtonItem){
         self.dismissViewControllerAnimated(true, completion: nil);
         player = nil
     }
     
-    func refresh(sender: AnyObject)
-    {
+    func refresh(sender: AnyObject){
         getCameras()
     }
     
-    func getCameras()
-    {
+    func getCameras(){
         let query = PFQuery(className: TableNames.Camera.rawValue);
         query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
-            
             if error == nil {
                 // The find succeeded.
                 self.camaras.removeAll(keepCapacity: true)
@@ -128,35 +108,22 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
                 if let objects = objects{
                     for object in objects {
                         
-                        print(object.objectId)
-                        let newCamera = Camera(_obj_id: object.objectId as String!,
-                            _description: object.objectForKey(TableCameraColumnNames.Description.rawValue) as! String,
-                            _animalId: self.animalId,
-                            _type: 0,
-                            _animalName: object.objectForKey(TableCameraColumnNames.AnimalName.rawValue) as! String,
-                            _funcionando: object.objectForKey(TableCameraColumnNames.Working.rawValue) as! Bool,
-                            _url: object.objectForKey(TableCameraColumnNames.PlayBackURL.rawValue) as? String)
-                        
-                        if(newCamera.funcionando!)
-                        {
+                        let newCamera = Camera(object: object)
+                        if(newCamera.funcionando!){
                             self.camaras.append(newCamera);
                         }
+                    
                     }
                     self.tableView.reloadData()
-                    if(self.refreshcontrol.refreshing)
-                    {
+                    if(self.refreshcontrol.refreshing){
                         self.refreshcontrol.endRefreshing()
                     }
                 }
-            } else {
+            }
+            else {
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }
-    }
-
-    
-    deinit{
-        print("PopOver is been dealloced");
     }
 
 }

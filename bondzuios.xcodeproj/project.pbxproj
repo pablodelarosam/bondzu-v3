@@ -51,6 +51,7 @@
 		54E447AA1B74171300BF580F /* Producto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E4478C1B73FDB200BF580F /* Producto.swift */; };
 		54E806321BA74DD2007AFD44 /* NoCamerasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */; };
 		59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B305F0121C1883ED00C928E8 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B305F0111C1883ED00C928E8 /* LoginManager.swift */; };
 		B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */; };
 		B33AD6D31BBD886700A5FE71 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */; };
 		B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */; };
@@ -145,6 +146,7 @@
 		54E447A61B74025100BF580F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		54E447A81B74025600BF580F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCamerasViewController.swift; sourceTree = "<group>"; };
+		B305F0111C1883ED00C928E8 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
 		B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommunityViewController.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
+				B305F0101C1883C700C928E8 /* Login Manager */,
 				54571F891B7932B70092E359 /* AboutTab */,
 				B3A29EED1BB9CDDB00F5EB8B /* Account */,
 				B3B7B9251BC6ECE100CB5EAB /* Capsulas */,
@@ -419,6 +422,14 @@
 				369B6381515A0A35A75037A3 /* Pods-bondzuios.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B305F0101C1883C700C928E8 /* Login Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B305F0111C1883ED00C928E8 /* LoginManager.swift */,
+			);
+			name = "Login Manager";
 			sourceTree = "<group>";
 		};
 		B37FC3541BC437D800B5692D /* Events */ = {
@@ -677,6 +688,7 @@
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
 				54E806321BA74DD2007AFD44 /* NoCamerasViewController.swift in Sources */,
 				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
+				B305F0121C1883ED00C928E8 /* LoginManager.swift in Sources */,
 				B35A2EF91C15E68E0051E012 /* Gallery.swift in Sources */,
 				B358A2671BF164A100278B61 /* Keeper.swift in Sources */,
 				B3A29EF61BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift in Sources */,

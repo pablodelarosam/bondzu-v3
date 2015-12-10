@@ -6,13 +6,6 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
-
-/*
-    affected issue #25
-    getCameraAndSetup
-
-*/
-
 import UIKit
 import AVKit
 import AVFoundation
@@ -114,9 +107,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
             (objects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
-                
-                if(objects!.isEmpty)
-                {
+                if(objects!.isEmpty){
                     let query = PFQuery(className: TableNames.VideoCapsule_table.rawValue)
                     query.whereKey(TableVideoCapsuleNames.AnimalID.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
                     query.findObjectsInBackgroundWithBlock({ (array, error) -> Void in
@@ -139,8 +130,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                 if let objects = objects{
                     for object in objects{
                         let newCamera = Camera(object: object)
-                        if(newCamera.funcionando! && newCamera.url != nil)
-                        {
+                        if(newCamera.funcionando! && newCamera.url != nil){
                             self.url = newCamera.url!;
                             self.setup()
                             return
@@ -150,7 +140,8 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
                 self.performSegueWithIdentifier("noCamerasSegue", sender: self)
                 return;
-            } else {
+            }
+            else {
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }
@@ -171,9 +162,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         }
     }
     
-    func setup()
-    {
-        
+    func setup(){
         let sizeScreen = UIScreen.mainScreen().bounds;
         let widthMoviePlayer = sizeScreen.width;
         let heightMoviePlayer = sizeScreen.height;
@@ -188,7 +177,6 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         self.player?.closedCaptionDisplayEnabled = false;
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doneButtonClick:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
-        
     }
     
     func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
@@ -203,8 +191,4 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         })
     }
     
-    deinit{
-        print("Video View controller is been deallocated")
-    }
 }
-
