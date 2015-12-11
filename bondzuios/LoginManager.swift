@@ -260,5 +260,30 @@ class LoginManager{
         }
     }
     
-    
+    /**
+     This function attemp to login a user.
+     
+     - parameter username: The users username
+     - parameter password: The password of the user to login
+     - parameter delegate: The delegate to call with the result
+     
+     */
+    func login( username : String , password : String, finishingDelegate : LoginManagerResultDelegate ){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            
+            do{
+                try PFUser.logInWithUsername(username, password: password)
+                dispatch_async(dispatch_get_main_queue()){
+                    if let user = PFUser.currentUser(){ finishingDelegate.loginManagerDidLogin(user) }
+                    else{ finishingDelegate.loginManagerDidFailed() }
+                }
+            }
+            catch{
+                dispatch_async(dispatch_get_main_queue()){
+                    finishingDelegate.loginManagerDidFailed()
+                }
+            }
+            
+        }
+    }
 }

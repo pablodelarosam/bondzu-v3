@@ -7,17 +7,11 @@
 //  Archivo localizado
 
 
-/*
-    issue #25
-    registerFacebook
-
-*/
-
 import UIKit
 import Parse
 import ParseFacebookUtilsV4
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: LoginGenericViewController , UITextFieldDelegate {
 
     @IBOutlet weak var mail: UITextField!
     @IBOutlet weak var pass: UITextField!
@@ -27,7 +21,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var profile: UIImageView!
     
-    var loading : LoadingView?
     
     override func viewDidAppear(animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Log In", comment: "")
@@ -79,105 +72,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     
     @IBAction func registerFacebook(sender: AnyObject) {
-        
-        
-        func process(user : PFUser?, error : NSError?){
-            if error != nil{
-                print(error)
-                
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to sign up", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    self.presentViewController(a, animated: true, completion: nil)
-                }
-            }
-            else if user!.isNew{
-                FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
-                    (connection, dic, error) -> Void in
-                    if let dictionary = dic as? Dictionary<String, AnyObject>{
-                        let user = PFUser.currentUser()!
-                        user[TableUserColumnNames.Name.rawValue] = dictionary["name"] as! String
-                        user.password = "\(random())"
-                        user[TableUserColumnNames.Mail.rawValue] = dictionary["email"] as! String
-                        user[TableUserColumnNames.PhotoURL.rawValue] = ((dictionary["picture"] as! Dictionary<String,AnyObject>)["data"]  as! Dictionary<String,AnyObject>)["url"] as! String
-                        user.saveInBackgroundWithBlock({
-                            (saved, error) -> Void in
-                            if error != nil{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to sign up", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                                    self.presentViewController(a, animated: true, completion: nil)
-                                }
-                                print(error)
-                                user.deleteInBackgroundWithBlock({ (del, error) -> Void in
-                                    print("Usuario eliminado")
-                                })
-                            }
-                            else{
-                                dispatch_async(dispatch_get_main_queue()){
-                                    self.loading?.finish()
-                                    self.loading = nil
-                                    self.performSegueWithIdentifier("catalog", sender: PFUser.currentUser()!)
-                                }
-                            }
-                            
-                        })
-                    }
-                })
-            }
-            else{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                    self.performSegueWithIdentifier("catalog", sender: PFUser.currentUser()!)
-                }
-            }
-        }
-        
-        
         loading = LoadingView(view: self.view)
-        
-        let fbPermission = ["user_about_me","email"]
-        let login = FBSDKLoginManager()
-        login.loginBehavior = .Native
-        
-        
-        if let at = FBSDKAccessToken.currentAccessToken(){
-            PFFacebookUtils.logInInBackgroundWithAccessToken(at, block: process)
-            return
-        }
-        
-        login.logInWithReadPermissions(fbPermission, fromViewController: self){
-            (result, error) -> Void in
-            if error != nil{
-                dispatch_async(dispatch_get_main_queue()){
-                    print(error)
-                    self.loading?.finish()
-                    self.loading = nil
-                }
-            }
-            else if result.isCancelled{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                }
-                print("Cancelado")
-            }
-            else{
-                PFFacebookUtils.logInInBackgroundWithAccessToken(FBSDKAccessToken.currentAccessToken(), block: process)
-            }
-        }
-        
-        
+        let lm = LoginManager()
+        lm.loginWithFacebook(self, finishingDelegate: self)
     }
 
     
-    @IBAction func login(sender: UIButton)
-    {
+    @IBAction func login(sender: UIButton){
         
         guard mail.text?.characters.count != 0 else{
             let alert = UIAlertController(title: NSLocalizedString("Empty mail", comment: ""), message: NSLocalizedString("Invalid email, please try again", comment: ""), preferredStyle: .Alert)
@@ -193,38 +94,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
 
         self.loading = LoadingView(view: self.view)
-        
-        PFUser.logInWithUsernameInBackground(mail.text!, password: pass.text!) {
-            (user, error) -> Void in
-            guard error == nil else{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                    let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to login.\nPlease check your login data and your Internet connection", comment: ""), preferredStyle: .Alert)
-                    ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    self.presentViewController(ac, animated: true, completion: nil)
-                }
-
-                return
-            }
-            if let logedUser = user{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                    self.performSegueWithIdentifier("catalog", sender: logedUser)
-                }
-            }
-            else{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loading?.finish()
-                    self.loading = nil
-                    let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to login.\nPlease check your login data and your Internet connection", comment: ""), preferredStyle: .Alert)
-                    ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    self.presentViewController(ac, animated: true, completion: nil)
-                }
-            }
-            
-        }
+        let lm = LoginManager()
+        lm.login(mail.text!, password: pass.text!, finishingDelegate: self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

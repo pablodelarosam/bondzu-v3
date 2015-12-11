@@ -6,11 +6,6 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
-/*
-    Affected #25
-    registerFinal
-    registerFacebook
-*/
 
 import UIKit
 import Parse
@@ -21,7 +16,7 @@ import ParseFacebookUtilsV4
 import MobileCoreServices
 
 
-class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WKNavigationDelegate, LoginManagerResultDelegate {
+class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WKNavigationDelegate{
     
     @IBOutlet weak var mail: UITextField!
     @IBOutlet weak var pass: UITextField!
@@ -39,7 +34,6 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
     
     var hasImage = false
     
-    var loading : LoadingView?
     var activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
     
     
@@ -267,62 +261,6 @@ class SignUpViewController : UIViewController, UITextFieldDelegate, UIImagePicke
             activityView.stopAnimating()
             activityView.removeFromSuperview()
         }
-    }
-    
-    
-    //MARK: Login Manager Result Delegate implementation
-    
-    /**
-    In this implementantion. On failing this mathod is responsable of the following:
-    
-    * Dismiss the loading view
-    * Move the user to the catalog
-
-    */
-    func loginManagerDidLogin(user : PFUser){
-        self.loading?.finish()
-        self.loading = nil
-        self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
-    }
-    
-    /**
-     In this implementantion. On failing this mathod is responsable of the following:
-     
-     * Dismiss the loading view
-     * Move the user to the catalog
-     
-     */
-    func loginManagerDidRegister(user : PFUser){
-        self.loading?.finish()
-        self.loading = nil
-        self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
-    }
-    
-    /**
-     In this implementantion. On failing this mathod is responsable of the following:
-
-     * Dismiss the loading view
-     * Tell the user something went wrong
-     */
-    func loginManagerDidFailed(){
-        self.loading?.finish()
-        self.loading = nil
-        let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-        self.presentViewController(a, animated: true, completion: nil)
-        
-        
-        //NSLocalizedString("The email is already registered", comment: "")
-    }
-    
-    /**
-     In this implementantion. On Cancel this mathod is responsable of the following:
-     
-     * Dismiss the loading view
-     */
-    func loginManagerDidCanceled(){
-        self.loading?.finish()
-        self.loading = nil
     }
     
 }

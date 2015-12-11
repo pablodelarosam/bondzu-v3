@@ -81,7 +81,7 @@ class Usuario : NSObject{
                 })
             }
             else{
-                print("Modelo de usuario incompleto\n \(object.objectId)")
+                print("Modelo de usuario sin imagen\n \(object.objectId)")
                 dispatch_async(dispatch_get_main_queue()){
                     imageLoaderObserver?(self,false)
                 }

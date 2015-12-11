@@ -52,6 +52,7 @@
 		54E806321BA74DD2007AFD44 /* NoCamerasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */; };
 		59F1AE53831DD4A4A5FDE591 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D351F62896984FB83F35B2B7 /* Pods_bondzuios.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B305F0121C1883ED00C928E8 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B305F0111C1883ED00C928E8 /* LoginManager.swift */; };
+		B31651091C1B366700254553 /* LoginGenericViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31651081C1B366700254553 /* LoginGenericViewController.swift */; };
 		B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */; };
 		B33AD6D31BBD886700A5FE71 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */; };
 		B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */; };
@@ -147,6 +148,7 @@
 		54E447A81B74025600BF580F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCamerasViewController.swift; sourceTree = "<group>"; };
 		B305F0111C1883ED00C928E8 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
+		B31651081C1B366700254553 /* LoginGenericViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginGenericViewController.swift; sourceTree = "<group>"; };
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
 		B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommunityViewController.swift; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */,
 				54571F7D1B7924420092E359 /* LoginViewController.swift */,
 				54571F801B79270C0092E359 /* SignUpViewController.swift */,
+				B31651081C1B366700254553 /* LoginGenericViewController.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -698,6 +701,7 @@
 				5489932A1B98BE4400DDF263 /* AnimalV2.swift in Sources */,
 				B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */,
 				549417951BC6E3DB001A0A5E /* Card.swift in Sources */,
+				B31651091C1B366700254553 /* LoginGenericViewController.swift in Sources */,
 				54571F861B7928F10092E359 /* Animacion.swift in Sources */,
 				546490BF1B7D043C007F3DEF /* GiftCollectionViewCell.swift in Sources */,
 				54571F881B792ADE0092E359 /* TabsViewController.swift in Sources */,
