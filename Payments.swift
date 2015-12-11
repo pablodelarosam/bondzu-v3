@@ -7,7 +7,7 @@
 //  Archivo localizado
 
 /*
-    Affected? issue #25
+    Affected issue #25
 */
 
 import Foundation

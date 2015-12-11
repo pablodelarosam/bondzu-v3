@@ -99,13 +99,7 @@ class CardsTableViewController: UITableViewController {
                                 let brand = item["brand"]
                                 print("brand = \(brand!)")
                                 
-                                let card = Card();
-                                card.monthExp = String(expmonth!);
-                                card.yearExp = String(expyear!);
-                                card.number = String(last4!);
-                                card.id = String(id!);
-                                card.brand = String(brand!);
-                                
+                                let card = Card(number: String(last4!), monthExp: String(expmonth!), yearExp: String(expyear!), id: String(id!), brand: String(brand!))
                                 self.cards.append(card)
                             }
                             self.tableView.reloadData()
@@ -128,8 +122,8 @@ class CardsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cardCell", forIndexPath: indexPath)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         //cell.label.adjustsFontSizeToFitWidth = true
-        cell.textLabel?.text = "\(self.cards[indexPath.row].brand) " + NSLocalizedString("- Last 4 digits:", comment: "") + " \(self.cards[indexPath.row].number!)";
-        cell.detailTextLabel?.text = "\(self.cards[indexPath.row].monthExp!) / \(self.cards[indexPath.row].yearExp!)"
+        cell.textLabel?.text = "\(self.cards[indexPath.row].brand) " + NSLocalizedString("- Last 4 digits:", comment: "") + " \(self.cards[indexPath.row].number)";
+        cell.detailTextLabel?.text = "\(self.cards[indexPath.row].monthExp) / \(self.cards[indexPath.row].yearExp)"
         return cell
     }
 

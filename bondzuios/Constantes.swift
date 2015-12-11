@@ -152,3 +152,8 @@ enum TableCameraColumnNames : String{
     case Working = "funcionando"
     case PlayBackURL = "url"
 }
+
+
+enum Errors : ErrorType{
+    case GenericError
+}

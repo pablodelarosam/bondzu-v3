@@ -33,10 +33,8 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
             if error == nil, let array = arr{
                 self.toLoad = array.count + 1
                 for t in array{
-                    let transaction = Transaction(object: t)
-                    self.activities.append(transaction!)
-                    transaction?.delegate = self
-                    
+                    let transaction = Transaction(object: t, delegate: self)
+                    self.activities.append(transaction)
                 }
                 self.transaccionDidFinishLoading(nil)
             }
