@@ -17,7 +17,7 @@ enum UsuarioTransactionResult{
 
 class Usuario : NSObject{
     
-    private var originalObject : PFObject!
+    var originalObject : PFObject!
     var name : String
     var image : UIImage?
     var stripeID : String

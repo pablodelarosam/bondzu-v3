@@ -6,13 +6,6 @@
 //  Copyright © 2015 Bondzu. All rights reserved.
 //  Archivo Localizado
 
-/*
-    Afectado #25
-
-    Keeper debería ser un modelo. no un objeto.
-    Implementar esto es complejo debido a que es posible que se necesiten o no los keepers posterioremnte. 
-    Idealmente, que quien necesite los keepers los tramite mediante el constructor de Keepers o hacer que el constructor de Keeper regrese un Usuario
-*/
 
 import Foundation
 import Parse

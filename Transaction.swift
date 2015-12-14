@@ -15,9 +15,7 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
     
     var transaction : PFObject
     var animal : AnimalV2!
-
     var itemDescrption : String!
-    
     var loaded = false
     
     
@@ -61,7 +59,6 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
         
     }
     
-
     func animalDidFinishLoading(animal : AnimalV2){
         self.animal = animal
         self.delegate?.transaccionDidFinishLoading(self)
@@ -72,7 +69,15 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
         self.delegate?.transaccionDidFailLoading(self)
     }
 
-
+    class func createInParse( user : Usuario, product : Producto,  transactionID : String, description : String, price : NSNumber){
+        let object = PFObject(className: TableNames.Transactions_table.rawValue)
+        object[TableTransactionColumnNames.User.rawValue] = user.originalObject
+        object[TableTransactionColumnNames.Product.rawValue] = product.originalObject
+        object[TableTransactionColumnNames.Transaction.rawValue] = transactionID
+        object[TableTransactionColumnNames.Description.rawValue] = description
+        object[TableTransactionColumnNames.Price.rawValue] = price
+        object.saveInBackground()
+    }
 }
 
 protocol TransactionLoadingDelegate{

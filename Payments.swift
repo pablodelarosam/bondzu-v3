@@ -6,9 +6,6 @@
 //  Copyright © 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
-/*
-    Affected issue #25
-*/
 
 import Foundation
 import Stripe
@@ -16,25 +13,20 @@ import Parse
 
 class Payments
 {
-    func makePaymentToCurrentUserWithExistingCard(cardid cardid: String, amount: String, activityIndicator: UIActivityIndicatorView?, descripcion: String, controller: UIViewController, productId: String, transDescription: String)
-    {
-        if(activityIndicator != nil)
-        {
+    func makePaymentToCurrentUserWithExistingCard(cardid cardid: String, amount: String, activityIndicator: UIActivityIndicatorView?, descripcion: String, controller: UIViewController, productId: String, transDescription: String){
+        
+        if(activityIndicator != nil){
             activityIndicator!.startAnimating()
         }
-        PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
-            if let cusId = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
-            {
-                self.createChargeToExistingCard(cusId: cusId, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, cardId: cardid, productId: productId, transDescription: transDescription)
-            }
-        })
+        
+        let user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
+        self.createChargeToExistingCard(cusId: user.stripeID, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, cardId: cardid, productId: productId, transDescription: transDescription)
     }
     
-    func makePaymentToCurrentUser(card card: STPCard, controller: UIViewController, amount: String, activityIndicator: UIActivityIndicatorView?, saveCard: Bool, paymentView: STPPaymentCardTextField?, descripcion: String, productId: String, transDescription: String) -> Void
-    {
+    func makePaymentToCurrentUser(card card: STPCard, controller: UIViewController, amount: String, activityIndicator: UIActivityIndicatorView?, saveCard: Bool, paymentView: STPPaymentCardTextField?, descripcion: String, productId: String, transDescription: String) -> Void{
         STPAPIClient.sharedClient().createTokenWithCard(card, completion: { (token, error) -> Void in
-            if (error != nil)
-            {
+            if (error != nil){
+                
                 print("ERROR enviando token");
                 if(activityIndicator != nil)
                 {
@@ -45,21 +37,13 @@ class Payments
                 a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                 controller.presentViewController(a, animated: true, completion: nil)
             }
-            else
-            {
-                if token != nil
-                {
-                    if(saveCard)
-                    {
-                        print("Current user: \(PFUser.currentUser()!.email)");
+            else{
+                if token != nil{
+                    if(saveCard){
                         
-                        PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
-                            if let cusId = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
-                            {
-                                self.saveCardOfCustomer(id: cusId, token: token!, paymentView: paymentView!, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, productId: productId, transDescription: transDescription)
-                            }
-                        })
-                        
+                        let stripeID = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil).stripeID
+                        self.saveCardOfCustomer(id: stripeID, token: token!, paymentView: paymentView!, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, productId: productId, transDescription: transDescription)
+                    
                     }
                     else
                     {
@@ -70,8 +54,7 @@ class Payments
         });
     }
     
-    private func saveCardOfCustomer(id id: String, token: STPToken, paymentView: STPPaymentCardTextField, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, productId: String, transDescription: String)
-    {
+    private func saveCardOfCustomer(id id: String, token: STPToken, paymentView: STPPaymentCardTextField, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, productId: String, transDescription: String){
         
         let dic : [String: String] =
         [
@@ -264,20 +247,14 @@ class Payments
         }
     }
     
-    private func saveTransactionInParse(transcationId transactionId: String, productid: String, amount: String, descripcion: String)
-    {
-        let transaction  = PFObject(className: TableNames.Transactions_table.rawValue)
-        transaction[TableTransactionColumnNames.User.rawValue] = PFUser.currentUser()
-        transaction[TableTransactionColumnNames.Product.rawValue] = PFObject(withoutDataWithClassName: TableNames.Products.rawValue, objectId: productid)
-        transaction[TableTransactionColumnNames.Transaction.rawValue] = transactionId
-        transaction[TableTransactionColumnNames.Description.rawValue] = descripcion
+    private func saveTransactionInParse(transcationId transactionId: String, productid: String, amount: String, descripcion: String){
         
-        if let amountDouble = Double(amount) as Double?
-        {
-            let amountNumber = NSNumber(double: amountDouble)
-            transaction[TableTransactionColumnNames.Price.rawValue] = amountNumber
+        guard let amountDouble = Double(amount) else{
+            return
         }
         
-        transaction.saveInBackground()
+        let amountNumber = NSNumber(double: amountDouble)
+        Transaction.createInParse(Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil), product: Producto(object: PFObject(withoutDataWithClassName: TableNames.Products.rawValue, objectId: productid), delegate: nil)!, transactionID: transactionId , description: descripcion, price: amountNumber)
+        
     }
 }

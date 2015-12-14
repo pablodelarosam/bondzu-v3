@@ -28,6 +28,7 @@ class Producto{
     var disponible: Bool;
     var info: String;
     var infoAmount: String;
+    var originalObject : PFObject!
     
     @available(*,deprecated=9.0, message="Deprecated. Please use the new object constructor")
     init(_id: String, _nombre: String, pic: UIImage, _categoria: String, _animalId: String, _descripcion: String, _precio1: Double, _precio2: Double, _precio3: Double, _disponible: Bool, _info: String, _infoAmount: String)    {
@@ -47,6 +48,7 @@ class Producto{
     
     init?(object : PFObject, delegate : ProductoLoadingProtocol?, loadImage : Bool = false){
         objectId = object.objectId!
+        originalObject = object
         nombre = object[TableProductColumnNames.Name.rawValue +  NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         categoria = object[TableProductColumnNames.Category.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         descripcion = object[TableProductColumnNames.Description.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
