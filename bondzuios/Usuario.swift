@@ -33,6 +33,7 @@ class Usuario : NSObject{
      
      */
     init(object : PFObject, loadImage : Bool = false,  imageLoaderObserver: ((Usuario, Bool)->(Void))?){
+        
         self.name = object[TableUserColumnNames.Name.rawValue] as! String
         self.stripeID = object[TableUserColumnNames.StripeID.rawValue] as! String!
         self.originalObject = object

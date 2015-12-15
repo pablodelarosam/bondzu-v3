@@ -55,6 +55,9 @@
 		B31651091C1B366700254553 /* LoginGenericViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31651081C1B366700254553 /* LoginGenericViewController.swift */; };
 		B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */; };
 		B33AD6D31BBD886700A5FE71 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */; };
+		B346EA241C1F257E00A13001 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346EA231C1F257E00A13001 /* Message.swift */; };
+		B346EA261C1F3A2F00A13001 /* CommunityTabHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346EA251C1F3A2F00A13001 /* CommunityTabHelper.swift */; };
+		B346EA281C1F44FD00A13001 /* Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346EA271C1F44FD00A13001 /* Reply.swift */; };
 		B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */; };
 		B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */; };
 		B34FB9E71B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */; };
@@ -151,6 +154,9 @@
 		B31651081C1B366700254553 /* LoginGenericViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginGenericViewController.swift; sourceTree = "<group>"; };
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
 		B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
+		B346EA231C1F257E00A13001 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = bondzuios/Message.swift; sourceTree = "<group>"; };
+		B346EA251C1F3A2F00A13001 /* CommunityTabHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityTabHelper.swift; sourceTree = "<group>"; };
+		B346EA271C1F44FD00A13001 /* Reply.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reply.swift; path = bondzuios/Reply.swift; sourceTree = "<group>"; };
 		B34AD4391BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommunityViewController.swift; sourceTree = "<group>"; };
 		B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
 		B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldWithImageButton.swift; sourceTree = "<group>"; };
@@ -317,6 +323,8 @@
 				B37FC3521BC31F2F00B5692D /* Transaction.swift */,
 				B39719E61B8F6F1800509A72 /* Usuario.swift */,
 				B35A2EF81C15E68E0051E012 /* Gallery.swift */,
+				B346EA231C1F257E00A13001 /* Message.swift */,
+				B346EA271C1F44FD00A13001 /* Reply.swift */,
 			);
 			name = Modelos;
 			path = ..;
@@ -405,6 +413,7 @@
 				B3F048B31B98983C005EB12D /* CommunityEntryView.swift */,
 				B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */,
 				B34FB9E61B9F3AB000CC4FE6 /* TextFieldWithImageButton.swift */,
+				B346EA251C1F3A2F00A13001 /* CommunityTabHelper.swift */,
 			);
 			name = CommunityTab;
 			sourceTree = "<group>";
@@ -678,10 +687,13 @@
 				54E447AA1B74171300BF580F /* Producto.swift in Sources */,
 				54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */,
 				B37FC35A1BC43AB400B5692D /* Event.swift in Sources */,
+				B346EA261C1F3A2F00A13001 /* CommunityTabHelper.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
 				546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */,
+				B346EA241C1F257E00A13001 /* Message.swift in Sources */,
 				B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */,
 				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
+				B346EA281C1F44FD00A13001 /* Reply.swift in Sources */,
 				B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */,
 				B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,

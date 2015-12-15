@@ -10,7 +10,7 @@ import UIKit
 
 class CommunityReplyEntryCellTableViewCell: UITableViewCell {
 
-    var commentID = ""
+    var commentID : Reply!
     
     let profileIcon = UIImageView()
     
@@ -31,7 +31,7 @@ class CommunityReplyEntryCellTableViewCell: UITableViewCell {
     }
     
     
-    func setInfo(id : String , date : NSDate, name : String, message : String, image : UIImage?){
+    func setInfo(id : Reply , date : NSDate, name : String, message : String, image : UIImage?){
         
         commentID = id
         
