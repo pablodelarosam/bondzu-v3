@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class FullImageViewController: UIViewController, UINavigationControllerDelegate {
+class FullImageViewController: UIViewController, UINavigationControllerDelegate{
     
     private weak var fullImageView : FullImageView?
     
@@ -32,13 +32,13 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
         }
     }
 
-    
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
     
-    
     override func viewDidLoad() {
+        
+        self.modalTransitionStyle = .FlipHorizontal
         setNeedsStatusBarAppearanceUpdate()
         view = UIImageView(image: captureScreen())
         view.userInteractionEnabled = true
@@ -51,8 +51,6 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
     func dismiss(){
         fullImageView!.delegate = nil
         self.dismissViewControllerAnimated(true, completion: nil)
-        
-      
     }
     
     
@@ -120,8 +118,6 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
             }
         }
         
-        
-        
         override func layoutSubviews() {
             super.layoutSubviews()
             
@@ -186,10 +182,24 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
         
         }
         
+        func renderForDismiss(){
+            let view = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
+            view.frame = self.frame
+            addSubview(view)
+            imageview.hidden = true
+            bgImage.hidden = true
+            blur.hidden = true
+        }
 
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.AllButUpsideDown
     }
+    
+    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+        fullImageView?.renderForDismiss()
+        super.dismissViewControllerAnimated(flag, completion: completion)
+    }
+    
 }

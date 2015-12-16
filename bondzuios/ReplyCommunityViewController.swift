@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, CommunitEntryEvent, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, CommunityTabHelperProtocol, LoadReplyResult{
-    
+        
     //Parent view controller responsability
     var message : Message!
     //Parent view controller responsability

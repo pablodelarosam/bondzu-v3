@@ -26,6 +26,8 @@ class CommunityTabHelper: NSObject, MFMailComposeViewControllerDelegate, UINavig
     weak var delegate : CommunityTabHelperProtocol?
     var message : Message!
 
+    var dismiser : InteractiveDismissalHelper?
+    
     func like(message : Message, like : Bool, user : Usuario, delegate : CommunityTabHelperProtocol?){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
             do{
@@ -94,9 +96,13 @@ class CommunityTabHelper: NSObject, MFMailComposeViewControllerDelegate, UINavig
             return
         }
         
+        
         let i = FullImageViewController()
         fromViewController.parentViewController!.presentViewController(i, animated: true, completion: nil)
         i.loadParseImage(message.attachedFile()!)
+        
+        dismiser = InteractiveDismissalHelper()
+        dismiser!.wireToViewController(i)
         
     }
     

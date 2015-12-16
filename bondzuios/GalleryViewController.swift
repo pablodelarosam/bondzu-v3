@@ -9,13 +9,17 @@
 import UIKit
 import Parse
 
-class GalleryViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GalleryLoadingProtocol{
+class GalleryViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GalleryLoadingProtocol, UIViewControllerTransitioningDelegate {
 
+    
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     var pictures = [UIImage]();
     var animalId: String!;
     var galleryToLoad = 0;
+    
+    let dismissHelper = InteractiveDismissalHelper()
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
@@ -29,6 +33,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidLoad() {
         self.activityIndicator.startAnimating()
+        self.transitioningDelegate = self
         getPictures();
         super.viewDidLoad()
     }
@@ -92,9 +97,10 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     func imageSelected(image: UIImage) {
         let i = FullImageViewController()
         i.modalTransitionStyle = .CoverVertical
-        
+        i.transitioningDelegate = self
         self.parentViewController!.presentViewController(i, animated: true, completion: nil)
         i.loadImage(image)
+        dismissHelper.wireToViewController(i)
     }
     
     func galleryImageDidFinishLoading(gallery: Gallery) {
@@ -118,4 +124,15 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.collectionView.reloadData()
         self.activityIndicator.stopAnimating()
     }
+    
+    /*
+    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return dismissHelper
+    }
+    
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissHelper
+    }
+    */
+    
 }

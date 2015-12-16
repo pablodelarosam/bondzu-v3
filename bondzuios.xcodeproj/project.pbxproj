@@ -55,6 +55,7 @@
 		B31651091C1B366700254553 /* LoginGenericViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31651081C1B366700254553 /* LoginGenericViewController.swift */; };
 		B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */; };
 		B33AD6D31BBD886700A5FE71 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */; };
+		B34419B41C207CD80086C199 /* InteractiveDismissalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */; };
 		B346EA241C1F257E00A13001 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346EA231C1F257E00A13001 /* Message.swift */; };
 		B346EA261C1F3A2F00A13001 /* CommunityTabHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346EA251C1F3A2F00A13001 /* CommunityTabHelper.swift */; };
 		B346EA281C1F44FD00A13001 /* Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346EA271C1F44FD00A13001 /* Reply.swift */; };
@@ -154,6 +155,7 @@
 		B31651081C1B366700254553 /* LoginGenericViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginGenericViewController.swift; sourceTree = "<group>"; };
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
 		B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
+		B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalHelper.swift; sourceTree = "<group>"; };
 		B346EA231C1F257E00A13001 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = bondzuios/Message.swift; sourceTree = "<group>"; };
 		B346EA251C1F3A2F00A13001 /* CommunityTabHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityTabHelper.swift; sourceTree = "<group>"; };
 		B346EA271C1F44FD00A13001 /* Reply.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reply.swift; path = bondzuios/Reply.swift; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 				B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */,
 				B37FC35F1BC441C000B5692D /* Localizable.strings */,
 				54571F831B7928E10092E359 /* Utiles.swift */,
+				B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";
@@ -694,6 +697,7 @@
 				B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */,
 				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
 				B346EA281C1F44FD00A13001 /* Reply.swift in Sources */,
+				B34419B41C207CD80086C199 /* InteractiveDismissalHelper.swift in Sources */,
 				B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */,
 				B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,

@@ -24,6 +24,9 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     var hasImage = false
     var toLoad = 0
     
+    let cm = CommunityTabHelper()
+
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: TextFieldWithImageButton!
 
@@ -94,6 +97,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     }
     
     func query(){
+        loaded = false
         let query = PFQuery(className: TableNames.Messages_table.rawValue)
         query.orderByDescending(TableMessagesColumnNames.Date.rawValue)
         query.whereKeyExists(TableMessagesColumnNames.Message.rawValue)
@@ -159,17 +163,14 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     }
     
     func imageSelected(message: Message) {
-        let cm = CommunityTabHelper()
         cm.showImage(message, fromViewController: self)
     }
     
     func like(message : Message, like : Bool){
-        let cm = CommunityTabHelper()
         cm.like(message, like: like, user: Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil), delegate: self)
     }
     
     func report(message : Message){
-        let cm = CommunityTabHelper()
         cm.report(nil, message: message, fromViewController: self)
     }
     
