@@ -6,107 +6,93 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo Localizado
 
+//TODO posible bug here. Searching may do a circle reference here.
+
 import UIKit
 import Parse
 
-class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, CapsuleLoadingDelegate{
+class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, CapsuleLoadingDelegate, AnimalV2LoadingProtocol{
 
-    let initialThumbnail = UIImage()
+    //NOTE: To avoid possible bugs the search bar appears in the place of the segment control. Therefore is impossible to change the view while searching.
     
-    var navHairLine:UIImageView? = UIImageView()
+    //MARK: Constants
     
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var segementedControl: UISegmentedControl!
-    @IBOutlet weak var toolbar: UIToolbar!
-    @IBOutlet weak var heightBanner: NSLayoutConstraint!
+    ///Number of items per row. Possibly there will be a modification that takes landscape mode in mind or even different devices so this can become a computed variable.
+    private var NUMBER_ITEMS_ROW: CGFloat{
+        return 2
+    }
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    
-    var barButtonItem : UIBarButtonItem?
-    
-    let NUMBER_ITEMS_ROW: CGFloat = 3;
+    ///The image that appears when imageWithImage haven't finished processing
+    private let initialThumbnail = UIImage()
     
     
+    //MARK: Variables
+    
+
+    ///The animals model
+    var animalsToShow = [AnimalV2]()
+    
+    ///This is a helper variable that changes the search icon with the done item when neccesary. The done item is created in runtime wile search one is stored here. This reference is necesary as the other one is weak and if its removed from the view it will go to null.
+    private var barButtonItem : UIBarButtonItem?
+    
+    //?? TODO: Descubrir que hace esto
+    private var navHairLine:UIImageView? = UIImageView()
+
+    ///The filtered animals model
+    var searchedAnimals = [AnimalV2]()
+    
+    ///The video capsules filtered model
+    var searchedVideoCapsules = [Capsule]()
+    
+    ///A variable that tells if the selected item should be considered from the normal or the filtered array.
+    private var searching = false
+    
+    
+    ///The numbers of animals that havent loaded yet. When they're fully loaded the view changes showing the animals. Doing the loading in this manner ensures that the animals are shown in alphabetical order.
     var toLoadAnimals = 0
+    
+    ///The numbers of videos that havent loaded yet. When they're fully loaded the view changes showing the animals. Doing the loading in this manner ensures that the animals are shown in alphabetical order.
     var toLoadVideos = 0
     
-    var searching = false
-    
-    var searchedAnimals = [AnimalV2]()
-    var animalsToShow = [AnimalV2]()
-    var selectedAnimal: AnimalV2?;
-    
-    var searchedVideoCapsules = [Capsule]()
+    ///The video capsules model
     var videoCapsules = [Capsule]()
-    var selectedCapsue: Capsule?;
-
     
-    var screenSize: CGRect!
-    var screenWidth: CGFloat!
-    var screenHeight: CGFloat!
-    
+    //MARK: Background variables
     @IBOutlet weak var blurView: UIView!
     var backgroundImages = [UIImage]();
     @IBOutlet weak var backgroundImage: UIImageView!
-    @IBOutlet weak var searchBarButtonItem: UIBarButtonItem!
-
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) as UIVisualEffectView
     let animationDuration: NSTimeInterval = 0.9
     let switchingInterval: NSTimeInterval = 5
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.heightBanner.constant = 0;
-        self.navigationController?.navigationBar.barStyle = .Black
-        self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        
-        self.collectionView.backgroundView?.alpha = 0;
-        screenSize = UIScreen.mainScreen().bounds
-        screenWidth = screenSize.width
-        screenHeight = screenSize.height
-        self.blurView.addSubview(visualEffectView)
-        self.blurView.alpha = 0.92;
-        self.backgroundImages.append(UIImage(named: "tigre")!)
-        self.backgroundImages.append(UIImage(named: "dog")!)
-        self.backgroundImages.append(UIImage(named: "leopard")!)
-        self.backgroundImages.append(UIImage(named: "titi")!)
-        self.backgroundImage.image = self.backgroundImages[random() % self.backgroundImages.count]
-        animateBackgroundImageView()
-        self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
-        self.toolbar.barStyle = .Black
-        self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
-        self.segementedControl.tintColor = UIColor.whiteColor()
-        self.activityIndicator.startAnimating()
-        getAnimals();
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        self.navigationItem.hidesBackButton = true;
-        Utiles.moveHairLine(true, navHairLine: self.navHairLine, toolbar: self.toolbar)
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Home", comment: "")
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        Utiles.moveHairLine(false, navHairLine: self.navHairLine, toolbar: self.toolbar)
-    }
+    ///Weak bar of the searching element
+    @IBOutlet weak var searchBarButtonItem: UIBarButtonItem!
 
-    override func viewDidLayoutSubviews() {
-        visualEffectView.frame.size = CGSize(width: self.collectionView.frame.width , height: self.collectionView.frame.height)
-    }
+    //MARK: View Outlets
+
+    ///Loading indicator while the animals are loading
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+    ///The view that displays the items in a collection view. This is both, the data sorce and the controller.
+    @IBOutlet weak var collectionView: UICollectionView!
     
+    ///Contant that is ment for future use with ads
+    @IBOutlet weak var heightBanner: NSLayoutConstraint!
+    
+    ///The animals and videos searchbar
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    ///The Animals/Video trigger
+    @IBOutlet weak var segementedControl: UISegmentedControl!
+    
+    ///Place where the segmented control appears
+    @IBOutlet weak var toolbar: UIToolbar!
+    
+    
+    
+    
+    //MARK:Collection view delegate & data source
+  
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -114,18 +100,32 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if segementedControl.selectedSegmentIndex == 0{
             if toLoadAnimals == 0{
+                if !activityIndicator.hidden{
+                    self.activityIndicator.stopAnimating()
+                }
                 return searching ? self.searchedAnimals.count : self.animalsToShow.count
             }
             else{
+                if activityIndicator.hidden{
+                    self.activityIndicator.hidden = false
+                    self.activityIndicator.startAnimating()
+                }
                 return 0;
             }
             
         }
         else{
             if toLoadVideos == 0{
+                if !activityIndicator.hidden{
+                    self.activityIndicator.stopAnimating()
+                }
                 return searching ? self.searchedVideoCapsules.count : self.videoCapsules.count
             }
             else{
+                if activityIndicator.hidden{
+                    self.activityIndicator.hidden = false
+                    self.activityIndicator.startAnimating()
+                }
                 return 0
             }
         }
@@ -145,9 +145,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             let animal = searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row]
             cell.nameLabel.text = animal.name;
             cell.speciesLabel.text = animal.specie;
-
+            let width = UIScreen.mainScreen().bounds.width
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                let photoFinal = imageWithImage(animal.image, scaledToSize: CGSize(width:self.screenWidth / self.NUMBER_ITEMS_ROW, height:self.screenWidth / self.NUMBER_ITEMS_ROW))
+                let photoFinal = imageWithImage(animal.image!, scaledToSize: CGSize(width: width / self.NUMBER_ITEMS_ROW, height:width / self.NUMBER_ITEMS_ROW))
                 dispatch_async(dispatch_get_main_queue()) {
                     if cell.tab == self.segementedControl.selectedSegmentIndex && cell.row == indexPath.row{
                         cell.imageView.image = photoFinal
@@ -160,9 +160,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             let capsule = searching ? self.searchedVideoCapsules[indexPath.row] : self.videoCapsules[indexPath.row]
             cell.nameLabel.text = capsule.title[0]
             cell.speciesLabel.text = capsule.animalName;
-            
+            let width = UIScreen.mainScreen().bounds.width
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                let photoFinal = imageWithImage(capsule.image, scaledToSize: CGSize(width:self.screenWidth / self.NUMBER_ITEMS_ROW, height:self.screenWidth / self.NUMBER_ITEMS_ROW))
+                let photoFinal = imageWithImage(capsule.image, scaledToSize: CGSize(width:width / self.NUMBER_ITEMS_ROW, height:width / self.NUMBER_ITEMS_ROW))
                 dispatch_async(dispatch_get_main_queue()) {
                     if cell.tab == self.segementedControl.selectedSegmentIndex && cell.row == indexPath.row{
                         cell.imageView.image = photoFinal
@@ -180,30 +180,38 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
         if segementedControl.selectedSegmentIndex == 0{
-            self.selectedAnimal = searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row];
-            performSegueWithIdentifier("catalogSegue", sender: self)
+            performSegueWithIdentifier("catalogSegue", sender: searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row])
+            searching = false
+            searchBar.resignFirstResponder()
         }
         else{
-            self.selectedCapsue = searching ? self.searchedVideoCapsules[indexPath.row] : self.videoCapsules[indexPath.row];
-            performSegueWithIdentifier("capsule", sender: self)
+            performSegueWithIdentifier("capsule", sender: searching ? self.searchedVideoCapsules[indexPath.row] : self.videoCapsules[indexPath.row])
+            searching = false
+            searchBar.resignFirstResponder()
         }
-        
-        
-
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        if segue.identifier == "catalogSegue"{
-            let nextVC = segue.destinationViewController as! TabsViewController
-            nextVC.animal = self.selectedAnimal
-            
-        }
-        else if segue.identifier == "capsule"{
-            let nextVC = segue.destinationViewController as! VideoCapsulasViewController
-            nextVC.capsule = selectedCapsue
+    //MARK: Video Capsule Delegate
+    
+    func capsuleDidFinishLoading(capsule: Capsule) {
+        dispatch_async(dispatch_get_main_queue()){
+            self.toLoadVideos--
+            if self.segementedControl.selectedSegmentIndex == 1{
+                self.collectionView.reloadData()
+            }
         }
     }
+    
+    func capsuleDidFailLoading(capsule: Capsule) {
+        dispatch_async(dispatch_get_main_queue()){
+            let index = self.videoCapsules.indexOf(capsule)
+            self.videoCapsules.removeAtIndex(index!)
+            self.toLoadVideos--
+        }
+    }
+
+    
+    //MARK: Methods
     
     func animateBackgroundImageView(){
         CATransaction.begin()
@@ -223,47 +231,19 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         CATransaction.commit()
     }
     
+    ///Performs the animal and video query. Note: The animalV2 filling should be migrated to the model
     func getAnimals(){
         let query = PFQuery(className:TableNames.Animal_table.rawValue)
         query.whereKeyExists(TableAnimalColumnNames.ID.rawValue);
         query.orderByAscending(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: ""));
         query.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
+            (objects: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
-                // The find succeeded.
-                if let objects = objects as? [PFObject] {
+                if let objects = objects{
                     self.toLoadAnimals = objects.count
-                    var i = 0 as Int;
                     for object in objects {
-                        let image = object.objectForKey(TableAnimalColumnNames.Photo.rawValue) as? PFFile;
-                        if image != nil{
-                            
-                            let animal = AnimalV2();
-                            animal.name = object.objectForKey(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
-                            animal.objectId = object.objectId!;
-                            animal.specie = object.objectForKey(TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")) as! String;
-                            self.animalsToShow.append(animal);
-                            image?.getDataInBackgroundWithBlock{
-                                (imageData: NSData?, error: NSError?) -> Void in
-                                if error == nil{
-                                    animal.image = UIImage(data: imageData!)!;
-                                    dispatch_async(dispatch_get_main_queue()){
-                                        self.toLoadAnimals--
-                                        if self.segementedControl.selectedSegmentIndex == 0{
-                                            self.collectionView.reloadData()
-                                        }
-                                    }
-                                }
-                                else{
-                                    dispatch_async(dispatch_get_main_queue()){
-                                        let index = self.animalsToShow.indexOf(animal)
-                                        self.animalsToShow.removeAtIndex(index!)
-                                         self.toLoadAnimals--
-                                    }
-                                }
-                            }
-                            i++;
-                        }
+                        let animal = AnimalV2(object: object, delegate: self);
+                        self.animalsToShow.append(animal)
                     }
                     dispatch_async(dispatch_get_main_queue()){
                         if self.segementedControl.selectedSegmentIndex == 0{
@@ -271,8 +251,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                         }
                     }
                 }
-                
-            } else {
+            }
+            else {
                 print("Error: \(error!) \(error!.userInfo)")
             }
         }
@@ -285,7 +265,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             if error == nil, let capsulesArray = array{
                 self.toLoadVideos = capsulesArray.count
                 
-                for object in capsulesArray as! [PFObject]{
+                for object in capsulesArray{
                     let c = Capsule(object: object, delegate: self)
                     self.videoCapsules.append(c)
                 }
@@ -299,7 +279,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         }
         
     }
-
+    
+    ///Dissmises the keyboard
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         guard searchBar.text != nil else{ return }
         
@@ -310,18 +291,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         searching = true
         searchBar.resignFirstResponder()
-        searchedAnimals = animalsToShow.filter({ (element) -> Bool in
-            let name = element.name.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
-            let species = element.specie.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
-            
-            if name != nil || species != nil{
-                return true
-            }
-            return false
-        })
-        collectionView.reloadData()
     }
     
+    ///Function that is called when the search bar text changes. It determines if the user is searching and returns the result data.
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         
         guard searchBar.text != nil && searchBar.text?.characters.count != 0 else{
@@ -359,6 +331,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     }
     
+    ///Called when the search bar has to be either shown or dissmised
     @IBAction func searchButtonPressed(sender: AnyObject) {
         if !searchBar.hidden{
             searching = false
@@ -376,29 +349,115 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             searchBar.hidden = false
             searchBar.becomeFirstResponder()
             barButtonItem = self.navigationItem.rightBarButtonItem
+            self.searchBar(searchBar, textDidChange: searchBar.text != nil ? searchBar.text! : "")
             let bbi = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "searchButtonPressed:");
             navigationItem.rightBarButtonItem = bbi;
         }
     }
-    
+
+    ///This method is called when the user toggled between animals and video
     @IBAction func valueChanged(control : UISegmentedControl){
         collectionView.reloadData()
     }
     
-    func capsuleDidFinishLoading(capsule: Capsule) {
-        dispatch_async(dispatch_get_main_queue()){
-            self.toLoadVideos--
-            if self.segementedControl.selectedSegmentIndex == 1{
-                self.collectionView.reloadData()
-            }
+    
+    //MARK: View notifications
+    
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Home", comment: "")
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        Utiles.moveHairLine(false, navHairLine: self.navHairLine, toolbar: self.toolbar)
+        if !searchBar.hidden{
+            searchButtonPressed(self)
         }
     }
     
-    func capsuleDidFailLoading(capsule: Capsule) {
-        dispatch_async(dispatch_get_main_queue()){
-            let index = self.videoCapsules.indexOf(capsule)
-            self.videoCapsules.removeAtIndex(index!)
-            self.toLoadVideos--
+    override func viewDidLayoutSubviews() {
+        visualEffectView.frame.size = CGSize(width: self.collectionView.frame.width , height: self.collectionView.frame.height)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.heightBanner.constant = 0;
+        self.navigationController?.navigationBar.barStyle = .Black
+        self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        
+        let cellWidth = ( min(UIScreen.mainScreen().bounds.width , UIScreen.mainScreen().bounds.height) - 15 * NUMBER_ITEMS_ROW) / NUMBER_ITEMS_ROW
+        let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth + 20)
+        cellLayout.minimumInteritemSpacing = 5
+        
+        self.collectionView.backgroundView?.alpha = 0;
+        self.blurView.addSubview(visualEffectView)
+        self.blurView.alpha = 0.92;
+        self.backgroundImages.append(UIImage(named: "tigre")!)
+        self.backgroundImages.append(UIImage(named: "dog")!)
+        self.backgroundImages.append(UIImage(named: "leopard")!)
+        self.backgroundImages.append(UIImage(named: "titi")!)
+        self.backgroundImage.image = self.backgroundImages[random() % self.backgroundImages.count]
+        animateBackgroundImageView()
+        self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
+        self.toolbar.barStyle = .Black
+        self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
+        self.segementedControl.tintColor = UIColor.whiteColor()
+        getAnimals();
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationItem.hidesBackButton = true;
+        Utiles.moveHairLine(true, navHairLine: self.navHairLine, toolbar: self.toolbar)
+    }
+    
+    //MARK: Other controller stuff
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "catalogSegue"{
+            let nextVC = segue.destinationViewController as! TabsViewController
+            nextVC.animal = sender as! AnimalV2
+            
         }
+        else if segue.identifier == "capsule"{
+            let nextVC = segue.destinationViewController as! VideoCapsulasViewController
+            nextVC.capsule = sender as! Capsule
+        }
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        let cellWidth = ( min(UIScreen.mainScreen().bounds.height, UIScreen.mainScreen().bounds.width) - 15 * NUMBER_ITEMS_ROW) / NUMBER_ITEMS_ROW
+        let cellLayout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth + 20)
+        cellLayout.minimumInteritemSpacing = 5
+    }
+
+   //MARK: AnimalV2 Loading protocol
+    
+    func animalDidFailLoading(animal: AnimalV2) {
+        
+        self.animalsToShow.removeAtIndex(self.animalsToShow.indexOf(animal)!)
+        print("no se pudo cargar animal \(animal.objectId)")
+        self.toLoadAnimals--
+        
+        if self.segementedControl.selectedSegmentIndex == 0{
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func animalDidFinishLoading(animal: AnimalV2) {
+        self.toLoadAnimals--
+        
+        if self.segementedControl.selectedSegmentIndex == 0{
+            self.collectionView.reloadData()
+        }
+
     }
 }

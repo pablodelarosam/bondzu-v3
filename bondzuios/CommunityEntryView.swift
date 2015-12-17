@@ -11,22 +11,22 @@ import UIKit
 @objc protocol CommunitEntryEvent{
     
     //Funcion que informa cuando alguien da like
-    func like(messageId : String, like : Bool)
+    func like(message : Message, like : Bool)
     
     //Funcion que informa cuando alguien da like
-    func imageSelected(messageId : String)
+    func imageSelected(message : Message)
     
     //Funcion que informa cuando alguien da report
-    func report(messageId : String)
+    func report(message : Message)
     
     //Funcion que informa cuando alguien da reply
-    func reply(messageId : String)
+    func reply(message : Message)
 }
 
 
 class CommunityEntryView: UITableViewCell {
 
-    var commentID = ""
+    var commentID : Message!
     
     let heartImageView = UIImageView()
     let profileIcon = UIImageView()
@@ -58,7 +58,7 @@ class CommunityEntryView: UITableViewCell {
         load()
     }
     
-    func setInfo(id : String , date : NSDate, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int){
+    func setInfo(id : Message, date : NSDate, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int){
         
         imageIcon.hidden = !hasContentImage
         

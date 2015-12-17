@@ -6,31 +6,26 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  Archivo localizado
 
-//NOTA: El codigo en reply es copiado de esta clase. Por tanto, si se realizan cambios a secciones como ver imagen, like etc se deberá modificar en ambos códigos. La herencia no es posible debido al cambio en el modelo de datos.
-//TODO: Código homogeneo para funciones como like
-
-
 import UIKit
 import Parse
 import MobileCoreServices
-import MessageUI
 
 let defaultProfileImage = UIImage(named: "profile")
 
-class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate{
-    //TODO Implementar un cache de una sola sesión para agilizar los datos
+class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LoadMessageResult, CommunityTabHelperProtocol{
+    
     var likesLoaded = false
 
     var animalID = ""
     var loaded = false
-    var objects : [CommunityViewDataManager]!
+    var objects : [Message]!
     var likes : [(Int , Bool)]!
-    
     var gestureRecognizer : UITapGestureRecognizer?
-
+    var hasImage = false
     var toLoad = 0
     
-    var hasImage = false
+    let cm = CommunityTabHelper()
+
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: TextFieldWithImageButton!
@@ -86,28 +81,12 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         
         cell.delegate = self
         
-        if !objects[indexPath.row].imageLoaded{
-            objects[indexPath.row].notifyOnReady.append((self.tableView,indexPath))
-        }
-        
-        guard self.objects[indexPath.row].name != nil && self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] != nil else{
-            
-            let name = self.objects[indexPath.row].name == nil ? "" : self.objects[indexPath.row].name!
-            let message = self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] == nil ? "" : self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] as! String
-            
-            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: name, message: message , image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message[TableMessagesColumnNames.Photo.rawValue] != nil , hasLiked: false, likeCount: 0)
-            
-            objects[indexPath.row].notifyOnReady.append((tableView, indexPath))
-            
-            return cell
-        }
-        
         if likesLoaded{
-            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: self.objects[indexPath.row].name, message: self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] as! String, image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message[TableMessagesColumnNames.Photo.rawValue] != nil , hasLiked: likes[indexPath.row].1, likeCount: likes[indexPath.row].0)
+            cell.setInfo(self.objects[indexPath.row], date: self.objects[indexPath.row].date, name: self.objects[indexPath.row].user!.name, message: self.objects[indexPath.row].message, image: self.objects[indexPath.row].user!.image, hasContentImage: self.objects[indexPath.row].hasAttachedImage , hasLiked: likes[indexPath.row].1, likeCount: likes[indexPath.row].0)
 
         }
         else{
-            cell.setInfo(self.objects[indexPath.row].message.objectId!, date: self.objects[indexPath.row].message.createdAt!, name: self.objects[indexPath.row].name, message: self.objects[indexPath.row].message[TableMessagesColumnNames.Message.rawValue] as! String, image: self.objects[indexPath.row].image , hasContentImage: self.objects[indexPath.row].message[TableMessagesColumnNames.Photo.rawValue] != nil , hasLiked: false, likeCount: 0)
+            cell.setInfo(self.objects[indexPath.row], date: self.objects[indexPath.row].date, name: self.objects[indexPath.row].user!.name, message: self.objects[indexPath.row].message, image: self.objects[indexPath.row].user!.image, hasContentImage: self.objects[indexPath.row].hasAttachedImage , hasLiked: false, likeCount: 0)
         }
         
         return cell
@@ -118,6 +97,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     }
     
     func query(){
+        loaded = false
         let query = PFQuery(className: TableNames.Messages_table.rawValue)
         query.orderByDescending(TableMessagesColumnNames.Date.rawValue)
         query.whereKeyExists(TableMessagesColumnNames.Message.rawValue)
@@ -126,75 +106,52 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             array, error in
             
             guard error == nil else{
-                dispatch_async(dispatch_get_main_queue()){
-                    let controller = UIAlertController(title: NSLocalizedString("Cannot load community", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                    controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
-                        _ in
-                        controller.dismissViewControllerAnimated(false){
-                            self.tabBarController?.selectedIndex = 0
-                        }
-                    }))
-                    self.presentViewController(controller, animated: true, completion: nil)
-                }
+                let controller = UIAlertController(title: NSLocalizedString("Cannot load community", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+                    _ in
+                    controller.dismissViewControllerAnimated(false){
+                        self.tabBarController?.selectedIndex = 0
+                    }
+                }))
+                self.presentViewController(controller, animated: true, completion: nil)
+                
                 return
             }
             
-            self.objects = [CommunityViewDataManager]()
+            self.objects = [Message]()
             self.likes = [(Int,Bool)]()
             let messages = array!
             
-            //Workaround si no hay mensajes. No remover
-            self.toLoad = array!.count + 1
+            self.toLoad = messages.count
             
             for i in messages{
-                
-                
-                let o = CommunityViewDataManager(message: i as! PFObject , delegate: self.objectLoaded)
-
+                let o = Message(object: i, delegate: self)
                 self.objects.append(o)
-                
             }
             
-            //Workaround si no hay mensajes. No remover
-            self.objectLoaded()
             
+            if self.objects.count == 0{
+                self.loaded = true
+                self.tableView.reloadData()
+            }
+        
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
                 self.getLikes()
             }
-            
         }
-        
     }
 
-    func objectLoaded(){
-        toLoad--
-        
-        if toLoad == 0{
-            loaded = true
-            dispatch_async(dispatch_get_main_queue()){
-                self.tableView.reloadData()
-            }
-        }
-        
-        
-    }
     
     //CALL ASYNC
     func getLikes(){
-        let uid = PFUser.currentUser()?.objectId!
+        
+        if NSThread.isMainThread(){
+            mainThreadWarning()
+        }
+        
+        let usuario = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
         for object in objects{
-            var valor = (0,false)
-            if let i = object.message[TableMessagesColumnNames.LikesRelation.rawValue] as? [String]{
-                
-                valor.0 = i.count
-                
-                for ids in i{
-                    if ids == uid{
-                        valor.1 = true
-                    }
-                }
-            }
-            
+            let valor = (object.likesCount(), object.userHasLiked(usuario))
             likes.append(valor)
         }
         
@@ -205,124 +162,20 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         }
     }
     
-    func imageSelected(messageId: String) {
-        let i = FullImageViewController()
-        i.background = captureScreen()
-        self.parentViewController!.presentViewController(i, animated: true, completion: nil)
-        
-        for j in 0..<objects.count{
-            if objects[j].message.objectId! == messageId{
-                i.loadParseImage(objects[j].message[TableMessagesColumnNames.Photo.rawValue] as! PFFile)
-                break
-            }
-        }
-        
+    func imageSelected(message: Message) {
+        cm.showImage(message, fromViewController: self)
     }
     
-    func like(messageId : String, like : Bool){
-        for i in 0..<objects.count{
-            if objects[i].message.objectId! == messageId{
-                likes[i] = (likes[i].0 + ( like ? 1 : -1 ) , like)
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: i, inSection: 0)], withRowAnimation: .Automatic)
-                
-                objects[i].message.fetchInBackgroundWithBlock({
-                    m, error in
-                    
-                    func destroy(){
-                        self.likes[i].0 += like ? -1 : 1
-                        self.likes[i].1 = !self.likes[i].1
-                        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: i, inSection: 0)], withRowAnimation: .Automatic)
-                        
-                        print("Imposible guardar like. Deshaciendo.")
-                    }
-                    
-                    guard error == nil , let newMessage = m else{
-                        destroy()
-                        
-                        return
-                    }
-                    
-                    if let array = newMessage[TableMessagesColumnNames.LikesRelation.rawValue] as? [String]{
-                        if like{
-                            if !array.contains(PFUser.currentUser()!.objectId!){
-                                var newArray = array
-                                newArray.append(PFUser.currentUser()!.objectId!)
-                                self.objects[i].message[TableMessagesColumnNames.LikesRelation.rawValue] = newArray
-                                self.objects[i].message.saveInBackgroundWithBlock(){
-                                    bool , error in
-                                    guard error == nil && bool else{
-                                        destroy()
-                                        return
-                                    }
-                                }
-                            }
-                        }
-                        else{
-                            if array.contains(PFUser.currentUser()!.objectId!){
-                                
-                                var newArray = array
-                                
-                                for i in 0..<newArray.count{
-                                    if newArray[i] == PFUser.currentUser()!.objectId!{
-                                        newArray.removeAtIndex(i)
-                                        break
-                                    }
-                                }
-                                
-                                self.objects[i].message[TableMessagesColumnNames.LikesRelation.rawValue] = newArray
-                                self.objects[i].message.saveInBackgroundWithBlock(){
-                                    bool , error in
-                                    guard error == nil && bool else{
-                                        destroy()
-                                        return
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if like{
-                        newMessage[TableMessagesColumnNames.LikesRelation.rawValue] = [PFUser.currentUser()!.objectId!]
-                        self.objects[i].message.saveInBackgroundWithBlock(){
-                            bool , error in
-                            guard error == nil && bool else{
-                                destroy()
-                                return
-                            }
-                        }
-                    }
-                })
-                
-                break
-            }
-        }
+    func like(message : Message, like : Bool){
+        cm.like(message, like: like, user: Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil), delegate: self)
     }
     
-    func report(messageId : String){
-    
-        if(!MFMailComposeViewController.canSendMail()){
-            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Your device is not configured to send mail", comment: ""), preferredStyle: .Alert)
-            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-            presentViewController(a, animated: true, completion: nil)
-            return
-        }
-        
-        //reports@bondzu.com
-        let controller = MFMailComposeViewController()
-        controller.setToRecipients(["reports@bondzu.com"])
-        controller.setSubject(NSLocalizedString("Inappropriate message", comment: ""))
-        controller.setMessageBody(NSLocalizedString("Hello.\nI think this message is inappropiate\n\n[Please do no dot delete this information]\nMessage id:", comment: "") + " \(messageId)", isHTML: false)
-        controller.delegate = self
-        controller.mailComposeDelegate = self
-        presentViewController(controller, animated: true, completion: nil)
+    func report(message : Message){
+        cm.report(nil, message: message, fromViewController: self)
     }
     
-    func reply(messageId : String){
-        for i in 0..<objects.count{
-            if objects[i].message.objectId! == messageId{
-                performSegueWithIdentifier("reply", sender: i)
-                break
-            }
-        }
+    func reply(message : Message){
+       performSegueWithIdentifier("reply", sender: message)
     }
     
     func pressedButton(){
@@ -450,11 +303,10 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "reply"{
             
-            let index = sender as! Int
-            
+            let index = sender as! Message
             let vc = segue.destinationViewController as! ReplyCommunityViewController
-            vc.message = objects[index]
-            vc.like = likes[index]
+            vc.message = index
+            vc.like = (index.likesCount(), index.userHasLiked(Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)))
         }
     }
     
@@ -479,87 +331,53 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?){
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func UserImageDidFailedLoading(message: Message) {}
+    
+    func UserImageDidFinishLoading(message: Message) {
+        
+        guard loaded else{
+            return
+        }
+        
+        self.tableView.reloadRowsAtIndexPaths( [NSIndexPath(forItem: objects.indexOf(message)!, inSection: 0)], withRowAnimation: .Automatic)
     }
-
+    
+    func UserDidLoad(message : Message){
+        toLoad--
+        
+        if toLoad == 0{
+            loaded = true
+            tableView.reloadData()
+        }
+    }
+    
+    func UserDidFailedLoading(message : Message){
+        let index = objects.indexOf(message)!
+        objects.removeAtIndex(index)
+        toLoad--
+        
+        if toLoad == 0{
+            loaded = true
+            tableView.reloadData()
+        }
+    }
+    
+    func operationDidSucceded( message : Message, operation : CommunityOperation ){
+        let index = objects.indexOf(message)!
+        likes[index] = (message.likesCount(), message.userHasLiked(Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)))
+        self.tableView.reloadRowsAtIndexPaths( [ NSIndexPath(forItem: index, inSection: 0)], withRowAnimation: .Automatic)
+    }
+    
+    func operationDidFailed( message : Message, operation : CommunityOperation  ){
+        let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+        controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Cancel, handler: {
+            _ in
+            controller.dismissViewControllerAnimated(false, completion: nil)
+        }))
+        self.presentViewController(controller, animated: true, completion: nil)
+    }
+    
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
-
-
-/*ALERTA. ESTAS EN OTRA CLASE */
-
-class CommunityViewDataManager{
-    
-    var message : PFObject
-    var loadReadyDelegate : ()->()
-    
-    
-    var name : String!
-    var image : UIImage? = defaultProfileImage
-    var imageLoaded = false
-    
-    var notifyOnReady =  [(UITableView , NSIndexPath)]()
-    
-    
-    init(message : PFObject,  delegate :  ()->()){
-        self.message  = message
-        
-        loadReadyDelegate = delegate
-        
-        let user = message[TableMessagesColumnNames.User.rawValue] as! PFObject
-        user.fetchInBackgroundWithBlock(){
-            object, error in
-            guard error == nil , let user = object else{
-                return
-            }
-            
-            self.name = user[TableUserColumnNames.Name.rawValue] as! String
-            self.loadReadyDelegate()
-            
-            for (tv , ip) in self.notifyOnReady{
-                tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
-            }
-            
-            self.notifyOnReady.removeAll()
-            
-            if let profilePic = user[TableUserColumnNames.PhotoURL.rawValue] as? String{
-            
-                getImageInBackground(url: profilePic){
-                    image in
-                    self.image = image
-                    self.imageLoaded = true
-                    
-                    for (tv , ip) in self.notifyOnReady{
-                        tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
-                    }
-                    
-                }
-            }
-            else if let profilePic = user[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
-                profilePic.getDataInBackgroundWithBlock(
-                    { (data, error) -> Void in
-                        guard error == nil, let imageData = data else{
-                            print("Failed to retrive email")
-                            return
-                        }
-                        let image = UIImage(data: imageData)
-                        self.image = image
-                        self.imageLoaded = true
-                        
-                        for (tv , ip) in self.notifyOnReady{
-                            tv.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.None)
-                        }
-                        
-                        self.notifyOnReady.removeAll()
-                })
-            }
-            
-        }
-    }
-    
-}
-
-/*ALERTA. ESTAS EN OTRA CLASE */

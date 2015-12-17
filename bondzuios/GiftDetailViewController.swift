@@ -55,125 +55,116 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func donate(sender: UIButton) {
-        print("DONATE");
+    @IBAction func donate(sender: UIButton){
         self.activityIndicator.startAnimating()
-        PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
-            let id = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
-            let dic : [String: String] =
-            [
-                "customer_id" : id
-            ]
-            PFCloud.callFunctionInBackground("listCards", withParameters: dic) { (object , error) -> Void in
-                if(error != nil)
-                {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            do{
+                let user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
+                let dic : [String: String] = [ "customer_id" : user.stripeID ]
+                let object = try PFCloud.callFunction(PFCloudFunctionNames.ListCards.rawValue, withParameters: dic)
+                
+                guard let data = object.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else{
+                    throw Errors.GenericError
+                }
+                
+                guard let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary else{
+                    throw Errors.GenericError
+                }
+                
+                let key = "data";
+                self.cards.removeAll()
+                
+                guard let items = jsonDict[key] as? [Dictionary<String, AnyObject>] else{
+                    throw Errors.GenericError
+                }
+                
+            
+                if(items.count > 0){
+                    for item in items{
+                        
+                        let expyear = item["exp_year"]
+                        let expmonth = item["exp_month"]
+                        let last4 = item["last4"]
+                        let id = item["id"]
+                        let brand = item["brand"]
+                        
+                    
+                        let card = Card(number: String(last4!), monthExp: String(expmonth!), yearExp: String(expyear!), id: String(id!), brand: String(brand!))
+                        self.cards.append(card)
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue()){
+                        
+                        let vController = UIViewController()
+                        var alertTableView: UITableView!;
+                        var rect: CGRect!;
+                        if(self.cards.count < 4)
+                        {
+                            rect = CGRect(x: 0, y: 0, width: 272, height: 100)
+                        }
+                        else if(self.cards.count < 6)
+                        {
+                            rect = CGRect(x: 0, y: 0, width: 272, height: 150)
+                        }
+                        else if(self.cards.count < 8)
+                        {
+                            rect = CGRect(x: 0, y: 0, width: 272, height: 200)
+                        }
+                        else
+                        {
+                            rect = CGRect(x: 0, y: 0, width: 272, height: 250)
+                        }
+                        
+                        self.activityIndicator.stopAnimating()
+                        
+                        vController.preferredContentSize = CGSize(width: rect.width, height: rect.height)
+                        alertTableView = UITableView(frame: rect)
+                        alertTableView.delegate = self
+                        alertTableView.dataSource = self
+                        alertTableView.tableFooterView = UIView(frame: CGRect.zero)
+                        alertTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+                        vController.view.addSubview(alertTableView)
+                        vController.view.bringSubviewToFront(alertTableView)
+                        vController.view.userInteractionEnabled = true
+                        alertTableView.userInteractionEnabled = true
+                        alertTableView.allowsSelection = true
+                        
+                        self.alertController = UIAlertController(title: NSLocalizedString("Cards", comment: ""), message: NSLocalizedString("Please select a card", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                        self.alertController.setValue(vController, forKey: "contentViewController")
+                        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
+                        let addAction = UIAlertAction(title: NSLocalizedString("Add a new card", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                            self.saveCardSwitchEnabled = true;
+                            self.performSegueWithIdentifier("paySegue", sender: self)
+                        })
+                        
+                        self.alertController.addAction(addAction)
+                        self.alertController.addAction(cancelAction)
+                        
+                        self.presentViewController(self.alertController, animated: true, completion: nil)
+                    }
+                    
+                }
+                else{
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.activityIndicator.stopAnimating()
+                        self.saveCardSwitchEnabled = false;
+                        self.performSegueWithIdentifier("paySegue", sender: self)
+                        return;
+                    }
+                }
+                
+                
+            }
+            catch{
+                dispatch_async(dispatch_get_main_queue()){
                     self.activityIndicator.stopAnimating()
                     let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert);
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
-                }
-                else
-                {
-                    print("object \(object!)")
-                    do {
-                        if let data = object?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                            
-                            let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
-                            if let jsonDict = jsonDict {
-                                // work with dictionary here
-                                let key = "data";
-                                print("data: \(jsonDict[key])")
-                                if(!self.cards.isEmpty){
-                                    self.cards.removeAll()
-                                }
-                                if let items = jsonDict[key] as? [Dictionary<String, AnyObject>]
-                                {
-                                    if(items.count > 0)
-                                    {
-                                        for item in items
-                                        {
-                                            let expyear = item["exp_year"]
-                                            let expmonth = item["exp_month"]
-                                            let last4 = item["last4"]
-                                            let id = item["id"]
-                                            let brand = item["brand"]
-                                            
-                                            let card = Card();
-                                            card.monthExp = String(expmonth!);
-                                            card.yearExp = String(expyear!);
-                                            card.number = String(last4!);
-                                            card.id = String(id!);
-                                            card.brand = String(brand!);                                            
-                                            self.cards.append(card)
-                                        }
-                                        let vController = UIViewController()
-                                        var alertTableView: UITableView!;
-                                        var rect: CGRect!;
-                                        if(self.cards.count < 4)
-                                        {
-                                            rect = CGRect(x: 0, y: 0, width: 272, height: 100)
-                                        }
-                                        else if(self.cards.count < 6)
-                                        {
-                                            rect = CGRect(x: 0, y: 0, width: 272, height: 150)
-                                        }
-                                        else if(self.cards.count < 8)
-                                        {
-                                            rect = CGRect(x: 0, y: 0, width: 272, height: 200)
-                                        }
-                                        else
-                                        {
-                                            rect = CGRect(x: 0, y: 0, width: 272, height: 250)
-                                        }
-                                        
-                                        self.activityIndicator.stopAnimating()
-                                        
-                                        vController.preferredContentSize = CGSize(width: rect.width, height: rect.height)
-                                        alertTableView = UITableView(frame: rect)
-                                        alertTableView.delegate = self
-                                        alertTableView.dataSource = self
-                                        alertTableView.tableFooterView = UIView(frame: CGRect.zero)
-                                        alertTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
-                                        vController.view.addSubview(alertTableView)
-                                        vController.view.bringSubviewToFront(alertTableView)
-                                        vController.view.userInteractionEnabled = true
-                                        alertTableView.userInteractionEnabled = true
-                                        alertTableView.allowsSelection = true
-                                        
-                                        self.alertController = UIAlertController(title: NSLocalizedString("Cards", comment: ""), message: NSLocalizedString("Please select a card", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                                        self.alertController.setValue(vController, forKey: "contentViewController")
-                                        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Default, handler: nil)
-                                        let addAction = UIAlertAction(title: NSLocalizedString("Add a new card", comment: ""), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                                            self.saveCardSwitchEnabled = true;
-                                            self.performSegueWithIdentifier("paySegue", sender: self)
-                                        })
-                                        
-                                        self.alertController.addAction(addAction)
-                                        self.alertController.addAction(cancelAction)
-                                        
-                                        self.presentViewController(self.alertController, animated: true, completion: nil)
-                                    }
-                                    else
-                                    {
-                                        self.activityIndicator.stopAnimating()
-                                        self.saveCardSwitchEnabled = false;
-                                        self.performSegueWithIdentifier("paySegue", sender: self)
-                                        return;
-                                    }
-                                }
-                            } else {
-                                // more error handling
-                            }
-                            
-                        }
-                    } catch let error as NSError {
-                        // error handling
-                        print("error : \(error)")
-                    }
-                    self.activityIndicator.stopAnimating()
+
                 }
             }
-        })
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -205,8 +196,7 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-    
-        cell.textLabel?.text = "\(self.cards[indexPath.row].brand!) - \(self.cards[indexPath.row].number)";
+        cell.textLabel?.text = "\(self.cards[indexPath.row].brand) - \(self.cards[indexPath.row].number)";
         return cell;
     }
     

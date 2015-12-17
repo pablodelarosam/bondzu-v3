@@ -29,7 +29,6 @@ func captureScreenOfView(view : UIView) -> UIImage {
     return image;
 }
 
-
 func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
     UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
     image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
@@ -38,10 +37,7 @@ func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
     return newImage
 }
 
-
-/*
-    Important. This methods work in background but calls the block in the main thread
-*/
+@available(*, deprecated=1.0, message="Please use the new functions that returns if the image could be created")
 func getImageInBackground(url string : String, block : (UIImage->Void)){
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
         
@@ -67,12 +63,61 @@ func getImageInBackground(url string : String, block : (UIImage->Void)){
     })
 }
 
+/**
+ Gets an image from a URL String anf if the image could be requested.
+ ### Important. This methods work in background but calls the block in the main thread. ###
+ 
+ - parameter string: The URL String to parse.
+ - parameter block : A block to call when the operation succeded or failed. The block paramaters are described below.
+    - UIImage?: The generated image. If the boolean is true the image wont be nil.
+    - Bool: The completed flag.
+ 
+ - returns: void.
+*/
+func getImageInBackground(url string : String, block : ((UIImage?, Bool)->Void)){
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+        
+        let urlG = NSURL(string: string)
+        
+        guard let url = urlG else{
+            dispatch_async(dispatch_get_main_queue()){
+                print("Could not form URL in Utiles.getImageInBackground \(string)")
+                block(nil,false)
+            }
+            return
+        }
+        
+        let data = NSData(contentsOfURL: url)
 
-class Utiles
-{
+        guard data != nil else{
+            dispatch_async(dispatch_get_main_queue()){
+                print("error getting image \(url)");
+                block(nil,false)
+            }
+            return
+        }
+
+        dispatch_async(dispatch_get_main_queue()){
+            let image = UIImage(data: data!)
+            if let image = image{
+                block(image, true)
+            }
+            else{
+                block(nil,false)
+                print("Invalid data in Utiles.getImageInBackground  \(string)")
+            }
+        }
+    })
+}
+
+
+func mainThreadWarning(){
+    print("You are blocking the main thread!\nTo debug put a symbolic link in mainThreadWarning.\nPrinted from Utiles.mainThreadWarning()")
+}
+
+class Utiles{
     //Esconder hairline (separacion entre nav bar y toolbar)
-    static func moveHairLine(appearing: Bool, navHairLine: UIImageView?, toolbar: UIToolbar?)
-    {
+    static func moveHairLine(appearing: Bool, navHairLine: UIImageView?, toolbar: UIToolbar?){
         if (navHairLine != nil && toolbar != nil)
         {
             var hairLineFrame = navHairLine!.frame
@@ -93,8 +138,7 @@ class Utiles
         }
     }
     
-    static func getHairLine(navigationBar: UINavigationBar) -> UIImageView?
-    {
+    static func getHairLine(navigationBar: UINavigationBar) -> UIImageView?{
         for view in navigationBar.subviews
         {
             for view2 in view.subviews
@@ -111,8 +155,7 @@ class Utiles
         return nil
     }
     
-    static func urlOfAVPlayer(player: AVPlayer?) -> NSURL?
-    {
+    static func urlOfAVPlayer(player: AVPlayer?) -> NSURL?{
         if player != nil {
             if let playerAsset = player!.currentItem?.asset as AVAsset?
             {

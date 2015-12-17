@@ -170,6 +170,9 @@
 /* Class = "UIButton"; normalTitle = "Iniciar sesión con facebook"; ObjectID = "j6O-rB-88S"; */
 "j6O-rB-88S.normalTitle" = "Iniciar sesión con facebook";
 
+/* Class = "UIButton"; normalTitle = "Al registrarte aceptas nuestros términos y condiciones"; ObjectID = "dcN-Ud-lv7"; */
+"dcN-Ud-lv7.normalTitle" = "Al registrarte aceptas nuestros términos y condiciones";
+
 /* Class = "UINavigationItem"; title = "Registro"; ObjectID = "ksn-Jr-a4i"; */
 "ksn-Jr-a4i.title" = "Registro";
 
@@ -214,3 +217,4 @@
 
 /* Class = "UITabBarItem"; title = "Regalos"; ObjectID = "zee-wk-KAt"; */
 "zee-wk-KAt.title" = "Regalos";
+"Iiu-JM-gfK.title" = "Hecho";

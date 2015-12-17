@@ -9,11 +9,10 @@
 import UIKit
 import Parse
 
-class AdopedAnimalsViewController: UITableViewController {
+class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtocol {
 
     var loaded = false
-    var animals : [PFObject]!
-    var images : [UIImage?]!
+    var animals : [AnimalV2]!
     
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -26,40 +25,24 @@ class AdopedAnimalsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let relation = PFUser.currentUser()![TableUserColumnNames.AdoptedAnimalsRelation.rawValue] as? PFRelation{
-            let query = relation.query()!
-            query.findObjectsInBackgroundWithBlock { (animals, error) -> Void in
-                if error != nil{
-                    print(error)
-                    return
-                }
-                self.images = Array<UIImage?>(count: (animals?.count)!, repeatedValue: UIImage())
-                self.animals = animals as! [PFObject]
-                
-                for i in self.animals{
-                    let file = i[TableAnimalColumnNames.Photo.rawValue] as! PFFile
-                    file.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                        if data != nil && error == nil{
-                            let img = UIImage(data: data!)
-                            let index = self.animals.indexOf(i)
-                            self.images[index!] = img
-                            
-                            dispatch_async(dispatch_get_main_queue()){
-                                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index!, inSection: 0)], withRowAnimation: .Automatic)
-                            }
-                        }
-                    })
-                }
-                
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loaded = true
-                    self.tableView.reloadData()
-                }
-            }
-        }
-        else{
+        let user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            let (completed , animals) = user.getAdoptedAnimals(self)
             dispatch_async(dispatch_get_main_queue()){
-                self.animals = [PFObject]()
+                if completed{
+                    self.animals = animals!
+                }
+                else{
+                    self.animals = [AnimalV2]()
+                    
+                    let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                    controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+                        _ in
+                    }))
+                    self.presentViewController(controller, animated: true, completion: nil)
+                    
+                }
                 self.loaded = true
                 self.tableView.reloadData()
             }
@@ -91,11 +74,39 @@ class AdopedAnimalsViewController: UITableViewController {
             return tableView.dequeueReusableCellWithIdentifier("Loading")!
         }
         let cell = tableView.dequeueReusableCellWithIdentifier("content") as! AdoptedAnimalTableViewCell
-        cell.animalImage.image = images[indexPath.row]
-        Imagenes.redondeaVista(cell.animalImage, radio: cell.animalImage.frame.width / 2)
-        cell.name.text = (animals[indexPath.row][TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
-        cell.animalDescription.text = (animals[indexPath.row][TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String)
+        cell.animalImage.image = animals[indexPath.row].image
+        cell.name.text = animals[indexPath.row].name
+        cell.animalDescription.text = animals[indexPath.row].animalDescription
         return cell
+    }
+    
+    
+    //MARK: AnimalV2LoadingProtocol implementation
+    
+    /**
+    This method is an empty implementation. In case of error nothing will happen
+    
+    - parameter animal: The animal that have failed loading
+    */
+    func animalDidFailLoading(animal: AnimalV2) {}
+    
+    
+    /**
+     This method reload the cell asocioated with the animal that has just loaded.
+     Imlplementation of AnimalV2LoadingProtocol
+     
+     - parameter animal: The animal that has just loaded
+     */
+    func animalDidFinishLoading(animal: AnimalV2) {
+        dispatch_async(dispatch_get_main_queue()){
+            //Workaround. Sometimes the elements are cached so this method is called even before the array is returned. Anyway even if the method does not process the event after the array is loaded reload table is called and fixes all not set images.
+            if self.animals != nil{
+                let index = self.animals.indexOf(animal)
+                if let index = index{
+                    self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
+                }
+            }
+        }
     }
 }
 

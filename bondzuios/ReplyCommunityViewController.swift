@@ -8,25 +8,24 @@
 
 import UIKit
 import Parse
-import MessageUI
 
-class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, CommunitEntryEvent, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate  {
-    
-    //TODO Implementar un cache de una sola sesión para agilizar los datos
-    var likesLoaded = false
-    
+class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, CommunitEntryEvent, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, CommunityTabHelperProtocol, LoadReplyResult{
+        
     //Parent view controller responsability
-    var message : CommunityViewDataManager!
+    var message : Message!
     //Parent view controller responsability
     var like : (Int , Bool)!
 
-    var comment : [CommunityViewDataManager]!
+    var comment : [Reply]!
     
     var loaded = false
     var gestureRecognizer : UITapGestureRecognizer?
-    var toLoad = 0
     
     var textFieldStartValue : CGFloat?
+
+    var comminutyHelper = CommunityTabHelper()
+    
+    var toLoad = 0
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
@@ -60,7 +59,6 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
-        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -82,7 +80,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         if indexPath.section == 0{
             let cell = tableView.dequeueReusableCellWithIdentifier("comment") as! CommunityEntryView
             cell.delegate = self
-            cell.setInfo(message.message.objectId!, date: message.message.createdAt!, name: message.name, message:message.message[TableMessagesColumnNames.Message.rawValue] as! String, image: message.image , hasContentImage: message.message[TableMessagesColumnNames.Photo.rawValue] != nil , hasLiked: like.1 , likeCount: like.0)
+            cell.setInfo(message, date: message.date, name: message.user!.name, message: message.message, image: message.user!.image , hasContentImage: message.hasAttachedImage, hasLiked: like.1 , likeCount: like.0)
             cell.replyButton.hidden = true
             return cell
         }
@@ -95,24 +93,9 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
             else{
                 
                 let cell = tableView.dequeueReusableCellWithIdentifier("reply") as! CommunityReplyEntryCellTableViewCell
-                
-                guard self.comment[indexPath.row].name != nil && self.comment[indexPath.row].message[TableReplyColumnNames.Message.rawValue] != nil else{
-                    
-                    let name = self.comment[indexPath.row].name == nil ? "" : self.comment[indexPath.row].name!
-                    let message = self.comment[indexPath.row].message[TableReplyColumnNames.Message.rawValue] == nil ? "" : self.comment[indexPath.row].message[TableReplyColumnNames.Message.rawValue] as! String
-                    
-                    cell.setInfo(self.comment[indexPath.row].message.objectId!, date: self.comment[indexPath.row].message.createdAt!, name: name, message: message , image: self.comment[indexPath.row].image)
-                    
-                    comment[indexPath.row].notifyOnReady.append((tableView, indexPath))
-                    
-                    return cell
-                }
-                
-                cell.setInfo(comment[indexPath.row].message.objectId!, date: comment[indexPath.row].message.createdAt!, name: comment[indexPath.row].name, message: comment[indexPath.row].message[TableReplyColumnNames.Message.rawValue] as! String, image: comment[indexPath.row].image)
-                
-                if !comment[indexPath.row].imageLoaded{
-                    comment[indexPath.row].notifyOnReady.append((tableView, indexPath))
-                }
+            
+                cell.setInfo(comment[indexPath.row], date: comment[indexPath.row].date, name: comment[indexPath.row].user!.name, message: comment[indexPath.row].message, image: comment[indexPath.row].user!.image)
+    
                 return cell
             }
         }
@@ -133,7 +116,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         query.orderByAscending(TableReplyColumnNames.Date.rawValue)
         query.whereKeyExists(TableReplyColumnNames.Message.rawValue)
         
-        query.whereKey(TableReplyColumnNames.ParentMessage.rawValue, equalTo: message.message)
+        query.whereKey(TableReplyColumnNames.ParentMessage.rawValue, equalTo: message.originalObject)
         query.findObjectsInBackgroundWithBlock(){
             array, error in
             
@@ -152,134 +135,39 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
                 return
             }
             
-            self.comment = [CommunityViewDataManager]()
+            self.comment = [Reply]()
             let messages = array!
             
-            //Workaround si no hay mensajes. No remover
-            self.toLoad = array!.count + 1
+            self.toLoad = messages.count
             
             for i in messages{
-                
-                
-                let o = CommunityViewDataManager(message: i as! PFObject , delegate: self.objectLoaded)
-                
+                let o = Reply(object: i, delegate: self)
                 self.comment.append(o)
-                
             }
             
-            //Workaround si no hay mensajes. No remover
-            self.objectLoaded()
+            if messages.count == 0{
+                self.loaded = true
+                self.tableView.reloadData()
+            }
+            
         }
         
     }
     
-    func objectLoaded(){
-        toLoad--
-        
-        if toLoad == 0{
-            loaded = true
-            tableView.reloadData()
-        }
+    
+    func imageSelected(message: Message) {
+        comminutyHelper.showImage(message, fromViewController: self)
     }
     
-    func imageSelected(messageId: String) {
-        let i = FullImageViewController()
-        i.background = captureScreen()
-        i.loadParseImage(message.message[TableMessagesColumnNames.Photo.rawValue] as! PFFile)
-        self.parentViewController!.presentViewController(i, animated: true, completion: nil)
+    func like(message : Message, like : Bool){
+        comminutyHelper.like(message, like: like, user: Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil), delegate: self)
     }
     
-    func like(messageId : String, like : Bool){
-        
-        (self.like.0 + ( like ? 1 : -1 ) , like)
-        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
-        
-        message.message.fetchInBackgroundWithBlock({
-            m, error in
-            
-            func destroy(){
-                self.like.0 += like ? -1 : 1
-                self.like.1 = !self.like.1
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
-                print("Imposible guardar like. Deshaciendo.")
-            }
-            
-            guard error == nil , let newMessage = m else{
-                destroy()
-                return
-            }
-            
-            if let array = newMessage[TableMessagesColumnNames.LikesRelation.rawValue] as? [String]{
-                if like{
-                    if !array.contains(PFUser.currentUser()!.objectId!){
-                        var newArray = array
-                        newArray.append(PFUser.currentUser()!.objectId!)
-                        self.message.message[TableMessagesColumnNames.LikesRelation.rawValue] = newArray
-                        self.message.message.saveInBackgroundWithBlock(){
-                            bool , error in
-                            guard error == nil && bool else{
-                                destroy()
-                                return
-                            }
-                        }
-                    }
-                }
-                else{
-                    if array.contains(PFUser.currentUser()!.objectId!){
-                        
-                        var newArray = array
-                        
-                        for i in 0..<newArray.count{
-                            if newArray[i] == PFUser.currentUser()!.objectId!{
-                                newArray.removeAtIndex(i)
-                                break
-                            }
-                        }
-                        
-                        self.message.message[TableMessagesColumnNames.LikesRelation.rawValue] = newArray
-                        self.message.message.saveInBackgroundWithBlock(){
-                            bool , error in
-                            guard error == nil && bool else{
-                                destroy()
-                                return
-                            }
-                            
-                        }
-                    }
-                }
-            }
-            else if like{
-                newMessage[TableMessagesColumnNames.LikesRelation.rawValue] = [PFUser.currentUser()!.objectId!]
-                self.message.message.saveInBackgroundWithBlock(){
-                    bool , error in
-                    guard error == nil && bool else{
-                        destroy()
-                        return
-                    }
-                }
-            }
-        })
+    func report(message : Message){
+        comminutyHelper.report(nil, message: message, fromViewController: self)
     }
     
-    func report(messageId : String){
-        if(!MFMailComposeViewController.canSendMail()){
-            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Your device is not configured to send mail", comment: ""), preferredStyle: .Alert)
-            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-            presentViewController(a, animated: true, completion: nil)
-            return
-        }
-        
-        //reports@bondzu.com
-        let controller = MFMailComposeViewController()
-        controller.setToRecipients(["reports@bondzu.com"])
-        controller.setSubject(NSLocalizedString("Inappropriate message", comment: ""))
-        controller.setMessageBody( NSLocalizedString("Hello.\nI think this message is inappropiate\n\n[Please do no dot delete this information]\nMessage id:", comment: "")  + " \(messageId)", isHTML: false)
-        controller.delegate = self
-        controller.mailComposeDelegate = self
-        presentViewController(controller, animated: true, completion: nil)
-    }
-    
-    func reply(messageId : String){
+    func reply(message : Message){
         print("INVALID CALL FROM REPLY TO REPLY")
     }
     
@@ -298,7 +186,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         }
         
         let reply = PFObject(className: TableNames.Reply_table.rawValue)
-        reply[TableReplyColumnNames.ParentMessage.rawValue] = message.message
+        reply[TableReplyColumnNames.ParentMessage.rawValue] = message.originalObject
         reply[TableReplyColumnNames.Message.rawValue] = text
         reply[TableReplyColumnNames.User.rawValue] = PFUser.currentUser()!
         textField.userInteractionEnabled = false
@@ -344,6 +232,11 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     }
     
     func keyBoardHide(notification : NSNotification){
+        
+        guard textFieldStartValue != nil else{
+            return
+        }
+        
         self.textField.frame.origin.y = textFieldStartValue!
         
         textFieldStartValue = nil
@@ -358,12 +251,49 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         self.textField.resignFirstResponder()
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?){
-        controller.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func operationDidFailed(message: Message, operation: CommunityOperation) {
+        
+    }
+    
+    func operationDidSucceded(message: Message, operation: CommunityOperation) {
+        
+        like = (message.likesCount(), message.userHasLiked(Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)))
+        self.tableView.reloadRowsAtIndexPaths([ NSIndexPath(forItem: 0, inSection: 0) ], withRowAnimation: .Automatic)
+    
+    }
+    
+    func UserDidLoad( reply : Reply ){
+        
+        toLoad--
+        if toLoad == 0{
+            self.loaded = true
+            self.tableView.reloadData()
+        }
+    }
+    
+    func UserDidFailedLoading( reply : Reply ){
+        
+        let index = self.comment.indexOf(reply)!
+        self.comment.removeAtIndex(index)
+        
+        toLoad--
+        if toLoad == 0{
+            self.loaded = true
+            self.tableView.reloadData()
+        }
+    }
+    
+    func UserImageDidFailedLoading(reply: Reply) {}
+    
+    func UserImageDidFinishLoading(reply: Reply) {
+        
+        let index = comment.indexOf(reply)!
+        self.tableView.reloadRowsAtIndexPaths([ NSIndexPath(forItem: index, inSection: 1) ], withRowAnimation: .Automatic)
+        
     }
 }
 //TODO AQUI Y EN COMMUNITY LAS PERSONAS CON NOMBRE LARGO PUEDEN DESPLAZAR LA TIME LABEL

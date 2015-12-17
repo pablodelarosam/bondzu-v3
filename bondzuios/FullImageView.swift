@@ -9,9 +9,9 @@
 import UIKit
 import Parse
 
-class FullImageViewController: UIViewController, UINavigationControllerDelegate {
+class FullImageViewController: UIViewController, UINavigationControllerDelegate{
     
-    private var fullImageView : FullImageView?
+    private weak var fullImageView : FullImageView?
     
     
     func loadImage(image : UIImage){
@@ -31,59 +31,35 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
             self.fullImageView?.image = UIImage(data: imageData)
         }
     }
-    
-    var background = UIImage(){
-        didSet{
-            if let f = fullImageView{
-                f.image = background
-            }
-        }
-    }
-    
+
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
     
-    
     override func viewDidLoad() {
-        view = UIImageView(image: captureScreen())
+        
+        self.modalTransitionStyle = .FlipHorizontal
         setNeedsStatusBarAppearanceUpdate()
-        fullImageView = FullImageView()
-        fullImageView!.bgImage.image = background
+        view = UIImageView(image: captureScreen())
+        view.userInteractionEnabled = true
+        let fiv =  FullImageView()
+        fullImageView = fiv
         fullImageView!.delegate = self
+        self.view.addSubview(fullImageView!)
     }
     
     func dismiss(){
         fullImageView!.delegate = nil
-        fullImageView?.delegate = nil
-        
-        UIView.animateWithDuration(0.5,
-            animations: {
-                self.fullImageView?.frame.origin = CGPoint(x: 0, y: self.fullImageView!.frame.size.height)
-            },
-            completion: {
-                _ in
-                self.fullImageView?.removeFromSuperview()
-                self.dismissViewControllerAnimated(false, completion: nil)
-                
-            }
-        )
-        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
     
     
     class FullImageView : UIView{
 
         var button = UIButton()
         
-        var delegate : FullImageViewController?{
-            didSet{
-                if let d = delegate{
-                    button.addTarget(d, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
-                }
-            }
-        }
+        var delegate : FullImageViewController?
+        
         
         var imageview = UIImageView()
         var bgImage = UIImageView()
@@ -105,19 +81,19 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
         //TODO Version 2 Agregar un dismisal al bajar el dedo
         
         func dismiss(){
+            print("DISMISEANDO");
             delegate?.dismiss()
-            removeFromSuperview()
         }
         
         func load(){
             
-            if let w = UIApplication.sharedApplication().keyWindow{
+            /*if let w = UIApplication.sharedApplication().keyWindow{
                 w.addSubview(self)
                 self.frame = CGRect(x: 0, y: 0, width: w.bounds.width, height: w.bounds.height)
-            }
+            }*/
             
             button.setTitle(NSLocalizedString("Done", comment: ""), forState: UIControlState.Normal)
-        
+            button.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
             
             activityIndicatorView.hidesWhenStopped = true
             bgImage.contentMode = .ScaleAspectFill
@@ -142,46 +118,60 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
             }
         }
         
-        
-        
         override func layoutSubviews() {
             super.layoutSubviews()
-            
             
             self.frame = superview!.frame
             bgImage.frame = frame
             blur.frame = frame
             
+            button.sizeToFit()
+            button.frame.origin = CGPoint(x: 10, y: 10)
+            
             if imageview.image != nil{
                 activityIndicatorView.stopAnimating()
+                let orientation = UIDevice.currentDevice().orientation
                 
-                let fw = frame.width
-                let fh = frame.height - 30
-                let iw = imageview.image!.size.width
-                let ih = imageview.image!.size.width
-                
-                if(iw < fw && ih < fh){
-                    imageview.frame = CGRect(x: fw/2 - iw/2, y: fh/2 - ih/2, width: iw, height: ih)
-                }
-                else{
-                    let dw = iw - fw
-                    let dh = ih - fh
+                if orientation == .Portrait || orientation == .FaceUp || orientation == .FaceDown{
                     
-                    if dw < dh{
-                        
-                        let nih = fh
-                        let niw = fh * iw / ih
-                        
-                        imageview.frame = CGRect(x: fw/2 - niw/2, y: fh/2 - nih/2, width: niw, height: nih)
-                        
+                    button.hidden = false
+                    
+                    let frh = frame.height
+                    
+                    let fw = frame.width
+                    let fh = frh - (button.frame.height + 5) * 2
+                    
+                    let iw = imageview.image!.size.width
+                    let ih = imageview.image!.size.width
+                    
+                    if(iw < fw && ih < fh){
+                        imageview.frame = CGRect(x: fw/2 - iw/2, y: frh/2 - ih/2, width: iw, height: ih)
                     }
                     else{
+                        let dw = iw - fw
+                        let dh = ih - fh
                         
-                        let niw = fw
-                        let nih = fw * ih / iw
-                        
-                        imageview.frame = CGRect(x: fw/2 - niw/2, y: fh/2 - nih/2, width: niw, height: nih)
+                        if dw < dh{
+                            
+                            let nih = fh
+                            let niw = fh * iw / ih
+                            
+                            imageview.frame = CGRect(x: fw/2 - niw/2, y: frh/2 - nih/2, width: niw, height: nih)
+                            
+                        }
+                        else{
+                            
+                            let niw = fw
+                            let nih = fw * ih / iw
+                            
+                            imageview.frame = CGRect(x: fw/2 - niw/2, y: frh/2 - nih/2, width: niw, height: nih)
+                        }
                     }
+                }
+                else{
+                    button.hidden = true
+                    imageview.contentMode = .ScaleAspectFit
+                    imageview.frame = CGRect(origin: CGPointZero, size: frame.size)
                 }
                 
             }
@@ -189,10 +179,27 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate 
                 activityIndicatorView.startAnimating()
                 activityIndicatorView.frame = CGRect(x: frame.size.width/2 - 100, y: frame.size.height/2 - 100, width: 200, height: 200)
             }
-            
-            button.sizeToFit()
-            button.frame.origin = CGPoint(x: 20, y: 20)
+        
+        }
+        
+        func renderForDismiss(){
+            let view = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
+            view.frame = self.frame
+            addSubview(view)
+            imageview.hidden = true
+            bgImage.hidden = true
+            blur.hidden = true
         }
 
     }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.AllButUpsideDown
+    }
+    
+    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+        fullImageView?.renderForDismiss()
+        super.dismissViewControllerAnimated(flag, completion: completion)
+    }
+    
 }

@@ -9,6 +9,28 @@
 import Foundation
 import UIKit
 
+#if DEBUG
+    enum PFCloudFunctionNames : String{
+        case ListCards = "listCards_test"
+        case DeleteCard = "deleteCard_test_test"
+        case CreateCard = "createCard_test"
+        case CreateCharge = "createCharge_test"
+        case CreateChargeExistingCard = "createChargeExistingCard_test"
+        case CreateCustomer = "createCustomer_test"
+        
+    }
+#else
+    enum PFCloudFunctionNames : String{
+        case ListCards = "listCards"
+        case DeleteCard = "deleteCard"
+        case CreateCard = "createCard"
+        case CreateCharge = "createCharge"
+        case CreateChargeExistingCard = "createChargeExistingCard"
+        case CreateCustomer = "createCustomer"
+    }
+#endif
+
+
 class Constantes
 {
     static let COLOR_NARANJA_NAVBAR:UIColor = UIColor.orangeColor()
@@ -20,6 +42,7 @@ class Constantes
 }
 
 let LOCALIZED_STRING = "locale"
+let privacyURL = NSURL(string: "http://bondzu.com/privacy.html")
 
 
 enum TableNames : String{
@@ -77,7 +100,6 @@ enum TableUserColumnNames : String{
 
 enum TableKeeperColumnNames : String{
     case User = "user"
-    case Name = "name"
 }
 
 enum TableTransactionColumnNames : String{
@@ -127,7 +149,11 @@ enum TableCameraColumnNames : String{
     case Animal = "animal_Id"
     case Description = "description"
     case AnimalName = "animal_name"
-    case CameraType = "type"
     case Working = "funcionando"
     case PlayBackURL = "url"
+}
+
+
+enum Errors : ErrorType{
+    case GenericError
 }

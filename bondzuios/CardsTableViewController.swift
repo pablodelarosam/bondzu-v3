@@ -6,6 +6,7 @@
 //  Copyright © 2015 Bondzu. All rights reserved.
 //  Archivo Localizado
 
+
 import UIKit
 import Parse
 
@@ -59,75 +60,70 @@ class CardsTableViewController: UITableViewController {
     
     func getCards(){
         
-        PFUser.currentUser()?.fetchInBackgroundWithBlock({ (object, error) -> Void in
-            let id = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
-            let dic : [String: String] =
-            [
-                "customer_id" : id
-            ]
-            PFCloud.callFunctionInBackground("listCards", withParameters: dic) { (object , error) -> Void in
-                if(error != nil)
-                {
-                    dispatch_async(dispatch_get_main_queue()){
-                        self.refreshControl?.endRefreshing()
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert);
-                        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    }
-                }
-                else
-                {
-                    print("object \(object!)")
-                    do {
-                        if let data = object?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                            
-                            let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
-                            if let jsonDict = jsonDict {
-                                // work with dictionary here
-                                let key = "data";
-                                print("data: \(jsonDict[key])")
-                                self.cards.removeAll()
-                                for item in jsonDict[key] as![Dictionary<String, AnyObject>] {
-                                    
-                                    let expyear = item["exp_year"]
-                                    let expmonth = item["exp_month"]
-                                    let last4 = item["last4"]
-                                    let id = item["id"]
-                                    let brand = item["brand"]
-                                    print("brand = \(brand!)")
-                                    
-                                    let card = Card();
-                                    card.monthExp = String(expmonth!);
-                                    card.yearExp = String(expyear!);
-                                    card.number = String(last4!);
-                                    card.id = String(id!);
-                                    card.brand = String(brand!);
-                                    
-                                    self.cards.append(card)
-                                }
-                                self.tableView.reloadData()
-                                
-                            } else {
-                                // more error handling
-                            }
-                        
-                        }
-                    } catch let error as NSError {
-                        // error handling
-                        print("error : \(error)")
-                    }
+        let user = Usuario(object: PFUser.currentUser()!, loadImage: false, imageLoaderObserver: nil)
+        let id = user.stripeID
+        
+        let dic : [String: String] =
+        [
+            "customer_id" : id
+        ]
+        
+        PFCloud.callFunctionInBackground(PFCloudFunctionNames.ListCards.rawValue, withParameters: dic) {
+            (object , error) -> Void in
+            if(error != nil)
+            {
+                dispatch_async(dispatch_get_main_queue()){
                     self.refreshControl?.endRefreshing()
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert);
+                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
                 }
             }
-        })
+            else
+            {
+                do {
+                    if let data = object?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                        
+                        let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                        if let jsonDict = jsonDict {
+                            // work with dictionary here
+                            let key = "data";
+                            print("data: \(jsonDict[key])")
+                            self.cards.removeAll()
+                            for item in jsonDict[key] as![Dictionary<String, AnyObject>] {
+                                
+                                let expyear = item["exp_year"]
+                                let expmonth = item["exp_month"]
+                                let last4 = item["last4"]
+                                let id = item["id"]
+                                let brand = item["brand"]
+                                print("brand = \(brand!)")
+                                
+                                let card = Card(number: String(last4!), monthExp: String(expmonth!), yearExp: String(expyear!), id: String(id!), brand: String(brand!))
+                                self.cards.append(card)
+                            }
+                            self.tableView.reloadData()
+                            
+                        } else {
+                            // more error handling
+                        }
+                        
+                    }
+                } catch let error as NSError {
+                    // error handling
+                    print("error : \(error)")
+                }
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cardCell", forIndexPath: indexPath)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         //cell.label.adjustsFontSizeToFitWidth = true
-        cell.textLabel?.text = "\(self.cards[indexPath.row].brand) " + NSLocalizedString("- Last 4 digits:", comment: "") + " \(self.cards[indexPath.row].number!)";
-        cell.detailTextLabel?.text = "\(self.cards[indexPath.row].monthExp!) / \(self.cards[indexPath.row].yearExp!)"
+        cell.textLabel?.text = "\(self.cards[indexPath.row].brand) " + NSLocalizedString("- Last 4 digits:", comment: "") + " \(self.cards[indexPath.row].number)";
+        cell.detailTextLabel?.text = "\(self.cards[indexPath.row].monthExp) / \(self.cards[indexPath.row].yearExp)"
         return cell
     }
 
@@ -157,7 +153,8 @@ class CardsTableViewController: UITableViewController {
     }
 
     func removeCard(card: Card, index: Int){
-        let cus_id = PFUser.currentUser()![TableUserColumnNames.StripeID.rawValue] as! String!
+        let user = Usuario(object: PFUser.currentUser()!, loadImage: false, imageLoaderObserver: nil)
+        let cus_id = user.stripeID
         let card_id = card.id
         let dic : [String: String] =
         [
@@ -165,7 +162,7 @@ class CardsTableViewController: UITableViewController {
             "card_id" : card_id
         ]
         
-        PFCloud.callFunctionInBackground("deleteCard", withParameters: dic) { (object, error) -> Void in
+        PFCloud.callFunctionInBackground(PFCloudFunctionNames.DeleteCard.rawValue, withParameters: dic) { (object, error) -> Void in
             if(error != nil)
             {
                 let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The credit card could not be removed", comment: ""), preferredStyle: .Alert)

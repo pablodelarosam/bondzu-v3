@@ -45,8 +45,9 @@ class Capsule : Equatable{
             }
             self.animalName = av2![TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
             let img = Capsule.videoPattern(self.videoID[0])
+            //WARNING: fix this unused value
             getImageInBackground(url: img){
-                (image) -> Void in
+                (image, completed) -> Void in
                 self.image = image
                 self.delegate?.capsuleDidFinishLoading(self)
                 self.delegate = nil

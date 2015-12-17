@@ -6,12 +6,15 @@
 //  Copyright © 2015 Bondzu. All rights reserved.
 // ARCHIVO LOCALIZADO
 
+
 import UIKit
 import Parse
 import MobileCoreServices
 
 class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    var user : Usuario?
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var name: UILabel!
 
@@ -55,38 +58,23 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
 
-    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        name.text = (PFUser.currentUser()![TableUserColumnNames.Name.rawValue] as! String)
-        self.originalImage = imageView.image
-        if let photo = PFUser.currentUser()![TableUserColumnNames.PhotoURL.rawValue] as? String{
-            getImageInBackground(url: photo){
-                image in
-                if !self.changedImage{
-                    self.imageView.image = image
-                    self.originalImage = image
-                    Imagenes.redondeaVista(self.imageView, radio: self.imageView.frame.width / 2)
+        user = Usuario(object:  PFUser.currentUser()!, imageLoaderObserver: {
+            (usuario, completed) -> (Void) in
+            dispatch_async(dispatch_get_main_queue()){
+                if !self.changedImage && completed{
+                    self.originalImage = usuario.image
+                    self.imageView.image = self.originalImage
                 }
             }
-        }
-        else if let photo = PFUser.currentUser()![TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
-            photo.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                guard error == nil && !self.changedImage, let imageData = data else{
-                    return
-                }
-                
-                let image = UIImage(data: imageData)
-                self.imageView.image = image
-                self.originalImage = image
-                Imagenes.redondeaVista(self.imageView, radio: self.imageView.frame.width / 2)
-            })
-        }
-        
+        })
+        name.text = user!.name
+        self.originalImage = imageView.image
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changeIcon"))
         imageView.userInteractionEnabled = true
     }
@@ -136,30 +124,31 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
         let originalmage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        var usingImage : UIImage?
         
         if let image = editedImage{
-            self.imageView.image = image
-            changedImage = true
+            usingImage = image
         }
         else if let image = originalmage{
+            usingImage = image
+        }
+        
+        if let image = usingImage{
             imageView.image = image
             changedImage = true
+            user?.setNewProfileImage(image, callback: {
+                (completed) -> Void in
+                if(!completed){
+                    let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+                    controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+                        _ in
+                    }))
+                    self.presentViewController(controller, animated: true, completion: nil)
+                }
+            })
         }
         
-        Imagenes.redondeaVista(imageView, radio: imageView.frame.width / 2)
         
-        let file = PFFile(data: UIImagePNGRepresentation(imageView.image!)!)
-        let user = PFUser.currentUser()!
-        user[TableUserColumnNames.PhotoURL.rawValue] = NSNull()
-        user[TableUserColumnNames.PhotoFile.rawValue] = file
-        user.saveInBackgroundWithBlock { (salvado, error) -> Void in
-            if error != nil{
-                print("No se guardo \(error?.description)")
-            }
-            else{
-                print("\(salvado) se guardo")
-            }
-        }
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     

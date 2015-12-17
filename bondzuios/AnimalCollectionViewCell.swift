@@ -15,4 +15,5 @@ class AnimalCollectionViewCell: UICollectionViewCell {
     
     var tab = 0
     var row = 0
+    
 }
