@@ -244,7 +244,6 @@ public class AboutLateralView: UIView {
         setNeedsLayout()
     }
     
-    //WARNING: Incomplete implementation
     func photoDidLoad( user : Usuario, completed : Bool){
         if(user == keeper1){
             keeperOneImageView.image = keeper1?.image

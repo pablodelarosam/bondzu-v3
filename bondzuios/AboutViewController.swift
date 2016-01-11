@@ -171,7 +171,13 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                         Keeper.getKeeper(k, imageLoaderObserver: {
                             (user, bool) -> (Void) in
                             if user != nil{
+                                
+                                if !bool{
+                                    return
+                                }
+                                
                                 self.lateral.photoDidLoad(user!, completed: bool)
+                                
                                 if(count == 0){
                                     dispatch_async(dispatch_get_main_queue()){
                                         self.lateral.keeper1 = user

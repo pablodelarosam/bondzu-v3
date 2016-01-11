@@ -54,6 +54,8 @@
 		B305F0121C1883ED00C928E8 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B305F0111C1883ED00C928E8 /* LoginManager.swift */; };
 		B31651091C1B366700254553 /* LoginGenericViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31651081C1B366700254553 /* LoginGenericViewController.swift */; };
 		B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */; };
+		B32941631C4451B300AAB5B6 /* BondzuNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32941621C4451B300AAB5B6 /* BondzuNavigationController.swift */; };
+		B32941651C4451DE00AAB5B6 /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32941641C4451DE00AAB5B6 /* UserType.swift */; };
 		B33AD6D31BBD886700A5FE71 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */; };
 		B34419B41C207CD80086C199 /* InteractiveDismissalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */; };
 		B346EA241C1F257E00A13001 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346EA231C1F257E00A13001 /* Message.swift */; };
@@ -154,6 +156,8 @@
 		B305F0111C1883ED00C928E8 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		B31651081C1B366700254553 /* LoginGenericViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginGenericViewController.swift; sourceTree = "<group>"; };
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
+		B32941621C4451B300AAB5B6 /* BondzuNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BondzuNavigationController.swift; sourceTree = "<group>"; };
+		B32941641C4451DE00AAB5B6 /* UserType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserType.swift; path = bondzuios/UserType.swift; sourceTree = "<group>"; };
 		B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalHelper.swift; sourceTree = "<group>"; };
 		B346EA231C1F257E00A13001 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = bondzuios/Message.swift; sourceTree = "<group>"; };
@@ -327,6 +331,7 @@
 				B35A2EF81C15E68E0051E012 /* Gallery.swift */,
 				B346EA231C1F257E00A13001 /* Message.swift */,
 				B346EA271C1F44FD00A13001 /* Reply.swift */,
+				B32941641C4451DE00AAB5B6 /* UserType.swift */,
 			);
 			name = Modelos;
 			path = ..;
@@ -386,6 +391,7 @@
 				B37FC35F1BC441C000B5692D /* Localizable.strings */,
 				54571F831B7928E10092E359 /* Utiles.swift */,
 				B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */,
+				B32941621C4451B300AAB5B6 /* BondzuNavigationController.swift */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";
@@ -701,12 +707,14 @@
 				B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */,
 				B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,
+				B32941651C4451DE00AAB5B6 /* UserType.swift in Sources */,
 				B3B7B9271BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift in Sources */,
 				54AFB1F21BC8826A00238D6B /* Payments.swift in Sources */,
 				548993281B98B36800DDF263 /* AnimalCollectionViewCell.swift in Sources */,
 				54C406491B7D67D20082768B /* Constantes.swift in Sources */,
 				54E806321BA74DD2007AFD44 /* NoCamerasViewController.swift in Sources */,
 				542186981B83A7BB00E6461D /* Extensions.swift in Sources */,
+				B32941631C4451B300AAB5B6 /* BondzuNavigationController.swift in Sources */,
 				B305F0121C1883ED00C928E8 /* LoginManager.swift in Sources */,
 				B35A2EF91C15E68E0051E012 /* Gallery.swift in Sources */,
 				B358A2671BF164A100278B61 /* Keeper.swift in Sources */,

@@ -56,6 +56,7 @@ enum TableNames : String{
     case Products = "Productos"
     case User = "User"
     case Camera = "Camera"
+    case UserType = "UserType"
 }
 
 enum TableVideoCapsuleNames : String{
@@ -96,6 +97,7 @@ enum TableUserColumnNames : String{
     case StripeID = "stripeId"
     case UserName = "username"
     case Mail = "email"
+    case UserType = "userType"
 }
 
 enum TableKeeperColumnNames : String{

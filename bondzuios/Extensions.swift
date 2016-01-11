@@ -10,42 +10,6 @@ import Foundation
 import UIKit
 import Parse
 
-
-
-extension UINavigationController {
-    
-    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
-    }
-    
-    public override func shouldAutorotate() -> Bool {
-        return visibleViewController!.shouldAutorotate()
-    }
-    
-    public override func childViewControllerForStatusBarHidden() -> UIViewController? {
-        return self.topViewController
-    }
-    
-    public override func childViewControllerForStatusBarStyle() -> UIViewController? {
-        return self.topViewController
-    }
-    
-    public override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
-    func logoutUser(){
-        FBSDKLoginManager().logOut()
-        PFUser.logOutInBackgroundWithBlock { (error) -> Void in
-            if error == nil{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.popToRootViewControllerAnimated(true)
-                }
-            }
-        }
-    }
-}
-
 extension UITabBarController {
     
     public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -88,6 +52,21 @@ extension UIAlertController {
     public override func shouldAutorotate() -> Bool {
         return false
     }
+}
+
+extension UINavigationController{
+   
+    func logoutUser(){
+        FBSDKLoginManager().logOut()
+        PFUser.logOutInBackgroundWithBlock { (error) -> Void in
+            if error == nil{
+                dispatch_async(dispatch_get_main_queue()){
+                    self.popToRootViewControllerAnimated(true)
+                }
+            }
+        }
+    }
+    
 }
 
 extension String {
