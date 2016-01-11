@@ -172,9 +172,6 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                             (user, bool) -> (Void) in
                             if user != nil{
                                 
-                                if !bool{
-                                    return
-                                }
                                 
                                 self.lateral.photoDidLoad(user!, completed: bool)
                                 

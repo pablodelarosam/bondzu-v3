@@ -173,8 +173,8 @@ public class AboutLateralView: UIView {
         let imageHeigth = (microContentHeight - 9) * 0.7
         
         
-        if let _ = keeper1?.image{
-            if let _ = self.keeper2?.image{
+        if let _ = self.keeper1{
+            if let _ = self.keeper2{
                 let imageWidth = width / 2
                 if(imageHeigth < imageWidth){
                     keeperOneImageView.frame.size = CGSize(width: imageHeigth, height: imageHeigth)

@@ -38,8 +38,7 @@ class Usuario : NSObject{
         self.stripeID = object[TableUserColumnNames.StripeID.rawValue] as! String!
         self.originalObject = object
         super.init()
-        //WARNING: Esto no se hace. Arregla el issue #44 pero se debe hacer bien cambiando el frame de lateral about view
-        self.image = UIImage()
+        
         if imageLoaderObserver != nil || loadImage{
             if let image = object[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
                 image.getDataInBackgroundWithBlock({
