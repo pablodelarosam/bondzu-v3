@@ -10,6 +10,7 @@ import UIKit
 import Parse
 import MobileCoreServices
 
+
 let defaultProfileImage = UIImage(named: "profile")
 
 class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LoadMessageResult, CommunityTabHelperProtocol{
@@ -44,7 +45,6 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         super.viewDidLoad()
         textField.delegate = self
         query()
-        
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardHide:", name: UIKeyboardWillHideNotification, object: nil)

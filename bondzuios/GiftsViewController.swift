@@ -69,6 +69,7 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
                 (_, type) -> () in
                 if let type = type{
                     self.toolbar.barTintColor = type.color
+                    self.collectionView.reloadData()
                 }
             })
         }
@@ -107,6 +108,14 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         let photoFinal = Imagenes.imageResize(producto.photo, sizeChange: size, scale: UIScreen.mainScreen().scale);
         cell.imageView.image = photoFinal
         Imagenes.redondeaVista(cell, radio: 1.5)
+        
+        if user.hasLoadedPriority{
+            cell.backgroundColor = user.type!.color
+        }
+        else{
+            cell.backgroundColor = Constantes.COLOR_NARANJA_NAVBAR
+        }
+        
         return cell
     }
     

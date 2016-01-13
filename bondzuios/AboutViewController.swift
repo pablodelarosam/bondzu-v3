@@ -71,11 +71,13 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     
         if user.hasLoadedPriority{
             backgroundImage.backgroundColor = user.type!.color
+            visibleImage.backgroundColor = user.type!.color
         }
         else{
             user.appendTypeLoadingObserver({ (_, type) -> () in
                 if let type = type{
                     self.backgroundImage.backgroundColor = type.color
+                    self.visibleImage.backgroundColor = type.color
                 }
             })
         }
@@ -228,6 +230,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
             let liveStreamVC = segue.destinationViewController as! VideoViewController
             liveStreamVC.animalId = animalID
             liveStreamVC.backgroundImageNoCameras = takeScreenshot()
+            liveStreamVC.user = user
         }
         else if segue.identifier == "events"{
             let eventsVC = segue.destinationViewController as! EventViewControllerTableViewController

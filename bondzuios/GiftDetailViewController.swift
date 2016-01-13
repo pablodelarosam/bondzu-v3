@@ -30,6 +30,7 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         // Do any additional setup after loading the view.
         self.btnDonate.layer.cornerRadius = 10;
         self.btnDonate.layer.borderWidth = 0.5;
+        
         self.btnDonate.layer.borderColor = UIColor.orangeColor().CGColor;
         self.image.image = self.producto.photo;
         self.lblName.text = self.producto.nombre;
@@ -44,12 +45,18 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         
         if user.hasLoadedPriority{
             self.navigationController?.navigationBar.barTintColor = user.type!.color
+            self.btnDonate.layer.borderColor = user.type!.color.CGColor
+            self.btnDonate.setTitleColor(user.type!.color, forState: .Normal)
+            self.lblName.textColor = user.type!.color
         }
         else{
             self.user.appendTypeLoadingObserver({
                 (user, type) -> () in
                 if let type = type{
                     self.navigationController?.navigationBar.barTintColor = type.color
+                    self.btnDonate.layer.borderColor = type.color.CGColor
+                    self.lblName.textColor = type.color
+                    self.btnDonate.setTitleColor(type.color, forState: .Normal)
                 }
             })
         }

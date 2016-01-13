@@ -15,6 +15,8 @@ import Parse
 
 class VideoViewController: AVPlayerViewController, UIPopoverPresentationControllerDelegate, NoCamerasDismissedProtocol{
     
+    var user : Usuario!
+    
     var url:NSURL!    
     var cameraButton: UIButton!
     let sizeCameraButton: CGFloat = 49
@@ -166,9 +168,22 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         let sizeScreen = UIScreen.mainScreen().bounds;
         let widthMoviePlayer = sizeScreen.width;
         let heightMoviePlayer = sizeScreen.height;
-        let image = UIImage(named: "camera") as UIImage!
+        let image = (UIImage(named: "camera")!).imageWithRenderingMode(.AlwaysTemplate)
         self.cameraButton  = UIButton(type: UIButtonType.Custom)
         self.cameraButton.setImage(image, forState: UIControlState.Normal)
+        
+        if user.hasLoadedPriority{
+            self.cameraButton.imageView?.tintColor = user.type!.color
+        }
+        else{
+            user.appendTypeLoadingObserver({
+                (_, type) -> () in
+                if let type = type{
+                    self.cameraButton.imageView?.tintColor = type.color
+                }
+            })
+        }
+        
         self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
         self.cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
         self.player = AVPlayer(URL: url);

@@ -12,4 +12,6 @@ SPEC CHECKSUMS:
   Stripe: 04f215191702c268b89fe0cdf28dc24a9688a71b
   youtube-ios-player-helper: 8706bb155ffee74fbe5f2f5cf41c2dafe60dc155
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: deaebf77eebd1314c04567e0eb1af6161df1ab2b
+
+COCOAPODS: 1.0.0.beta.2
