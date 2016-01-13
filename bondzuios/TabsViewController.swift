@@ -9,15 +9,33 @@
 import UIKit
 
 class TabsViewController: UITabBarController {
-    var animal: AnimalV2!;
+    
+    var animal: AnimalV2!
+    var user : Usuario!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tabBar.tintColor = Constantes.COLOR_NARANJA_NAVBAR
+        
+        if user.hasLoadedPriority{
+            tabBar.tintColor = user.type!.color
+        }
+        else{
+            user.appendTypeLoadingObserver({
+                (_, type) -> () in
+                if let type = type{
+                    self.tabBar.tintColor = type.color
+                }
+            })
+        }
+        
         for viewController in viewControllers!
         {
             if let vc = viewController as? AboutViewController
             {
                 vc.animalID = self.animal.objectId
+                vc.user = self.user
             }
             else if let vc = viewController as? CommunityViewController
             {
@@ -26,6 +44,7 @@ class TabsViewController: UITabBarController {
             else if let vc = viewController as? GiftsViewController
             {
                 vc.animalId = self.animal.objectId
+                vc.user = self.user
             }
             
             if let vc = viewController as? GalleryViewController
@@ -33,7 +52,8 @@ class TabsViewController: UITabBarController {
                 vc.animalId = self.animal.objectId
             }
         }
-        // Do any additional setup after loading the view.
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,6 +64,8 @@ class TabsViewController: UITabBarController {
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
+    
+    
     
     /*
     // MARK: - Navigation

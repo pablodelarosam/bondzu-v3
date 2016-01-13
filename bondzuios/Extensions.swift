@@ -12,6 +12,7 @@ import Parse
 
 extension UITabBarController {
     
+    
     public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
     }

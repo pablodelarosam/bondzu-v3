@@ -411,9 +411,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Gallery" image="gallery" id="4h1-xP-N7O">
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="galleryselected"/>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
@@ -544,9 +541,6 @@
                     <tabBarItem key="tabBarItem" title="Gifts" image="gifts" id="zee-wk-KAt">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="giftsselected"/>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="Gifts" id="caL-BK-IvT"/>
@@ -924,9 +918,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Community" image="community" id="Mm1-i3-aMs">
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="communityselected"/>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
@@ -1092,9 +1083,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="About" image="about" id="X1w-DY-99I">
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="aboutselected"/>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
@@ -1128,6 +1116,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="selectedImageTintColor" red="1" green="0.0" blue="0.92433181819999999" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="8Px-JN-00c" kind="relationship" relationship="viewControllers" id="j8G-Zf-Upc"/>
@@ -1785,9 +1774,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Community" image="community" id="FiY-Fg-4MH">
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="communityselected"/>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
@@ -2463,7 +2449,7 @@
         <image name="whitePaw" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Bpb-47-ovf"/>
-        <segue reference="jiO-1g-Nrg"/>
+        <segue reference="Vh7-PO-hOE"/>
+        <segue reference="KwK-X7-Ij1"/>
     </inferredMetricsTieBreakers>
 </document>

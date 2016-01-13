@@ -22,6 +22,12 @@ class Usuario : NSObject{
     var image : UIImage?
     var stripeID : String
     
+    var hasLoadedPriority = false
+    
+    var type : UserType?
+    
+    private var typeLoadingObserver = Array<( (Usuario, UserType?) -> () )>()
+    
     /**
         This is the default initializer for a user
      
@@ -32,7 +38,7 @@ class Usuario : NSObject{
             - Bool: Its value tells its delegate if the image could be loaded or not.
      
      */
-    init(object : PFObject, loadImage : Bool = false,  imageLoaderObserver: ((Usuario, Bool)->(Void))?){
+    init(object : PFObject, loadImage : Bool = false,  imageLoaderObserver: ((Usuario, Bool)->(Void))?, userTypeObserver : ((Usuario, UserType?)->())? = nil ){
         
         self.name = object[TableUserColumnNames.Name.rawValue] as! String
         self.stripeID = object[TableUserColumnNames.StripeID.rawValue] as! String!
@@ -87,28 +93,37 @@ class Usuario : NSObject{
                 }
             }
         }
-    }
-    
-    @available(*, deprecated=8.0, message="Now each model is responsable for its data model. Please call PFObject initializer")
-    init(name : String , photo : String){
-        self.name = name
-        self.stripeID = ""
-        super.init()
-    }
-    
-    @available(*, deprecated=8.0, message="Now each model is responsable for its data model. Please call PFObject initializer")
-    init(name : String , photoFile : PFFile){
-        self.name = name
-        self.stripeID = ""
-        super.init()
-        photoFile.getDataInBackgroundWithBlock {
-            (imgData, error) -> Void in
-            if error != nil{
-                print("error obtiendo imagen: \(error)")
-                return
+        
+        if let userTypeObserver = userTypeObserver{
+            self.typeLoadingObserver.append(userTypeObserver)
+        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            do{
+                if let typeObject = object[TableUserColumnNames.UserType.rawValue] as? PFObject{
+                    try typeObject.fetch()
+                    self.type = UserType(object: typeObject)
+                    self.notifyFinishedLoadingUserType()
+                }
+                else if self.originalObject != PFUser.currentUser(){
+                    self.notifyFinishedLoadingUserType()
+                }
+                else{
+                    let query = PFQuery(className: TableNames.UserType.rawValue)
+                    query.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
+                    let foundItems = try query.findObjects()
+                    self.type = UserType(object: foundItems[0])
+                    object[TableUserColumnNames.UserType.rawValue] = foundItems[0]
+                    try object.save()
+                    self.notifyFinishedLoadingUserType()
+                }
+            }
+            catch{
+                self.notifyFinishedLoadingUserType()
             }
         }
     }
+    
     
     /**
      This method updates the user profile image. The process will be held asyncronuslly by the function and the result will be informed trought a callback
@@ -218,5 +233,63 @@ class Usuario : NSObject{
         }
     }
     
+    func appendTypeLoadingObserver(observer : (Usuario, UserType?) -> ()){
+        if self.hasLoadedPriority{
+            observer(self,type)
+        }
+        else{
+            typeLoadingObserver.append(observer)
+        }
+    }
     
+    private func notifyFinishedLoadingUserType(){
+        
+        if self.type != nil{
+            hasLoadedPriority = true
+        }
+        
+        if NSThread.isMainThread(){
+            for userTypeObserver in self.typeLoadingObserver{
+                userTypeObserver(self, self.type)
+            }
+            self.typeLoadingObserver.removeAll()
+        }
+        else{
+            dispatch_async(dispatch_get_main_queue()){
+                for userTypeObserver in self.typeLoadingObserver{
+                    userTypeObserver(self, self.type)
+                }
+                self.typeLoadingObserver.removeAll()
+            }
+        }
+    }
+    
+    func refreshUserType(){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            do{
+                try self.originalObject.fetch()
+                let typeObject = self.originalObject[TableUserColumnNames.UserType.rawValue] as! PFObject
+                try typeObject.fetch()
+                self.type = UserType(object: typeObject)
+                dispatch_async(dispatch_get_main_queue()){
+                    self.notifyFinishedLoadingUserType()
+                }
+            }
+            catch{
+                dispatch_async(dispatch_get_main_queue()){
+                    self.notifyFinishedLoadingUserType()
+                }
+            }
+        }
+    }
+    
+    class func needsUpdating(object : PFObject)->Bool{
+        if let _ = object[TableUserColumnNames.UserType.rawValue] as? PFObject{
+            return false
+        }
+        
+        return true
+    
+    }
+
 }

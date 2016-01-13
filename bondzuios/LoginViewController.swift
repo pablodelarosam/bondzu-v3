@@ -102,5 +102,6 @@ class LoginViewController: LoginGenericViewController , UITextFieldDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         mail.text = ""
         pass.text = ""
+        super.prepareForSegue(segue, sender: sender)
     }
 }

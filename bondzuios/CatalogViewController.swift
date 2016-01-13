@@ -13,6 +13,9 @@ import Parse
 
 class CatalogViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, CapsuleLoadingDelegate, AnimalV2LoadingProtocol{
 
+    
+    var user : Usuario!
+    
     //NOTE: To avoid possible bugs the search bar appears in the place of the segment control. Therefore is impossible to change the view while searching.
     
     //MARK: Constants
@@ -380,6 +383,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.navigationController! as! BondzuNavigationController).user = self.user
         
         self.heightBanner.constant = 0;
         self.navigationController?.navigationBar.barStyle = .Black
@@ -404,6 +408,19 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
         self.toolbar.barStyle = .Black
         self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
+        
+        if user.hasLoadedPriority{
+            self.toolbar.barTintColor = user.type!.color
+        }
+        else{
+            user.appendTypeLoadingObserver({
+                (user, type) -> () in
+                if type != nil{
+                    self.toolbar.barTintColor = user.type!.color
+                }
+            })
+        }
+        
         self.segementedControl.tintColor = UIColor.whiteColor()
         getAnimals();
     }
@@ -424,6 +441,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         if segue.identifier == "catalogSegue"{
             let nextVC = segue.destinationViewController as! TabsViewController
             nextVC.animal = sender as! AnimalV2
+            nextVC.user = self.user
             
         }
         else if segue.identifier == "capsule"{

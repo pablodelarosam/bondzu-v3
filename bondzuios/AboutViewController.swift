@@ -14,6 +14,8 @@ import Parse
 
 class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol, EventLoadingDelegate {
 
+    var user : Usuario!
+    
     @IBOutlet weak var backgroundImage : UIImageView!
     @IBOutlet weak var visibleImage : UIImageView!
     @IBOutlet weak var blurContainer: UIView!
@@ -67,6 +69,17 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         goLive.text = NSLocalizedString("Go Live", comment: "")
         goLive.target = showCams
     
+        if user.hasLoadedPriority{
+            backgroundImage.backgroundColor = user.type!.color
+        }
+        else{
+            user.appendTypeLoadingObserver({ (_, type) -> () in
+                if let type = type{
+                    self.backgroundImage.backgroundColor = type.color
+                }
+            })
+        }
+        
         lateral.moreButton.addTarget(self, action: "segueToEvents", forControlEvents: UIControlEvents.TouchUpInside)
         
         adopt.target = {

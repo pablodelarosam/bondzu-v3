@@ -264,7 +264,6 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
-				B305F0101C1883C700C928E8 /* Login Manager */,
 				54571F891B7932B70092E359 /* AboutTab */,
 				B3A29EED1BB9CDDB00F5EB8B /* Account */,
 				B3B7B9251BC6ECE100CB5EAB /* Capsulas */,
@@ -274,6 +273,7 @@
 				542186961B83A79900E6461D /* Extensions */,
 				54BC54C61B7BF884009244C7 /* GalleryTab */,
 				544252881B7BF5710077C7A6 /* GiftsTab */,
+				B305F0101C1883C700C928E8 /* Login Manager */,
 				54571F7C1B79241F0092E359 /* Login */,
 				54305CCA1B73FA68003F9AB0 /* Modelos */,
 				54571F821B7928850092E359 /* Utiles */,
@@ -323,15 +323,15 @@
 				B3C1FB771BC70CF3003AD700 /* Capsule.swift */,
 				549417941BC6E3DB001A0A5E /* Card.swift */,
 				B37FC3591BC43AB400B5692D /* Event.swift */,
+				B35A2EF81C15E68E0051E012 /* Gallery.swift */,
 				B358A2661BF164A100278B61 /* Keeper.swift */,
+				B346EA231C1F257E00A13001 /* Message.swift */,
 				54AFB1F11BC8826A00238D6B /* Payments.swift */,
 				54E4478C1B73FDB200BF580F /* Producto.swift */,
-				B37FC3521BC31F2F00B5692D /* Transaction.swift */,
-				B39719E61B8F6F1800509A72 /* Usuario.swift */,
-				B35A2EF81C15E68E0051E012 /* Gallery.swift */,
-				B346EA231C1F257E00A13001 /* Message.swift */,
 				B346EA271C1F44FD00A13001 /* Reply.swift */,
+				B37FC3521BC31F2F00B5692D /* Transaction.swift */,
 				B32941641C4451DE00AAB5B6 /* UserType.swift */,
+				B39719E61B8F6F1800509A72 /* Usuario.swift */,
 			);
 			name = Modelos;
 			path = ..;
@@ -382,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				54571F851B7928F10092E359 /* Animacion.swift */,
+				B32941621C4451B300AAB5B6 /* BondzuNavigationController.swift */,
 				B3797FE21B8CC1BE00924080 /* CircledButton.swift */,
 				B3AE26B71BDEFD3600DACA35 /* CircledImageView.swift */,
 				54C406481B7D67D20082768B /* Constantes.swift */,
@@ -391,7 +392,6 @@
 				B37FC35F1BC441C000B5692D /* Localizable.strings */,
 				54571F831B7928E10092E359 /* Utiles.swift */,
 				B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */,
-				B32941621C4451B300AAB5B6 /* BondzuNavigationController.swift */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";

@@ -12,6 +12,8 @@ import Stripe
 
 class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var user : Usuario!
+    
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var btnDonate: UIButton!
@@ -39,6 +41,19 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationItem.leftBarButtonItem = buttonBack
         self.navigationController?.navigationBar.barStyle = .Black;
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR;
+        
+        if user.hasLoadedPriority{
+            self.navigationController?.navigationBar.barTintColor = user.type!.color
+        }
+        else{
+            self.user.appendTypeLoadingObserver({
+                (user, type) -> () in
+                if let type = type{
+                    self.navigationController?.navigationBar.barTintColor = type.color
+                }
+            })
+        }
+        
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
         self.activityIndicator.stopAnimating()
     }

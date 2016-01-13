@@ -71,5 +71,13 @@ class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
         self.loading?.finish()
         self.loading = nil
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "loginSegue"{
+            let destVC = segue.destinationViewController as! CatalogViewController
+            destVC.user = Usuario(object: sender as! PFObject, loadImage: true, imageLoaderObserver: nil, userTypeObserver: nil)
+            (self.navigationController as! BondzuNavigationController).user = destVC.user
+        }
+    }
 
 }

@@ -155,6 +155,15 @@ enum TableCameraColumnNames : String{
     case PlayBackURL = "url"
 }
 
+enum TableUserTypeColumnNames : String{
+    case Priority = "priority"
+    case Purchasable = "sellable"
+    case RedChanel = "redColorID"
+    case BlueChanel = "blueColorID"
+    case GreenChanel = "greenColorID"
+    case Cost = "cost"
+    case UserTypeName = "name"
+}
 
 enum Errors : ErrorType{
     case GenericError

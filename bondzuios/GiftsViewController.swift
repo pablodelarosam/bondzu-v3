@@ -12,6 +12,8 @@ import Parse
 
 class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollectionViewDataSource, ProductoLoadingProtocol {
     
+    var user : Usuario!
+    
     let NUMBER_ITEMS_ROW: CGFloat = 2;
     var animalId: String!
     var productos = [Producto]()
@@ -58,6 +60,19 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
         self.toolbar.barStyle = .Black
         self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
+        
+        if user.hasLoadedPriority{
+            self.toolbar.barTintColor = user.type!.color
+        }
+        else{
+            user.appendTypeLoadingObserver({
+                (_, type) -> () in
+                if let type = type{
+                    self.toolbar.barTintColor = type.color
+                }
+            })
+        }
+        
         self.toolbar.tintColor = UIColor.whiteColor()
         self.txtNoGifts.hidden = true
         getProductsOfAnimalWith(self.animalId)
@@ -100,14 +115,11 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         let detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("GiftDetailVC") as! GiftDetailViewController
         let navContoller = UINavigationController(rootViewController: detailVC);
         detailVC.producto = self.productsToShow[indexPath.row];
+        detailVC.user = self.user
         self.navigationController?.presentViewController(navContoller, animated: true, completion: nil);
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let giftDetailVC = segue.destinationViewController as! GiftDetailViewController;
-        giftDetailVC.producto = self.selectedProduct;
-    }
-    
+ 
     func updateProductsThatShouldShow(){
         self.productsToShow.removeAll(keepCapacity: true)
         let selectedCategory = self.segments[self.selectedSegment];

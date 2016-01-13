@@ -98,7 +98,13 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
         profile.userInteractionEnabled = true
         
         if let user = PFUser.currentUser(){
-            performSegueWithIdentifier("loginSegue", sender: user)
+            
+            if !Usuario.needsUpdating(user){
+                performSegueWithIdentifier("loginSegue", sender: user)
+            }
+            else{
+                navigationController?.logoutUser()
+            }
         }
         
         termsButton.titleLabel!.adjustsFontSizeToFitWidth = true
@@ -250,6 +256,7 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
         name.text = ""
         hasImage = false
         profile.image = UIImage(named: "profile_pic")
+        super.prepareForSegue(segue, sender: sender)
     }
 
     

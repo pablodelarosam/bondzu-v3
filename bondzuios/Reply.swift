@@ -36,7 +36,7 @@ class Reply: NSObject {
             do{
                 let userObject = object[TableReplyColumnNames.User.rawValue] as! PFObject
                 try userObject.fetch()
-                self.user = Usuario(object: userObject){
+                self.user = Usuario(object: userObject, imageLoaderObserver: {
                     (user, boolean) -> (Void) in
                     if(boolean){
                         delegate?.UserImageDidFinishLoading(self)
@@ -44,7 +44,7 @@ class Reply: NSObject {
                     else{
                         delegate?.UserImageDidFailedLoading(self)
                     }
-                }
+                })
                 
                 dispatch_async(dispatch_get_main_queue()){
                     delegate?.UserDidLoad(self)

@@ -10,6 +10,22 @@ import UIKit
 
 public class BondzuNavigationController : UINavigationController {
     
+    var user : Usuario?{
+        didSet{
+            if user != nil && user!.hasLoadedPriority{
+                self.refreshBarTintColor()
+            }
+            else{
+                user?.appendTypeLoadingObserver({
+                    (user, _) -> () in
+                    if user == self.user{
+                        self.refreshBarTintColor()
+                    }
+                })
+            }
+        }
+    }
+    
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     }
@@ -47,12 +63,17 @@ public class BondzuNavigationController : UINavigationController {
     }
     
     public func refreshBarTintColor(){
-        if let user = PFUser.currentUser(){
-            self.navigationBar.barTintColor = UIColor.greenColor()
+        if self.user != nil && user!.hasLoadedPriority{
+            self.navigationBar.barTintColor = user!.type!.color
         }
         else{
             self.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         }
+    }
+    
+    override func logoutUser() {
+        self.user = nil
+        super.logoutUser()
     }
     
 }
