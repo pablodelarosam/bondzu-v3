@@ -174,8 +174,12 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             }
             
         }
+        
         Imagenes.redondeaVista(cell.imageView, radio: cell.imageView.frame.size.width / 2);
+        
         cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;
+        
+        
         cell.imageView.layer.borderWidth = 5;
         return cell
     }

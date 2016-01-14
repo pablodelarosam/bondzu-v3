@@ -103,12 +103,20 @@ class LoginManager{
                     user.password = "\(random())"
                     user[TableUserColumnNames.Mail.rawValue] = mail
                     user[TableUserColumnNames.PhotoURL.rawValue] = picture
+    
                     
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
                         
-                        do{ //Get token and save user
+                        do{ //Get token, type and save user
                             let id = try self.getToken(user[TableUserColumnNames.Mail.rawValue] as? String)
                             user[TableUserColumnNames.StripeID.rawValue] = id
+                            
+                            let usertypequery = PFQuery(className: TableNames.UserType.rawValue)
+                            usertypequery.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
+                            let foundItems = try usertypequery.findObjects()
+                            user[TableUserColumnNames.UserType.rawValue] = foundItems[0]
+                            
+                            
                             try user.save()
                             dispatch_async(dispatch_get_main_queue()){
                                 self.delegate.loginManagerDidRegister(user)
@@ -245,6 +253,12 @@ class LoginManager{
                 
                 let token = try self.getToken(email)
                 user[TableUserColumnNames.StripeID.rawValue] = token
+                
+                let usertypequery = PFQuery(className: TableNames.UserType.rawValue)
+                usertypequery.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
+                let foundItems = try usertypequery.findObjects()
+                user[TableUserColumnNames.UserType.rawValue] = foundItems[0]
+                
                 try user.signUp()
                 
                 dispatch_async(dispatch_get_main_queue()){
