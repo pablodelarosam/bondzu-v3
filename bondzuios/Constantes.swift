@@ -65,6 +65,7 @@ enum TableVideoCapsuleNames : String{
     case Description = "descriptions"
     case AnimalID = "animal_id"
     case Date = "createdAt"
+    case UserRequiredType = "videoRequiredPriority"
 }
 
 
@@ -87,6 +88,7 @@ enum TableAnimalColumnNames : String{
     case Keepers = "keepers"
     case Product = "Productos"
     case ID = "objectId"
+    case UserRequiredType = "animalRequiredPriority"
 }
 
 enum TableUserColumnNames : String{

@@ -11,8 +11,36 @@ import Foundation
 import Parse
 
 protocol AnimalV2LoadingProtocol{
+    /**
+     Will be called when the animal has loaded its picture. 
+     When called the type may not have been loaded yet
+     
+     - parameter animal: The sending object
+     */
     func animalDidFinishLoading(animal : AnimalV2)
+    
+    /**
+     Will be called when the animal has failed loading its picture.
+     When called the type may not have been loaded yet
+     
+     - parameter animal: The sending object
+     */
     func animalDidFailLoading(animal : AnimalV2)
+    
+
+    /**
+     Will be called when the animal has loaded its required priority.
+     
+     - parameter animal: The sending object
+     */
+    func animalDidFinishLoadingPermissionType(animal : AnimalV2)
+    
+    /**
+     Will be called when the animal has failed loading its required priority.
+     
+     - parameter animal: The sending object
+     */
+    func animalDidFailedLoadingPermissionType(animal : AnimalV2)
 }
 
 class AnimalV2 : Equatable
@@ -27,6 +55,9 @@ class AnimalV2 : Equatable
     var originalObject : PFObject!
     var keepers : [PFObject]?
     var animalDescription : String
+    
+    var requiredPermission : UserType?
+    var hasLoadedPermission = false
     
     /**
      Instanciates a new AnimalV2 object
@@ -75,6 +106,25 @@ class AnimalV2 : Equatable
                 delegate?.animalDidFinishLoading(self)
             }
         }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            let typeObject = object[TableAnimalColumnNames.UserRequiredType.rawValue] as! PFObject
+            do{
+                try typeObject.fetch()
+                self.requiredPermission = UserType(object: typeObject)
+                self.hasLoadedPermission = true
+                dispatch_async(dispatch_get_main_queue()){
+                    delegate?.animalDidFinishLoadingPermissionType(self)
+                }
+            }
+            catch{
+                dispatch_async(dispatch_get_main_queue()){
+                    delegate?.animalDidFailedLoadingPermissionType(self)
+                }
+            }
+        }
+        
+        
     }
     
     

@@ -108,5 +108,15 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
             }
         }
     }
+    
+    
+    //TODO: Empty implementation 
+    func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
+        
+    }
+    
+    func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
+        
+    }
 }
 

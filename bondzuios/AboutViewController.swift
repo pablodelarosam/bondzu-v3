@@ -293,5 +293,15 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     }
     
     func eventDidFailLoading(event: Event!) {}
+    
+    
+    //TOFDO Empty implementation
+    func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
+        
+    }
+    
+    func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
+        
+    }
 }
 

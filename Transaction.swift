@@ -78,6 +78,16 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
         object[TableTransactionColumnNames.Price.rawValue] = price
         object.saveInBackground()
     }
+    
+    
+    //TODO: Empty implementation
+    func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
+        
+    }
+    
+    func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
+        
+    }
 }
 
 protocol TransactionLoadingDelegate{

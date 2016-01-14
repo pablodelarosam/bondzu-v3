@@ -39,7 +39,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     private var barButtonItem : UIBarButtonItem?
     
     //?? TODO: Descubrir que hace esto
-    private var navHairLine:UIImageView? = UIImageView()
+    private var navHairLine : UIImageView? = UIImageView()
 
     ///The filtered animals model
     var searchedAnimals = [AnimalV2]()
@@ -157,6 +157,13 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                     }
                 }            
             }
+            
+            if animal.hasLoadedPermission{
+                cell.imageView.layer.borderColor = animal.requiredPermission!.color.CGColor
+            }
+            else{
+                cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;
+            }
 
         }
         else{
@@ -172,14 +179,15 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                     }
                 }
             }
-            
+            if !capsule.hasLoadedPriority{
+                cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor
+            }
+            else{
+                cell.imageView.layer.borderColor = capsule.requiredPriority!.color.CGColor
+            }
         }
         
         Imagenes.redondeaVista(cell.imageView, radio: cell.imageView.frame.size.width / 2);
-        
-        cell.imageView.layer.borderColor = UIColor.whiteColor().CGColor;
-        
-        
         cell.imageView.layer.borderWidth = 5;
         return cell
     }
@@ -217,6 +225,42 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         }
     }
 
+    func capsuleDidFailLoadingRequiredType(capsule: Capsule) {
+        if searching{
+            if let index = searchedVideoCapsules.indexOf(capsule){
+                self.searchedVideoCapsules.removeAtIndex(index)
+                if segementedControl.selectedSegmentIndex == 1{
+                    self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)] )
+                }
+            }
+            if let index = videoCapsules.indexOf(capsule){
+                videoCapsules.removeAtIndex(index)
+            }
+        }
+        else{
+            if let index = videoCapsules.indexOf(capsule){
+                videoCapsules.removeAtIndex(index)
+                if segementedControl.selectedSegmentIndex == 0{
+                    self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+                }
+            }
+        }
+    }
+    
+    func capsuleDidLoadRequiredType(capsule: Capsule) {
+        if segementedControl.selectedSegmentIndex == 1{
+            if searching{
+                if let index = searchedVideoCapsules.indexOf(capsule){
+                    self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+                }
+            }
+            else{
+                if let index = videoCapsules.indexOf(capsule){
+                    self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+                }
+            }
+        }
+    }
     
     //MARK: Methods
     
@@ -481,5 +525,44 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             self.collectionView.reloadData()
         }
 
+    }
+    
+    func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
+        if segementedControl.selectedSegmentIndex == 0{
+            if searching{
+                if let index = searchedAnimals.indexOf(animal){
+                    self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+                }
+            }
+            else{
+                if let index = animalsToShow.indexOf(animal){
+                    self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+                }
+            }
+        }
+        
+    }
+    
+    func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
+        
+        if searching{
+            if let index = searchedAnimals.indexOf(animal){
+                self.searchedAnimals.removeAtIndex(index)
+                if segementedControl.selectedSegmentIndex == 0{
+                    self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)] )
+                }
+            }
+            if let index = animalsToShow.indexOf(animal){
+                animalsToShow.removeAtIndex(index)
+            }
+        }
+        else{
+            if let index = animalsToShow.indexOf(animal){
+                animalsToShow.removeAtIndex(index)
+                if segementedControl.selectedSegmentIndex == 0{
+                    self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+                }
+            }
+        }
     }
 }

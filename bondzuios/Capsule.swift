@@ -12,6 +12,8 @@ import Parse
 protocol CapsuleLoadingDelegate{
     func capsuleDidFinishLoading(capsule : Capsule)
     func capsuleDidFailLoading(capsule : Capsule)
+    func capsuleDidLoadRequiredType(capsule : Capsule)
+    func capsuleDidFailLoadingRequiredType(capsule : Capsule)
 }
 
 class Capsule : Equatable{
@@ -28,6 +30,8 @@ class Capsule : Equatable{
     var image : UIImage!
     var delegate : CapsuleLoadingDelegate?
     
+    var hasLoadedPriority = false
+    var requiredPriority : UserType?
     
     init(object : PFObject, delegate : CapsuleLoadingDelegate?){
         videoID = object[TableVideoCapsuleNames.YoutubeID.rawValue] as! [String]
@@ -59,7 +63,29 @@ class Capsule : Equatable{
             }
             
         }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            let typeObject = object[TableVideoCapsuleNames.UserRequiredType.rawValue] as! PFObject
+            do{
+                try typeObject.fetch()
+                self.requiredPriority = UserType(object: typeObject)
+                self.hasLoadedPriority = true
+                
+                dispatch_async(dispatch_get_main_queue()){
+                    delegate?.capsuleDidLoadRequiredType(self)
+                }
+                
+            }
+            catch{
+                dispatch_async(dispatch_get_main_queue()){
+                    delegate?.capsuleDidFailLoadingRequiredType(self)
+                }
+            }
+        }
+        
     }
+    
+    
 }
 
 func ==(lhs: Capsule, rhs: Capsule) -> Bool{

@@ -91,7 +91,7 @@ func getImageInBackground(url string : String, block : ((UIImage?, Bool)->Void))
 
         guard data != nil else{
             dispatch_async(dispatch_get_main_queue()){
-                print("error getting image \(url)");
+                print("error getting image \(string)");
                 block(nil,false)
             }
             return
