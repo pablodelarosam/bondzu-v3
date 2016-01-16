@@ -76,7 +76,7 @@ class Producto{
         }
         
         if(loadImage || delegate != nil){
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            dispatch_async(Constantes.get_bondzu_queue()){
                 do{
                     let imageFile = object[TableProductColumnNames.Picture.rawValue] as! PFFile
                     let data = try imageFile.getData()

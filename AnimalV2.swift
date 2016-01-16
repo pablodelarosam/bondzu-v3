@@ -107,10 +107,11 @@ class AnimalV2 : Equatable
             }
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
+            print("Loading animal \(object.objectId!)")
             let typeObject = object[TableAnimalColumnNames.UserRequiredType.rawValue] as! PFObject
             do{
-                try typeObject.fetch()
+                try typeObject.fetchIfNeeded()
                 self.requiredPermission = UserType(object: typeObject)
                 self.hasLoadedPermission = true
                 dispatch_async(dispatch_get_main_queue()){

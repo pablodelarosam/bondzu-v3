@@ -79,10 +79,9 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBAction func donate(sender: UIButton){
         self.activityIndicator.startAnimating()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             do{
-                let user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
-                let dic : [String: String] = [ "customer_id" : user.stripeID ]
+                let dic : [String: String] = [ "customer_id" : self.user.stripeID ]
                 let object = try PFCloud.callFunction(PFCloudFunctionNames.ListCards.rawValue, withParameters: dic)
                 
                 guard let data = object.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else{

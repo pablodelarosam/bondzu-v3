@@ -29,7 +29,7 @@ class CommunityTabHelper: NSObject, MFMailComposeViewControllerDelegate, UINavig
     var dismiser : InteractiveDismissalHelper?
     
     func like(message : Message, like : Bool, user : Usuario, delegate : CommunityTabHelperProtocol?){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             do{
                 if like{
                     message.originalObject.addUniqueObject(user.originalObject.objectId!, forKey: TableMessagesColumnNames.LikesRelation.rawValue)

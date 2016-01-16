@@ -31,7 +31,7 @@ class Reply: NSObject {
         message = object[TableReplyColumnNames.Message.rawValue] as! String
         date = object.createdAt!
         super.init()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             
             do{
                 let userObject = object[TableReplyColumnNames.User.rawValue] as! PFObject

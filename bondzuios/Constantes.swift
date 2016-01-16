@@ -31,14 +31,24 @@ import UIKit
 #endif
 
 
-class Constantes
-{
+class Constantes{
+    
+    private static var queue : dispatch_queue_t?
+    
     static let COLOR_NARANJA_NAVBAR:UIColor = UIColor.orangeColor()
     #if DEBUG
     static let STRIPE_PLUBISHABLE_KEY = "pk_test_5A3XM2TUHd6pob50dw7jhxA0"
     #else
     static let STRIPE_PLUBISHABLE_KEY = "pk_live_HoLJQSZCGnDDLDUJ8KAGpvop"
     #endif
+    
+    class func get_bondzu_queue()-> dispatch_queue_t{
+        if queue == nil{
+            Constantes.queue = dispatch_queue_create("bondzu.queue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INTERACTIVE, -1))
+        }
+        
+        return queue!
+    }
 }
 
 let LOCALIZED_STRING = "locale"
@@ -170,3 +180,4 @@ enum TableUserTypeColumnNames : String{
 enum Errors : ErrorType{
     case GenericError
 }
+

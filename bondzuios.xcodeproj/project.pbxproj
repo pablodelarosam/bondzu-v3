@@ -87,6 +87,7 @@
 		B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */; };
 		B3C1FB781BC70CF4003AD700 /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C1FB771BC70CF3003AD700 /* Capsule.swift */; };
 		B3D5D8DC1BAB0DFE008F6820 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */; };
+		B3EA07271C4947EE0080DE9E /* UserBlockingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA07261C4947EE0080DE9E /* UserBlockingHelper.swift */; };
 		B3ECD89C1BE925C600CE214F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3ECD8991BE925C600CE214F /* Parse.framework */; };
 		B3ECD89D1BE925C600CE214F /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3ECD89A1BE925C600CE214F /* ParseFacebookUtilsV4.framework */; };
 		B3ECD89F1BE9260D00CE214F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3ECD89E1BE9260D00CE214F /* Bolts.framework */; };
@@ -195,6 +196,7 @@
 		B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		B3C1FB771BC70CF3003AD700 /* Capsule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Capsule.swift; path = bondzuios/Capsule.swift; sourceTree = "<group>"; };
 		B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		B3EA07261C4947EE0080DE9E /* UserBlockingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlockingHelper.swift; sourceTree = "<group>"; };
 		B3ECD8991BE925C600CE214F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		B3ECD89A1BE925C600CE214F /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		B3ECD89E1BE9260D00CE214F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -281,7 +283,9 @@
 				B305F0101C1883C700C928E8 /* Login Manager */,
 				54571F7C1B79241F0092E359 /* Login */,
 				54305CCA1B73FA68003F9AB0 /* Modelos */,
+				54A3CE281B84FB3600E106D9 /* Pago */,
 				54571F821B7928850092E359 /* Utiles */,
+				B3EA07251C49476A0080DE9E /* UserTypeHelper */,
 				54305CCB1B73FA7B003F9AB0 /* Video */,
 				B358A1241BCB314200DC9525 /* Main.storyboard */,
 				B3797FE41B8CC8E000924080 /* Bridging-Header.h */,
@@ -367,7 +371,6 @@
 				546490BE1B7D043C007F3DEF /* GiftCollectionViewCell.swift */,
 				546486E01B8269BB00286CAC /* GiftDetailViewController.swift */,
 				544252891B7BF5860077C7A6 /* GiftsViewController.swift */,
-				54A3CE281B84FB3600E106D9 /* Pago */,
 			);
 			name = GiftsTab;
 			sourceTree = "<group>";
@@ -487,6 +490,14 @@
 				B3B7B9261BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift */,
 			);
 			name = Capsulas;
+			sourceTree = "<group>";
+		};
+		B3EA07251C49476A0080DE9E /* UserTypeHelper */ = {
+			isa = PBXGroup;
+			children = (
+				B3EA07261C4947EE0080DE9E /* UserBlockingHelper.swift */,
+			);
+			name = UserTypeHelper;
 			sourceTree = "<group>";
 		};
 		CBF380E5CDA199239CE20526 /* Frameworks */ = {
@@ -775,6 +786,7 @@
 				B35A2EF91C15E68E0051E012 /* Gallery.swift in Sources */,
 				B358A2671BF164A100278B61 /* Keeper.swift in Sources */,
 				B3A29EF61BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift in Sources */,
+				B3EA07271C4947EE0080DE9E /* UserBlockingHelper.swift in Sources */,
 				544677A81BB9EF6500F5B54D /* GalleryCollectionViewCell.swift in Sources */,
 				B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */,
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,

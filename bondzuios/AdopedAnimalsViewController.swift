@@ -27,7 +27,7 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
         super.viewDidLoad()
         let user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             let (completed , animals) = user.getAdoptedAnimals(self)
             dispatch_async(dispatch_get_main_queue()){
                 if completed{

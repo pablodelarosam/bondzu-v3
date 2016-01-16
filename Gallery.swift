@@ -36,7 +36,7 @@ class Gallery{
         if delegate != nil || loadImage{
             
             //Download the image and notify delegate
-            dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+            dispatch_async( Constantes.get_bondzu_queue() ){
                 do{
                     let data = try self.imageFile.getData()
                     self.image = UIImage(data: data)

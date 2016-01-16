@@ -64,10 +64,11 @@ class Capsule : Equatable{
             
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
-            let typeObject = object[TableVideoCapsuleNames.UserRequiredType.rawValue] as! PFObject
+        dispatch_async(Constantes.get_bondzu_queue()){
             do{
-                try typeObject.fetch()
+                print("Loading video \(object.objectId!)")
+                let typeObject = object[TableVideoCapsuleNames.UserRequiredType.rawValue] as! PFObject
+                try typeObject.fetchIfNeeded()
                 self.requiredPriority = UserType(object: typeObject)
                 self.hasLoadedPriority = true
                 

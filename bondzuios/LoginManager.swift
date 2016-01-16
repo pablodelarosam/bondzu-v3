@@ -105,7 +105,7 @@ class LoginManager{
                     user[TableUserColumnNames.PhotoURL.rawValue] = picture
     
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+                    dispatch_async(Constantes.get_bondzu_queue()){
                         
                         do{ //Get token, type and save user
                             let id = try self.getToken(user[TableUserColumnNames.Mail.rawValue] as? String)
@@ -226,7 +226,7 @@ class LoginManager{
             return
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             do{
                 var error : NSError? = nil
                 
@@ -283,7 +283,7 @@ class LoginManager{
      
      */
     func login( username : String , password : String, finishingDelegate : LoginManagerResultDelegate ){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             
             do{
                 try PFUser.logInWithUsername(username, password: password)

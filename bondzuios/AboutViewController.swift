@@ -86,8 +86,8 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         
         adopt.target = {
             _ in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
-                self.adopt.userInteractionEnabled = false
+            self.adopt.userInteractionEnabled = false
+            dispatch_async(Constantes.get_bondzu_queue()){
                 let result = Usuario.adoptAnimal(self.animalID)
                 
                 var title = ""

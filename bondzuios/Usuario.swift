@@ -98,7 +98,7 @@ class Usuario : NSObject{
             self.typeLoadingObserver.append(userTypeObserver)
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             do{
                 if let typeObject = object[TableUserColumnNames.UserType.rawValue] as? PFObject{
                     try typeObject.fetch()
@@ -265,7 +265,7 @@ class Usuario : NSObject{
     }
     
     func refreshUserType(){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             do{
                 try self.originalObject.fetch()
                 let typeObject = self.originalObject[TableUserColumnNames.UserType.rawValue] as! PFObject
@@ -289,7 +289,30 @@ class Usuario : NSObject{
         }
         
         return true
-    
     }
-
+    
+    func userNeededTypeForRequestedPermission(permission : Int, callback : (UserType?)->() ){
+        dispatch_async(Constantes.get_bondzu_queue()){
+            do{
+                let query = PFQuery(className: TableNames.UserType.rawValue)
+                query.whereKey(TableUserTypeColumnNames.Purchasable.rawValue, equalTo: true)
+                query.whereKey(TableUserTypeColumnNames.Priority.rawValue, greaterThanOrEqualTo: permission)
+                let array = try query.findObjects()
+                
+                if array.isEmpty{
+                    throw Errors.GenericError
+                }
+                
+                dispatch_async(dispatch_get_main_queue()){
+                    callback(UserType(object: array[0]))
+                }
+            }
+            catch{
+                dispatch_async(dispatch_get_main_queue()){
+                    callback(nil)
+                }
+            }
+            
+        }
+    }
 }

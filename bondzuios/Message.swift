@@ -52,7 +52,7 @@ class Message : NSObject{
             upgradeMessageLikes(object)
         }
        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        dispatch_async(Constantes.get_bondzu_queue()){
             do{
                 let userObject = object[TableMessagesColumnNames.User.rawValue] as! PFObject
                 try userObject.fetch()

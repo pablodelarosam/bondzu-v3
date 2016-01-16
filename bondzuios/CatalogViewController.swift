@@ -211,6 +211,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     func capsuleDidFinishLoading(capsule: Capsule) {
         dispatch_async(dispatch_get_main_queue()){
             self.toLoadVideos--
+            print("To load videos: \(self.toLoadVideos)")
             if self.segementedControl.selectedSegmentIndex == 1{
                 self.collectionView.reloadData()
             }
@@ -226,6 +227,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
 
     func capsuleDidFailLoadingRequiredType(capsule: Capsule) {
+        
+        if toLoadVideos != 0{ return }
+        
         if searching{
             if let index = searchedVideoCapsules.indexOf(capsule){
                 self.searchedVideoCapsules.removeAtIndex(index)
@@ -248,6 +252,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func capsuleDidLoadRequiredType(capsule: Capsule) {
+        
+        if toLoadVideos != 0{ return }
+
         if segementedControl.selectedSegmentIndex == 1{
             if searching{
                 if let index = searchedVideoCapsules.indexOf(capsule){
@@ -520,7 +527,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     func animalDidFinishLoading(animal: AnimalV2) {
         self.toLoadAnimals--
-        
+        print("To load animals: \(self.toLoadAnimals)")
+
         if self.segementedControl.selectedSegmentIndex == 0{
             self.collectionView.reloadData()
         }
@@ -528,6 +536,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
+        
+        if toLoadAnimals != 0{ return }
+        
         if segementedControl.selectedSegmentIndex == 0{
             if searching{
                 if let index = searchedAnimals.indexOf(animal){
@@ -544,6 +555,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
+        
+        if toLoadAnimals != 0{ return }
         
         if searching{
             if let index = searchedAnimals.indexOf(animal){
