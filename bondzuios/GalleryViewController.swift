@@ -18,7 +18,8 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
     var pictures = [UIImage]();
     var animalId: String!;
     var galleryToLoad = 0;
-    
+    weak var blockingHelper : UserBlockingHelper? = nil
+
     let dismissHelper = InteractiveDismissalHelper()
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {

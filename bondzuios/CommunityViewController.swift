@@ -14,7 +14,8 @@ import MobileCoreServices
 let defaultProfileImage = UIImage(named: "profile")
 
 class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LoadMessageResult, CommunityTabHelperProtocol{
-    
+
+    weak var blockingHelper : UserBlockingHelper? = nil
     var likesLoaded = false
 
     var animalID = ""

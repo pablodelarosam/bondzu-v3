@@ -38,7 +38,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     ///This is a helper variable that changes the search icon with the done item when neccesary. The done item is created in runtime wile search one is stored here. This reference is necesary as the other one is weak and if its removed from the view it will go to null.
     private var barButtonItem : UIBarButtonItem?
     
-    //?? TODO: Descubrir que hace esto
+    /// This property hides the division between the toolbar and the nav bar
     private var navHairLine : UIImageView? = UIImageView()
 
     ///The filtered animals model
@@ -502,6 +502,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         else if segue.identifier == "capsule"{
             let nextVC = segue.destinationViewController as! VideoCapsulasViewController
             nextVC.capsule = sender as! Capsule
+            nextVC.user = self.user
         }
     }
     

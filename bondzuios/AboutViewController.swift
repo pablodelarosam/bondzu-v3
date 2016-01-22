@@ -12,7 +12,7 @@
 import UIKit
 import Parse
 
-class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol, EventLoadingDelegate {
+class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol, EventLoadingDelegate{
 
     var user : Usuario!
     
@@ -23,6 +23,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     @IBOutlet weak var speciesLabel : UILabel!
     @IBOutlet weak var textView: UITextView!
     
+    weak var blockingHelper : UserBlockingHelper? = nil
 
     var image : UIImage?
     
@@ -69,18 +70,13 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         goLive.text = NSLocalizedString("Go Live", comment: "")
         goLive.target = showCams
     
-        if user.hasLoadedPriority{
-            backgroundImage.backgroundColor = user.type!.color
-            visibleImage.backgroundColor = user.type!.color
-        }
-        else{
-            user.appendTypeLoadingObserver({ (_, type) -> () in
-                if let type = type{
-                    self.backgroundImage.backgroundColor = type.color
-                    self.visibleImage.backgroundColor = type.color
-                }
-            })
-        }
+    
+        user.appendTypeLoadingObserver({
+            [weak self] _ in
+            self?.updateTabBarColor()
+        })
+        
+        updateTabBarColor()
         
         lateral.moreButton.addTarget(self, action: "segueToEvents", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -211,6 +207,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 self.navigationController?.popViewControllerAnimated(true)
             }
         }
+        
     }
     
     func takeScreenshot() -> UIImage{
@@ -295,13 +292,23 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     func eventDidFailLoading(event: Event!) {}
     
     
-    //TOFDO Empty implementation
     func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
-        
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
+            _ -> Void in
+            self.navigationController?.popViewControllerAnimated(true)
+        }))
     }
     
     func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
-        
+        self.blockingHelper?.setRequiredPriority(animal.requiredPermission!.priority)
+    }
+    
+    func updateTabBarColor(){
+        if user.hasLoadedPriority{
+            backgroundImage.backgroundColor = user.type!.color
+            visibleImage.backgroundColor = user.type!.color
+        }
     }
 }
 

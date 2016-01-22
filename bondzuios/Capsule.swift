@@ -9,14 +9,14 @@
 import UIKit
 import Parse
 
-protocol CapsuleLoadingDelegate{
+@objc protocol CapsuleLoadingDelegate{
     func capsuleDidFinishLoading(capsule : Capsule)
     func capsuleDidFailLoading(capsule : Capsule)
     func capsuleDidLoadRequiredType(capsule : Capsule)
     func capsuleDidFailLoadingRequiredType(capsule : Capsule)
 }
 
-class Capsule : Equatable{
+class Capsule : NSObject{
     
     class func videoPattern(id : String) -> String{
         return "https://img.youtube.com/vi/\(id)/mqdefault.jpg"
@@ -28,7 +28,7 @@ class Capsule : Equatable{
     var animalName : String = ""
     var publishedOn : NSDate
     var image : UIImage!
-    var delegate : CapsuleLoadingDelegate?
+    weak var delegate : CapsuleLoadingDelegate?
     
     var hasLoadedPriority = false
     var requiredPriority : UserType?
@@ -39,6 +39,9 @@ class Capsule : Equatable{
         videoDescription = object[TableVideoCapsuleNames.Description.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! [String]
         publishedOn = object.updatedAt!
         self.delegate = delegate
+        
+        super.init()
+        
         let animal = object[TableVideoCapsuleNames.AnimalID.rawValue] as! PFObject
         animal.fetchInBackgroundWithBlock {
             (av2, error) -> Void in
@@ -47,7 +50,9 @@ class Capsule : Equatable{
                 self.delegate = nil
                 return
             }
-            self.animalName = av2![TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
+            
+            let animal = AnimalV2(object: av2!, delegate: nil)
+            self.animalName = animal.name
             let img = Capsule.videoPattern(self.videoID[0])
             getImageInBackground(url: img){
                 (image, completed) -> Void in
@@ -85,8 +90,6 @@ class Capsule : Equatable{
         }
         
     }
-    
-    
 }
 
 func ==(lhs: Capsule, rhs: Capsule) -> Bool{

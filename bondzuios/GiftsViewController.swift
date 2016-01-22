@@ -23,6 +23,8 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
     var navHairLine:UIImageView? = UIImageView()
     var selectedProduct: Producto!;
     
+    weak var blockingHelper : UserBlockingHelper? = nil
+
     var toLoad = 0
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!

@@ -75,7 +75,7 @@ func getImageInBackground(url string : String, block : (UIImage->Void)){
  - returns: void.
 */
 func getImageInBackground(url string : String, block : ((UIImage?, Bool)->Void)){
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+    dispatch_async( Constantes.get_bondzu_queue() , {
         
         let urlG = NSURL(string: string)
         

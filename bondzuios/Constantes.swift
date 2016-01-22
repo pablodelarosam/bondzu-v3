@@ -42,6 +42,13 @@ class Constantes{
     static let STRIPE_PLUBISHABLE_KEY = "pk_live_HoLJQSZCGnDDLDUJ8KAGpvop"
     #endif
     
+    /**
+     This function will provide a static queue for all the asyncronus loading that the app needs
+     You should not use a default queue as those are shared system resources.
+     
+     - returns: A concurrent dispatch queue that will be used by the app
+     
+     */
     class func get_bondzu_queue()-> dispatch_queue_t{
         if queue == nil{
             Constantes.queue = dispatch_queue_create("bondzu.queue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INTERACTIVE, -1))

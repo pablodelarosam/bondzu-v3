@@ -161,6 +161,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
             let vc = viewController as!  VideoCapsulasViewController
             vc.requireToolBar(true)
             vc.capsule = sender as! Capsule
+            vc.user = user
         }
     }
     

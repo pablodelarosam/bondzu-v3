@@ -15,6 +15,7 @@ extension UITabBarController {
     
     public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
+
     }
     
     
@@ -83,4 +84,12 @@ extension String {
         return result
         
     }
+}
+
+extension CGPoint{
+
+    static func originForCenteringView(view : UIView, inView : UIView) -> CGPoint{
+        return CGPoint(x: inView.frame.size.width / 2 - view.frame.size.width / 2, y: inView.frame.size.height / 2 - view.frame.size.height / 2)
+    }
+    
 }
