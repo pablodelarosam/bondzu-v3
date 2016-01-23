@@ -176,14 +176,23 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         if user.hasLoadedPriority{
             self.cameraButton.imageView?.tintColor = user.type!.color
         }
-        else{
-            user.appendTypeLoadingObserver({
-                (_, type) -> () in
-                if let type = type{
-                    self.cameraButton.imageView?.tintColor = type.color
-                }
-            })
-        }
+        
+        user.appendTypeLoadingObserver({
+            [weak self]
+            (_, type) -> (Bool) in
+            
+            guard let obj = self else{
+                return false
+            }
+            
+            if let type = type{
+                obj.cameraButton.imageView?.tintColor = type.color
+            }
+            
+            return true
+            
+        })
+        
         
         self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
         self.cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)

@@ -26,7 +26,7 @@ class Usuario : NSObject{
     
     var type : UserType?
     
-    private var typeLoadingObserver = Array<( (Usuario, UserType?) -> () )>()
+    private var typeLoadingObserver = Array<( (Usuario, UserType?) -> (Bool) )>()
     
     /**
         This is the default initializer for a user
@@ -38,7 +38,7 @@ class Usuario : NSObject{
             - Bool: Its value tells its delegate if the image could be loaded or not.
      
      */
-    init(object : PFObject, loadImage : Bool = false,  imageLoaderObserver: ((Usuario, Bool)->(Void))?, userTypeObserver : ((Usuario, UserType?)->())? = nil ){
+    init(object : PFObject, loadImage : Bool = false,  imageLoaderObserver: ((Usuario, Bool)->(Void))?, userTypeObserver : ((Usuario, UserType?)->(Bool))? = nil ){
         
         self.name = object[TableUserColumnNames.Name.rawValue] as! String
         self.stripeID = object[TableUserColumnNames.StripeID.rawValue] as! String!
@@ -233,7 +233,12 @@ class Usuario : NSObject{
         }
     }
     
-    func appendTypeLoadingObserver(observer : (Usuario, UserType?) -> ()){
+    /**
+     This method is provided for the objects that want to be informed about changes in the user type. There are two rules for the observer:
+     1. The observer must not have strong references or its going to create memory leaks
+     2. The closure should return if it should be kept as observer
+     */
+    func appendTypeLoadingObserver(observer : (Usuario, UserType?) -> (Bool)){
         if self.hasLoadedPriority{
             observer(self,type)
         }
@@ -248,19 +253,29 @@ class Usuario : NSObject{
             hasLoadedPriority = true
         }
         
-        if NSThread.isMainThread(){
+        if !NSThread.isMainThread(){
+            
+            dispatch_async(dispatch_get_main_queue()){
+                self.notifyFinishedLoadingUserType()
+            }
+            
+        }
+        else{
+            
+            var i = 0;
+            while i < self.typeLoadingObserver.count{
+                if !self.typeLoadingObserver[i](self, self.type){
+                    _ = self.typeLoadingObserver.removeAtIndex(i)
+                }
+                else{
+                    i++
+                }
+            }
+            
             for userTypeObserver in self.typeLoadingObserver{
                 userTypeObserver(self, self.type)
             }
-            self.typeLoadingObserver.removeAll()
-        }
-        else{
-            dispatch_async(dispatch_get_main_queue()){
-                for userTypeObserver in self.typeLoadingObserver{
-                    userTypeObserver(self, self.type)
-                }
-                self.typeLoadingObserver.removeAll()
-            }
+            
         }
     }
     

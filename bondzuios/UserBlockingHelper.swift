@@ -61,18 +61,23 @@ class UserBlockingHelper: NSObject {
         if user.hasLoadedPriority{
             attempToLoadBlockingView()
         }
-        else{
-            user.appendTypeLoadingObserver({
-                (_, type) -> () in
-                if type != nil{
-                   self.attempToLoadBlockingView()
-                }
-                else{
-                    delegate.userBlockingHelperFailed()
-                    self.view.removeFromSuperview()
-                }
-            })
-        }
+        
+        user.appendTypeLoadingObserver({
+            [weak self]
+            (_, type) -> (Bool) in
+            
+            if self == nil{ return false }
+            
+            if type != nil{
+               self?.attempToLoadBlockingView()
+            }
+            else{
+                delegate.userBlockingHelperFailed()
+                self?.view.removeFromSuperview()
+            }
+            return true
+        })
+        
     }
     
     

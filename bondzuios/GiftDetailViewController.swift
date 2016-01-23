@@ -49,17 +49,25 @@ class GiftDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             self.btnDonate.setTitleColor(user.type!.color, forState: .Normal)
             self.lblName.textColor = user.type!.color
         }
-        else{
-            self.user.appendTypeLoadingObserver({
-                (user, type) -> () in
-                if let type = type{
-                    self.navigationController?.navigationBar.barTintColor = type.color
-                    self.btnDonate.layer.borderColor = type.color.CGColor
-                    self.lblName.textColor = type.color
-                    self.btnDonate.setTitleColor(type.color, forState: .Normal)
-                }
-            })
-        }
+        
+        self.user.appendTypeLoadingObserver({
+            [weak self]
+            (user, type) -> ( Bool ) in
+            
+            guard let o = self else{
+                return false
+            }
+            
+            if let type = type{
+                o.navigationController?.navigationBar.barTintColor = type.color
+                o.btnDonate.layer.borderColor = type.color.CGColor
+                o.lblName.textColor = type.color
+                o.btnDonate.setTitleColor(type.color, forState: .Normal)
+            }
+            
+            return true
+        })
+        
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
         self.activityIndicator.stopAnimating()

@@ -72,8 +72,14 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     
     
         user.appendTypeLoadingObserver({
-            [weak self] _ in
-            self?.updateTabBarColor()
+            [weak self]
+            _ -> Bool in
+            
+            if let o = self{
+                o.updateTabBarColor()
+                return true
+            }
+            return false
         })
         
         updateTabBarColor()

@@ -38,16 +38,22 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
         if user.hasLoadedPriority{
             tabBar.tintColor = user.type!.color
         }
-        else{
-            user.appendTypeLoadingObserver({
-                [weak self]
-                (_, type) -> () in
-                if let type = type{
-                    self?.tabBar.tintColor = type.color
-                    
-                }
-            })
-        }
+        user.appendTypeLoadingObserver({
+            [weak self]
+            (_, type) -> (Bool) in
+            
+            if self == nil{
+                return false
+            }
+            
+            if let type = type{
+                self?.tabBar.tintColor = type.color
+                
+            }
+            
+            return true
+        })
+        
         
         for viewController in viewControllers!{
             

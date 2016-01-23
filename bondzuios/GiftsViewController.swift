@@ -66,15 +66,22 @@ class GiftsViewController: UIViewController, UICollectionViewDelegate , UICollec
         if user.hasLoadedPriority{
             self.toolbar.barTintColor = user.type!.color
         }
-        else{
-            user.appendTypeLoadingObserver({
-                (_, type) -> () in
-                if let type = type{
-                    self.toolbar.barTintColor = type.color
-                    self.collectionView.reloadData()
-                }
-            })
-        }
+        
+        user.appendTypeLoadingObserver({
+            [weak self]
+            (_, type) -> (Bool) in
+            
+            if self == nil{
+                return false
+            }
+            
+            if let type = type{
+                self?.toolbar.barTintColor = type.color
+                self?.collectionView.reloadData()
+            }
+            return true
+        })
+        
         
         self.toolbar.tintColor = UIColor.whiteColor()
         self.txtNoGifts.hidden = true

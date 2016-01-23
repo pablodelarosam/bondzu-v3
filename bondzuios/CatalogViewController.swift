@@ -467,14 +467,20 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         if user.hasLoadedPriority{
             self.toolbar.barTintColor = user.type!.color
         }
-        else{
-            user.appendTypeLoadingObserver({
-                (user, type) -> () in
-                if type != nil{
-                    self.toolbar.barTintColor = user.type!.color
-                }
-            })
-        }
+        
+        user.appendTypeLoadingObserver({
+            [weak self]
+            (_, type) -> (Bool) in
+            
+            if self == nil{ return false }
+            
+            if type != nil{
+                self?.toolbar.barTintColor = type!.color
+            }
+            
+            return true
+        })
+        
         
         self.segementedControl.tintColor = UIColor.whiteColor()
         getAnimals();

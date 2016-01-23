@@ -15,14 +15,22 @@ public class BondzuNavigationController : UINavigationController {
             if user != nil && user!.hasLoadedPriority{
                 self.refreshBarTintColor()
             }
-            else{
-                user?.appendTypeLoadingObserver({
-                    (user, _) -> () in
-                    if user == self.user{
-                        self.refreshBarTintColor()
-                    }
-                })
-            }
+            user?.appendTypeLoadingObserver({
+                
+                [weak self]
+                (user, _) -> (Bool) in
+                
+                if self == nil{
+                    return false
+                }
+                
+                if user == self?.user{
+                    self?.refreshBarTintColor()
+                }
+                
+                return true
+            })
+        
         }
     }
     
