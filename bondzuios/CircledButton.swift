@@ -15,8 +15,21 @@ import QuartzCore
     public var target : ((CircledButton)->Void)?
     var circleCenter = CGPointZero
     
-    @IBInspectable public var color : UIColor = UIColor.clearColor()
-    @IBInspectable public var borderColor : UIColor = UIColor.whiteColor()
+    @IBInspectable public var color : UIColor = UIColor.clearColor(){
+        didSet{
+            self.backgroundColor = color
+        }
+    }
+    
+    
+    @IBInspectable public var borderColor : UIColor = UIColor.whiteColor(){
+        didSet{
+            self.layer.borderColor = borderColor.CGColor
+            self.layer.borderWidth = 8
+        }
+    }
+    
+    
     @IBInspectable public var image : UIImage?{
         set(new){
             imageView.image = new
@@ -65,22 +78,16 @@ import QuartzCore
         label.numberOfLines = 1
         label.font = label.font.fontWithSize(10)
         label.textAlignment = NSTextAlignment.Center
+        
+        self.layer.borderColor = self.color.CGColor
+        
         addSubview(label)
         addSubview(imageView)
-    }
-    
-    override public func drawRect(rect: CGRect) {
-        let context = UIGraphicsGetCurrentContext()
-        CGContextSetLineWidth(context, border)
-        CGContextAddEllipseInRect(context, CGRect(x: rect.origin.x + border, y: rect.origin.y + border, width: rect.size.width - border - border, height: rect.size.height - border - border))
-        CGContextSetStrokeColorWithColor(context, borderColor.CGColor);
         
-        CGContextStrokePath(context)
-        
-        CGContextAddEllipseInRect(context, CGRect(x: rect.origin.x + border, y: rect.origin.y + border, width: rect.size.width - border - border, height: rect.size.height - border - border))
-        CGContextSetFillColor(context, CGColorGetComponents(color.CGColor));
-        CGContextFillPath(context)
-        
+        self.layer.borderColor = borderColor.CGColor
+        self.layer.borderWidth = 1
+        self.backgroundColor = color
+
     }
     
     func setTargetAction(target : (CircledButton)->Void){
@@ -112,9 +119,7 @@ import QuartzCore
     override public func layoutSubviews() {
         
         let border = frame.width * 0.10
-        
         let contentSize = frame.width - border * 2
-        
         
         let imageSpace = contentSize * 0.55
         let spaceBetweenViews = contentSize * 0.12
@@ -125,5 +130,7 @@ import QuartzCore
 
         
         label.frame = CGRect(origin: CGPoint(x: border + 3 , y: border + spaceBetweenViews + imageSpace), size: CGSize(width: frame.size.width - border * 2 - 6, height: labelSpace))
+        
+        Imagenes.redondeaVista(self, radio: self.frame.width / 2)
     }
 }
