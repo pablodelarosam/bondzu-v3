@@ -68,7 +68,12 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         goLive.image = UIImage(named: "whiteCam")
         adopt.text = NSLocalizedString("Adopt", comment: "")
         goLive.text = NSLocalizedString("Go Live", comment: "")
-        goLive.target = showCams
+        goLive.setTargetAction {
+            [weak self]
+            cb in
+            self?.showCams(cb)
+        }
+        
     
     
         user.appendTypeLoadingObserver({
@@ -86,18 +91,24 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         
         lateral.moreButton.addTarget(self, action: "segueToEvents", forControlEvents: UIControlEvents.TouchUpInside)
         
-        adopt.target = {
+        adopt.setTargetAction {
+            [weak self]
             _ in
-            self.adopt.userInteractionEnabled = false
+            
+            guard let s = self else{
+                return
+            }
+            
+            s.adopt.userInteractionEnabled = false
             dispatch_async(Constantes.get_bondzu_queue()){
-                let result = Usuario.adoptAnimal(self.animalID)
+                let result = Usuario.adoptAnimal(s.animalID)
                 
                 var title = ""
                 var message = ""
                 var actionTitle = ""
-
-                self.adopt?.userInteractionEnabled = true
-
+                
+                s.adopt?.userInteractionEnabled = true
+                
                 dispatch_async(dispatch_get_main_queue()){
                     if result == UsuarioTransactionResult.Success{
                         
@@ -105,8 +116,8 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                         message = NSLocalizedString("You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.", comment: "")
                         actionTitle = NSLocalizedString("OK", comment: "")
                         
-                        if let adopters = self.lateral.getAdopters(){
-                            self.lateral.setAdopters(adopters + 1)
+                        if let adopters = s.lateral.getAdopters(){
+                            s.lateral.setAdopters(adopters + 1)
                         }
                     }
                     else if result == UsuarioTransactionResult.AlreadyAdopted{
@@ -114,26 +125,26 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                         title = NSLocalizedString("Already adopted", comment: "")
                         message =  NSLocalizedString("You cannot adopt the same animal twice", comment: "")
                         actionTitle = NSLocalizedString("Cancel", comment: "")
-                       
+                        
                     }
                     else if result == UsuarioTransactionResult.ParseError{
                         
                         title = NSLocalizedString("Error", comment: "")
                         message = NSLocalizedString("Something went wront, please try again later", comment: "")
                         actionTitle = NSLocalizedString("Cancel", comment: "")
-
+                        
                     }
                     
                     let controller = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
                     controller.addAction(UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Cancel, handler: {
                         _ in
                     }))
-                    self.presentViewController(controller, animated: true, completion: nil)
+                    s.presentViewController(controller, animated: true, completion: nil)
                 }
                 
             }
-            
         }
+        
         let query = PFQuery(className: TableNames.Animal_table.rawValue)
         query.getObjectInBackgroundWithId(animalID){
             (animalObject: PFObject?, error: NSError?) -> Void in

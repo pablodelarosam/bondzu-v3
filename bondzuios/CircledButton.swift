@@ -11,8 +11,7 @@ import QuartzCore
 
 @IBDesignable public class CircledButton: UIView {
 
-    //TODO Analizar posible referencia circular
-    public var target : ((CircledButton)->Void)?
+    private var target : ((CircledButton)->Void)?
     var circleCenter = CGPointZero
     
     @IBInspectable public var color : UIColor = UIColor.clearColor(){
