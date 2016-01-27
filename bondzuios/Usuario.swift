@@ -78,7 +78,8 @@ class Usuario : NSObject{
                         self.image = image!
                         dispatch_async(dispatch_get_main_queue()){
                             imageLoaderObserver?(self,true)
-                        }                }
+                        }
+                    }
                     else{
                         dispatch_async(dispatch_get_main_queue()){
                             imageLoaderObserver?(self,false)
@@ -106,6 +107,7 @@ class Usuario : NSObject{
                     self.notifyFinishedLoadingUserType()
                 }
                 else if self.originalObject != PFUser.currentUser(){
+                    self.type = Usuario.getSharedBasicType()
                     self.notifyFinishedLoadingUserType()
                 }
                 else{
@@ -113,7 +115,7 @@ class Usuario : NSObject{
                     query.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
                     let foundItems = try query.findObjects()
                     self.type = UserType(object: foundItems[0])
-                    object[TableUserColumnNames.UserType.rawValue] = foundItems[0]
+                    object[TableUserColumnNames.UserType.rawValue] = Usuario.getSharedBasicType()
                     try object.save()
                     self.notifyFinishedLoadingUserType()
                 }
@@ -327,6 +329,36 @@ class Usuario : NSObject{
                     callback(nil)
                 }
             }
+            
+        }
+    }
+    
+    
+    ///Do not call directly. Use getSharedBasicType
+    static var sharedBasicType : UserType?
+    
+    ///#Call in background
+    class func getSharedBasicType()->UserType?{
+        
+        
+        if NSThread.isMainThread(){
+            mainThreadWarning()
+        }
+        
+        if let s = sharedBasicType{
+            return s
+        }
+        
+        do{
+            let query = PFQuery(className: TableNames.UserType.rawValue)
+            query.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
+            let foundItems = try query.findObjects()
+            Usuario.sharedBasicType = UserType(object: foundItems[0])
+            return getSharedBasicType()
+            
+        }
+        catch{
+            return nil
             
         }
     }

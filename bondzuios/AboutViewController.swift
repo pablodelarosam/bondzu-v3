@@ -12,43 +12,75 @@
 import UIKit
 import Parse
 
+///This view controller is the responsable of showing the animal information and link it to the cameras and adoption buttons. It extends UIViewController and implements delegates for textView, animalv2 and events
 class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol, EventLoadingDelegate{
 
+    ///The currently logged in user
+    @available(*, deprecated=9.0, renamed="setControllerInformation", message="This variable is going private for a better software engeneering")
     var user : Usuario!
     
+    ///The blured animal image
     @IBOutlet weak var backgroundImage : UIImageView!
+    
+    ///The circular portion of the image that is visible
     @IBOutlet weak var visibleImage : UIImageView!
+    
+    ///A view that will contain a blur effect
     @IBOutlet weak var blurContainer: UIView!
+    
+    ///The rigth lateral view that will be shown.
     @IBOutlet weak var lateral : AboutLateralView!
+    
+    ///The species label
     @IBOutlet weak var speciesLabel : UILabel!
+    
+    ///The textView that shows the animal information
     @IBOutlet weak var textView: UITextView!
     
+    ///A passed instance of a blocking helper
+    @available(*, deprecated=9.0, renamed="setControllerInformation", message="This variable is going private for a better software engeneering")
     weak var blockingHelper : UserBlockingHelper? = nil
 
+    ///The animal image that is going to be set for the image Views (The blurred and the not blurred one)
     var image : UIImage?
     
+    ///A constraint that manages how much space does the rigth part takes
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    
+    ///A constraint that manages how much space does the top image takes
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     
+    ///The blur itself
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) as UIVisualEffectView
 
+    ///A circular button that makes the user to adopt an animal
     @IBOutlet weak var adopt : CircledButton!
+    
+    ///A circular button that goes to the camera
     @IBOutlet weak var goLive : CircledButton!
     
+    ///The parse object id to retrive
     var animalID = ""
+    
+    ///The animalV2 instance that the controller should show.
     var animal : AnimalV2?
     
+    ///The localized navigation bar title
     var navBarTitle = NSLocalizedString("About", comment: "")
     
+    
+    ///The implementation of this method is to set the navigation bar title every time a tab bar appears
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.navigationBar.topItem?.title = navBarTitle
     }
     
+    ///The ligth bar should appear white
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
     
+    ///Update the constraints with the new device orientation / size. Also resets the blur container alpha so it dosen't get invalidated.
     override func viewWillLayoutSubviews() {
         heightConstraint.constant = UIScreen.mainScreen().bounds.height / 3
         widthConstraint.constant = UIScreen.mainScreen().bounds.width / 3
@@ -56,10 +88,16 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         blurContainer.alpha = 1
     }
     
+    ///Resets the blur container alpha to 0.8 to get a better blur effect
     override func viewDidLayoutSubviews() {
         blurContainer.alpha = 0.8
     }
     
+    
+    /**
+     This function starts up blur container and prepare the circled buttons
+     Also performs the query to get the animal and seeds the information to the view
+     */
     override func viewDidLoad() {
     
         super.viewDidLoad()

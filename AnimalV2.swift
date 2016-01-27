@@ -43,20 +43,63 @@ protocol AnimalV2LoadingProtocol{
     func animalDidFailedLoadingPermissionType(animal : AnimalV2)
 }
 
+
+//This class is the model of the Parse class AnimalV2
 class AnimalV2 : Equatable
 {
-    var image :  UIImage?
-    var name: String
-    var specie: String
-    var objectId: String
-    var adopters : Int
-    var characteristics : [String : String]
-    var about : String
-    var originalObject : PFObject!
-    var keepers : [PFObject]?
-    var animalDescription : String
+   
+    ///Array of observers
+    private var callbackArray = Array<((AnimalV2)->())>()
     
-    var requiredPermission : UserType?
+    ///Animal image
+    var image :  UIImage?
+    
+    ///Animal name
+    var name: String
+    
+    ///Animal species
+    var specie: String
+    
+    ///Parse ID
+    var objectId: String
+    
+    ///Number of adopter
+    var adopters : Int
+    
+    /**
+     A dictionary containing al the facts about an animal
+     - key: The description key
+     - value: The description itself
+     
+     Example:
+     key = description
+     value = beatifull animal
+     */
+    var characteristics : [String : String]
+    
+    ///The general description about an animal
+    var about : String
+    
+    ///The original Parse object. Should be used only for querys
+    var originalObject : PFObject!
+    
+    ///Array of keeper objects
+    var keepers : [PFObject]?
+    
+    var requiredPermission : UserType?{
+        didSet{
+            
+            if requiredPermission == nil{ return }
+            
+            for i in callbackArray{
+                i(self)
+            }
+            
+            callbackArray.removeAll()
+        }
+    }
+    
+    
     var hasLoadedPermission = false
     
     /**
@@ -76,7 +119,6 @@ class AnimalV2 : Equatable
         self.characteristics = object[TableAnimalColumnNames.Characteristics.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! [String:String]
         self.about = object[TableAnimalColumnNames.About.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         self.image = UIImage()
-        self.animalDescription = object[TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         self.keepers = object[TableAnimalColumnNames.Keepers.rawValue] as? [PFObject]
         
         if delegate != nil || loadImage{
@@ -137,8 +179,26 @@ class AnimalV2 : Equatable
         adopters = 0
         characteristics = [:]
         about = ""
-        animalDescription = ""
     }
+    
+    
+    /**
+     This function will call the callback only once.
+     
+     - parameter callback: The closure to be executed when the type has loaded.
+     
+     ### Important do not capture self
+    
+     Callback may never be called
+     */
+    func addObserverToRequiredType(callback : (AnimalV2) -> () ){
+        if self.hasLoadedPermission{ callback(self) }
+        else{
+            callbackArray.append(callback)
+        }
+    }
+    
+    
     
 }
 

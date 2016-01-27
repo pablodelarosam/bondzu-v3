@@ -67,6 +67,27 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
         
         let cell = tableView.dequeueReusableCellWithIdentifier("content") as! ActivityTableViewCell
         cell.load(activities[indexPath.row])
+        
+        let cellIV = cell.animalImage as! CircledImageView
+        
+        if activities[indexPath.row].animal.hasLoadedPermission{
+            cellIV.setBorderOfColor(activities[indexPath.row].animal.requiredPermission!.color, width: 3)
+        }
+        else{
+            cellIV.setBorderOfColor(UIColor.whiteColor(), width: 3)
+            
+            activities[indexPath.row].animal.addObserverToRequiredType({
+                [weak self]
+                _ in
+                if let s = self{
+                    s.tableView.reloadData()
+                }
+            })
+
+            
+        }
+        
+        
         return cell
     }
     
@@ -112,8 +133,7 @@ class ActivityTableViewCell : UITableViewCell{
     
     @IBOutlet weak var price: UILabel!
     
-    
-    
+
     func load(transaction : Transaction){
         
         itemName.adjustsFontSizeToFitWidth = true
@@ -140,7 +160,6 @@ class ActivityTableViewCell : UITableViewCell{
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        Imagenes.redondeaVista(animalImage, radio: animalImage.frame.width / 2)
     }
     
     

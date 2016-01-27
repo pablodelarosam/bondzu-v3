@@ -15,7 +15,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     var user : Usuario?
     
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageView: UserView!
     @IBOutlet weak var name: UILabel!
 
     var originalImage : UIImage?
@@ -73,6 +73,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
             }
         })
+        
+        self.imageView.user = self.user
         name.text = user!.name
         self.originalImage = imageView.image
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changeIcon"))
@@ -168,6 +170,12 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             print("payment")
             performSegueWithIdentifier("cardsSegue", sender: nil)
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let nvc = segue.destinationViewController as? AdopedAnimalsViewController{
+            nvc.user = self.user
         }
     }
 

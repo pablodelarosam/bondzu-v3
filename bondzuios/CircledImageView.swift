@@ -9,7 +9,12 @@
 import UIKit
 
 class CircledImageView: UIImageView {
-
+    
+    func setBorderOfColor(color : UIColor, width : CGFloat){
+        self.layer.borderColor = color.CGColor
+        self.layer.borderWidth = width
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         Imagenes.redondeaVista(self, radio: self.frame.width / 2)

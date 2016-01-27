@@ -510,6 +510,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             nextVC.capsule = sender as! Capsule
             nextVC.user = self.user
         }
+        else if let nvc = segue.destinationViewController as? AccountViewController{
+            nvc.user = self.user
+        }
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

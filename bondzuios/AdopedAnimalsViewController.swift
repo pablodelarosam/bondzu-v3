@@ -11,9 +11,11 @@ import Parse
 
 class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtocol {
 
+    
     var loaded = false
     var animals : [AnimalV2]!
     
+    var user : Usuario!
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
@@ -65,9 +67,11 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
         return animals.count
     }
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        return nil
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("watchAdoptedAnimal", sender: animals[indexPath.row])
+        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if !loaded{
@@ -76,7 +80,34 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
         let cell = tableView.dequeueReusableCellWithIdentifier("content") as! AdoptedAnimalTableViewCell
         cell.animalImage.image = animals[indexPath.row].image
         cell.name.text = animals[indexPath.row].name
-        cell.animalDescription.text = animals[indexPath.row].animalDescription
+        cell.animalDescription.text = animals[indexPath.row].specie
+        
+        if let iv = cell.animalImage as? CircledImageView{
+
+            if animals[indexPath.row].hasLoadedPermission{
+                iv.setBorderOfColor(animals[indexPath.row].requiredPermission!.color, width: 3)
+            }
+            else{
+                iv.setBorderOfColor(UIColor.whiteColor(), width: 3)
+
+                animals[indexPath.row].addObserverToRequiredType({
+                    [weak self]
+                    (animal) -> () in
+                    
+                    guard let s = self else{
+                        return
+                    }
+                    
+                    if animal.hasLoadedPermission{
+                        tableView.cellForRowAtIndexPath(NSIndexPath(forItem: s.animals.indexOf(animal)!, inSection: 0))
+                    }
+                })
+                
+            }
+        }
+        
+        
+        
         return cell
     }
     
@@ -106,6 +137,13 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
                     self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
                 }
             }
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let nextVC = segue.destinationViewController as? TabsViewController{
+            nextVC.animal = sender as! AnimalV2
+            nextVC.user = self.user
         }
     }
     

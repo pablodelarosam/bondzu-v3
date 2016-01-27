@@ -2029,7 +2029,7 @@
                                     <outlet property="delegate" destination="Ghg-Tb-hw5" id="1Jq-TP-b4O"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_pic" translatesAutoresizingMaskIntoConstraints="NO" id="DtU-sp-SNj" customClass="CircledImageView" customModule="Bondzu" customModuleProvider="target">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_pic" translatesAutoresizingMaskIntoConstraints="NO" id="DtU-sp-SNj" customClass="UserView" customModule="Bondzu" customModuleProvider="target">
                                 <rect key="frame" x="250" y="72" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="DtU-sp-SNj" secondAttribute="height" multiplier="1:1" id="Mj0-uD-GXC"/>
@@ -2145,6 +2145,9 @@
                             <outlet property="delegate" destination="xb8-yD-RSp" id="6E4-9N-aMz"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="I7i-Py-ROq" kind="show" identifier="watchAdoptedAnimal" id="4sf-3L-Ucx"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JpW-i7-L90" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2352,7 +2355,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JY1-pJ-G2J">
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JY1-pJ-G2J" customClass="CircledImageView" customModule="Bondzu" customModuleProvider="target">
                                             <rect key="frame" x="30" y="5" width="70" height="70"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="JY1-pJ-G2J" secondAttribute="height" multiplier="1:1" id="bk8-EX-qwN"/>
@@ -2450,6 +2453,7 @@
         <image name="whitePaw" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="4sf-3L-Ucx"/>
         <segue reference="Bpb-47-ovf"/>
         <segue reference="KwK-X7-Ij1"/>
     </inferredMetricsTieBreakers>

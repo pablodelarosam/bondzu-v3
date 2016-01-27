@@ -216,7 +216,7 @@ class BlockingView : UIView{
         
         topLabel.text = NSLocalizedString("In order to watch me", comment: "")
         centerLabel.text = NSLocalizedString("You need to be", comment: "")
-        button.setTitle("  Start now  ", forState: UIControlState.Normal)
+        button.setTitle(NSLocalizedString("  Start now  ", comment: ""), forState: UIControlState.Normal)
         
         button.backgroundColor = UIColor.orangeColor()
         button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)

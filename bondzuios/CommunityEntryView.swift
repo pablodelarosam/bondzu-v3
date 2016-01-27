@@ -29,7 +29,7 @@ class CommunityEntryView: UITableViewCell {
     var commentID : Message!
     
     let heartImageView = UIImageView()
-    let profileIcon = UIImageView()
+    let profileIcon = UserView()
     let imageIcon = UIImageView()
     
     let separator = UIView()
@@ -58,7 +58,8 @@ class CommunityEntryView: UITableViewCell {
         load()
     }
     
-    func setInfo(id : Message, date : NSDate, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int){
+    @available(*, deprecated=8.9, message="This method will be renamed. Imn a future release user will not be opcional nor have a default vale", renamed="setInfoid:date:name:image:hasContentImage:hasLiked:likeCount:user:")
+    func setInfo(id : Message, date : NSDate, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int, user : Usuario? = nil){
         
         imageIcon.hidden = !hasContentImage
         
