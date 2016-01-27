@@ -6,17 +6,14 @@
 //  Copyright (c) 2015 Bondzu. All rights reserved.
 //  ARCHIVO LOCALIZADO
 
-
-
 //TODO: Aqui hay un mega bloque de funciones que se llaman en background cuando ni siquiera era necesario.
 import UIKit
 import Parse
 
-///This view controller is the responsable of showing the animal information and link it to the cameras and adoption buttons. It extends UIViewController and implements delegates for textView, animalv2 and events
+///This view controller is the responsable of showing the animal information and link it to the cameras and adoption buttons. It extends UIViewController and implements delegates for textView, animalv2 and events. In order to work, this controller needs a blocking helper and a user.
 class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol, EventLoadingDelegate{
 
     ///The currently logged in user
-    @available(*, deprecated=9.0, renamed="setControllerInformation", message="This variable is going private for a better software engeneering")
     var user : Usuario!
     
     ///The blured animal image
@@ -38,7 +35,6 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     @IBOutlet weak var textView: UITextView!
     
     ///A passed instance of a blocking helper
-    @available(*, deprecated=9.0, renamed="setControllerInformation", message="This variable is going private for a better software engeneering")
     weak var blockingHelper : UserBlockingHelper? = nil
 
     ///The animal image that is going to be set for the image Views (The blurred and the not blurred one)
@@ -94,6 +90,15 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     }
     
     
+    ///Updates the background of images for the user can see their type while the images are not yet loaded
+    func updateTabBarColor(){
+        if user.hasLoadedPriority{
+            backgroundImage.backgroundColor = user.type!.color
+            visibleImage.backgroundColor = user.type!.color
+        }
+    }
+    
+    
     /**
      This function starts up blur container and prepare the circled buttons
      Also performs the query to get the animal and seeds the information to the view
@@ -108,8 +113,9 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         goLive.text = NSLocalizedString("Go Live", comment: "")
         goLive.setTargetAction {
             [weak self]
-            cb in
-            self?.showCams(cb)
+            _ in
+            self?.performSegueWithIdentifier("liveStreamSegue", sender: self)
+
         }
         
     
@@ -265,23 +271,12 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         
     }
     
-    func takeScreenshot() -> UIImage{
-        let layer = UIApplication.sharedApplication().keyWindow!.layer
-        let scale = UIScreen.mainScreen().scale
-        UIGraphicsBeginImageContextWithOptions(layer.frame.size, false, scale);
-        
-        layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return screenshot;
-    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "liveStreamSegue"{
             let liveStreamVC = segue.destinationViewController as! VideoViewController
             liveStreamVC.animalId = animalID
-            liveStreamVC.backgroundImageNoCameras = takeScreenshot()
+            liveStreamVC.backgroundImageNoCameras = captureScreen()
             liveStreamVC.user = user
         }
         else if segue.identifier == "events"{
@@ -290,40 +285,59 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         }
     }
     
-    func showCams(button: CircledButton){
-        self.performSegueWithIdentifier("liveStreamSegue", sender: self)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    func appendAnimalAttributeWithName(name : String, value: String){
+    /**
+     This function is used to append items to the animal characteristics.
+     The parameters are the name that will appear as a black label and the value that will appear in gray
+        
+          example: name = weigth, value = 62 pounds
+     
+     - parameter name: The description or key of the value
+     - parameter value: The value that correspond to the key
+     
+     
+     */
+    private func appendAnimalAttributeWithName(name : String, value: String){
         let nameDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Light", size: 10), size: 10)]
         let valueDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Light", size: 10), size: 10), NSForegroundColorAttributeName : UIColor.darkGrayColor()]
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(name): ", attributes: nameDescriptor))
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(value)\n", attributes: valueDescriptor))
     }
     
-    func appendHeadLine(title : String){
+    /**
+     This method is provided to append a header to the animal information
+     The text will be presented in bold
+     
+     - parameter title: The title that is going to be appended
+     */
+    private func appendHeadLine(title : String){
         let headlineeDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Bold", size: 15), size: 15)]
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\n\(title)\n", attributes: headlineeDescriptor))
     }
     
-    func appendText(text : String){
+    /**
+     This method is provided to append plain text to the animal information
+     
+     - parameter text: The text that is going to be appended
+     */
+    private func appendText(text : String){
         let textDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)]
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(text)", attributes: textDescriptor))
     }
     
-    func segueToEvents(){
+    @IBAction func segueToEvents(){
         self.performSegueWithIdentifier("events", sender: nil)
     }
     
+    
+    //MARK: AnimalV2 Loading protocol implementation
+    
+    ///Pops the controller if the animal couldn't be loaded
     func animalDidFailLoading( animal : AnimalV2 ) {
         print("No se pudo cargar imagen")
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    ///Configures the animal images once they are loaded
     func animalDidFinishLoading( animal : AnimalV2 ) {
         let image = self.animal!.image
         self.visibleImage.hidden = false
@@ -338,15 +352,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
 
     }
     
-    func eventDidFinishLoading(event: Event!) {
-        dispatch_async(dispatch_get_main_queue()){
-            self.lateral.setEventData(event.eventImage, title: event.eventName)
-        }
-    }
-    
-    func eventDidFailLoading(event: Event!) {}
-    
-    
+    ///Tells the user that something went wrong and pops the view controller
     func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
         let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
         ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
@@ -355,15 +361,23 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         }))
     }
     
+    ///Tells the blocking helper that the load of type is done
     func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
         self.blockingHelper?.setRequiredPriority(animal.requiredPermission!.priority)
     }
+
     
-    func updateTabBarColor(){
-        if user.hasLoadedPriority{
-            backgroundImage.backgroundColor = user.type!.color
-            visibleImage.backgroundColor = user.type!.color
+    //MARK: Event Loading protocol
+    
+    ///Set the event on the lateral bar
+    func eventDidFinishLoading(event: Event!) {
+        dispatch_async(dispatch_get_main_queue()){
+            self.lateral.setEventData(event.eventImage, title: event.eventName)
         }
     }
+    
+    ///Do nothing (ignores protocol)
+    func eventDidFailLoading(event: Event!) {}
+
 }
 
