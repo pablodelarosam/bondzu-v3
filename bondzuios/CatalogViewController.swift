@@ -31,6 +31,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     //MARK: Variables
     
+    
+    ///The animated bakground blur
+    @IBOutlet weak var animalEffectView: EffectBackgroundView!
 
     ///The animals model
     var animalsToShow = [AnimalV2]()
@@ -59,14 +62,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     ///The video capsules model
     var videoCapsules = [Capsule]()
-    
-    //MARK: Background variables
-    @IBOutlet weak var blurView: UIView!
-    var backgroundImages = [UIImage]();
-    @IBOutlet weak var backgroundImage: UIImageView!
-    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) as UIVisualEffectView
-    let animationDuration: NSTimeInterval = 0.9
-    let switchingInterval: NSTimeInterval = 5
     
     ///Weak bar of the searching element
     @IBOutlet weak var searchBarButtonItem: UIBarButtonItem!
@@ -244,7 +239,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         else{
             if let index = videoCapsules.indexOf(capsule){
                 videoCapsules.removeAtIndex(index)
-                if segementedControl.selectedSegmentIndex == 0{
+                if segementedControl.selectedSegmentIndex == 1{
                     self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
                 }
             }
@@ -271,23 +266,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     //MARK: Methods
     
-    func animateBackgroundImageView(){
-        CATransaction.begin()
-        
-        CATransaction.setAnimationDuration(animationDuration)
-        CATransaction.setCompletionBlock {
-            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(self.switchingInterval * NSTimeInterval(NSEC_PER_SEC)))
-            dispatch_after(delay, dispatch_get_main_queue()) {
-                self.animateBackgroundImageView()
-            }
-        }
-        let transition = CATransition()
-        transition.type = kCATransitionFade
-        self.backgroundImage.layer.addAnimation(transition, forKey: kCATransition)
-        self.backgroundImage.image = self.backgroundImages[random() % self.backgroundImages.count]
-        
-        CATransaction.commit()
-    }
+    
     
     ///Performs the animal and video query. Note: The animalV2 filling should be migrated to the model
     func getAnimals(){
@@ -432,13 +411,11 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        visualEffectView.frame.size = CGSize(width: self.collectionView.frame.width , height: self.collectionView.frame.height)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         (self.navigationController! as! BondzuNavigationController).user = self.user
+        
+        self.animalEffectView.setImageArray(Constantes.animalArrayImages)
         
         self.heightBanner.constant = 0;
         self.navigationController?.navigationBar.barStyle = .Black
@@ -452,14 +429,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         cellLayout.minimumInteritemSpacing = 5
         
         self.collectionView.backgroundView?.alpha = 0;
-        self.blurView.addSubview(visualEffectView)
-        self.blurView.alpha = 0.92;
-        self.backgroundImages.append(UIImage(named: "tigre")!)
-        self.backgroundImages.append(UIImage(named: "dog")!)
-        self.backgroundImages.append(UIImage(named: "leopard")!)
-        self.backgroundImages.append(UIImage(named: "titi")!)
-        self.backgroundImage.image = self.backgroundImages[random() % self.backgroundImages.count]
-        animateBackgroundImageView()
+        
+        
         self.navHairLine = Utiles.getHairLine(self.navigationController!.navigationBar)
         self.toolbar.barStyle = .Black
         self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR

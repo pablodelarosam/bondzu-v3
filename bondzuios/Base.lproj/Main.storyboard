@@ -1141,10 +1141,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tigre" translatesAutoresizingMaskIntoConstraints="NO" id="H2M-B0-EM6">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQm-oB-lZH">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQm-oB-lZH" customClass="EffectBackgroundView" customModule="Bondzu" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="108" width="600" height="492"/>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pyp-R1-zGu">
@@ -1250,7 +1247,6 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Wtm-vf-Fu8" secondAttribute="trailing" constant="-20" id="09I-TX-onk"/>
                             <constraint firstItem="Pyp-R1-zGu" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="0AE-b0-UJD"/>
-                            <constraint firstItem="H2M-B0-EM6" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="3l6-Ay-1gs"/>
                             <constraint firstItem="1CZ-LH-EII" firstAttribute="centerX" secondItem="uRj-vP-Bur" secondAttribute="centerX" id="68p-ka-K1V"/>
                             <constraint firstItem="udw-w0-J2q" firstAttribute="top" secondItem="Wtm-vf-Fu8" secondAttribute="bottom" id="6vt-oV-wG6"/>
                             <constraint firstItem="lPO-4p-V5A" firstAttribute="leading" secondItem="Pyp-R1-zGu" secondAttribute="leading" id="842-fQ-9JH"/>
@@ -1261,16 +1257,13 @@
                             <constraint firstItem="Pyp-R1-zGu" firstAttribute="top" secondItem="8zC-eY-bcc" secondAttribute="bottom" id="JLd-kS-bG0"/>
                             <constraint firstItem="Wtm-vf-Fu8" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="Kbe-hS-oUK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Pyp-R1-zGu" secondAttribute="trailing" constant="-20" id="OqS-IX-JkK"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="H2M-B0-EM6" secondAttribute="trailing" constant="-20" id="QqW-AQ-tH3"/>
                             <constraint firstItem="lPO-4p-V5A" firstAttribute="top" secondItem="Pyp-R1-zGu" secondAttribute="top" id="RFJ-rK-hCt"/>
                             <constraint firstAttribute="trailingMargin" secondItem="udw-w0-J2q" secondAttribute="trailing" constant="-20" id="RTv-ka-gth"/>
                             <constraint firstItem="EQm-oB-lZH" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="T3U-0G-f8K"/>
                             <constraint firstItem="GVe-ft-3f0" firstAttribute="top" secondItem="EQm-oB-lZH" secondAttribute="bottom" id="akP-B5-M0o"/>
                             <constraint firstItem="EQm-oB-lZH" firstAttribute="top" secondItem="Pyp-R1-zGu" secondAttribute="bottom" id="cJe-Ol-10X"/>
                             <constraint firstItem="Wtm-vf-Fu8" firstAttribute="top" secondItem="Pyp-R1-zGu" secondAttribute="bottom" id="dIP-id-NsE"/>
-                            <constraint firstItem="GVe-ft-3f0" firstAttribute="top" secondItem="H2M-B0-EM6" secondAttribute="bottom" id="dhP-YM-lP3"/>
                             <constraint firstItem="1CZ-LH-EII" firstAttribute="centerX" secondItem="Wtm-vf-Fu8" secondAttribute="centerX" id="eQC-MG-B3d"/>
-                            <constraint firstItem="H2M-B0-EM6" firstAttribute="top" secondItem="8zC-eY-bcc" secondAttribute="bottom" id="gea-qW-hYH"/>
                             <constraint firstItem="udw-w0-J2q" firstAttribute="leading" secondItem="uRj-vP-Bur" secondAttribute="leadingMargin" constant="-20" id="gx2-Sc-aJY"/>
                             <constraint firstItem="1CZ-LH-EII" firstAttribute="centerY" secondItem="Wtm-vf-Fu8" secondAttribute="centerY" id="leR-5f-afc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EQm-oB-lZH" secondAttribute="trailing" constant="-20" id="rW4-v7-v0V"/>
@@ -1297,8 +1290,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="1CZ-LH-EII" id="Slw-39-4k1"/>
-                        <outlet property="backgroundImage" destination="H2M-B0-EM6" id="kip-hk-10r"/>
-                        <outlet property="blurView" destination="EQm-oB-lZH" id="Q70-ff-k6h"/>
+                        <outlet property="animalEffectView" destination="EQm-oB-lZH" id="fFD-Ox-0XV"/>
                         <outlet property="collectionView" destination="Wtm-vf-Fu8" id="A81-eT-Plc"/>
                         <outlet property="heightBanner" destination="izT-7I-5qA" id="wDL-yP-3Pf"/>
                         <outlet property="searchBar" destination="lPO-4p-V5A" id="hBY-QX-ddN"/>
@@ -2013,6 +2005,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cCH-pz-ki7" customClass="EffectBackgroundView" customModule="Bondzu" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Fh-HW-ueD">
                                 <rect key="frame" x="279" y="196" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -2021,7 +2017,9 @@
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="3e0-ht-wdv">
                                 <rect key="frame" x="0.0" y="236" width="600" height="364"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <sections/>
                                 <connections>
                                     <outlet property="dataSource" destination="Ghg-Tb-hw5" id="Uqh-qQ-aY4"/>
@@ -2036,20 +2034,24 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="rDF-YP-jnQ" firstAttribute="top" secondItem="cCH-pz-ki7" secondAttribute="bottom" id="9Uh-c9-Te2"/>
                             <constraint firstItem="5Fh-HW-ueD" firstAttribute="top" secondItem="DtU-sp-SNj" secondAttribute="bottom" constant="24" id="BDw-TF-REf"/>
                             <constraint firstItem="DtU-sp-SNj" firstAttribute="centerX" secondItem="Uz8-m7-Eoq" secondAttribute="centerX" id="DKw-qj-zc3"/>
                             <constraint firstItem="DtU-sp-SNj" firstAttribute="top" secondItem="kk6-uq-yzf" secondAttribute="bottom" constant="8" id="EA3-dh-cbR"/>
+                            <constraint firstItem="cCH-pz-ki7" firstAttribute="leading" secondItem="Uz8-m7-Eoq" secondAttribute="leadingMargin" constant="-20" id="OKH-IX-pGu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3e0-ht-wdv" secondAttribute="trailing" constant="-20" id="VXe-6s-QSl"/>
                             <constraint firstItem="rDF-YP-jnQ" firstAttribute="top" secondItem="3e0-ht-wdv" secondAttribute="bottom" id="X61-aw-HA1"/>
+                            <constraint firstItem="cCH-pz-ki7" firstAttribute="top" secondItem="kk6-uq-yzf" secondAttribute="bottom" id="gfz-2t-cLb"/>
                             <constraint firstItem="3e0-ht-wdv" firstAttribute="top" secondItem="5Fh-HW-ueD" secondAttribute="bottom" constant="19" id="gjL-hF-A8Q"/>
                             <constraint firstItem="5Fh-HW-ueD" firstAttribute="centerX" secondItem="Uz8-m7-Eoq" secondAttribute="centerX" id="iRk-2p-AE3"/>
                             <constraint firstItem="3e0-ht-wdv" firstAttribute="leading" secondItem="Uz8-m7-Eoq" secondAttribute="leadingMargin" constant="-20" id="quJ-hs-hJq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cCH-pz-ki7" secondAttribute="trailing" constant="-20" id="rQd-T2-uAA"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Account" id="SZb-JU-stT"/>
                     <connections>
+                        <outlet property="animalEffectView" destination="cCH-pz-ki7" id="Enj-eS-Dd8"/>
                         <outlet property="imageView" destination="DtU-sp-SNj" id="IJ8-ln-yAY"/>
                         <outlet property="name" destination="5Fh-HW-ueD" id="LXR-rq-kiU"/>
                         <segue destination="xb8-yD-RSp" kind="show" identifier="adoptedAnimals" id="kjM-NV-3t5"/>
@@ -2430,6 +2432,11 @@
                     </tableView>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KA4-iJ-BMe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="rV5-ft-IXd">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="1200" y="-4162"/>
         </scene>
@@ -2448,12 +2455,11 @@
         <image name="giftsselected" width="25" height="25"/>
         <image name="profileBar" width="22" height="22"/>
         <image name="profile_pic" width="110" height="110"/>
-        <image name="tigre" width="320" height="568"/>
         <image name="whitePaw" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="WDA-SF-nDG"/>
         <segue reference="Bpb-47-ovf"/>
-        <segue reference="jiO-1g-Nrg"/>
+        <segue reference="KwK-X7-Ij1"/>
     </inferredMetricsTieBreakers>
 </document>

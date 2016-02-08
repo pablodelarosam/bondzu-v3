@@ -22,7 +22,9 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     var loaded = false
     var objects : [Message]!
     var likes : [(Int , Bool)]!
+    
     var gestureRecognizer : UITapGestureRecognizer?
+    
     var hasImage = false
     var toLoad = 0
     
@@ -40,6 +42,8 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Community", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
         super.viewDidAppear(animated)
+        
+    
     }
     
     override func viewDidLoad() {
@@ -294,6 +298,7 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         }
         
         tableView.removeGestureRecognizer(gestureRecognizer!)
+        gestureRecognizer = nil
     }
     
     func dissmisKeyboard(){

@@ -15,6 +15,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     var user : Usuario?
     
+    @IBOutlet weak var animalEffectView: EffectBackgroundView!
     @IBOutlet weak var imageView: UserView!
     @IBOutlet weak var name: UILabel!
 
@@ -34,9 +35,14 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0{
+            
+            
             let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+            cell.textLabel!.textColor = UIColor.whiteColor()
+            cell.backgroundColor = UIColor.clearColor()
+            cell.tintColor = UIColor.redColor()
             
             switch indexPath.row{
             case 0:
@@ -48,12 +54,18 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             default:
                 cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
             }
+            
+            
             cell.accessoryType = .DisclosureIndicator
+            
+            
             return cell
         }
         else{
             let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
             cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
+            cell.backgroundColor = UIColor.clearColor()
+            cell.textLabel!.textColor = UIColor.whiteColor()
             return cell
         }
     }
@@ -64,6 +76,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        name.textColor = UIColor.whiteColor()
+        self.animalEffectView.setImageArray(Constantes.animalArrayImages)
+        
+        
         user = Usuario(object:  PFUser.currentUser()!, imageLoaderObserver: {
             (usuario, completed) -> (Void) in
             dispatch_async(dispatch_get_main_queue()){

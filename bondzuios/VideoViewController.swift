@@ -13,7 +13,7 @@ import Parse
 
 
 
-class VideoViewController: AVPlayerViewController, UIPopoverPresentationControllerDelegate, NoCamerasDismissedProtocol{
+class VideoViewController: AVPlayerViewController, UIPopoverPresentationControllerDelegate, NoCamerasDismissedProtocol, CameraChangingDelegate{
     
     var user : Usuario!
     
@@ -24,13 +24,18 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     var animalId: String!
     var backgroundImageNoCameras: UIImage!
     
+    var camera : Camera?
+    
     var dissmising = false
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     
     override func viewDidDisappear(animated: Bool) {
+        camera?.stopWatchingVideo()
         player?.pause()
+        
+        
         if let p = popover{
             
             p.delegate = nil
@@ -78,6 +83,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         let navController: UINavigationController = UINavigationController(rootViewController: popViewController)
         navController.modalPresentationStyle = UIModalPresentationStyle.Popover
         popViewController.modalPresentationStyle = .Popover
+        popViewController.delegate = self
         self.popover = navController.popoverPresentationController as UIPopoverPresentationController!
         popViewController.preferredContentSize = CGSizeMake(200, 200)
         self.popover.delegate = self
@@ -105,6 +111,8 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     {
         let query = PFQuery(className: TableNames.Camera.rawValue);
         query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
+        query.whereKeyExists(TableCameraColumnNames.PlayBackURL.rawValue)
+        query.whereKey(TableCameraColumnNames.Working.rawValue, equalTo: true)
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
             
@@ -132,8 +140,9 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                 if let objects = objects{
                     for object in objects{
                         let newCamera = Camera(object: object)
-                        if(newCamera.funcionando! && newCamera.url != nil){
+                        if(newCamera.funcionando! && newCamera.url != nil){//not necesary anymore
                             self.url = newCamera.url!;
+                            self.camera = newCamera
                             self.setup()
                             return
                         }
@@ -199,6 +208,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         self.player = AVPlayer(URL: url);
         self.view.addSubview(self.cameraButton);
         self.player?.play();
+        self.camera?.startWatchingVideo()
         self.player?.closedCaptionDisplayEnabled = false;
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "doneButtonClick:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
@@ -214,6 +224,12 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
             _ in
             self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
         })
+    }
+    
+    func cameraWillChange(newCamera: Camera) {
+        self.camera?.stopWatchingVideo()
+        self.camera = newCamera
+        self.camera?.startWatchingVideo()
     }
     
 }

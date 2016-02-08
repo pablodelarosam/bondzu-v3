@@ -11,12 +11,20 @@ import AVKit
 import AVFoundation
 import Parse
 
+@objc
+protocol CameraChangingDelegate{
+    func cameraWillChange(newCamera : Camera)
+}
+
+
 class ListaCamarasViewController: UITableViewController, UIPopoverPresentationControllerDelegate{
 
     var animalId: String!;
     var camaras = [Camera]();
     var player: AVPlayerViewController!
     let refreshcontrol = UIRefreshControl()    
+    
+    weak var delegate : CameraChangingDelegate?
     
     override func viewDidLoad() {
         //NSLocalizedString("CAMERAS", comment: "Choose a camera");
@@ -65,6 +73,7 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         {
             if(url != Utiles.urlOfAVPlayer(self.player.player)){
                 player.player?.pause()
+                delegate?.cameraWillChange(camara)
                 self.player.player = AVPlayer(URL: url)
                 self.player.player?.closedCaptionDisplayEnabled = false;
                 self.player.player?.play()

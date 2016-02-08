@@ -84,10 +84,20 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-bondzuios/Bolts.framework"
+  install_framework "Pods-bondzuios/FBSDKCoreKit.framework"
+  install_framework "Pods-bondzuios/FBSDKLoginKit.framework"
+  install_framework "Pods-bondzuios/Parse.framework"
+  install_framework "Pods-bondzuios/ParseFacebookUtilsV4.framework"
   install_framework "Pods-bondzuios/Stripe.framework"
   install_framework "Pods-bondzuios/youtube_ios_player_helper.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-bondzuios/Bolts.framework"
+  install_framework "Pods-bondzuios/FBSDKCoreKit.framework"
+  install_framework "Pods-bondzuios/FBSDKLoginKit.framework"
+  install_framework "Pods-bondzuios/Parse.framework"
+  install_framework "Pods-bondzuios/ParseFacebookUtilsV4.framework"
   install_framework "Pods-bondzuios/Stripe.framework"
   install_framework "Pods-bondzuios/youtube_ios_player_helper.framework"
 fi

@@ -174,7 +174,7 @@ class Usuario : NSObject{
         let query = relation.query()
        
         do{
-            let animals = try query!.findObjects()
+            let animals = try query.findObjects()
             
             //Check if the animal is already adopted
             for animal in animals{
@@ -220,7 +220,7 @@ class Usuario : NSObject{
         let query = relation.query()
         
         do{
-            let animals = try query!.findObjects()
+            let animals = try query.findObjects()
             var adopted = [AnimalV2]()
             
             for animal in animals{

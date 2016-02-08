@@ -238,10 +238,6 @@ class BlockingView : UIView{
     }
     
     @IBAction func screenTaped(){
-        if loading{
-            return
-        }
-        
         helper?.dismissController()
     }
     

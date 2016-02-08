@@ -5,9 +5,10 @@ use_frameworks!
 
 target 'bondzuios' do
 pod 'Stripe'
-pod "youtube-ios-player-helper"
+pod 'Parse'
+pod 'ParseFacebookUtilsV4'
+pod "youtube-ios-player-helper", "0.1.4"
 end
 
 target 'bondzuiosTests' do
-
 end

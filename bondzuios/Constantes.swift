@@ -30,7 +30,6 @@ import UIKit
     }
 #endif
 
-
 class Constantes{
     
     private static var queue : dispatch_queue_t?
@@ -41,6 +40,11 @@ class Constantes{
     #else
     static let STRIPE_PLUBISHABLE_KEY = "pk_live_HoLJQSZCGnDDLDUJ8KAGpvop"
     #endif
+    
+    /**
+     This constants is an array of images that will appear in many background view of the application
+     */
+    static let animalArrayImages = [UIImage(named: "tigre")!, UIImage(named: "dog")!, UIImage(named: "leopard")!, UIImage(named: "titi")!]
     
     /**
      This function will provide a static queue for all the asyncronus loading that the app needs
@@ -172,6 +176,7 @@ enum TableCameraColumnNames : String{
     case AnimalName = "animal_name"
     case Working = "funcionando"
     case PlayBackURL = "url"
+    case StatisticTime = "statisticTime"
 }
 
 enum TableUserTypeColumnNames : String{

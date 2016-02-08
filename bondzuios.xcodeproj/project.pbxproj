@@ -57,6 +57,7 @@
 		B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */; };
 		B32941631C4451B300AAB5B6 /* BondzuNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32941621C4451B300AAB5B6 /* BondzuNavigationController.swift */; };
 		B32941651C4451DE00AAB5B6 /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32941641C4451DE00AAB5B6 /* UserType.swift */; };
+		B32F85371C5A6C6F00E0988B /* EffectBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F85361C5A6C6F00E0988B /* EffectBackgroundView.swift */; };
 		B33AD6D31BBD886700A5FE71 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */; };
 		B34419B41C207CD80086C199 /* InteractiveDismissalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */; };
 		B346EA241C1F257E00A13001 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346EA231C1F257E00A13001 /* Message.swift */; };
@@ -89,8 +90,6 @@
 		B3D48E5B1C580ED300440CC7 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D48E5A1C580ED300440CC7 /* UserView.swift */; };
 		B3D5D8DC1BAB0DFE008F6820 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */; };
 		B3EA07271C4947EE0080DE9E /* UserBlockingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA07261C4947EE0080DE9E /* UserBlockingHelper.swift */; };
-		B3ECD89C1BE925C600CE214F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3ECD8991BE925C600CE214F /* Parse.framework */; };
-		B3ECD89D1BE925C600CE214F /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3ECD89A1BE925C600CE214F /* ParseFacebookUtilsV4.framework */; };
 		B3ECD89F1BE9260D00CE214F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3ECD89E1BE9260D00CE214F /* Bolts.framework */; };
 		B3F048B41B98983C005EB12D /* CommunityEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F048B31B98983C005EB12D /* CommunityEntryView.swift */; };
 /* End PBXBuildFile section */
@@ -165,6 +164,7 @@
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
 		B32941621C4451B300AAB5B6 /* BondzuNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BondzuNavigationController.swift; sourceTree = "<group>"; };
 		B32941641C4451DE00AAB5B6 /* UserType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserType.swift; path = bondzuios/UserType.swift; sourceTree = "<group>"; };
+		B32F85361C5A6C6F00E0988B /* EffectBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectBackgroundView.swift; sourceTree = "<group>"; };
 		B33AD6D21BBD886700A5FE71 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveDismissalHelper.swift; sourceTree = "<group>"; };
 		B346EA231C1F257E00A13001 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = bondzuios/Message.swift; sourceTree = "<group>"; };
@@ -199,8 +199,6 @@
 		B3D48E5A1C580ED300440CC7 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		B3EA07261C4947EE0080DE9E /* UserBlockingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBlockingHelper.swift; sourceTree = "<group>"; };
-		B3ECD8991BE925C600CE214F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		B3ECD89A1BE925C600CE214F /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		B3ECD89E1BE9260D00CE214F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		B3F048B31B98983C005EB12D /* CommunityEntryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityEntryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -216,7 +214,6 @@
 				54E447991B74022800BF580F /* CoreLocation.framework in Frameworks */,
 				54E4479D1B74023100BF580F /* Security.framework in Frameworks */,
 				54E4479F1B74023700BF580F /* StoreKit.framework in Frameworks */,
-				B3ECD89C1BE925C600CE214F /* Parse.framework in Frameworks */,
 				54E447A11B74023F00BF580F /* SystemConfiguration.framework in Frameworks */,
 				54E447A31B74024400BF580F /* libz.dylib in Frameworks */,
 				54E447A51B74024B00BF580F /* libsqlite3.dylib in Frameworks */,
@@ -224,7 +221,6 @@
 				54E447A91B74025600BF580F /* Social.framework in Frameworks */,
 				B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */,
 				B3BD86DD1BA92D9900D5E036 /* FBSDKCoreKit.framework in Frameworks */,
-				B3ECD89D1BE925C600CE214F /* ParseFacebookUtilsV4.framework in Frameworks */,
 				B3ECD89F1BE9260D00CE214F /* Bolts.framework in Frameworks */,
 				54E4479B1B74022D00BF580F /* QuartzCore.framework in Frameworks */,
 				3EC68316D7DD85A60EA3BE16 /* Pods_bondzuios.framework in Frameworks */,
@@ -402,6 +398,7 @@
 				B37FC35F1BC441C000B5692D /* Localizable.strings */,
 				54571F831B7928E10092E359 /* Utiles.swift */,
 				B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */,
+				B32F85361C5A6C6F00E0988B /* EffectBackgroundView.swift */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";
@@ -507,8 +504,6 @@
 			isa = PBXGroup;
 			children = (
 				B3ECD89E1BE9260D00CE214F /* Bolts.framework */,
-				B3ECD8991BE925C600CE214F /* Parse.framework */,
-				B3ECD89A1BE925C600CE214F /* ParseFacebookUtilsV4.framework */,
 				B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */,
 				B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */,
 				54E447A81B74025600BF580F /* Social.framework */,
@@ -765,6 +760,7 @@
 				54BC54C81B7BF8A1009244C7 /* GalleryViewController.swift in Sources */,
 				54E447AA1B74171300BF580F /* Producto.swift in Sources */,
 				54A3CE2A1B84FB5200E106D9 /* PagoViewController.swift in Sources */,
+				B32F85371C5A6C6F00E0988B /* EffectBackgroundView.swift in Sources */,
 				B37FC35A1BC43AB400B5692D /* Event.swift in Sources */,
 				B346EA261C1F3A2F00A13001 /* CommunityTabHelper.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
