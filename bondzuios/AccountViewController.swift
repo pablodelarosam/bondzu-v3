@@ -57,7 +57,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             
             cell.accessoryType = .DisclosureIndicator
-            
+            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             
             return cell
         }
@@ -66,8 +67,41 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
             cell.backgroundColor = UIColor.clearColor()
             cell.textLabel!.textColor = UIColor.whiteColor()
+            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             return cell
         }
+    }
+    
+    /**
+    This method provides the image asociated to the cell in order to avoid a complicated to read method
+     
+     - parameter section: The desired section
+     - parameter row: The desired row
+     
+     - returns: If the row is valid it should return a UIImage. nil otherwise
+    */
+    func iconForCellAtIndexPath(section : Int, row : Int) -> UIImage!{
+        var image : UIImage
+        
+        if section == 1{
+            image = UIImage(named: "logout")!
+        }
+        else{
+            switch row{
+            case 0:
+                image =  UIImage(named: "pawCell")!
+            case 1:
+                image = UIImage(named: "activityRegistry")!
+            case 2:
+                image = UIImage(named: "payment")!
+                
+            default: return nil;
+            }
+        }
+        
+        image = image.imageWithRenderingMode(.AlwaysTemplate)
+        return image
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {

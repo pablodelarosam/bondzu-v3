@@ -42,7 +42,26 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
             if error == nil && productoObtenido != nil{
                 self.itemDescrption = productoObtenido![TableProductColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
                 if let animal = productoObtenido![TableProductColumnNames.AnimalID.rawValue] as? PFObject{
-                    _ = AnimalV2(object: animal, delegate: self)
+                    dispatch_async(Constantes.get_bondzu_queue()){
+                        [weak self]
+                        in
+                        do{
+                            try animal.fetchIfNeeded()
+                            if self == nil{
+                                return
+                            }
+                            
+                            dispatch_async(dispatch_get_main_queue()){
+                                _ = AnimalV2(object: animal, delegate: self)
+                            }
+                            
+                        }
+                        catch{
+                            dispatch_async(dispatch_get_main_queue()){
+                                self?.delegate?.transaccionDidFailLoading(self)
+                            }
+                        }
+                    }
                 }
                 else{
                     print("El item elegido no tiene animal. Descartado")
