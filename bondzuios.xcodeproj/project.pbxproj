@@ -84,6 +84,7 @@
 		B3A29EF61BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF51BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift */; };
 		B3AE26B81BDEFD3600DACA35 /* CircledImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AE26B71BDEFD3600DACA35 /* CircledImageView.swift */; };
 		B3B7B9271BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B7B9261BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift */; };
+		B3BC98BD1C7932A5000676AD /* UserPlanPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC98BC1C7932A5000676AD /* UserPlanPurchaseManager.swift */; };
 		B3BD86DD1BA92D9900D5E036 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */; };
 		B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */; };
 		B3C1FB781BC70CF4003AD700 /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C1FB771BC70CF3003AD700 /* Capsule.swift */; };
@@ -193,6 +194,7 @@
 		B3A29EF51BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdoptedAnimalTableViewCell.swift; sourceTree = "<group>"; };
 		B3AE26B71BDEFD3600DACA35 /* CircledImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledImageView.swift; sourceTree = "<group>"; };
 		B3B7B9261BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapsulasViewController.swift; sourceTree = "<group>"; };
+		B3BC98BC1C7932A5000676AD /* UserPlanPurchaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPlanPurchaseManager.swift; sourceTree = "<group>"; };
 		B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		B3C1FB771BC70CF3003AD700 /* Capsule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Capsule.swift; path = bondzuios/Capsule.swift; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 			isa = PBXGroup;
 			children = (
 				B3EA07261C4947EE0080DE9E /* UserBlockingHelper.swift */,
+				B3BC98BC1C7932A5000676AD /* UserPlanPurchaseManager.swift */,
 				B3D48E5A1C580ED300440CC7 /* UserView.swift */,
 			);
 			name = UserTypeHelper;
@@ -770,6 +773,7 @@
 				546486E11B8269BB00286CAC /* GiftDetailViewController.swift in Sources */,
 				B346EA281C1F44FD00A13001 /* Reply.swift in Sources */,
 				B34419B41C207CD80086C199 /* InteractiveDismissalHelper.swift in Sources */,
+				B3BC98BD1C7932A5000676AD /* UserPlanPurchaseManager.swift in Sources */,
 				B34AD43A1BA0BCC100ACD3D6 /* ReplyCommunityViewController.swift in Sources */,
 				B3A29EEF1BB9CDF100F5EB8B /* AccountViewController.swift in Sources */,
 				54BC54C51B7BF879009244C7 /* CommunityViewController.swift in Sources */,

@@ -9,26 +9,53 @@
 import UIKit
 import ParseFacebookUtilsV4
 
-protocol LoginManagerResultDelegate{
 
+///As the login and sign up methods are asynchronus, this protocol is the callback for login events
+protocol LoginManagerResultDelegate{
+    /**
+     Called when the login was succesfull
+     
+     - parameter user: The loged in user
+     */
     func loginManagerDidLogin(user : PFUser)
+    /**
+     Called when the sign up was succesfull
+     
+     - parameter user: The loged in user
+     */
     func loginManagerDidRegister(user : PFUser)
+    
+    /**
+     Called when the login or sign up was unsuccesfull. In a comming soon api the error will be reported.
+     //TODO: ^
+     */
     func loginManagerDidFailed()
+    
+    /**
+     Called when the user canceled the operation
+     */
     func loginManagerDidCanceled()
 }
 
-enum LoginManagerFailingReason{
+
+///The errors that can happen during login
+enum LoginError : ErrorType{
+    /// The database handler produced an error
+    case ParseError
+    ///The internet conection produced a login error
+    case InternetError
+    ///In case of sign up the user already exists
+    case UserAlreadyExistsError
+    ///In case of sign up the stripe framework failed to provide a stripe_key
+    case StripeError
+    ///In case of sign up the password was unsafe
     case TooShortPassword
+    ///The password is not correct
     case InvalidPassword
 }
 
-enum LoginError : ErrorType{
-    case StripeError
-    case ParseError
-    case InternetError
-    case UserAlreadyExists
-}
 
+///This class provides the start point for loging and signing up users to the database
 class LoginManager{
     
     var delegate : LoginManagerResultDelegate!
@@ -103,20 +130,12 @@ class LoginManager{
                     user.password = "\(random())"
                     user[TableUserColumnNames.Mail.rawValue] = mail
                     user[TableUserColumnNames.PhotoURL.rawValue] = picture
-    
                     
-                    dispatch_async(Constantes.get_bondzu_queue()){
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
                         
-                        do{ //Get token, type and save user
+                        do{ //Get token and save user
                             let id = try self.getToken(user[TableUserColumnNames.Mail.rawValue] as? String)
                             user[TableUserColumnNames.StripeID.rawValue] = id
-                            
-                            let usertypequery = PFQuery(className: TableNames.UserType.rawValue)
-                            usertypequery.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
-                            let foundItems = try usertypequery.findObjects()
-                            user[TableUserColumnNames.UserType.rawValue] = foundItems[0]
-                            
-                            
                             try user.save()
                             dispatch_async(dispatch_get_main_queue()){
                                 self.delegate.loginManagerDidRegister(user)
@@ -226,7 +245,7 @@ class LoginManager{
             return
         }
         
-        dispatch_async(Constantes.get_bondzu_queue()){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
             do{
                 var error : NSError? = nil
                 
@@ -253,12 +272,6 @@ class LoginManager{
                 
                 let token = try self.getToken(email)
                 user[TableUserColumnNames.StripeID.rawValue] = token
-                
-                let usertypequery = PFQuery(className: TableNames.UserType.rawValue)
-                usertypequery.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
-                let foundItems = try usertypequery.findObjects()
-                user[TableUserColumnNames.UserType.rawValue] = foundItems[0]
-                
                 try user.signUp()
                 
                 dispatch_async(dispatch_get_main_queue()){
@@ -283,7 +296,7 @@ class LoginManager{
      
      */
     func login( username : String , password : String, finishingDelegate : LoginManagerResultDelegate ){
-        dispatch_async(Constantes.get_bondzu_queue()){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
             
             do{
                 try PFUser.logInWithUsername(username, password: password)
