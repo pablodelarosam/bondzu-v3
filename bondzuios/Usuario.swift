@@ -244,9 +244,8 @@ class Usuario : NSObject{
         if self.hasLoadedPriority{
             observer(self,type)
         }
-        else{
-            typeLoadingObserver.append(observer)
-        }
+        
+        typeLoadingObserver.append(observer)
     }
     
     private func notifyFinishedLoadingUserType(){
@@ -335,7 +334,7 @@ class Usuario : NSObject{
     
     
     ///Do not call directly. Use getSharedBasicType
-    static var sharedBasicType : UserType?
+    private static var sharedBasicType : UserType?
     
     ///#Call in background
     class func getSharedBasicType()->UserType?{
@@ -362,4 +361,6 @@ class Usuario : NSObject{
             
         }
     }
+    
+    
 }

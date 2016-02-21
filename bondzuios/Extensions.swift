@@ -59,6 +59,7 @@ extension UIAlertController {
 extension UINavigationController{
    
     func logoutUser(){
+        (UIApplication.sharedApplication().delegate as! AppDelegate).user = nil
         FBSDKLoginManager().logOut()
         PFUser.logOutInBackgroundWithBlock { (error) -> Void in
             if error == nil{

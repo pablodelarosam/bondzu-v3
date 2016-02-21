@@ -27,17 +27,29 @@ protocol UserBlockingHelperDelegate{
  This class will provide methods to load the view and dismiss it in the case where it was not necesary or when the user has upgrade its account
  
  */
-class UserBlockingHelper: NSObject {
+class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
     
-    
+    /// The controller in which the web view may be presented
     private var controller : UIViewController
+    ///The view that is going to be blocked
     private var overlapingView : UIView
+    /// The tyoe that the user require for the view to be unlocked
     private var requiredType : Int? = nil
+    /// The user that is going to be checked / upgraded
     private var user : Usuario
-    
+
+    /// The instance of the blocking view that is going to be used
     private var view : BlockingView = BlockingView()
     
+    /// The delegate that is going to inform about the blocking view status
     private weak var delegate : UserBlockingHelperDelegate?
+    
+    /// The web view that is going to be used for upgrading the user
+    private var webView : UserPlanPurchaseManager?
+    
+    /// The actual purchasable user type
+    private var userTypeInstance : UserType?
+    
     
     /**
      Default initialization for the class 
@@ -47,7 +59,7 @@ class UserBlockingHelper: NSObject {
      - parameter user: The user that wants to be compared
      - parameter delegate: The delegate to callback with notifications. This will create a weak reference but the parameter is required
      */
-    init( controller : UIViewController, view : UIView, requiredType : Int?, user : Usuario , delegate : UserBlockingHelperDelegate) {
+    init(controller : UIViewController, view : UIView, requiredType : Int?, user : Usuario , delegate : UserBlockingHelperDelegate) {
         self.controller = controller
         self.overlapingView = view
         self.user = user
@@ -100,10 +112,34 @@ class UserBlockingHelper: NSObject {
         return true
     }
     
-    //TODO On web service
-    func purchasePlan(){}
+    /**
+     This method is going to be trigered when the user wants to update its profile.
+     
+     */
+    func purchasePlan(){
+        view.button.enabled = false
+        webView = UserPlanPurchaseManager(user: self.user, insets: UIEdgeInsetsZero, desiredType: userTypeInstance!, delegate: self)
+        webView?.frame = self.view.frame
+        
+        if let vc =  self.controller.navigationController{
+            let h = vc.navigationBar.frame.height + 15
+            webView?.scrollView.contentInset = UIEdgeInsets(top: h, left: 0, bottom: 0, right: 0)
+        }
+        else if let vc = self.controller as? UINavigationController{
+            let h = vc.navigationBar.frame.height + 15
+            webView?.scrollView.contentInset = UIEdgeInsets(top: h, left: 0, bottom: 0, right: 0)
+        }
+        
+        self.view.addSubview(webView!)
+    }
     
+    /**
+     This method needs to be called then the controller is going to be dismissed but its work is not yet done or when the user wants to have it dismissed.
+    
+     **The result of calling this method wil result in a notification to the delegate about failure**
+     */
     func dismissController(){
+        self.webView?.cancel()
         delegate?.userBlockingHelperWillDismiss(false)
     }
     
@@ -118,21 +154,74 @@ class UserBlockingHelper: NSObject {
             return
         }
         
+        
         if user.type!.priority >= requiredType!{
+            
+            //This means he user upgraded
+            if let v = webView{
+                v.cancel()
+                self.webView = nil
+            }
+            
             self.delegate?.userBlockingHelperWillDismiss(true)
             self.view.removeFromSuperview()
             return
         }
-        
-        user.userNeededTypeForRequestedPermission(requiredType!) {
-            type -> () in
-            if let type = type{
-                self.view.setUserRequiredTitle(type.name, color: type.color)
-            }
-            else{
-                self.delegate?.userBlockingHelperFailed()
+        else{
+            if let v = webView{
+                v.cancel()
+                self.view.button.enabled = true
+                self.webView = nil
             }
         }
+        
+        user.userNeededTypeForRequestedPermission(requiredType!) {
+            [weak self]
+            type in
+            if let type = type{
+                self?.userTypeInstance = type
+                self?.view.setUserRequiredTitle(type.name, color: type.color)
+            }
+            else{
+                self?.delegate?.userBlockingHelperFailed()
+            }
+        }
+    }
+    
+    //MARK: UserPlanPurchaseManagerProtocol
+    
+    /**
+     Implementation of protocol.
+     
+     This method is going to be called when the web view is about to be dismissed. 
+     
+     This class won't do anything when this happens as it does not give any extrea information
+     */
+    func webPurchasePlanPagePageWillDismiss() {
+        webView = nil
+    }
+    
+    /**
+     This method is an implementation of a protocol. 
+     
+     Is going to be called when there is an error in the purchase process loading.
+     
+     Its going to inform the user about that
+     */
+    func webPurchasePlanPageDidFail() {
+        webView = nil
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: "Something went wront, please try again later", preferredStyle: UIAlertControllerStyle.Alert)
+        ac.addAction(UIAlertAction(title: NSLocalizedString("OK" , comment: ""), style: .Default, handler: {
+            _ in
+            self.delegate?.userBlockingHelperWillDismiss(false)
+        }))
+    }
+    
+    /**
+     Only avoids memory leaks of web view
+     */
+    deinit{
+        webView?.cancel()
     }
 }
 
@@ -147,28 +236,47 @@ class BlockingView : UIView{
     
     /// This is the view that is set when the user type is not loaded yet
     private let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+    /// The top label indicating the "To see me"
     private let topLabel = UILabel()
+    /// The center label indicating "you need to be"
     private let centerLabel = UILabel()
+    /// The label indicating the usertype
     private let bottonLabel = UILabel()
+    /// The purchase button
     private let button = UIButton(type: UIButtonType.RoundedRect)
+    /// The logo that appears at the bottom of the screen
     private let finalLogo = UIImageView(image: UIImage(named: "whitePaw")!)
+    /// Indictes if the view is still loading
     private var loading = true
     
+    /// A stack view that includes the above mentioned views
     private var stackView = UIStackView()
     
+    /// As this is a private and not reusable class, there is an instance to the only possible caller. Its weak to avoid a circular reference
     weak var helper : UserBlockingHelper?
     
+    /**
+     Called when the view is ready to display content.
+     This method shows the view components
+     */
     private func stopLoading(){
         loading = false
         stackView.hidden = false
         activityIndicatorView.stopAnimating()
     }
     
+    /**
+     This method should be called by the owner to let this class know the information that it should display. 
+     
+      - parameter title: The title of the type that the user needs
+      - parameter color: The color that represents the type
+     */
     func setUserRequiredTitle(title : String, color: UIColor){
         bottonLabel.textColor = color
         bottonLabel.text = title
         self.stopLoading()
     }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -180,7 +288,11 @@ class BlockingView : UIView{
         load()
     }
     
-    func load(){
+    /**
+     This method is provided to load the view components. 
+     As this properties are going to be set in every constructor, its taken to another method to avoid duplication.
+     */
+    private func load(){
         
         activityIndicatorView.startAnimating()
         activityIndicatorView.hidesWhenStopped = true
@@ -209,7 +321,7 @@ class BlockingView : UIView{
         bottonLabel.font = bottonLabel.font.fontWithSize(25)
         
         
-        self.button.addTarget(self, action: "buttonActioned", forControlEvents: UIControlEvents.TouchDragInside)
+        self.button.addTarget(self, action: "buttonActioned", forControlEvents: UIControlEvents.TouchUpInside)
 
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: "screenTaped")
         self.addGestureRecognizer(gestureRecognizer)
@@ -225,11 +337,17 @@ class BlockingView : UIView{
         Imagenes.redondeaVista(button, radio: 10)
     }
     
+    /**
+     This method is going to be called when the button of purchase is actioned. 
+     It indicates the desired action to its helper.
+     */
     @IBAction func buttonActioned(){
         helper?.purchasePlan()
     }
     
+    
     override func layoutSubviews() {
+        super.layoutSubviews()
         self.frame.origin = CGPointZero
         self.frame.size = self.superview!.bounds.size
         activityIndicatorView.frame.origin = CGPoint.originForCenteringView(activityIndicatorView, inView: self)
@@ -237,10 +355,12 @@ class BlockingView : UIView{
         stackView.frame.origin = CGPoint.originForCenteringView(stackView, inView: self)
     }
     
+    /**
+     This method is called when anything but the button is tapped.
+     This tap means that the user don't want to see the controll anymore so the helper is notified about this.
+     */
     @IBAction func screenTaped(){
         helper?.dismissController()
     }
-    
-    
-    
+
 }

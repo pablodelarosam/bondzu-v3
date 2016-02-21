@@ -82,6 +82,7 @@
 		B3A29EF11BB9EC0400F5EB8B /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */; };
 		B3A29EF41BBAF05200F5EB8B /* AdopedAnimalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF31BBAF05200F5EB8B /* AdopedAnimalsViewController.swift */; };
 		B3A29EF61BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A29EF51BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift */; };
+		B3A8B9A41C7A7F060028D542 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = B3A8B9A31C7A7F060028D542 /* Assets */; };
 		B3AE26B81BDEFD3600DACA35 /* CircledImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AE26B71BDEFD3600DACA35 /* CircledImageView.swift */; };
 		B3B7B9271BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B7B9261BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift */; };
 		B3BC98BD1C7932A5000676AD /* UserPlanPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC98BC1C7932A5000676AD /* UserPlanPurchaseManager.swift */; };
@@ -192,6 +193,7 @@
 		B3A29EF01BB9EC0400F5EB8B /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		B3A29EF31BBAF05200F5EB8B /* AdopedAnimalsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdopedAnimalsViewController.swift; sourceTree = "<group>"; };
 		B3A29EF51BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdoptedAnimalTableViewCell.swift; sourceTree = "<group>"; };
+		B3A8B9A31C7A7F060028D542 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
 		B3AE26B71BDEFD3600DACA35 /* CircledImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircledImageView.swift; sourceTree = "<group>"; };
 		B3B7B9261BC6ECFF00CB5EAB /* VideoCapsulasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapsulasViewController.swift; sourceTree = "<group>"; };
 		B3BC98BC1C7932A5000676AD /* UserPlanPurchaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPlanPurchaseManager.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
+				B3A8B9A31C7A7F060028D542 /* Assets */,
 				54571F891B7932B70092E359 /* AboutTab */,
 				B3A29EED1BB9CDDB00F5EB8B /* Account */,
 				B3B7B9251BC6ECE100CB5EAB /* Capsulas */,
@@ -622,6 +625,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3A8B9A41C7A7F060028D542 /* Assets in Resources */,
 				B358A1221BCB314200DC9525 /* Main.storyboard in Resources */,
 				B37FC35D1BC441C000B5692D /* Localizable.strings in Resources */,
 				54305CB51B73F80A003F9AB0 /* LaunchScreen.xib in Resources */,

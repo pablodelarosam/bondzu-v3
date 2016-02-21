@@ -76,8 +76,13 @@ class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
         if segue.identifier == "loginSegue"{
             let destVC = segue.destinationViewController as! CatalogViewController
             destVC.user = Usuario(object: sender as! PFObject, loadImage: true, imageLoaderObserver: nil, userTypeObserver: nil)
+            setUserOnDelegate(destVC.user)
             (self.navigationController as! BondzuNavigationController).user = destVC.user
         }
     }
 
+    private func setUserOnDelegate(user : Usuario){
+        (UIApplication.sharedApplication().delegate as! AppDelegate).user = user
+    }
+    
 }
