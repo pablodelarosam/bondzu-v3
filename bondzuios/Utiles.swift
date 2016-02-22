@@ -37,7 +37,7 @@ func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
     return newImage
 }
 
-@available(*, deprecated=1.0, message="Please use the new functions that returns if the image could be created")
+@available(*, deprecated=1.0, message="Please use the new functions that returns if the image could be created", renamed="getImageInBackground:stringblock:" )
 func getImageInBackground(url string : String, block : (UIImage->Void)){
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
         

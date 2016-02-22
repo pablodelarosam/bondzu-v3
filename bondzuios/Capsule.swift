@@ -22,6 +22,11 @@ class Capsule : NSObject{
         return "https://img.youtube.com/vi/\(id)/mqdefault.jpg"
     }
     
+    
+    class func secondTryVideoPattern(id : String) -> String{
+        return "https://img.youtube.com/vi/\(id)/mqdefault_live.jpg"
+    }
+    
     var videoID : [String]
     var title : [String]
     var videoDescription : [String]
@@ -54,11 +59,23 @@ class Capsule : NSObject{
             let animal = AnimalV2(object: av2!, delegate: nil)
             self.animalName = animal.name
             let img = Capsule.videoPattern(self.videoID[0])
+            let eimg = Capsule.secondTryVideoPattern(self.videoID[0])
             getImageInBackground(url: img){
                 (image, completed) -> Void in
                 
                 if !completed{
-                    self.delegate?.capsuleDidFailLoading(self)
+                    getImageInBackground(url: eimg, block: {
+                        (img, complete) -> Void in
+                        if !complete{
+                            self.delegate?.capsuleDidFailLoading(self)
+                            self.delegate = nil
+                            return
+                        }
+                        
+                        self.image = img
+                        self.delegate?.capsuleDidFinishLoading(self)
+                        self.delegate = nil
+                    })
                     return
                 }
                 

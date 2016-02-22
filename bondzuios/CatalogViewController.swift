@@ -218,6 +218,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             let index = self.videoCapsules.indexOf(capsule)
             self.videoCapsules.removeAtIndex(index!)
             self.toLoadVideos--
+            if self.segementedControl.selectedSegmentIndex == 1{
+                self.collectionView.reloadData()
+            }
         }
     }
 

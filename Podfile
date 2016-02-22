@@ -4,7 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'bondzuios' do
-pod 'Stripe’, “6.2.0”
+pod 'Stripe’, “6.0.0”
 pod 'Parse'
 pod 'ParseFacebookUtilsV4'
 pod 'youtube-ios-player-helper' , "0.1.4"

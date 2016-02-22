@@ -57,7 +57,8 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
         let request = NSMutableURLRequest(URL: webPage)
         request.HTTPMethod = "POST"
         request.HTTPBody = "user=\(user.originalObject.objectId!)&type=\(desiredType.originalObject.objectId!)".dataUsingEncoding(NSUTF8StringEncoding)
-        
+        self.backgroundColor = UIColor.whiteColor()
+        self.opaque = false
         self.planPurchaseDelegate = delegate
         self.delegate = self
         self.loadRequest(request)

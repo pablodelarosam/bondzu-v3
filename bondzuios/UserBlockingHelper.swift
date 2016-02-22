@@ -120,6 +120,7 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
         view.button.enabled = false
         webView = UserPlanPurchaseManager(user: self.user, insets: UIEdgeInsetsZero, desiredType: userTypeInstance!, delegate: self)
         webView?.frame = self.view.frame
+        webView?.frame.origin.y = webView!.frame.height
         
         if let vc =  self.controller.navigationController{
             let h = vc.navigationBar.frame.height + 15
@@ -131,6 +132,9 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
         }
         
         self.view.addSubview(webView!)
+        UIView.animateWithDuration(1){
+            self.webView!.frame.origin.y = self.webView!.frame.origin.y - self.webView!.frame.size.height
+        }
     }
     
     /**
