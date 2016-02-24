@@ -117,6 +117,11 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
         if p.containsString("appDone"){
             self.user.refreshUserType()
         }
+        else if p.containsString("didCancel"){
+            self.cancel()
+            return false
+            
+        }
         
         return true
     }

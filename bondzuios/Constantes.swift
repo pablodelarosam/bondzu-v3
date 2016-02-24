@@ -78,6 +78,8 @@ enum TableNames : String{
     case User = "User"
     case Camera = "Camera"
     case UserType = "UserType"
+    case StoreProduct = "Store"
+    case StoreProductPrice = "StorePrice"
 }
 
 enum TableVideoCapsuleNames : String{
@@ -187,6 +189,20 @@ enum TableUserTypeColumnNames : String{
     case GreenChanel = "greenColorID"
     case Cost = "cost"
     case UserTypeName = "name"
+}
+
+enum TableStoreProductColumnNames : String{
+    case Name = "name"
+    case Description = "description"
+    case Type = "type"
+    case Image = "picture"
+    case Purchasable = "sellable"
+}
+
+enum TableStorePriceColumnNames : String{
+    case Price = "price"
+    case Product = "product"
+    case Prority = "minPriority"
 }
 
 enum Errors : ErrorType{

@@ -11,7 +11,7 @@ import UIKit
 import Parse
 
 ///This view controller is the responsable of showing the animal information and link it to the cameras and adoption buttons. It extends UIViewController and implements delegates for textView, animalv2 and events. In order to work, this controller needs a blocking helper and a user.
-class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol, EventLoadingDelegate{
+class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol{
 
     ///The currently logged in user
     var user : Usuario!
@@ -133,7 +133,6 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         
         updateTabBarColor()
         
-        lateral.moreButton.addTarget(self, action: "segueToEvents", forControlEvents: UIControlEvents.TouchUpInside)
         
         adopt.setTargetAction {
             [weak self]
@@ -212,19 +211,6 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                     self.appendHeadLine(NSLocalizedString("About", comment: ""))
                     self.appendText(self.animal!.about)
                 }
-                
-                
-                let eventsQuery = PFQuery(className: TableNames.Events_table.rawValue)
-                eventsQuery.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
-                eventsQuery.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())
-                eventsQuery.getFirstObjectInBackgroundWithBlock({
-                    (eventObject, error) -> Void in
-    
-                    if error == nil && eventObject != nil{
-                        _ = Event(object: eventObject!, delegate: self)
-                    }
-                    
-                })
                 
                 guard self.animal?.keepers != nil  else{
                     print("El animal elegido no tiene keepers")
@@ -324,9 +310,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(text)", attributes: textDescriptor))
     }
     
-    @IBAction func segueToEvents(){
-        self.performSegueWithIdentifier("events", sender: nil)
-    }
+    
     
     
     //MARK: AnimalV2 Loading protocol implementation
@@ -366,18 +350,6 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         self.blockingHelper?.setRequiredPriority(animal.requiredPermission!.priority)
     }
 
-    
-    //MARK: Event Loading protocol
-    
-    ///Set the event on the lateral bar
-    func eventDidFinishLoading(event: Event!) {
-        dispatch_async(dispatch_get_main_queue()){
-            self.lateral.setEventData(event.eventImage, title: event.eventName)
-        }
-    }
-    
-    ///Do nothing (ignores protocol)
-    func eventDidFailLoading(event: Event!) {}
 
 }
 

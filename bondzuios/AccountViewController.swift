@@ -11,6 +11,9 @@ import UIKit
 import Parse
 import MobileCoreServices
 
+/**
+ This class provides the table
+ */
 class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var user : Usuario?

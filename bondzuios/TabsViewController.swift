@@ -8,12 +8,9 @@
 
 import UIKit
 
-
-
 /**
  This class is responsable of managing the tabs of any animal.
  This class will also provide a blocking view in case the user don't have acces to it.
- TODO: All view controllers that this class present must implement a protocol to recieve the tab bar required properties.
  
  All sub view controllers will be responsable of updating the blocking view when new information is available
  
@@ -68,14 +65,7 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
                 vc.animalID = self.animal.objectId
                 vc.blockingHelper = self.tabBlockingView
             }
-            else if let vc = viewController as? GiftsViewController
-            {
-                vc.animalId = self.animal.objectId
-                vc.user = self.user
-                vc.blockingHelper = self.tabBlockingView
-            }
-            
-            if let vc = viewController as? GalleryViewController
+            else if let vc = viewController as? GalleryViewController
             {
                 vc.animalId = self.animal.objectId
                 vc.blockingHelper = self.tabBlockingView
@@ -98,6 +88,11 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
     
     //MARK: User blocking delegate
     
+    /**
+    Part of a protocol implementation.
+    This is going to be called when the blocking view has failed.
+    This method will go back to the previous controller.
+    */
     func userBlockingHelperFailed() {
         let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
         ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
@@ -108,6 +103,13 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
         self.presentViewController(ac, animated: true, completion: nil)
     }
     
+    /**
+     Part of protocol implementation.
+     This is going to be called when the blocking view has finished its work.
+     
+     - parameter result: A boolean telling the dlegate if the user has or not permission to see the resource. According to the parameter an action will be taken.
+     
+     */
     func userBlockingHelperWillDismiss(result: Bool) {
         if(!result){
             self.navigationController?.popViewControllerAnimated(true)
@@ -115,16 +117,7 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
         self.tabBlockingView = nil
 
     }
-        
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+

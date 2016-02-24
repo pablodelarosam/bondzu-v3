@@ -8,24 +8,42 @@
 
 import UIKit
 
+/**
+ This class provides the rigth lateral view on the about.
+ */
 public class AboutLateralView: UIView {
 
+    private let sections : CGFloat = 2
+    
+    /// The array containing the title label of each section
     private var titleLabels = [UILabel]()
-    private var separators = [UIView]()
+    
+    /// The UIViews that work as separator
+    private var separator = UIView()
+    
+    /// The label that displays the number of adopters
     private var adoptersLabel = UILabel()
-    private var eventImage = UIImageView()
-    private var eventLabel = UILabel()
-    public var moreButton = UIButton()
     
-    
+
+    /**
+     This method should be called when the number of adopters has been loaded.
+     
+     - parameter adopters: The number of adopters that the animal has
+     */
     public func setAdopters(adopters : Int){
         adoptersLabel.text = "\(adopters)"
     }
     
+    /**
+     This method returns the reported number of adopters that was given to this class
+     
+     - returns: The int value reported to this function or nil if there was an error
+     */
     public func getAdopters() -> Int?{
         return Int(adoptersLabel.text!)
     }
     
+    /// The left keeper
     var keeper1 : Usuario?{
         didSet{
             if let a = keeper1{
@@ -38,6 +56,7 @@ public class AboutLateralView: UIView {
         }
     }
     
+    /// The right keeper
     var keeper2 : Usuario?{
         didSet{
             if let a = keeper2{
@@ -51,23 +70,17 @@ public class AboutLateralView: UIView {
         }
     }
     
-    var keeperOneImageView = UIImageView()
-    var keeperTwoImageView = UIImageView()
-    var keeperOneLabel = UILabel()
-    var keeperTwoLabel = UILabel()
+    /// The image view that encloses the first keeper image
+    private var keeperOneImageView = UIImageView()
+    /// The image that encloses the second keeper image
+    private var keeperTwoImageView = UIImageView()
+
+    /// The label that displays the first keeper name
+    private var keeperOneLabel = UILabel()
+    /// The label that displays the second keeper name
+    private var keeperTwoLabel = UILabel()
     
-    func setEventData(image : UIImage? , title : String){
-        eventImage.image = image
-        eventLabel.text = title
-        if image != nil{
-            eventLabel.textAlignment = .Left
-        }
-        else{
-            eventLabel.textAlignment = .Center
-        }
-        setNeedsLayout()
-    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         load()
@@ -80,17 +93,18 @@ public class AboutLateralView: UIView {
     }
     
     
-    func load(){
-        for _ in 0..<2{
-            let separator = UIView()
-            separator.backgroundColor = UIColor.lightGrayColor()
-            separator.frame.size.height = 1
-            separator.frame.origin.x = 0
-            separators.append(separator)
-            addSubview(separator)
-        }
+    /**
+     This method is called by the constructors to set the properties to a valid initial state
+     */
+    private func load(){
+
+        separator.backgroundColor = UIColor.lightGrayColor()
+        separator.frame.size.height = 1
+        separator.frame.origin.x = 0
+        addSubview(separator)
         
-        for _ in 0..<3{
+        
+        for _ in 0..<2{
             let label = UILabel()
             label.font = label.font.fontWithSize(16)
             label.textAlignment = NSTextAlignment.Center
@@ -99,9 +113,8 @@ public class AboutLateralView: UIView {
         }
         
         
-        titleLabels[0].text = NSLocalizedString("Events", comment: "")
-        titleLabels[1].text = NSLocalizedString("Keepers", comment: "")
-        titleLabels[2].text = NSLocalizedString("Adopters", comment: "")
+        titleLabels[0].text = NSLocalizedString("Keepers", comment: "")
+        titleLabels[1].text = NSLocalizedString("Adopters", comment: "")
         
         adoptersLabel.text = "0"
         adoptersLabel.font = adoptersLabel.font.fontWithSize(35)
@@ -123,52 +136,27 @@ public class AboutLateralView: UIView {
         addSubview(keeperOneLabel)
         addSubview(keeperTwoLabel)
         
-        
-        eventLabel.numberOfLines = 0
-        eventLabel.font = eventLabel.font.fontWithSize(10)
-        eventLabel.textAlignment = NSTextAlignment.Center
-        addSubview(eventLabel)
-        
-        moreButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-        moreButton.setTitle(NSLocalizedString("More", comment: ""), forState: .Normal)
-        moreButton.titleLabel!.font = moreButton.titleLabel!.font.fontWithSize(7)
-        addSubview(moreButton)
-        
-        addSubview(eventImage)
-
-        eventLabel.text = NSLocalizedString("No events found", comment: "")
-        eventLabel.backgroundColor = UIColor.clearColor()
     }
     
     public override func layoutSubviews() {
         
-        //NOTA TODO FEATURE VERSION 2.0
-        /*
-        Arreglar problema que ocurre cuando la imagen del cuidador 2 de carga antes que la del cuidador 1
-        */
         super.layoutSubviews()
         
         let width = frame.width
-        let contentHeight = (frame.height - 6) / 3
+        let contentHeight = (frame.height - 6) / sections
         let secondFrameOriginY = contentHeight + 3
-        let thirdFrameOriginY = secondFrameOriginY + contentHeight + 3
         
         let titleLabelHeight = contentHeight * 0.25
         let microContentHeight = contentHeight - titleLabelHeight
         
+        separator.frame.size.width = width
         
-        for i in separators{
-            i.frame.size.width = width
-        }
-        
-        separators[0].frame.origin.y = contentHeight + 1
-        separators[1].frame.origin.y = thirdFrameOriginY - 2
+        separator.frame.origin.y = contentHeight + 1
         
         titleLabels[0].frame = CGRect(x: 0, y: 0, width: width, height: titleLabelHeight)
         titleLabels[1].frame = CGRect(x: 0, y: secondFrameOriginY, width: width, height: titleLabelHeight)
-        titleLabels[2].frame = CGRect(x: 0, y: thirdFrameOriginY, width: width, height: titleLabelHeight)
         
-        adoptersLabel.frame = CGRect(x: 0, y: thirdFrameOriginY + titleLabelHeight + 5, width: width, height: microContentHeight - 5)
+        adoptersLabel.frame = CGRect(x: 0, y: secondFrameOriginY + titleLabelHeight + 5, width: width, height: microContentHeight - 5)
         
         let imageHeigth = (microContentHeight - 9) * 0.7
         
@@ -210,38 +198,6 @@ public class AboutLateralView: UIView {
                 Imagenes.redondeaVista(keeperOneImageView, radio: keeperOneImageView.frame.width / 2)
             }
         }
-        
-        if let _ = eventImage.image{
-            
-            let availableWidth = frame.width / 2
-            eventLabel.frame = CGRect(x: frame.width / 2 + 1, y: titleLabelHeight + 3, width: availableWidth - 2, height: microContentHeight - 6)
-            let imgSize = min(availableWidth, microContentHeight)
-            eventImage.frame = CGRect(x: width / 4 - imgSize / 2, y: titleLabelHeight + (microContentHeight - imgSize) / 2 , width:imgSize, height: imgSize)
-            Imagenes.redondeaVista(eventImage, radio: imgSize / 2)
-            
-            moreButton.frame.size = CGSize(width: 30, height: 15)
-            moreButton.frame.origin = CGPoint(x: width - moreButton.frame.width, y: microContentHeight + titleLabelHeight - moreButton.frame.height)
-            
-            eventLabel.textColor = UIColor.blackColor()
-            moreButton.hidden = false
-        }
-        else{
-            eventLabel.frame = CGRect(x: 0, y: titleLabelHeight, width: width, height: microContentHeight)
-            eventLabel.textColor = UIColor.lightGrayColor()
-            moreButton.hidden = true
-        }
-    }
-    
-    
-    @available(*, deprecated=8.0, message="This method was deprecated for a new api that takes a completed flag. Use photoDidLoad instead")
-    func photoReady( user : Usuario){
-        if(user == keeper1){
-            keeperOneImageView.image = keeper1?.image
-        }
-        else if(user == keeper2){
-            keeperTwoImageView.image = keeper2?.image
-        }
-        setNeedsLayout()
     }
     
     func photoDidLoad( user : Usuario, completed : Bool){

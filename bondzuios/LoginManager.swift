@@ -11,7 +11,7 @@ import ParseFacebookUtilsV4
 
 
 ///As the login and sign up methods are asynchronus, this protocol is the callback for login events
-protocol LoginManagerResultDelegate{
+@objc protocol LoginManagerResultDelegate{
     /**
      Called when the login was succesfull
      
@@ -58,7 +58,8 @@ enum LoginError : ErrorType{
 ///This class provides the start point for loging and signing up users to the database
 class LoginManager{
     
-    var delegate : LoginManagerResultDelegate!
+    /// The delegate that is going to receive the result of login or sign up
+    weak var delegate : LoginManagerResultDelegate?
     
     /**
      This function attemp to login a user throught facebook
@@ -113,7 +114,7 @@ class LoginManager{
     func finishFacebookRegister (user : PFUser?, error : NSError?){
         if error != nil{
             print(error)
-            self.delegate.loginManagerDidFailed()
+            self.delegate?.loginManagerDidFailed()
         }
         else if user!.isNew{
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
@@ -138,7 +139,7 @@ class LoginManager{
                             user[TableUserColumnNames.StripeID.rawValue] = id
                             try user.save()
                             dispatch_async(dispatch_get_main_queue()){
-                                self.delegate.loginManagerDidRegister(user)
+                                self.delegate?.loginManagerDidRegister(user)
                             }
                         }
                         catch{
@@ -153,7 +154,7 @@ class LoginManager{
         }
         else{
             dispatch_async(dispatch_get_main_queue()){
-                self.delegate.loginManagerDidLogin(user!)
+                self.delegate?.loginManagerDidLogin(user!)
             }
         }
     }
@@ -224,7 +225,7 @@ class LoginManager{
         catch{}
         
         dispatch_async(dispatch_get_main_queue()){
-            self.delegate.loginManagerDidFailed()
+            self.delegate?.loginManagerDidFailed()
         }
     }
     
