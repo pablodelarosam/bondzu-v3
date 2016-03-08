@@ -64,7 +64,7 @@ class Constantes{
 
 let LOCALIZED_STRING = "locale"
 let privacyURL = NSURL(string: "http://bondzu.com/privacy.html")
-let planPurchaseURL = NSURL(string: "https://bondzu.com/purchase.php")
+let planPurchaseURL = NSURL(string: "http://bondzu.com/purchase.php")
 
 enum TableNames : String{
     case Events_table = "Calendar"

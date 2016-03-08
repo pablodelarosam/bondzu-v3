@@ -10,30 +10,61 @@ import UIKit
 import Parse
 import MobileCoreServices
 
-
+/// The default profile image that will appear on users without image
 let defaultProfileImage = UIImage(named: "profile")
 
+/// The class is provided to controll the view of community. To initialize this class an animalID should be passed before the view loads.
 class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWithImageButtonProtocol, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LoadMessageResult, CommunityTabHelperProtocol{
 
-    weak var blockingHelper : UserBlockingHelper? = nil
+    /// A var telling if the likes where already loaded or not.
     var likesLoaded = false
 
+    /// The last post date loaded. This variable is usefull for query new items.
+    var date : NSDate? = nil
+    
+    /// The animal id whose comments are being displayed.
     var animalID = ""
+    
+    /// Tells if the view is fully loaded or not yet.
     var loaded = false
+    
+    /// Tells if the query is working rigth now
+    var loading = false
+    
+    /// The messages that are being displayed. This object should be initialized by the query.
     var objects : [Message]!
+    
+    /// An array containing tuples telling how many likes does a message has and if the user has already liked it or not.
     var likes : [(Int , Bool)]!
     
+    /// Dissmises the keyboard when required.
     var gestureRecognizer : UITapGestureRecognizer?
     
+    /// This variable is used when the user is creating a new message. This boolean tells whether the user has attached an image or not
     var hasImage = false
+    
+    /// Tells how many messages has to be loaded before they are shown. A message is consider loaded when the user image is proccesed
     var toLoad = 0
     
+    /// This is a helper that will manage situations such as likes, reports, and image displaying.
     let cm = CommunityTabHelper()
-
     
+    /// The table that show the comments
     @IBOutlet weak var tableView: UITableView!
+    
+    /// The text field in which the user enters his messages.
     @IBOutlet weak var textField: TextFieldWithImageButton!
 
+    /// This is a temporary location to add likes that where not created on the firs query.
+    var likes_temp : [(Int , Bool)]!
+    
+    /// This is a temporary variable to store the messages while they are loaded in a second query.
+    var objects_temp : [Message]!
+   
+    /// A var telling if the likes where already loaded or not in a new set.
+    var likesLoaded_temp = false
+    
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
@@ -42,15 +73,12 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Community", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
         super.viewDidAppear(animated)
-        
-    
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.delegate = self
         query()
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardHide:", name: UIKeyboardWillHideNotification, object: nil)
 
@@ -97,16 +125,35 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         return cell
     }
     
+    //TODO: T avoid bug code the cell in storyboard or nib
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 90
     }
     
+    /**
+     This function should be called in one of the following situations:
+     1. The class is initializing its values
+     2. The class wants to get the last messages
+     
+     The second case will only happen if the *loaded* property is true.
+     */
     func query(){
-        loaded = false
+        
+        if loading{
+            return
+        }
+        
+        self.loading = true
+        
         let query = PFQuery(className: TableNames.Messages_table.rawValue)
         query.orderByDescending(TableMessagesColumnNames.Date.rawValue)
         query.whereKeyExists(TableMessagesColumnNames.Message.rawValue)
         query.whereKey(TableMessagesColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: animalID))
+        
+        if let date = date{
+            query.whereKey(TableMessagesColumnNames.Date.rawValue, greaterThan: date)
+        }
+        
         query.findObjectsInBackgroundWithBlock(){
             array, error in
             
@@ -123,47 +170,92 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
                 return
             }
             
-            self.objects = [Message]()
-            self.likes = [(Int,Bool)]()
-            let messages = array!
+            if !self.loaded{
+                self.objects = [Message]()
+                self.likes = [(Int,Bool)]()
+                
+            }
+            else{
+                self.objects_temp = [Message]()
+                self.likes_temp = [(Int,Bool)]()
+            }
             
+            let messages = array!
             self.toLoad = messages.count
             
+            if messages.count > 0 {
+                self.date = messages[0].createdAt
+            }
+            
+
             for i in messages{
                 let o = Message(object: i, delegate: self)
-                self.objects.append(o)
+                if self.loaded{
+                    self.objects_temp.append(o)
+                }
+                else{
+                    self.objects.append(o)
+                }
             }
             
             
-            if self.objects.count == 0{
+            if self.objects.count == 0 && !self.loaded{
                 self.loaded = true
                 self.tableView.reloadData()
             }
         
-            dispatch_async(Constantes.get_bondzu_queue()){
-                self.getLikes()
-            }
+            self.getLikes()
+            self.loading = false
         }
     }
 
-    
-    //CALL ASYNC
+    /**
+     This method will do its work in background so you should not assume the likes will be loaded after calling this method.
+     
+     This method will load the likes determining wether is the original set of data or a new one.
+     
+     This method will also determine when finished if it should append the new data now or later.
+     */
     func getLikes(){
         
+        let loaded = self.likes_temp != nil
+        
         if NSThread.isMainThread(){
-            mainThreadWarning()
+            dispatch_async(Constantes.get_bondzu_queue(), { () -> Void in
+                self.getLikes()
+                return
+            })
         }
+        
+        self.likesLoaded_temp = false
         
         let usuario = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
-        for object in objects{
+        
+        let array = loaded ?  self.objects_temp : self.objects
+        
+        for object in array{
             let valor = (object.likesCount(), object.userHasLiked(usuario))
-            likes.append(valor)
+            if loaded{
+                self.likes_temp.append(valor)
+            }
+            else{
+                self.likes.append(valor)
+            }
         }
         
-        self.likesLoaded = true
-        
-        dispatch_async(dispatch_get_main_queue()){
-            self.tableView.reloadData()
+        if !loaded{
+            self.likesLoaded = true
+            dispatch_async(dispatch_get_main_queue()){
+                self.tableView.reloadData()
+            }
+        }
+        else{
+            self.likesLoaded_temp = true
+            if toLoad == 0{
+                dispatch_async(dispatch_get_main_queue()){
+                    self.mergeTemp()
+                }
+            }
         }
     }
     
@@ -352,8 +444,15 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         toLoad--
         
         if toLoad == 0{
-            loaded = true
-            tableView.reloadData()
+            if !self.loaded{
+                loaded = true
+                tableView.reloadData()
+            }
+            else{
+                if self.likesLoaded_temp{
+                    self.mergeTemp()
+                }
+            }
         }
     }
     
@@ -381,6 +480,25 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
             controller.dismissViewControllerAnimated(false, completion: nil)
         }))
         self.presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    func mergeTemp(){
+        
+        var indexPaths = [NSIndexPath]()
+        var index = 0
+        
+        while index < self.objects_temp.count{
+            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+            self.objects.insert(objects_temp[index], atIndex: index)
+            self.likes.insert(likes_temp[index], atIndex: index)
+            index++
+        }
+        
+        self.objects_temp = nil
+        self.likes_temp = nil
+        
+        self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        
     }
     
     deinit{

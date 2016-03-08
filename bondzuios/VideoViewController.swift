@@ -232,4 +232,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         self.camera?.startWatchingVideo()
     }
     
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.AllButUpsideDown
+    }
 }

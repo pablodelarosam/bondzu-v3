@@ -213,12 +213,13 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
      Its going to inform the user about that
      */
     func webPurchasePlanPageDidFail() {
-        webView = nil
+        self.webView = nil
         let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: "Something went wront, please try again later", preferredStyle: UIAlertControllerStyle.Alert)
         ac.addAction(UIAlertAction(title: NSLocalizedString("OK" , comment: ""), style: .Default, handler: {
             _ in
             self.delegate?.userBlockingHelperWillDismiss(false)
         }))
+        self.controller.presentViewController(ac, animated: true, completion: nil)
     }
     
     /**

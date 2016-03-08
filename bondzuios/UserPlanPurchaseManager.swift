@@ -78,8 +78,8 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
      */
     func cancel(){
         self.stopLoading()
-        self.removeFromSuperview()
         self.planPurchaseDelegate?.webPurchasePlanPagePageWillDismiss()
+        self.removeFromSuperview()
         self.user.refreshUserType()
         done()
     }
@@ -94,7 +94,6 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
         self.planPurchaseDelegate?.webPurchasePlanPageDidFail()
         cancel()
         done()
-
     }
 
     /**

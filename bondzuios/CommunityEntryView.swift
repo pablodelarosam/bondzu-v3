@@ -58,7 +58,7 @@ class CommunityEntryView: UITableViewCell {
         load()
     }
     
-    @available(*, deprecated=8.9, message="This method will be renamed. Imn a future release user will not be opcional nor have a default vale", renamed="setInfo")
+    @available(*, deprecated=8.9, message="This method will be renamed. In a future release user will not be opcional nor have a default vale", renamed="setInfo")
     func setInfo(id : Message, date : NSDate, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int, user : Usuario? = nil){
         
         imageIcon.hidden = !hasContentImage

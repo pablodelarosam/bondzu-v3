@@ -63,7 +63,6 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
             else if let vc = viewController as? CommunityViewController
             {
                 vc.animalID = self.animal.objectId
-                vc.blockingHelper = self.tabBlockingView
             }
             else if let vc = viewController as? GalleryViewController
             {
