@@ -484,6 +484,8 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
     
     func mergeTemp(){
         
+        let reload = self.objects.count == 0 ? true : false
+        
         var indexPaths = [NSIndexPath]()
         var index = 0
         
@@ -497,7 +499,12 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         self.objects_temp = nil
         self.likes_temp = nil
         
-        self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        if !reload{
+            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        }
+        else{
+            self.tableView.reloadData()
+        }
         
     }
     
