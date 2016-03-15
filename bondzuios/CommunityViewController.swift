@@ -115,17 +115,17 @@ class CommunityViewController: UIViewController, CommunitEntryEvent, TextFieldWi
         cell.delegate = self
         
         if likesLoaded{
-            cell.setInfo(self.objects[indexPath.row], date: self.objects[indexPath.row].date, name: self.objects[indexPath.row].user!.name, message: self.objects[indexPath.row].message, image: self.objects[indexPath.row].user!.image, hasContentImage: self.objects[indexPath.row].hasAttachedImage , hasLiked: likes[indexPath.row].1, likeCount: likes[indexPath.row].0)
+            cell.setInfo(self.objects[indexPath.row], date: self.objects[indexPath.row].date, name: self.objects[indexPath.row].user!.name, message: self.objects[indexPath.row].message, image: self.objects[indexPath.row].user!.image, hasContentImage: self.objects[indexPath.row].hasAttachedImage , hasLiked: likes[indexPath.row].1, likeCount: likes[indexPath.row].0, user: self.objects[indexPath.row].user)
 
         }
         else{
-            cell.setInfo(self.objects[indexPath.row], date: self.objects[indexPath.row].date, name: self.objects[indexPath.row].user!.name, message: self.objects[indexPath.row].message, image: self.objects[indexPath.row].user!.image, hasContentImage: self.objects[indexPath.row].hasAttachedImage , hasLiked: false, likeCount: 0)
+            cell.setInfo(self.objects[indexPath.row], date: self.objects[indexPath.row].date, name: self.objects[indexPath.row].user!.name, message: self.objects[indexPath.row].message, image: self.objects[indexPath.row].user!.image, hasContentImage: self.objects[indexPath.row].hasAttachedImage , hasLiked: false, likeCount: 0, user: self.objects[indexPath.row].user)
         }
         
         return cell
     }
     
-    //TODO: T avoid bug code the cell in storyboard or nib
+    //TODO: To avoid bug, create the cell in storyboard or nib
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 90
     }
