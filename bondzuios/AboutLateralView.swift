@@ -136,6 +136,8 @@ public class AboutLateralView: UIView {
         addSubview(keeperOneLabel)
         addSubview(keeperTwoLabel)
         
+        self.setNeedsLayout()
+        
     }
     
     public override func layoutSubviews() {
@@ -173,11 +175,11 @@ public class AboutLateralView: UIView {
                     keeperTwoImageView.frame.size = CGSize(width: imageWidth, height: imageWidth)
                 }
                 
-                keeperOneImageView.frame.origin = CGPoint(x: frame.size.width/4 - keeperOneImageView.frame.width / 2 , y: titleLabels[1].frame.origin.y + titleLabelHeight + 3)
+                keeperOneImageView.frame.origin = CGPoint(x: frame.size.width/4 - keeperOneImageView.frame.width / 2 , y: titleLabels[0].frame.origin.y + titleLabelHeight + 3)
                 keeperOneLabel.frame = CGRect(x: 0, y: keeperOneImageView.frame.origin.y + keeperOneImageView.frame.height + 3 , width: imageWidth, height: microContentHeight - keeperOneImageView.frame.height - 9)
                 Imagenes.redondeaVista(keeperOneImageView, radio: keeperOneImageView.frame.width / 2)
                 
-                keeperTwoImageView.frame.origin = CGPoint(x: frame.size.width/4 * 3 - keeperOneImageView.frame.width / 2 , y: titleLabels[1].frame.origin.y + titleLabelHeight + 3)
+                keeperTwoImageView.frame.origin = CGPoint(x: frame.size.width/4 * 3 - keeperOneImageView.frame.width / 2 , y: titleLabels[0].frame.origin.y + titleLabelHeight + 3)
                 keeperTwoLabel.frame = CGRect(x: frame.width / 2, y: keeperOneImageView.frame.origin.y + keeperOneImageView.frame.height + 3 , width: imageWidth, height: microContentHeight - keeperOneImageView.frame.height - 9)
                 Imagenes.redondeaVista(keeperTwoImageView, radio: keeperOneImageView.frame.width / 2)
                 
@@ -192,7 +194,7 @@ public class AboutLateralView: UIView {
                     keeperOneImageView.frame.size = CGSize(width: imageWidth, height: imageWidth)
                 }
                 
-                keeperOneImageView.frame.origin = CGPoint(x: width / 2 - keeperOneImageView.frame.width / 2, y: titleLabels[1].frame.origin.y + titleLabelHeight + 3)
+                keeperOneImageView.frame.origin = CGPoint(x: width / 2 - keeperOneImageView.frame.width / 2, y: titleLabels[0].frame.origin.y + titleLabelHeight + 3)
                 keeperOneLabel.frame = CGRect(x: 0, y: keeperOneImageView.frame.origin.y + keeperOneImageView.frame.height + 3 , width: width, height: microContentHeight - keeperOneImageView.frame.height - 9)
                 
                 Imagenes.redondeaVista(keeperOneImageView, radio: keeperOneImageView.frame.width / 2)

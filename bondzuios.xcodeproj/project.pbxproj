@@ -276,7 +276,7 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
-				B3BAB3DF1C7B769100780C4F /* Screens */,
+				54571F891B7932B70092E359 /* AboutTab */,
 				B3A29EED1BB9CDDB00F5EB8B /* Account */,
 				B3B7B9251BC6ECE100CB5EAB /* Capsulas */,
 				544252851B7BBF910077C7A6 /* Catalog */,
@@ -510,14 +510,6 @@
 			name = bondzu_deprecated;
 			sourceTree = "<group>";
 		};
-		B3BAB3DF1C7B769100780C4F /* Screens */ = {
-			isa = PBXGroup;
-			children = (
-				54571F891B7932B70092E359 /* AboutTab */,
-			);
-			name = Screens;
-			sourceTree = "<group>";
-		};
 		B3EA07251C49476A0080DE9E /* UserTypeHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,7 +601,7 @@
 				TargetAttributes = {
 					54305CA41B73F809003F9AB0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = P95F7PXU7A;
+						DevelopmentTeam = V5M688Z463;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -991,7 +983,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bondzu.bondzuapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bondzu.bondzuapp2;
 				PRODUCT_NAME = Bondzu;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
@@ -1004,7 +996,7 @@
 			baseConfigurationReference = 13AA6755D299B569F0C39FD9 /* Pods-bondzuios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Bondzu, S.A. de C.V. (P95F7PXU7A)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bondzu, S.A. de C.V. (P95F7PXU7A)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1014,7 +1006,7 @@
 				INFOPLIST_FILE = bondzuios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bondzu.bondzuapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bondzu.bondzuapp2;
 				PRODUCT_NAME = Bondzu;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";

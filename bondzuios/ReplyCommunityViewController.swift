@@ -154,7 +154,6 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         
     }
     
-    
     func imageSelected(message: Message) {
         comminutyHelper.showImage(message, fromViewController: self)
     }

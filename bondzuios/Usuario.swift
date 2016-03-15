@@ -115,7 +115,7 @@ class Usuario : NSObject{
                     query.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
                     let foundItems = try query.findObjects()
                     self.type = UserType(object: foundItems[0])
-                    object[TableUserColumnNames.UserType.rawValue] = Usuario.getSharedBasicType()
+                    object[TableUserColumnNames.UserType.rawValue] = Usuario.getSharedBasicType()?.originalObject
                     try object.save()
                     self.notifyFinishedLoadingUserType()
                 }
