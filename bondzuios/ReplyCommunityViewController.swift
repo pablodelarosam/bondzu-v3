@@ -80,7 +80,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         if indexPath.section == 0{
             let cell = tableView.dequeueReusableCellWithIdentifier("comment") as! CommunityEntryView
             cell.delegate = self
-            cell.setInfo(message, date: message.date, name: message.user!.name, message: message.message, image: message.user!.image , hasContentImage: message.hasAttachedImage, hasLiked: like.1 , likeCount: like.0)
+            cell.setInfo(message, date: message.date, name: message.user!.name, message: message.message, image: message.user!.image , hasContentImage: message.hasAttachedImage, hasLiked: like.1 , likeCount: like.0, user: message.user)
             cell.replyButton.hidden = true
             return cell
         }
