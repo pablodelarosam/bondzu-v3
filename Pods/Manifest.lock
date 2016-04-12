@@ -17,15 +17,15 @@ PODS:
     - FBSDKLoginKit (~> 4.9.0-beta)
     - FBSDKTVOSKit (~> 4.9.0-beta)
     - Parse (~> 1.11)
-  - Stripe (6.0.0):
-    - Stripe/Core (= 6.0.0)
-  - Stripe/Core (6.0.0)
+  - Stripe (5.1.4):
+    - Stripe/Core (= 5.1.4)
+  - Stripe/Core (5.1.4)
   - youtube-ios-player-helper (0.1.4)
 
 DEPENDENCIES:
   - Parse
   - ParseFacebookUtilsV4
-  - Stripe (= 6.0.0)
+  - Stripe (~> 5.1.4)
   - youtube-ios-player-helper (= 0.1.4)
 
 SPEC CHECKSUMS:
@@ -34,9 +34,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: ec22dc49bd372b064e93d6773df4ffefb3a552a2
   Parse: de2c52a9a1421b91ae7594ab8ce191afd184f19b
   ParseFacebookUtilsV4: 216e03bd560404eed09a4875c75f0c1cdf758070
-  Stripe: eeb348b09a3bc36ebaa99c36493635da3ad01227
+  Stripe: 6864be95b09092f05526bc2e0a50804bc556aa0d
   youtube-ios-player-helper: 84b1485ebb4b7c6b619c6e05edcb55186723a7c6
 
-PODFILE CHECKSUM: 428d462806c37b3701346604a4da60ba2a40ffa3
-
-COCOAPODS: 1.0.0.beta.2
+COCOAPODS: 0.39.0

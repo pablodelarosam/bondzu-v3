@@ -7,33 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STPBankAccountParams.h"
-#import "STPAPIResponseDecodable.h"
 
-typedef NS_ENUM(NSInteger, STPBankAccountStatus) {
-    STPBankAccountStatusNew,
-    STPBankAccountStatusValidated,
-    STPBankAccountStatusVerified,
-    STPBankAccountStatusErrored,
-};
+
 
 /**
- *  Representation of a user's bank account details that have been tokenized with the Stripe API. @see https://stripe.com/docs/api#cards
+ *  Representation of a user's credit card details. You can assemble these with information that your user enters and
+ *  then create Stripe tokens with them using an STPAPIClient. @see https://stripe.com/docs/api#create_bank_account_token
  */
-@interface STPBankAccount : STPBankAccountParams<STPAPIResponseDecodable>
+@interface STPBankAccount : NSObject
 
 /**
- *  The last 4 digits of the bank account's account number.
+ *  The account number for the bank account. Currently must be a checking account.
  */
-- (nonnull NSString *)last4;
+@property (nonatomic, copy, nullable) NSString *accountNumber;
 
 /**
  *  The routing number for the bank account. This should be the ACH routing number, not the wire routing number.
  */
-@property (nonatomic, copy, nonnull) NSString *routingNumber;
+@property (nonatomic, copy, nullable) NSString *routingNumber;
 
 /**
- *  Two-letter ISO code representing the country the bank account is located in.
+ *  The country the bank account is in.
  */
 @property (nonatomic, copy, nullable) NSString *country;
 
@@ -42,10 +36,11 @@ typedef NS_ENUM(NSInteger, STPBankAccountStatus) {
  */
 @property (nonatomic, copy, nullable) NSString *currency;
 
+#pragma mark - These fields are only present on objects returned from the Stripe API.
 /**
  *  The Stripe ID for the bank account.
  */
-@property (nonatomic, readonly, nonnull) NSString *bankAccountId;
+@property (nonatomic, readonly, nullable) NSString *bankAccountId;
 
 /**
  *  The last 4 digits of the account number.
@@ -63,26 +58,21 @@ typedef NS_ENUM(NSInteger, STPBankAccountStatus) {
 @property (nonatomic, readonly, nullable) NSString *fingerprint;
 
 /**
- *  The validation status of the bank account. @see STPBankAccountStatus
- */
-@property (nonatomic, readonly) STPBankAccountStatus status;
-
-/**
  *  Whether or not the bank account has been validated via microdeposits or other means.
- *  @deprecated Use status == STPBankAccountStatusValidated instead.
  */
-@property (nonatomic, readonly) BOOL validated __attribute__((deprecated("Use status == STPBankAccountStatusValidated instead.")));
+@property (nonatomic, readonly) BOOL validated;
 
 /**
  *  Whether or not the bank account is currently disabled.
- *  @deprecated Use status == STPBankAccountStatusErrored instead.
  */
-@property (nonatomic, readonly) BOOL disabled __attribute__((deprecated("Use status == STPBankAccountStatusErrored instead.")));
+@property (nonatomic, readonly) BOOL disabled;
 
-#pragma mark - deprecated setters for STPBankAccountParams properties
+@end
 
-#define DEPRECATED_IN_FAVOR_OF_STPBANKACCOUNTPARAMS __attribute__((deprecated("For collecting your users' bank account details, you should use an STPBankAccountParams object instead of an STPBankAccount.")))
 
-- (void)setAccountNumber:(nullable NSString *)accountNumber DEPRECATED_IN_FAVOR_OF_STPBANKACCOUNTPARAMS;
+// This method is used internally by Stripe to deserialize API responses and exposed here for convenience and testing purposes only. You should not use it in your own code.
+@interface STPBankAccount (PrivateMethods)
+
+- (nonnull instancetype)initWithAttributeDictionary:(nonnull NSDictionary *)attributeDictionary;
 
 @end

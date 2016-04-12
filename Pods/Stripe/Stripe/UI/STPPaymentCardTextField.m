@@ -258,13 +258,6 @@ CGFloat const STPPaymentCardTextFieldDefaultPadding = 10;
     return self.layer.borderWidth;
 }
 
-- (void)setKeyboardAppearance:(UIKeyboardAppearance)keyboardAppearance {
-    _keyboardAppearance = keyboardAppearance;
-    for (STPFormTextField *field in [self allFields]) {
-        field.keyboardAppearance = keyboardAppearance;
-    }
-}
-
 - (void)setInputAccessoryView:(UIView *)inputAccessoryView {
     _inputAccessoryView = inputAccessoryView;
     
@@ -384,10 +377,10 @@ CGFloat const STPPaymentCardTextFieldDefaultPadding = 10;
     return self.viewModel.cvc;
 }
 
-- (STPCardParams *)card {
+- (STPCard *)card {
     if (!self.isValid) { return nil; }
     
-    STPCardParams *c = [[STPCardParams alloc] init];
+    STPCard *c = [[STPCard alloc] init];
     c.number = self.cardNumber;
     c.expMonth = self.expirationMonth;
     c.expYear = self.expirationYear;

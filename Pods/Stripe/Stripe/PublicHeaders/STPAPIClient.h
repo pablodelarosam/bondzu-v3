@@ -8,17 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString *const __nonnull STPSDKVersion = @"6.0.0";
 
-@class STPBankAccount, STPBankAccountParams, STPCard, STPCardParams, STPToken;
+static NSString *const __nonnull STPSDKVersion = @"5.1.4";
+
+@class STPBankAccount, STPCard, STPToken;
 
 /**
- *  A callback to be run with a token response from the Stripe API.
+ *  A callback to be run with the response from the Stripe API.
  *
  *  @param token The Stripe token from the response. Will be nil if an error occurs. @see STPToken
  *  @param error The error returned from the response, or nil in one occurs. @see StripeError.h for possible values.
  */
-typedef void (^STPTokenCompletionBlock)(STPToken * __nullable token, NSError * __nullable error);
+typedef void (^STPCompletionBlock)(STPToken * __nullable token, NSError * __nullable error);
 
 /**
  A top-level class that imports the rest of the Stripe SDK. This class used to contain several methods to create Stripe tokens, but those are now deprecated in
@@ -54,7 +55,7 @@ typedef void (^STPTokenCompletionBlock)(STPToken * __nullable token, NSError * _
 @property (nonatomic, copy, nullable) NSString *publishableKey;
 
 /**
- *  The operation queue on which to run completion blocks passed to the api client. Defaults to [NSOperationQueue mainQueue].
+ *  The operation queue on which to run the url connection and delegate methods. Cannot be nil. @see NSURLConnection
  */
 @property (nonatomic, nonnull) NSOperationQueue *operationQueue;
 
@@ -70,7 +71,7 @@ typedef void (^STPTokenCompletionBlock)(STPToken * __nullable token, NSError * _
  *  @param bankAccount The user's bank account details. Cannot be nil. @see https://stripe.com/docs/api#create_bank_account_token
  *  @param completion  The callback to run with the returned Stripe token (and any errors that may have occurred).
  */
-- (void)createTokenWithBankAccount:(nonnull STPBankAccountParams *)bankAccount completion:(__nullable STPTokenCompletionBlock)completion;
+- (void)createTokenWithBankAccount:(nonnull STPBankAccount *)bankAccount completion:(__nullable STPCompletionBlock)completion;
 
 @end
 
@@ -79,26 +80,23 @@ typedef void (^STPTokenCompletionBlock)(STPToken * __nullable token, NSError * _
 @interface STPAPIClient (CreditCards)
 
 /**
- *  Converts an STPCardParams object into a Stripe token using the Stripe API.
+ *  Converts an STPCard object into a Stripe token using the Stripe API.
  *
  *  @param card        The user's card details. Cannot be nil. @see https://stripe.com/docs/api#create_card_token
  *  @param completion  The callback to run with the returned Stripe token (and any errors that may have occurred).
  */
-- (void)createTokenWithCard:(nonnull STPCardParams *)card completion:(nullable STPTokenCompletionBlock)completion;
+- (void)createTokenWithCard:(nonnull STPCard *)card completion:(nullable STPCompletionBlock)completion;
+
+@end
+
+// These methods are used internally and exposed here only for the sake of writing tests more easily. You should not use them in your own application.
+@interface STPAPIClient (PrivateMethods)
+
+- (void)createTokenWithData:(nonnull NSData *)data completion:(nullable STPCompletionBlock)completion;
 
 @end
 
 #pragma mark - Deprecated Methods
-
-/**
- *  A callback to be run with a token response from the Stripe API.
- *
- *  @param token The Stripe token from the response. Will be nil if an error occurs. @see STPToken
- *  @param error The error returned from the response, or nil in one occurs. @see StripeError.h for possible values.
- *  @deprecated This has been renamed to STPTokenCompletionBlock.
- */
-typedef void (^STPCompletionBlock)(STPToken * __nullable token, NSError * __nullable error) __attribute__((deprecated("STPCompletionBlock has been renamed to STPTokenCompletionBlock.")));
-
 // These methods are deprecated. You should instead use STPAPIClient to create tokens.
 // Example: [Stripe createTokenWithCard:card completion:completion];
 // becomes [[STPAPIClient sharedClient] createTokenWithCard:card completion:completion];
@@ -129,7 +127,7 @@ typedef void (^STPCompletionBlock)(STPToken * __nullable token, NSError * __null
  *  Securely convert your user's credit card details into a Stripe token, which you can then safely store on your server and use to charge the user.
  *
  *  @param card    The user's card details. @see STPCard
- *  @param queue   The operation queue on which to run completion blocks passed to the api client. 
+ *  @param queue   The operation queue on which to run the URL connection. @see NSURLConnection
  *  @param handler Code to run when the user's card has been turned into a Stripe token.
  *  @deprecated    Use STPAPIClient instead.
  */
@@ -140,7 +138,7 @@ typedef void (^STPCompletionBlock)(STPToken * __nullable token, NSError * __null
  *
  *  @param card           The user's card details. @see STPCard
  *  @param publishableKey The API key to use to authenticate with Stripe. Get this at https://stripe.com/account/apikeys .
- *  @param queue          The operation queue on which to run completion blocks passed to the api client. 
+ *  @param queue          The operation queue on which to run the URL connection. @see NSURLConnection
  *  @param handler        Code to run when the user's card has been turned into a Stripe token.
  *  @deprecated           Use STPAPIClient instead.
  */
@@ -177,7 +175,7 @@ typedef void (^STPCompletionBlock)(STPToken * __nullable token, NSError * __null
  *connection will run on the main queue. Uses the value of [Stripe defaultPublishableKey] for authentication.
  *
  *  @param bankAccount The user's bank account details. @see STPBankAccount
- *  @param queue       The operation queue on which to run completion blocks passed to the api client. 
+ *  @param queue       The operation queue on which to run the URL connection. @see NSURLConnection
  *  @param handler     Code to run when the user's card has been turned into a Stripe token.
  *  @deprecated        Use STPAPIClient instead.
  */
@@ -191,7 +189,7 @@ typedef void (^STPCompletionBlock)(STPToken * __nullable token, NSError * __null
  *
  *  @param bankAccount    The user's bank account details. @see STPBankAccount
  *  @param publishableKey The API key to use to authenticate with Stripe. Get this at https://stripe.com/account/apikeys .
- *  @param queue          The operation queue on which to run completion blocks passed to the api client. 
+ *  @param queue          The operation queue on which to run the URL connection. @see NSURLConnection
  *  @param handler        Code to run when the user's card has been turned into a Stripe token.
  *  @deprecated           Use STPAPIClient instead.
  */

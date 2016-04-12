@@ -9,11 +9,10 @@
 
 #import "STPAPIClient+ApplePay.h"
 #import "PKPayment+Stripe.h"
-#import "STPAPIClient+Private.h"
 
 @implementation STPAPIClient (ApplePay)
 
-- (void)createTokenWithPayment:(PKPayment *)payment completion:(STPTokenCompletionBlock)completion {
+- (void)createTokenWithPayment:(PKPayment *)payment completion:(STPCompletionBlock)completion {
     [self createTokenWithData:[self.class formEncodedDataForPayment:payment] completion:completion];
 }
 
@@ -91,5 +90,3 @@
 }
 
 @end
-
-void linkSTPAPIClientApplePayCategory(void){}
