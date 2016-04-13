@@ -748,6 +748,7 @@
                                             <rect key="frame" x="233" y="7" width="133" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
+                                                <segment title="Nosotros"/>
                                                 <segment title="Animalia"/>
                                                 <segment title="Video"/>
                                                 <segment title="Especiales"/>

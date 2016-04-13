@@ -96,7 +96,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if segementedControl.selectedSegmentIndex == 0{
+        if segementedControl.selectedSegmentIndex == 1{
             if toLoadAnimals == 0{
                 if !activityIndicator.hidden{
                     self.activityIndicator.stopAnimating()
@@ -112,7 +112,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             }
             
         }
-        else{
+        else if segementedControl.selectedSegmentIndex == 2{
             if toLoadVideos == 0{
                 if !activityIndicator.hidden{
                     self.activityIndicator.stopAnimating()
@@ -127,6 +127,10 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                 return 0
             }
         }
+        //for other options, collection view must be hidden, so this doesnt really matter
+        else {
+            return 0
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -139,7 +143,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         cell.tab = segementedControl.selectedSegmentIndex
         cell.row = indexPath.row
 
-        if segementedControl.selectedSegmentIndex == 0{
+        if segementedControl.selectedSegmentIndex == 1{
             let animal = searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row]
             cell.nameLabel.text = animal.name;
             cell.speciesLabel.text = animal.specie;
@@ -161,7 +165,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             }
 
         }
-        else{
+        else if segementedControl.selectedSegmentIndex == 2{
             let capsule = searching ? self.searchedVideoCapsules[indexPath.row] : self.videoCapsules[indexPath.row]
             cell.nameLabel.text = capsule.title[0]
             cell.speciesLabel.text = capsule.animalName;
@@ -189,16 +193,20 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
-        if segementedControl.selectedSegmentIndex == 0{
+        if segementedControl.selectedSegmentIndex == 1{
             performSegueWithIdentifier("catalogSegue", sender: searching ? self.searchedAnimals[indexPath.row] : self.animalsToShow[indexPath.row])
             searching = false
             searchBar.resignFirstResponder()
         }
-        else{
+        else if segementedControl.selectedSegmentIndex == 2{
             performSegueWithIdentifier("capsule", sender: searching ? self.searchedVideoCapsules[indexPath.row] : self.videoCapsules[indexPath.row])
             searching = false
             searchBar.resignFirstResponder()
         }
+        //if segment index is another number, a collection view cell shouldnt be clicked, so this is ok
+        
+        //maybe I should set searching to false and searchbar resigned on an else block.....
+        //!!!!!!!!!!!!!!!!!! note to Dany
     }
     
     //MARK: Video Capsule Delegate
@@ -207,7 +215,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         dispatch_async(dispatch_get_main_queue()){
             self.toLoadVideos--
             print("To load videos: \(self.toLoadVideos)")
-            if self.segementedControl.selectedSegmentIndex == 1{
+            if self.segementedControl.selectedSegmentIndex == 2{
                 self.collectionView.reloadData()
             }
         }
@@ -218,7 +226,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             let index = self.videoCapsules.indexOf(capsule)
             self.videoCapsules.removeAtIndex(index!)
             self.toLoadVideos--
-            if self.segementedControl.selectedSegmentIndex == 1{
+            if self.segementedControl.selectedSegmentIndex == 2{
                 self.collectionView.reloadData()
             }
         }
@@ -231,7 +239,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         if searching{
             if let index = searchedVideoCapsules.indexOf(capsule){
                 self.searchedVideoCapsules.removeAtIndex(index)
-                if segementedControl.selectedSegmentIndex == 1{
+                if segementedControl.selectedSegmentIndex == 2{
                     self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)] )
                 }
             }
@@ -242,7 +250,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         else{
             if let index = videoCapsules.indexOf(capsule){
                 videoCapsules.removeAtIndex(index)
-                if segementedControl.selectedSegmentIndex == 1{
+                if segementedControl.selectedSegmentIndex == 2{
                     self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
                 }
             }
@@ -253,7 +261,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         if toLoadVideos != 0{ return }
 
-        if segementedControl.selectedSegmentIndex == 1{
+        if segementedControl.selectedSegmentIndex == 2{
             if searching{
                 if let index = searchedVideoCapsules.indexOf(capsule){
                     self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
@@ -286,7 +294,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                         self.animalsToShow.append(animal)
                     }
                     dispatch_async(dispatch_get_main_queue()){
-                        if self.segementedControl.selectedSegmentIndex == 0{
+                        if self.segementedControl.selectedSegmentIndex == 1{
                             self.collectionView.reloadData()
                         }
                     }
@@ -310,7 +318,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                     self.videoCapsules.append(c)
                 }
                 
-                if self.segementedControl.selectedSegmentIndex == 1{
+                if self.segementedControl.selectedSegmentIndex == 2{
                     dispatch_async(dispatch_get_main_queue()){
                         self.collectionView.reloadData()
                     }
@@ -344,7 +352,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         searching = true
         
-        if segementedControl.selectedSegmentIndex == 0{
+        if segementedControl.selectedSegmentIndex == 1{
             searchedAnimals = animalsToShow.filter({ (element) -> Bool in
                 let name = element.name.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
                 let species = element.specie.lowercaseString.rangeOfString(searchBar.text!.lowercaseString)
@@ -395,21 +403,27 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         }
     }
 
-    ///This method is called when the user toggled between animals and video
+    ///This method is called when the user toggled between about us, animals, video and specials
     @IBAction func valueChanged(control : UISegmentedControl){
         
         switch control.selectedSegmentIndex
         {
         case 0:
-            //collectionView.hidden = true
-            collectionView.reloadData()
+            collectionView.hidden = true
+            //collectionView.reloadData()
             print("funciono el case 0")
         case 1:
+            collectionView.hidden = false
             collectionView.reloadData()
             print("funciono el case 1")
         case 2:
+            collectionView.hidden = false
             collectionView.reloadData()
             print("funciono el case 2")
+        case 3:
+            //collectionView.reloadData()
+            collectionView.hidden = true
+            print("funciono el case 3")
         default:
             break;
         }
@@ -503,6 +517,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         else if let nvc = segue.destinationViewController as? AccountViewController{
             nvc.user = self.user
         }
+        
+        //aquí agregar los nuevos (tienda, historia, equipo, video :O )
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -520,7 +536,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         print("no se pudo cargar animal \(animal.objectId)")
         self.toLoadAnimals--
         
-        if self.segementedControl.selectedSegmentIndex == 0{
+        if self.segementedControl.selectedSegmentIndex == 1{
             self.collectionView.reloadData()
         }
     }
@@ -529,7 +545,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.toLoadAnimals--
         print("To load animals: \(self.toLoadAnimals)")
 
-        if self.segementedControl.selectedSegmentIndex == 0{
+        if self.segementedControl.selectedSegmentIndex == 1{
             self.collectionView.reloadData()
         }
 
@@ -539,7 +555,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         if toLoadAnimals != 0{ return }
         
-        if segementedControl.selectedSegmentIndex == 0{
+        if segementedControl.selectedSegmentIndex == 1{
             if searching{
                 if let index = searchedAnimals.indexOf(animal){
                     self.collectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
