@@ -2044,22 +2044,30 @@
             </objects>
             <point key="canvasLocation" x="1200" y="-4162"/>
         </scene>
-        <!--View Controller-->
+        <!--About Us View Controller-->
         <scene sceneID="E85-sO-jDd">
             <objects>
-                <viewController id="IDy-d5-GSq" sceneMemberID="viewController">
+                <viewController id="IDy-d5-GSq" customClass="AboutUsViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2O7-X8-9gP">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="417"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="holiii" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aF5-bx-Be6">
-                                <rect key="frame" x="310" y="168" width="35" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ILV-TG-DI4">
+                                <rect key="frame" x="0.0" y="96" width="600" height="321"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="IDy-d5-GSq" id="xjs-bC-FP8"/>
+                                    <outlet property="delegate" destination="IDy-d5-GSq" id="F1n-zV-U3y"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ILV-TG-DI4" secondAttribute="bottom" id="DoR-mh-0ZG"/>
+                            <constraint firstAttribute="trailing" secondItem="ILV-TG-DI4" secondAttribute="trailing" id="IuX-LY-c1E"/>
+                            <constraint firstItem="ILV-TG-DI4" firstAttribute="leading" secondItem="2O7-X8-9gP" secondAttribute="leading" id="LJw-gp-ZYl"/>
+                            <constraint firstItem="ILV-TG-DI4" firstAttribute="top" secondItem="2O7-X8-9gP" secondAttribute="topMargin" constant="96" id="r6C-Rd-OLF"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NrZ-96-Mdj" userLabel="First Responder" sceneMemberID="firstResponder"/>

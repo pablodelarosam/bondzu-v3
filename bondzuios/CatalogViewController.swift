@@ -132,6 +132,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         }
         //for other options, collection view must be hidden, so this doesnt really matter
         else {
+            if !activityIndicator.hidden{
+                self.activityIndicator.stopAnimating()
+            }
             return 0
         }
     }
