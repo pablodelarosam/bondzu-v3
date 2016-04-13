@@ -19,4 +19,10 @@ class StoreViewController: UIViewController {
         let requestObj = NSURLRequest(URL: url!)
         myWebView.loadRequest(requestObj)
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Tienda", comment: "")
+        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
+        super.viewDidAppear(animated)
+    }
 }

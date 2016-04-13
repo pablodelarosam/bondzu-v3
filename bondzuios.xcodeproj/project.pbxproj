@@ -10,6 +10,7 @@
 		0D203C281CBE3BCB004B496F /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */; };
 		0D203C2A1CBE4954004B496F /* SpecialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C291CBE4954004B496F /* SpecialsViewController.swift */; };
 		0D203C2D1CBE5534004B496F /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C2C1CBE5534004B496F /* StoreViewController.swift */; };
+		0DB4F26D1CBEC6DB00C0A811 /* bondzu.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0DB4F26C1CBEC6DA00C0A811 /* bondzu.mp4 */; };
 		0E49FE26F4EA0446B55D745D /* Pods_bondzuiosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A23C14A6A256C09B2B0F62 /* Pods_bondzuiosTests.framework */; };
 		3EC68316D7DD85A60EA3BE16 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E1C57CDB6D08097E04F767E /* Pods_bondzuios.framework */; };
 		540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540C6B6E1B795A0A006F9A12 /* ListaCamarasViewController.swift */; };
@@ -112,6 +113,7 @@
 		0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
 		0D203C291CBE4954004B496F /* SpecialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialsViewController.swift; sourceTree = "<group>"; };
 		0D203C2C1CBE5534004B496F /* StoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
+		0DB4F26C1CBEC6DA00C0A811 /* bondzu.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = bondzu.mp4; sourceTree = "<group>"; };
 		13AA6755D299B569F0C39FD9 /* Pods-bondzuios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.release.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.release.xcconfig"; sourceTree = "<group>"; };
 		1702ADD7DF0F67045802F9C5 /* Pods-bondzuiosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuiosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuiosTests/Pods-bondzuiosTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2265B2BD0A052D21E28DB148 /* Pods-bondzuios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -259,6 +261,14 @@
 			name = specials;
 			sourceTree = "<group>";
 		};
+		0DB4F26A1CBEB2FA00C0A811 /* About us */ = {
+			isa = PBXGroup;
+			children = (
+				0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */,
+			);
+			name = "About us";
+			sourceTree = "<group>";
+		};
 		542186961B83A79900E6461D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +321,7 @@
 				54305CAA1B73F809003F9AB0 /* AppDelegate.swift */,
 				54571F871B792ADE0092E359 /* TabsViewController.swift */,
 				54305CB11B73F80A003F9AB0 /* Images.xcassets */,
+				0DB4F26C1CBEC6DA00C0A811 /* bondzu.mp4 */,
 				54305CB31B73F80A003F9AB0 /* LaunchScreen.xib */,
 				54305CA81B73F809003F9AB0 /* Supporting Files */,
 			);
@@ -381,10 +392,10 @@
 		544252851B7BBF910077C7A6 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
+				0DB4F26A1CBEB2FA00C0A811 /* About us */,
 				0D203C2B1CBE5502004B496F /* specials */,
 				548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */,
 				544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */,
-				0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */,
 			);
 			name = Catalog;
 			sourceTree = "<group>";
@@ -657,6 +668,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3A8B9A41C7A7F060028D542 /* Assets in Resources */,
+				0DB4F26D1CBEC6DB00C0A811 /* bondzu.mp4 in Resources */,
 				B358A1221BCB314200DC9525 /* Main.storyboard in Resources */,
 				B37FC35D1BC441C000B5692D /* Localizable.strings in Resources */,
 				54305CB51B73F80A003F9AB0 /* LaunchScreen.xib in Resources */,

@@ -11,6 +11,8 @@ import MessageUI
 
 class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
 
+    @IBOutlet var webView: UIWebView!
+    
      func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -84,17 +86,17 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         return UIStatusBarStyle.LightContent
     }
     
-    //I dont know if I need this
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let fileURL = NSURL(fileURLWithPath: "/Users/Danibx/Documents/Bondzu-iOS/bondzuios/bondzu.mp4")
+        webView.loadHTMLString("<iframe width = \" \(self.webView.frame.width) \" height = \" \(self.webView.frame.height)\" src = \"\(fileURL)\"> </iframe>", baseURL: nil)
+        
+    }
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
     
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//    }
-//    
    
     //YA QUE PONGA LOS SEGUES, LO DESCOMENTO
     
