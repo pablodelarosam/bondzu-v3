@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableViewDataSource{
+class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
 
      func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
@@ -58,7 +59,7 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    //cambiar iconos
+    //icons
     func iconForCellAtIndexPath(section : Int, row : Int) -> UIImage!{
         var image : UIImage
         
@@ -97,20 +98,26 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
    
     //YA QUE PONGA LOS SEGUES, LO DESCOMENTO
     
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        if indexPath.section == 1{
-//            //mandar mail
-//        }
-//        else if indexPath.row == 0{
-//            performSegueWithIdentifier("historia", sender: nil)
-//            tableView.deselectRowAtIndexPath(indexPath, animated: false)
-//        }
-//        else if indexPath.row == 1{
-//            performSegueWithIdentifier("equipo", sender: nil)
-//            tableView.deselectRowAtIndexPath(indexPath, animated: false)
-//        }
-//       
-//    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 1{
+            //send email
+            let mailComposeViewController = configuredMailComposeViewController()
+            if MFMailComposeViewController.canSendMail() {
+                self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+            } else {
+                self.showSendMailErrorAlert()
+            }
+        }
+        else if indexPath.row == 0{
+            performSegueWithIdentifier("historia", sender: nil)
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
+        else if indexPath.row == 1{
+            performSegueWithIdentifier("equipo", sender: nil)
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
+       
+    }
 
     //es para pasar valores al segue, creo que no lo necesito (5:00 am, no se)
     
@@ -119,6 +126,32 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
 //            nvc.user = self.user
 //        }
 //    }
+    
+    
+    
+    
+
+        func configuredMailComposeViewController() -> MFMailComposeViewController {
+            let mailComposerVC = MFMailComposeViewController()
+            mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+            
+            mailComposerVC.setToRecipients(["hello@bondzu.com"])
+            //mailComposerVC.setSubject("Sending you an in-app e-mail...")
+            //mailComposerVC.setMessageBody("Sending e-mail in-app is not so bad!", isHTML: false)
+            
+            return mailComposerVC
+        }
+        
+        func showSendMailErrorAlert() {
+            print("error sending email")
+            //            let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", delegate: self, cancelButtonTitle: "OK")
+//            sendMailErrorAlert.show()
+        }
+        
+        // MARK: MFMailComposeViewControllerDelegate Method
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
 
 
 }

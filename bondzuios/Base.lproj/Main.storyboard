@@ -2114,10 +2114,46 @@
                             <constraint firstItem="m7w-ZO-JSe" firstAttribute="leading" secondItem="xcD-N2-8C5" secondAttribute="leading" id="qbw-sU-PMK"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="yLY-7M-hfO" kind="show" identifier="tienda" id="CEe-2s-JHW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ZR-ym-4bD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-88" y="2053.5"/>
+        </scene>
+        <!--Store View Controller-->
+        <scene sceneID="BmA-dT-9tQ">
+            <objects>
+                <viewController id="yLY-7M-hfO" customClass="StoreViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CLI-3q-2mg"/>
+                        <viewControllerLayoutGuide type="bottom" id="tUQ-Qk-B5m"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D8e-YQ-ddX">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="417"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fk9-aO-7tM">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Fk9-aO-7tM" firstAttribute="leading" secondItem="D8e-YQ-ddX" secondAttribute="leading" id="6N6-Bd-8IB"/>
+                            <constraint firstItem="Fk9-aO-7tM" firstAttribute="top" secondItem="CLI-3q-2mg" secondAttribute="bottom" id="Sai-fT-25Z"/>
+                            <constraint firstAttribute="trailing" secondItem="Fk9-aO-7tM" secondAttribute="trailing" id="doA-Nf-itO"/>
+                            <constraint firstItem="tUQ-Qk-B5m" firstAttribute="top" secondItem="Fk9-aO-7tM" secondAttribute="bottom" id="fpg-KZ-HrY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="myWebView" destination="Fk9-aO-7tM" id="lE1-uL-Bjm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e9K-gX-EE9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="574" y="2145"/>
         </scene>
     </scenes>
     <resources>

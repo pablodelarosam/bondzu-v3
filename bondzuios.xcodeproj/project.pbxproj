@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D203C281CBE3BCB004B496F /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */; };
 		0D203C2A1CBE4954004B496F /* SpecialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C291CBE4954004B496F /* SpecialsViewController.swift */; };
+		0D203C2D1CBE5534004B496F /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C2C1CBE5534004B496F /* StoreViewController.swift */; };
 		0E49FE26F4EA0446B55D745D /* Pods_bondzuiosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A23C14A6A256C09B2B0F62 /* Pods_bondzuiosTests.framework */; };
 		3EC68316D7DD85A60EA3BE16 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E1C57CDB6D08097E04F767E /* Pods_bondzuios.framework */; };
 		540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540C6B6E1B795A0A006F9A12 /* ListaCamarasViewController.swift */; };
@@ -110,6 +111,7 @@
 /* Begin PBXFileReference section */
 		0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
 		0D203C291CBE4954004B496F /* SpecialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialsViewController.swift; sourceTree = "<group>"; };
+		0D203C2C1CBE5534004B496F /* StoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		13AA6755D299B569F0C39FD9 /* Pods-bondzuios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.release.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.release.xcconfig"; sourceTree = "<group>"; };
 		1702ADD7DF0F67045802F9C5 /* Pods-bondzuiosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuiosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuiosTests/Pods-bondzuiosTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2265B2BD0A052D21E28DB148 /* Pods-bondzuios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -248,6 +250,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D203C2B1CBE5502004B496F /* specials */ = {
+			isa = PBXGroup;
+			children = (
+				0D203C291CBE4954004B496F /* SpecialsViewController.swift */,
+				0D203C2C1CBE5534004B496F /* StoreViewController.swift */,
+			);
+			name = specials;
+			sourceTree = "<group>";
+		};
 		542186961B83A79900E6461D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,10 +381,10 @@
 		544252851B7BBF910077C7A6 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
+				0D203C2B1CBE5502004B496F /* specials */,
 				548993271B98B36800DDF263 /* AnimalCollectionViewCell.swift */,
 				544252861B7BBFAB0077C7A6 /* CatalogViewController.swift */,
 				0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */,
-				0D203C291CBE4954004B496F /* SpecialsViewController.swift */,
 			);
 			name = Catalog;
 			sourceTree = "<group>";
@@ -775,6 +786,7 @@
 			files = (
 				B38FC2571BCA407200363EF2 /* Animal.swift in Sources */,
 				B3AE26B81BDEFD3600DACA35 /* CircledImageView.swift in Sources */,
+				0D203C2D1CBE5534004B496F /* StoreViewController.swift in Sources */,
 				549760FB1B7B0BED005782A6 /* Camera.swift in Sources */,
 				540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */,
 				B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */,
