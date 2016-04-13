@@ -767,6 +767,12 @@
                                     <constraint firstAttribute="height" constant="75" id="izT-7I-5qA"/>
                                 </constraints>
                             </imageView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jw3-fU-Vf5">
+                                <rect key="frame" x="0.0" y="108" width="600" height="417"/>
+                                <connections>
+                                    <segue destination="IDy-d5-GSq" kind="embed" id="Krt-p3-xfw"/>
+                                </connections>
+                            </containerView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Wtm-vf-Fu8">
                                 <rect key="frame" x="0.0" y="108" width="600" height="417"/>
                                 <color key="backgroundColor" white="0.98317304724141186" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -892,6 +898,7 @@
                         <outlet property="heightBanner" destination="izT-7I-5qA" id="wDL-yP-3Pf"/>
                         <outlet property="searchBar" destination="lPO-4p-V5A" id="hBY-QX-ddN"/>
                         <outlet property="searchBarButtonItem" destination="jge-UM-bIx" id="F3D-1b-GYV"/>
+                        <outlet property="secondaryView" destination="jw3-fU-Vf5" id="biG-CB-hz8"/>
                         <outlet property="segementedControl" destination="CNW-Xj-K7h" id="6cu-QN-12G"/>
                         <outlet property="toolbar" destination="Pyp-R1-zGu" id="yfg-lO-QaR"/>
                         <segue destination="I7i-Py-ROq" kind="show" identifier="catalogSegue" id="WDA-SF-nDG"/>
@@ -2036,6 +2043,28 @@
                 </view>
             </objects>
             <point key="canvasLocation" x="1200" y="-4162"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="E85-sO-jDd">
+            <objects>
+                <viewController id="IDy-d5-GSq" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2O7-X8-9gP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="417"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="holiii" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aF5-bx-Be6">
+                                <rect key="frame" x="310" y="168" width="35" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NrZ-96-Mdj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-71" y="1479.5"/>
         </scene>
     </scenes>
     <resources>

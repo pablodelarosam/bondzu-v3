@@ -71,6 +71,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     ///Loading indicator while the animals are loading
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    //the view that will contain sections 0 and 3 from segmented control (about us and specials)
+    @IBOutlet weak var secondaryView: UIView!
+    
     ///The view that displays the items in a collection view. This is both, the data sorce and the controller.
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -410,20 +413,20 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         {
         case 0:
             collectionView.hidden = true
+            secondaryView.hidden = false
             //collectionView.reloadData()
-            print("funciono el case 0")
         case 1:
             collectionView.hidden = false
+            secondaryView.hidden = true
             collectionView.reloadData()
-            print("funciono el case 1")
         case 2:
             collectionView.hidden = false
+            secondaryView.hidden = true
             collectionView.reloadData()
-            print("funciono el case 2")
         case 3:
             //collectionView.reloadData()
             collectionView.hidden = true
-            print("funciono el case 3")
+            secondaryView.hidden = false
         default:
             break;
         }
@@ -485,7 +488,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             return true
         })
         
-        
+        //segmented control
+        collectionView.hidden = true
+        secondaryView.hidden = false
         self.segementedControl.tintColor = UIColor.whiteColor()
         getAnimals();
     }
