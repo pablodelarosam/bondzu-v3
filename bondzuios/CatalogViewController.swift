@@ -397,7 +397,23 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
 
     ///This method is called when the user toggled between animals and video
     @IBAction func valueChanged(control : UISegmentedControl){
-        collectionView.reloadData()
+        
+        switch control.selectedSegmentIndex
+        {
+        case 0:
+            //collectionView.hidden = true
+            collectionView.reloadData()
+            print("funciono el case 0")
+        case 1:
+            collectionView.reloadData()
+            print("funciono el case 1")
+        case 2:
+            collectionView.reloadData()
+            print("funciono el case 2")
+        default:
+            break;
+        }
+
     }
     
     
