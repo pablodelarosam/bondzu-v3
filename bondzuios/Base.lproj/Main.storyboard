@@ -2098,11 +2098,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m7w-ZO-JSe">
-                                <rect key="frame" x="0.0" y="119" width="600" height="298"/>
+                                <rect key="frame" x="0.0" y="68" width="600" height="349"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="298" id="w6Y-fC-fQ8"/>
-                                </constraints>
                                 <connections>
                                     <outlet property="dataSource" destination="KsE-Df-Se7" id="XCI-Dr-F2d"/>
                                     <outlet property="delegate" destination="KsE-Df-Se7" id="yEh-2x-xNv"/>
@@ -2111,9 +2108,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="m7w-ZO-JSe" secondAttribute="trailing" id="4yZ-a3-2a1"/>
-                            <constraint firstAttribute="bottom" secondItem="m7w-ZO-JSe" secondAttribute="bottom" id="MFH-zq-nvh"/>
-                            <constraint firstItem="m7w-ZO-JSe" firstAttribute="leading" secondItem="xcD-N2-8C5" secondAttribute="leading" id="guN-YF-qpc"/>
+                            <constraint firstAttribute="trailing" secondItem="m7w-ZO-JSe" secondAttribute="trailing" id="4K1-9G-9ac"/>
+                            <constraint firstItem="m7w-ZO-JSe" firstAttribute="top" secondItem="xcD-N2-8C5" secondAttribute="topMargin" constant="68" id="9yw-3I-Q0v"/>
+                            <constraint firstAttribute="bottom" secondItem="m7w-ZO-JSe" secondAttribute="bottom" id="pmD-mL-UJV"/>
+                            <constraint firstItem="m7w-ZO-JSe" firstAttribute="leading" secondItem="xcD-N2-8C5" secondAttribute="leading" id="qbw-sU-PMK"/>
                         </constraints>
                     </view>
                 </viewController>

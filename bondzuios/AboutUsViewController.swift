@@ -43,7 +43,7 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
             
             cell.accessoryType = .DisclosureIndicator
             cell.imageView?.tintColor = UIColor.whiteColor()
-            //cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
+            cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             
             return cell
         }
@@ -53,9 +53,72 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
             cell.backgroundColor = UIColor.clearColor()
             cell.textLabel!.textColor = UIColor.whiteColor()
             cell.imageView?.tintColor = UIColor.whiteColor()
-            //cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
+            cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             return cell
         }
     }
+    
+    //cambiar iconos
+    func iconForCellAtIndexPath(section : Int, row : Int) -> UIImage!{
+        var image : UIImage
+        
+        if section == 1{
+            image = UIImage(named: "contacto")!
+        }
+        else{
+            switch row{
+            case 0:
+                image =  UIImage(named: "historia")!
+            case 1:
+                image = UIImage(named: "equipo")!
+            default: return nil;
+            }
+        }
+        
+        image = image.imageWithRenderingMode(.AlwaysTemplate)
+        return image
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
+    //I dont know if I need this
+    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        
+//    }
+    
+//    override func didReceiveMemoryWarning() {
+//        super.didReceiveMemoryWarning()
+//    }
+//    
+   
+    //YA QUE PONGA LOS SEGUES, LO DESCOMENTO
+    
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        if indexPath.section == 1{
+//            //mandar mail
+//        }
+//        else if indexPath.row == 0{
+//            performSegueWithIdentifier("historia", sender: nil)
+//            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+//        }
+//        else if indexPath.row == 1{
+//            performSegueWithIdentifier("equipo", sender: nil)
+//            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+//        }
+//       
+//    }
+
+    //es para pasar valores al segue, creo que no lo necesito (5:00 am, no se)
+    
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        if let nvc = segue.destinationViewController as? AdopedAnimalsViewController{
+//            nvc.user = self.user
+//        }
+//    }
+
 
 }
