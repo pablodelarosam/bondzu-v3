@@ -71,9 +71,11 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     ///Loading indicator while the animals are loading
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    //the view that will contain sections 0 and 3 from segmented control (about us and specials)
+    //the view that will contain sections 0 of segmented control (about us )
     @IBOutlet weak var secondaryView: UIView!
     
+    //the view for specials segmented control section (index 3)
+    @IBOutlet weak var specialsView: UIView!
     ///The view that displays the items in a collection view. This is both, the data sorce and the controller.
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -417,19 +419,21 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         case 0:
             collectionView.hidden = true
             secondaryView.hidden = false
-            //collectionView.reloadData()
+            specialsView.hidden = true
         case 1:
             collectionView.hidden = false
             secondaryView.hidden = true
+            specialsView.hidden = true
             collectionView.reloadData()
         case 2:
             collectionView.hidden = false
             secondaryView.hidden = true
+            specialsView.hidden = true
             collectionView.reloadData()
         case 3:
-            //collectionView.reloadData()
             collectionView.hidden = true
-            secondaryView.hidden = false
+            secondaryView.hidden = true
+            specialsView.hidden = false
         default:
             break;
         }
@@ -494,6 +498,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         //segmented control
         collectionView.hidden = true
         secondaryView.hidden = false
+        specialsView.hidden = true
+        
         self.segementedControl.tintColor = UIColor.whiteColor()
         getAnimals();
     }
@@ -525,8 +531,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         else if let nvc = segue.destinationViewController as? AccountViewController{
             nvc.user = self.user
         }
-        
-        //aquí agregar los nuevos (tienda, historia, equipo, video :O )
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
