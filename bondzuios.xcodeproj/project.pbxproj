@@ -10,6 +10,8 @@
 		0D203C281CBE3BCB004B496F /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */; };
 		0D203C2A1CBE4954004B496F /* SpecialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C291CBE4954004B496F /* SpecialsViewController.swift */; };
 		0D203C2D1CBE5534004B496F /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C2C1CBE5534004B496F /* StoreViewController.swift */; };
+		0D5711661CBEF6F700DDB0E4 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5711651CBEF6F700DDB0E4 /* HistoryViewController.swift */; };
+		0D5711681CBEF71500DDB0E4 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5711671CBEF71500DDB0E4 /* TeamViewController.swift */; };
 		0DB4F26D1CBEC6DB00C0A811 /* bondzu.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0DB4F26C1CBEC6DA00C0A811 /* bondzu.mp4 */; };
 		0E49FE26F4EA0446B55D745D /* Pods_bondzuiosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A23C14A6A256C09B2B0F62 /* Pods_bondzuiosTests.framework */; };
 		3EC68316D7DD85A60EA3BE16 /* Pods_bondzuios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E1C57CDB6D08097E04F767E /* Pods_bondzuios.framework */; };
@@ -113,6 +115,8 @@
 		0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
 		0D203C291CBE4954004B496F /* SpecialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialsViewController.swift; sourceTree = "<group>"; };
 		0D203C2C1CBE5534004B496F /* StoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
+		0D5711651CBEF6F700DDB0E4 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		0D5711671CBEF71500DDB0E4 /* TeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		0DB4F26C1CBEC6DA00C0A811 /* bondzu.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = bondzu.mp4; sourceTree = "<group>"; };
 		13AA6755D299B569F0C39FD9 /* Pods-bondzuios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.release.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.release.xcconfig"; sourceTree = "<group>"; };
 		1702ADD7DF0F67045802F9C5 /* Pods-bondzuiosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuiosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuiosTests/Pods-bondzuiosTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -265,6 +269,8 @@
 			isa = PBXGroup;
 			children = (
 				0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */,
+				0D5711651CBEF6F700DDB0E4 /* HistoryViewController.swift */,
+				0D5711671CBEF71500DDB0E4 /* TeamViewController.swift */,
 			);
 			name = "About us";
 			sourceTree = "<group>";
@@ -813,6 +819,7 @@
 				B37FC35A1BC43AB400B5692D /* Event.swift in Sources */,
 				B346EA261C1F3A2F00A13001 /* CommunityTabHelper.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
+				0D5711681CBEF71500DDB0E4 /* TeamViewController.swift in Sources */,
 				546490C11B7D3217007F3DEF /* Imagenes.swift in Sources */,
 				B346EA241C1F257E00A13001 /* Message.swift in Sources */,
 				B34AD43C1BA0BDE800ACD3D6 /* FullImageView.swift in Sources */,
@@ -835,6 +842,7 @@
 				B35A2EF91C15E68E0051E012 /* Gallery.swift in Sources */,
 				B358A2671BF164A100278B61 /* Keeper.swift in Sources */,
 				B3A29EF61BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift in Sources */,
+				0D5711661CBEF6F700DDB0E4 /* HistoryViewController.swift in Sources */,
 				B3BAB3E31C7CB56300780C4F /* StoreProduct.swift in Sources */,
 				B3EA07271C4947EE0080DE9E /* UserBlockingHelper.swift in Sources */,
 				544677A81BB9EF6500F5B54D /* GalleryCollectionViewCell.swift in Sources */,

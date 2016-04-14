@@ -417,7 +417,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NNR-Gw-FE3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1172" y="1321"/>
+            <point key="canvasLocation" x="1146" y="679"/>
         </scene>
         <!--Community-->
         <scene sceneID="2P4-hP-ehg">
@@ -2098,11 +2098,120 @@
                     </view>
                     <connections>
                         <outlet property="webView" destination="ptN-nk-0ie" id="xAG-nw-s0X"/>
+                        <segue destination="4e9-br-8oE" kind="show" identifier="historia" id="Ad4-7d-7QH"/>
+                        <segue destination="b76-lg-1Do" kind="show" identifier="equipo" id="lf1-MY-dLe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NrZ-96-Mdj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-71" y="1479.5"/>
+        </scene>
+        <!--History View Controller-->
+        <scene sceneID="xo6-X5-hMC">
+            <objects>
+                <viewController id="4e9-br-8oE" customClass="HistoryViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9Rd-Kc-5c4"/>
+                        <viewControllerLayoutGuide type="bottom" id="IvX-Zx-1U8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="U9V-h1-iSr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hb-Cf-d52" customClass="EffectBackgroundView" customModule="Bondzu" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XW2-st-C76">
+                                <rect key="frame" x="62" y="53" width="475" height="376"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">Bondzù es una aplicación que permitirá a las personas formar un lazo especial con animales del zoológico, sin importar donde se encuentren. A través de esta aplicación los usuarios podrán adoptar, cuidar y ver crecer a sus cachorros favoritos. Usando dispositivos robóticos y juguetes, participarán en el bienestar animal y enriquecimiento ambiental para mantenerlos activos e incluso darles de comer.
+
+¿Se imaginan hacer correr y saltar un tigre blanco persiguiendo a su presa? ¿O jugar juegos de mesa contra una familia monos capuchinos?
+
+Las personas podrán aprender sobre el cuidado de los animales y ayudarán a los zoológicos en sus tareas cotidianas, incluso cuando están cerrados.  Bondzù también estará en la web y plataformas móviles, para que no te pierdas ni un momento con tu cachorro ... ni siquiera su nacimiento!
+</mutableString>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7hb-Cf-d52" firstAttribute="bottom" secondItem="IvX-Zx-1U8" secondAttribute="top" id="6L0-iQ-zR3"/>
+                            <constraint firstItem="7hb-Cf-d52" firstAttribute="top" secondItem="9Rd-Kc-5c4" secondAttribute="bottom" id="HNr-yG-pfc"/>
+                            <constraint firstItem="XW2-st-C76" firstAttribute="top" secondItem="9Rd-Kc-5c4" secondAttribute="bottom" constant="53" id="IP1-U7-k55"/>
+                            <constraint firstItem="7hb-Cf-d52" firstAttribute="leading" secondItem="U9V-h1-iSr" secondAttribute="leading" id="OWf-rD-P0F"/>
+                            <constraint firstAttribute="trailing" secondItem="7hb-Cf-d52" secondAttribute="trailing" id="OqT-pd-9Ad"/>
+                            <constraint firstItem="IvX-Zx-1U8" firstAttribute="top" secondItem="XW2-st-C76" secondAttribute="bottom" constant="32" id="Xy4-7h-s2H"/>
+                            <constraint firstItem="XW2-st-C76" firstAttribute="leading" secondItem="U9V-h1-iSr" secondAttribute="leadingMargin" constant="42" id="awq-sK-YPC"/>
+                            <constraint firstItem="XW2-st-C76" firstAttribute="centerX" secondItem="7hb-Cf-d52" secondAttribute="centerX" id="bHo-6M-cuf"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="animalViewEffect" destination="7hb-Cf-d52" id="8vt-xs-RLC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xIZ-w1-rLQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="616" y="1494.5"/>
+        </scene>
+        <!--Team View Controller-->
+        <scene sceneID="azD-bO-aKA">
+            <objects>
+                <viewController id="b76-lg-1Do" customClass="TeamViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="667-YF-UgY"/>
+                        <viewControllerLayoutGuide type="bottom" id="VVY-3O-ODd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DjF-lh-abj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hE1-r8-l7D" customClass="EffectBackgroundView" customModule="Bondzu" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eKc-ZR-ciY">
+                                <rect key="frame" x="71" y="65" width="457" height="332"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">-Jorge Huerta González	       Profesor guía, fundador de proyecto
+-Isaac Martínez Perrusquía	       Ejecutivo de proyecto 
+-Ricardo Lopez Fósil		       Desarrollador ios
+-Daniela Becerra		              Desarrolladora ios
+-Guillermo Arturo Hernández 	Desarrollador Android
+-Laura Elena Diaz Rojas    	       Diseño gráfico
+-Kimberly Zacarías coapa  	       Diseño gráfico
+-Rosario Rodriguez Robles        Comunicación
+-Gabriela López 		              Colaborador voluntario
+-Daniel Martin Diaz Rojas	       Colaborador Voluntario
+-Jerassi Ferrer Alonso    	       Colaborador Voluntario
+-Ivan Xolocotzi Hernández  	       Colaborador Voluntario
+</mutableString>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hE1-r8-l7D" firstAttribute="bottom" secondItem="VVY-3O-ODd" secondAttribute="top" id="Dx2-Pt-Uwu"/>
+                            <constraint firstItem="eKc-ZR-ciY" firstAttribute="centerY" secondItem="hE1-r8-l7D" secondAttribute="centerY" id="NcW-sy-QyE"/>
+                            <constraint firstItem="eKc-ZR-ciY" firstAttribute="centerX" secondItem="hE1-r8-l7D" secondAttribute="centerX" id="Ymg-eN-RtJ"/>
+                            <constraint firstAttribute="trailing" secondItem="hE1-r8-l7D" secondAttribute="trailing" id="bWf-Ej-qEt"/>
+                            <constraint firstItem="VVY-3O-ODd" firstAttribute="top" secondItem="eKc-ZR-ciY" secondAttribute="bottom" constant="64" id="cvO-FO-1Tg"/>
+                            <constraint firstItem="eKc-ZR-ciY" firstAttribute="leading" secondItem="DjF-lh-abj" secondAttribute="leadingMargin" constant="51" id="h7h-la-BaJ"/>
+                            <constraint firstItem="hE1-r8-l7D" firstAttribute="top" secondItem="667-YF-UgY" secondAttribute="bottom" id="rXr-Op-KBF"/>
+                            <constraint firstItem="hE1-r8-l7D" firstAttribute="leading" secondItem="DjF-lh-abj" secondAttribute="leading" id="zB9-r5-rcZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="animalEffectView" destination="hE1-r8-l7D" id="FXH-Jj-yJ7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Sb-AH-v3S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1360" y="1494.5"/>
         </scene>
         <!--Specials View Controller-->
         <scene sceneID="Yx0-FY-Tj6">
