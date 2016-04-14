@@ -8,10 +8,14 @@
 
 import UIKit
 import MessageUI
+import AVKit
+import AVFoundation
 
 class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
 
-    @IBOutlet var webView: UIWebView!
+    @IBOutlet weak var blurView: UIVisualEffectView!
+    var playerViewController = AVPlayerViewController()
+    var playerView = AVPlayer()
     
      func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
@@ -88,9 +92,18 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let fileURL = NSURL(fileURLWithPath: "/Users/Danibx/Documents/Bondzu-iOS/bondzuios/bondzu.mp4")
-        webView.loadHTMLString("<iframe width = \" \(self.webView.frame.width) \" height = \" \(self.webView.frame.height)\" src = \"\(fileURL)\"> </iframe>", baseURL: nil)
+        blurView.layer.cornerRadius = blurView.frame.size.height / 2
         
+    }
+    
+    @IBAction func playWasPressed(sender: AnyObject) {
+        let fileURL = NSURL(fileURLWithPath: "/Users/Danibx/Documents/Bondzu-iOS/bondzuios/bondzu.mp4")
+        playerView = AVPlayer(URL: fileURL)
+        playerViewController.player = playerView
+        self.presentViewController(playerViewController, animated: true) {
+            self.playerViewController.player?.play()
+        }
+
     }
     
     override func didReceiveMemoryWarning() {

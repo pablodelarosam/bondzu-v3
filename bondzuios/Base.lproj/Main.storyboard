@@ -2072,32 +2072,52 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ILV-TG-DI4">
-                                <rect key="frame" x="0.0" y="220" width="600" height="241"/>
+                                <rect key="frame" x="0.0" y="250" width="600" height="211"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="IDy-d5-GSq" id="xjs-bC-FP8"/>
                                     <outlet property="delegate" destination="IDy-d5-GSq" id="F1n-zV-U3y"/>
                                 </connections>
                             </tableView>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ptN-nk-0ie">
-                                <rect key="frame" x="40" y="80" width="520" height="139"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </webView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cDp-dn-zxF">
+                                <rect key="frame" x="60" y="70" width="480" height="150"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="E6j-tC-jac">
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="150"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SjW-5u-Fx3">
+                                            <rect key="frame" x="163" y="25" width="154" height="100"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="154" id="3yw-gc-63l"/>
+                                            </constraints>
+                                            <state key="normal" image="play"/>
+                                            <connections>
+                                                <action selector="playWasPressed:" destination="IDy-d5-GSq" eventType="touchUpInside" id="jxW-VY-If8"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="SjW-5u-Fx3" firstAttribute="centerY" secondItem="E6j-tC-jac" secondAttribute="centerY" id="4nE-gz-PbQ"/>
+                                        <constraint firstItem="SjW-5u-Fx3" firstAttribute="centerX" secondItem="E6j-tC-jac" secondAttribute="centerX" id="5jB-dr-SyW"/>
+                                        <constraint firstItem="SjW-5u-Fx3" firstAttribute="top" secondItem="E6j-tC-jac" secondAttribute="top" constant="25" id="AUQ-c4-NY3"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ILV-TG-DI4" firstAttribute="top" secondItem="ptN-nk-0ie" secondAttribute="bottom" constant="1" id="0sT-0i-Zja"/>
-                            <constraint firstItem="ILV-TG-DI4" firstAttribute="leading" secondItem="2O7-X8-9gP" secondAttribute="leading" id="9O0-we-GWF"/>
-                            <constraint firstItem="ptN-nk-0ie" firstAttribute="top" secondItem="Dkl-iV-tyo" secondAttribute="bottom" constant="80" id="HhC-Sp-BBT"/>
-                            <constraint firstItem="ILV-TG-DI4" firstAttribute="bottom" secondItem="T67-JW-dzl" secondAttribute="top" id="Jxv-nm-DfF"/>
-                            <constraint firstItem="ILV-TG-DI4" firstAttribute="top" secondItem="Dkl-iV-tyo" secondAttribute="bottom" constant="220" id="abd-y4-iBe"/>
-                            <constraint firstItem="ptN-nk-0ie" firstAttribute="leading" secondItem="2O7-X8-9gP" secondAttribute="leadingMargin" constant="20" id="dH9-gb-t27"/>
-                            <constraint firstAttribute="trailing" secondItem="ILV-TG-DI4" secondAttribute="trailing" id="h1R-ew-wIN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ptN-nk-0ie" secondAttribute="trailing" constant="20" id="nMS-yH-YHq"/>
+                            <constraint firstAttribute="trailing" secondItem="ILV-TG-DI4" secondAttribute="trailing" id="CRc-UA-Ye8"/>
+                            <constraint firstItem="ILV-TG-DI4" firstAttribute="centerX" secondItem="cDp-dn-zxF" secondAttribute="centerX" id="Ccd-5F-m31"/>
+                            <constraint firstItem="ILV-TG-DI4" firstAttribute="bottom" secondItem="T67-JW-dzl" secondAttribute="top" id="DkR-ax-gIR"/>
+                            <constraint firstItem="ILV-TG-DI4" firstAttribute="leading" secondItem="2O7-X8-9gP" secondAttribute="leading" id="Q2q-1p-0KK"/>
+                            <constraint firstItem="cDp-dn-zxF" firstAttribute="leading" secondItem="2O7-X8-9gP" secondAttribute="leadingMargin" constant="40" id="Tw0-gf-SUs"/>
+                            <constraint firstItem="ILV-TG-DI4" firstAttribute="top" secondItem="cDp-dn-zxF" secondAttribute="bottom" constant="30" id="Yec-Wn-zEk"/>
+                            <constraint firstItem="cDp-dn-zxF" firstAttribute="top" secondItem="Dkl-iV-tyo" secondAttribute="bottom" constant="70" id="Z2S-qV-7OB"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="webView" destination="ptN-nk-0ie" id="xAG-nw-s0X"/>
+                        <outlet property="blurView" destination="cDp-dn-zxF" id="w83-Wp-em9"/>
                         <segue destination="4e9-br-8oE" kind="show" identifier="historia" id="Ad4-7d-7QH"/>
                         <segue destination="b76-lg-1Do" kind="show" identifier="equipo" id="lf1-MY-dLe"/>
                     </connections>
@@ -2125,12 +2145,12 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XW2-st-C76">
                                 <rect key="frame" x="62" y="53" width="475" height="376"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">Bondzù es una aplicación que permitirá a las personas formar un lazo especial con animales del zoológico, sin importar donde se encuentren. A través de esta aplicación los usuarios podrán adoptar, cuidar y ver crecer a sus cachorros favoritos. Usando dispositivos robóticos y juguetes, participarán en el bienestar animal y enriquecimiento ambiental para mantenerlos activos e incluso darles de comer.
+                                <string key="text">Bondzù es una aplicación que permitirá a las personas formar un lazo especial con animales del zoológico, sin importar donde se encuentren. A través de esta aplicación los usuarios podrán adoptar, cuidar y ver crecer a sus cachorros favoritos. Usando dispositivos robóticos y juguetes, participarán en el bienestar animal y enriquecimiento ambiental para mantenerlos activos e incluso darles de comer.
 
 ¿Se imaginan hacer correr y saltar un tigre blanco persiguiendo a su presa? ¿O jugar juegos de mesa contra una familia monos capuchinos?
 
 Las personas podrán aprender sobre el cuidado de los animales y ayudarán a los zoológicos en sus tareas cotidianas, incluso cuando están cerrados.  Bondzù también estará en la web y plataformas móviles, para que no te pierdas ni un momento con tu cachorro ... ni siquiera su nacimiento!
-</mutableString>
+</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -2175,7 +2195,7 @@ Las personas podrán aprender sobre el cuidado de los animales y ayudarán a los
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eKc-ZR-ciY">
                                 <rect key="frame" x="71" y="65" width="457" height="332"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">-Jorge Huerta González	       Profesor guía, fundador de proyecto
+                                <string key="text">-Jorge Huerta González	       Profesor guía, fundador de proyecto
 -Isaac Martínez Perrusquía	       Ejecutivo de proyecto 
 -Ricardo Lopez Fósil		       Desarrollador ios
 -Daniela Becerra		              Desarrolladora ios
@@ -2187,7 +2207,7 @@ Las personas podrán aprender sobre el cuidado de los animales y ayudarán a los
 -Daniel Martin Diaz Rojas	       Colaborador Voluntario
 -Jerassi Ferrer Alonso    	       Colaborador Voluntario
 -Ivan Xolocotzi Hernández  	       Colaborador Voluntario
-</mutableString>
+</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -2294,6 +2314,7 @@ Las personas podrán aprender sobre el cuidado de los animales y ayudarán a los
         <image name="communityselected" width="25" height="25"/>
         <image name="gallery" width="25" height="25"/>
         <image name="galleryselected" width="25" height="25"/>
+        <image name="play" width="100" height="100"/>
         <image name="profileBar" width="22" height="22"/>
         <image name="profile_pic" width="110" height="110"/>
         <image name="whitePaw" width="48" height="48"/>
