@@ -16,6 +16,8 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var blurView: UIVisualEffectView!
     var playerViewController = AVPlayerViewController()
     var playerView = AVPlayer()
+    var firstTime : Bool!
+    var aboutUsSelected : Bool?
     
      func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
@@ -86,24 +88,56 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         return image
     }
     
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 20
+    }
+
+    func tableView(tableView: UITableView,  viewForFooterInSection section: Int) -> UIView? {
+        let separatorView = UIView()
+        separatorView.backgroundColor = UIColor.clearColor()
+        return separatorView
+    }
+    
+    
+    
+    
+    
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        blurView.layer.cornerRadius = blurView.frame.size.height / 2
+        blurView.layer.cornerRadius = 10.0
+        blurView.layer.masksToBounds = true
+        firstTime = true
+        
         
     }
     
-    @IBAction func playWasPressed(sender: AnyObject) {
+    override func viewDidAppear(animated: Bool) {
+        print("view did appear")
+        if let aboutUsSelected = aboutUsSelected {
+            print(aboutUsSelected)
+            if firstTime == true && aboutUsSelected == true{
+                playVideo()
+                firstTime = false
+            }
+        }
+    }
+    
+    func playVideo(){
         let fileURL = NSURL(fileURLWithPath: "/Users/Danibx/Documents/Bondzu-iOS/bondzuios/bondzu.mp4")
         playerView = AVPlayer(URL: fileURL)
         playerViewController.player = playerView
         self.presentViewController(playerViewController, animated: true) {
             self.playerViewController.player?.play()
         }
-
+    }
+    
+    @IBAction func playWasPressed(sender: AnyObject) {
+        playVideo()
     }
     
     override func didReceiveMemoryWarning() {

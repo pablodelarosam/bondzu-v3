@@ -92,7 +92,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     @IBOutlet weak var toolbar: UIToolbar!
     
     
-    
+    var aboutUsSelected = false
     
     //MARK:Collection view delegate & data source
   
@@ -420,20 +420,24 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             collectionView.hidden = true
             secondaryView.hidden = false
             specialsView.hidden = true
+            aboutUsSelected = true
         case 1:
             collectionView.hidden = false
             secondaryView.hidden = true
             specialsView.hidden = true
             collectionView.reloadData()
+            aboutUsSelected = false
         case 2:
             collectionView.hidden = false
             secondaryView.hidden = true
             specialsView.hidden = true
             collectionView.reloadData()
+            aboutUsSelected = false
         case 3:
             collectionView.hidden = true
             secondaryView.hidden = true
             specialsView.hidden = false
+            aboutUsSelected = false
         default:
             break;
         }
@@ -496,8 +500,12 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         })
         
         //segmented control
-        collectionView.hidden = true
-        secondaryView.hidden = false
+        self.segementedControl.selectedSegmentIndex = 1
+        
+        //self.aboutUsSelected = false
+        
+        collectionView.hidden = false
+        secondaryView.hidden = true
         specialsView.hidden = true
         
         self.segementedControl.tintColor = UIColor.whiteColor()
@@ -531,6 +539,11 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         else if let nvc = segue.destinationViewController as? AccountViewController{
             nvc.user = self.user
         }
+        else if segue.identifier == "aboutus" {
+            let nextVC = segue.destinationViewController as! AboutUsViewController
+            nextVC.aboutUsSelected = self.aboutUsSelected
+            print(self.aboutUsSelected)
+        }
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -539,7 +552,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         cellLayout.itemSize = CGSize(width: cellWidth, height: cellWidth + 20)
         cellLayout.minimumInteritemSpacing = 5
     }
-
+    
+    
    //MARK: AnimalV2 Loading protocol
     
     func animalDidFailLoading(animal: AnimalV2) {
