@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0D1BA0881CC31BDB001F1B2A /* TeamMemberCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1BA0861CC31BDB001F1B2A /* TeamMemberCellTableViewCell.swift */; };
 		0D1BA0891CC31BDB001F1B2A /* TeamMemberCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1BA0871CC31BDB001F1B2A /* TeamMemberCellTableViewCell.xib */; };
-		0D1BA08B1CC367BE001F1B2A /* TryTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1BA08A1CC367B8001F1B2A /* TryTable.swift */; };
 		0D203C281CBE3BCB004B496F /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */; };
 		0D203C2A1CBE4954004B496F /* SpecialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C291CBE4954004B496F /* SpecialsViewController.swift */; };
 		0D203C2D1CBE5534004B496F /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C2C1CBE5534004B496F /* StoreViewController.swift */; };
@@ -117,7 +116,6 @@
 /* Begin PBXFileReference section */
 		0D1BA0861CC31BDB001F1B2A /* TeamMemberCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamMemberCellTableViewCell.swift; sourceTree = "<group>"; };
 		0D1BA0871CC31BDB001F1B2A /* TeamMemberCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamMemberCellTableViewCell.xib; sourceTree = "<group>"; };
-		0D1BA08A1CC367B8001F1B2A /* TryTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TryTable.swift; sourceTree = "<group>"; };
 		0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
 		0D203C291CBE4954004B496F /* SpecialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialsViewController.swift; sourceTree = "<group>"; };
 		0D203C2C1CBE5534004B496F /* StoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
@@ -279,7 +277,6 @@
 				0D5711671CBEF71500DDB0E4 /* TeamViewController.swift */,
 				0D1BA0861CC31BDB001F1B2A /* TeamMemberCellTableViewCell.swift */,
 				0D1BA0871CC31BDB001F1B2A /* TeamMemberCellTableViewCell.xib */,
-				0D1BA08A1CC367B8001F1B2A /* TryTable.swift */,
 			);
 			name = "About us";
 			sourceTree = "<group>";
@@ -816,7 +813,6 @@
 				B3AE26B81BDEFD3600DACA35 /* CircledImageView.swift in Sources */,
 				0D203C2D1CBE5534004B496F /* StoreViewController.swift in Sources */,
 				549760FB1B7B0BED005782A6 /* Camera.swift in Sources */,
-				0D1BA08B1CC367BE001F1B2A /* TryTable.swift in Sources */,
 				540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */,
 				B39719E51B8F5CC200509A72 /* AboutLateralView.swift in Sources */,
 				B37FC3561BC4383B00B5692D /* EventViewControllerTableViewController.swift in Sources */,

@@ -30,6 +30,11 @@
 "Activity" = "Activity";
 "Payment" = "Payment";
 "Logout" = "Logout";
+"History" = "History";
+"Team" = "Team";
+"Contact us" = "Contact us";
+"Store" = "Store";
+"News" = "News";
 "Attach image" = "Attach image";
 "Select an image to set as profile picture" = "Select an image to set as profile picture";
 "Take picture" = "Take picture";
@@ -106,6 +111,14 @@
 "In order to watch me" = "In order to watch me";
 "You need to be" = "You need to be of type";
 "  Start now  " = "  Start now  ";
+"Founder of the project" = "Founder of the project";
+"Project executive" = "Project executive";
+"iOS developer" = "iOS developer";
+"Android developer" = "Android developer";
+"Graphic design" = "Graphic design";
+"Communication" = "Communication";
+"Documentation" = "Documentation";
+"Volunteer colaborator" = "Volunteer colaborator";
 
 
 

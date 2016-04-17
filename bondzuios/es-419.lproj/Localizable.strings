@@ -30,6 +30,11 @@
 "Activity" = "Actividad";
 "Payment" = "Pagos";
 "Logout" = "Cerrar sesión";
+"History" = "Historia";
+"Team" = "Equipo";
+"Contact us" = "Contactános";
+"Store" = "Tienda";
+"News" = "Noticias";
 "Attach image" = "Adjuntar imagen";
 "Select an image to set as profile picture" = "Elige una imagen para poner como foto de perfil";
 "Take picture" = "Tomar foto";
@@ -107,3 +112,12 @@
 "In order to watch me" = "Para verme";
 "You need to be" = "Necesitar ser usuario";
 "  Start now  " = "  Comienza ahora  ";
+//puestos del equipo
+"Founder of the project" = "Profesor guía, fundador de proyecto";
+"Project executive" = "Ejecutivo de proyecto";
+"iOS developer" = "Desarrollador iOS";
+"Android developer" = "Desarrollador Android";
+"Graphic design" = "Diseño gráfico";
+"Communication" = "Communicación";
+"Documentation" = "Documentación";
+"Volunteer colaborator" = "Colaborador voluntario";

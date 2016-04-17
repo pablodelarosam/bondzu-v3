@@ -21,7 +21,7 @@ class HistoryViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Historia", comment: "")
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("History", comment: "")
     }
 
 }

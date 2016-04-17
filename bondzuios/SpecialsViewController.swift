@@ -29,17 +29,17 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
             
             switch indexPath.row{
             case 0:
-                cell.textLabel!.text = NSLocalizedString("Tienda", comment: "")
+                cell.textLabel!.text = NSLocalizedString("Store", comment: "")
             case 1:
-                cell.textLabel!.text = NSLocalizedString("Eventos", comment: "")
+                cell.textLabel!.text = NSLocalizedString("Events", comment: "")
             case 2:
-                cell.textLabel!.text = NSLocalizedString("Noticias", comment: "")
+                cell.textLabel!.text = NSLocalizedString("News", comment: "")
             case 3:
-                cell.textLabel!.text = NSLocalizedString("Bondzu Girls", comment: "")
+                cell.textLabel!.text = "Bondzu Girls"
             case 4:
-                cell.textLabel!.text = NSLocalizedString("Bondzu Games", comment: "")
+                cell.textLabel!.text = "Bondzu Games"
             case 5:
-                cell.textLabel!.text = NSLocalizedString("Wallpapers", comment: "")
+                cell.textLabel!.text = "Wallpapers"
             default:
                 cell.textLabel!.text = NSLocalizedString("No debe aparecer", comment: "")
             }

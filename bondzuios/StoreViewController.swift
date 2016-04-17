@@ -21,7 +21,7 @@ class StoreViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Tienda", comment: "")
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Store", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
         super.viewDidAppear(animated)
     }

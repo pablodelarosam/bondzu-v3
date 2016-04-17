@@ -42,11 +42,11 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
             
             switch indexPath.row{
             case 0:
-                cell.textLabel!.text = NSLocalizedString("Historia", comment: "")
+                cell.textLabel!.text = NSLocalizedString("History", comment: "")
             case 1:
-                cell.textLabel!.text = NSLocalizedString("Equipo", comment: "")
+                cell.textLabel!.text = NSLocalizedString("Team", comment: "")
             default:
-                cell.textLabel!.text = NSLocalizedString("Contáctanos", comment: "")
+                cell.textLabel!.text = NSLocalizedString("Contact us", comment: "")
             }
             
             
@@ -58,7 +58,7 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         }
         else{
             let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-            cell.textLabel!.text = NSLocalizedString("Contáctanos", comment: "")
+            cell.textLabel!.text = NSLocalizedString("Contact us", comment: "")
             cell.backgroundColor = UIColor.clearColor()
             cell.textLabel!.textColor = UIColor.whiteColor()
             cell.imageView?.tintColor = UIColor.whiteColor()

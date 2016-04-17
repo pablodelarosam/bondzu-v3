@@ -39,10 +39,14 @@
 "8eK-Xw-4zf.segmentTitles[3]" = "Recuerdos";
 
 /* Class = "UISegmentedControl"; CNW-Xj-K7h.segmentTitles[0] = "Animales"; ObjectID = "CNW-Xj-K7h"; */
-"CNW-Xj-K7h.segmentTitles[0]" = "Animales";
+"CNW-Xj-K7h.segmentTitles[0]" = "Nosotros";
 
 /* Class = "UISegmentedControl"; CNW-Xj-K7h.segmentTitles[1] = "Video"; ObjectID = "CNW-Xj-K7h"; */
-"CNW-Xj-K7h.segmentTitles[1]" = "Video";
+"CNW-Xj-K7h.segmentTitles[1]" = "Animales";
+
+"CNW-Xj-K7h.segmentTitles[2]" = "Video";
+
+"CNW-Xj-K7h.segmentTitles[3]" = "Especiales";
 
 /* Class = "UILabel"; text = "20.00"; ObjectID = "CUm-ZT-a0d"; */
 "CUm-ZT-a0d.text" = "20.00";
@@ -75,7 +79,7 @@
 "JmZ-8S-cIX.text" = "No hay mensajes aún";
 
 /* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "KFa-mS-Sa5"; */
-"KFa-mS-Sa5.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+"KFa-mS-Sa5.text" = "Bondzù es una aplicación que permitirá a las personas formar un lazo especial con animales del zoológico, sin importar donde se encuentren. A través de esta aplicación los usuarios podrán adoptar, cuidar y ver crecer a sus cachorros favoritos. Usando dispositivos robóticos y juguetes, participarán en el bienestar animal y enriquecimiento ambiental para mantenerlos activos e incluso darles de comer. ¿Se imaginan hacer correr y saltar un tigre blanco persiguiendo a su presa? ¿O jugar juegos de mesa contra una familia monos capuchinos? Las personas podrán aprender sobre el cuidado de los animales y ayudarán a los zoológicos en sus tareas cotidianas, incluso cuando están cerrados.  Bondzù también estará en la web y plataformas móviles, para que no te pierdas ni un momento con tu cachorro ... ni siquiera su nacimiento!";
 
 /* Class = "UILabel"; text = "¿Olvidaste tu contraseña?"; ObjectID = "LMV-Ly-rRM"; */
 "LMV-Ly-rRM.text" = "¿Olvidaste tu contraseña?";
