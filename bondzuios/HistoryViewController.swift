@@ -31,11 +31,14 @@ class HistoryViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var historyLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         animalEffectView.setImageArray(Constantes.animalArrayImages)
-        scrollView.contentSize.height = 750
+        scrollView.contentSize.height = 850
         scrollView.contentSize.width = self.view.frame.width
+        historyLabel.text = NSLocalizedString("info", comment: "description of what bondzu is")
         
     }
     

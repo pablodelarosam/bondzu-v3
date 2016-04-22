@@ -340,7 +340,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         guard searchBar.text != nil else{ return }
         
-        if searchBar.text?.characters.count == 0{
+        if searchBar.text?.characters.count == 0 {
             searching = false
             return
         }
