@@ -2118,8 +2118,8 @@
                     </view>
                     <connections>
                         <outlet property="blurView" destination="cDp-dn-zxF" id="TWv-fl-dZ2"/>
-                        <segue destination="4e9-br-8oE" kind="show" identifier="historia" id="Ad4-7d-7QH"/>
-                        <segue destination="VLe-Io-uzt" kind="show" identifier="equipo" id="d8m-bd-NNC"/>
+                        <segue destination="z8S-qt-I5D" kind="show" identifier="equipo" id="I1K-AM-ota"/>
+                        <segue destination="vva-af-wB8" kind="show" identifier="historia" id="49R-tJ-0JT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NrZ-96-Mdj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2127,62 +2127,63 @@
             <point key="canvasLocation" x="-71" y="1479.5"/>
         </scene>
         <!--History View Controller-->
-        <scene sceneID="xo6-X5-hMC">
+        <scene sceneID="MGu-UV-LVt">
             <objects>
-                <viewController id="4e9-br-8oE" customClass="HistoryViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vva-af-wB8" customClass="HistoryViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="9Rd-Kc-5c4"/>
-                        <viewControllerLayoutGuide type="bottom" id="IvX-Zx-1U8"/>
+                        <viewControllerLayoutGuide type="top" id="bmz-Zs-TOl"/>
+                        <viewControllerLayoutGuide type="bottom" id="qZl-vf-mrV"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="U9V-h1-iSr">
+                    <view key="view" contentMode="scaleToFill" id="cMX-Aj-LqQ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hb-Cf-d52" customClass="EffectBackgroundView" customModule="Bondzu" customModuleProvider="target">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogs-P3-Ahd">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XW2-st-C76">
-                                <rect key="frame" x="62" y="53" width="475" height="376"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <string key="text">Bondzù is an app that will enable people and zoo animals to form a special bond no matter wherever they are. Through this app users will adopt, care and watch grow their favorite cubs. Using robotic devices and toys they will participate in animal well-being and environmental enrichment to keep them active and even feed them.
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="30" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnk-Hu-LRt">
+                                        <rect key="frame" x="54" y="45" width="492" height="608"/>
+                                        <mutableString key="text">Bondzù is an app that will enable people and zoo animals to form a special bond no matter wherever they are. Through this app users will adopt, care and watch grow their favorite cubs. Using robotic devices and toys they will participate in animal well-being and environmental enrichment to keep them active and even feed them.
 
 Can you imagine making run and jump a white tiger pursuing its prey? Or playing board games against a capuchin monkeys family?
 
-People will learn about animal caring and help zoos in their everyday tasks even when they're closed. And Bondzù will be on web and mobile platforms so you won't miss a moment with your cub... not even its birth!
-
-</string>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+People will learn about animal caring and help zoos in their everyday tasks even when they're closed. And Bondzù will be on web and mobile platforms so you won't miss a moment with your cub... not even its birth!</mutableString>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="fnk-Hu-LRt" firstAttribute="leading" secondItem="ogs-P3-Ahd" secondAttribute="leading" constant="54" id="Hvg-j1-r29"/>
+                                    <constraint firstAttribute="bottom" secondItem="fnk-Hu-LRt" secondAttribute="bottom" constant="79" id="baP-FD-e5b"/>
+                                    <constraint firstAttribute="trailing" secondItem="fnk-Hu-LRt" secondAttribute="trailing" constant="42" id="iH4-6z-jDa"/>
+                                    <constraint firstItem="fnk-Hu-LRt" firstAttribute="centerX" secondItem="ogs-P3-Ahd" secondAttribute="centerX" id="u5g-fw-aea"/>
+                                    <constraint firstItem="fnk-Hu-LRt" firstAttribute="top" secondItem="ogs-P3-Ahd" secondAttribute="top" constant="45" id="yb0-lC-b5H"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="7hb-Cf-d52" firstAttribute="bottom" secondItem="IvX-Zx-1U8" secondAttribute="top" id="6L0-iQ-zR3"/>
-                            <constraint firstItem="7hb-Cf-d52" firstAttribute="top" secondItem="9Rd-Kc-5c4" secondAttribute="bottom" id="HNr-yG-pfc"/>
-                            <constraint firstItem="XW2-st-C76" firstAttribute="top" secondItem="9Rd-Kc-5c4" secondAttribute="bottom" constant="53" id="IP1-U7-k55"/>
-                            <constraint firstItem="7hb-Cf-d52" firstAttribute="leading" secondItem="U9V-h1-iSr" secondAttribute="leading" id="OWf-rD-P0F"/>
-                            <constraint firstAttribute="trailing" secondItem="7hb-Cf-d52" secondAttribute="trailing" id="OqT-pd-9Ad"/>
-                            <constraint firstItem="IvX-Zx-1U8" firstAttribute="top" secondItem="XW2-st-C76" secondAttribute="bottom" constant="32" id="Xy4-7h-s2H"/>
-                            <constraint firstItem="XW2-st-C76" firstAttribute="leading" secondItem="U9V-h1-iSr" secondAttribute="leadingMargin" constant="42" id="awq-sK-YPC"/>
-                            <constraint firstItem="XW2-st-C76" firstAttribute="centerX" secondItem="7hb-Cf-d52" secondAttribute="centerX" id="bHo-6M-cuf"/>
+                            <constraint firstItem="ogs-P3-Ahd" firstAttribute="centerY" secondItem="cMX-Aj-LqQ" secondAttribute="centerY" id="Fri-eE-0K1"/>
+                            <constraint firstItem="ogs-P3-Ahd" firstAttribute="height" secondItem="cMX-Aj-LqQ" secondAttribute="height" id="K3M-4J-azE"/>
+                            <constraint firstItem="ogs-P3-Ahd" firstAttribute="centerX" secondItem="cMX-Aj-LqQ" secondAttribute="centerX" id="gdA-NG-Rav"/>
+                            <constraint firstItem="ogs-P3-Ahd" firstAttribute="width" secondItem="cMX-Aj-LqQ" secondAttribute="width" id="ocj-Kb-bhi"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="animalViewEffect" destination="7hb-Cf-d52" id="8vt-xs-RLC"/>
+                        <outlet property="scrollView" destination="ogs-P3-Ahd" id="4bg-fm-en4"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xIZ-w1-rLQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N9c-57-5Nd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="616" y="1494.5"/>
+            <point key="canvasLocation" x="629" y="1463"/>
         </scene>
         <!--Team View Controller-->
         <scene sceneID="f1z-4A-QBn">
             <objects>
                 <tableViewController id="VLe-Io-uzt" customClass="TeamViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="nGX-Ny-jfR">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2207,7 +2208,40 @@ People will learn about animal caring and help zoos in their everyday tasks even
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bbv-d4-zSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1302" y="1505"/>
+            <point key="canvasLocation" x="1993" y="1495"/>
+        </scene>
+        <!--Team Web View Controller-->
+        <scene sceneID="0ed-WF-XnI">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="z8S-qt-I5D" customClass="TeamWebViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yH9-QH-RRq"/>
+                        <viewControllerLayoutGuide type="bottom" id="2en-X2-bmw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0mT-Ci-xbz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IZY-I4-ZZ8">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="IZY-I4-ZZ8" firstAttribute="bottom" secondItem="2en-X2-bmw" secondAttribute="top" id="1rx-Ml-J79"/>
+                            <constraint firstItem="IZY-I4-ZZ8" firstAttribute="top" secondItem="yH9-QH-RRq" secondAttribute="bottom" id="2e9-WS-An2"/>
+                            <constraint firstAttribute="trailing" secondItem="IZY-I4-ZZ8" secondAttribute="trailing" id="OfT-y8-dfb"/>
+                            <constraint firstItem="IZY-I4-ZZ8" firstAttribute="leading" secondItem="0mT-Ci-xbz" secondAttribute="leading" id="cU2-fw-t3L"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="myWebView" destination="IZY-I4-ZZ8" id="3AP-ls-QEm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ui9-Wo-MM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1285" y="1486.5"/>
         </scene>
         <!--Specials View Controller-->
         <scene sceneID="Yx0-FY-Tj6">
@@ -2277,7 +2311,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9K-gX-EE9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="574" y="2145"/>
+            <point key="canvasLocation" x="588" y="2272.5"/>
         </scene>
     </scenes>
     <resources>

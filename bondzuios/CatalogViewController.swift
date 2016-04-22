@@ -417,27 +417,27 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         switch control.selectedSegmentIndex
         {
         case 0:
+            //self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
             collectionView.hidden = true
             secondaryView.hidden = false
             specialsView.hidden = true
-            aboutUsSelected = true
         case 1:
+            //self.navigationController!.navigationBar.topItem!.rightBarButtonItem = searchBarButtonItem
             collectionView.hidden = false
             secondaryView.hidden = true
             specialsView.hidden = true
             collectionView.reloadData()
-            aboutUsSelected = false
         case 2:
+            //self.navigationController!.navigationBar.topItem!.rightBarButtonItem = searchBarButtonItem
             collectionView.hidden = false
             secondaryView.hidden = true
             specialsView.hidden = true
             collectionView.reloadData()
-            aboutUsSelected = false
         case 3:
+            //self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
             collectionView.hidden = true
             secondaryView.hidden = true
             specialsView.hidden = false
-            aboutUsSelected = false
         default:
             break;
         }
@@ -502,7 +502,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         //segmented control
         self.segementedControl.selectedSegmentIndex = 1
         
-        //self.aboutUsSelected = false
         
         collectionView.hidden = false
         secondaryView.hidden = true
@@ -539,11 +538,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         else if let nvc = segue.destinationViewController as? AccountViewController{
             nvc.user = self.user
         }
-        else if segue.identifier == "aboutus" {
-            let nextVC = segue.destinationViewController as! AboutUsViewController
-            nextVC.aboutUsSelected = self.aboutUsSelected
-            print(self.aboutUsSelected)
-        }
+
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

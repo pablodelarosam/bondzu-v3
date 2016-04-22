@@ -8,20 +8,14 @@
 
 import UIKit
 import MessageUI
-import AVKit
-import AVFoundation
 
 class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
 
-    @IBOutlet weak var blurView: UIVisualEffectView!
-    var playerViewController = AVPlayerViewController()
-    var playerView = AVPlayer()
-    var firstTime : Bool!
-    var aboutUsSelected : Bool?
-    
+     @IBOutlet weak var blurView: UIVisualEffectView!
+  
      func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
-    }
+     }
     
      func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
@@ -29,7 +23,7 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         }
         return 1;
         
-    }
+     }
     
      func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0{
@@ -98,55 +92,6 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         return separatorView
     }
     
-    
-    
-    
-    
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        blurView.layer.cornerRadius = 10.0
-        blurView.layer.masksToBounds = true
-        firstTime = true
-        
-        
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        print("view did appear")
-        if let aboutUsSelected = aboutUsSelected {
-            print(aboutUsSelected)
-            if firstTime == true && aboutUsSelected == true{
-                playVideo()
-                firstTime = false
-            }
-        }
-    }
-    
-    func playVideo(){
-        let fileURL = NSURL(fileURLWithPath: "/Users/Danibx/Documents/Bondzu-iOS/bondzuios/bondzu.mp4")
-        playerView = AVPlayer(URL: fileURL)
-        playerViewController.player = playerView
-        self.presentViewController(playerViewController, animated: true) {
-            self.playerViewController.player?.play()
-        }
-    }
-    
-    @IBAction func playWasPressed(sender: AnyObject) {
-        playVideo()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-   
-    //YA QUE PONGA LOS SEGUES, LO DESCOMENTO
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1{
             //send email
@@ -165,21 +110,43 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
             performSegueWithIdentifier("equipo", sender: nil)
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
-       
+        
     }
-
-    //es para pasar valores al segue, creo que no lo necesito (5:00 am, no se)
     
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if let nvc = segue.destinationViewController as? AdopedAnimalsViewController{
-//            nvc.user = self.user
-//        }
-//    }
+ //// tableview methods end
     
     
     
     
-
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        blurView.layer.cornerRadius = 10.0
+        blurView.layer.masksToBounds = true
+        
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
+    
+    @IBAction func playWasPressed(sender: AnyObject) {
+        //playVideo()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+   
+    
+//send email ///////////////////////////////////////
         func configuredMailComposeViewController() -> MFMailComposeViewController {
             let mailComposerVC = MFMailComposeViewController()
             mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
