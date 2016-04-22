@@ -14,7 +14,7 @@ class TeamWebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = NSURL (string: "http://bondzu.com/tienda/")
+        let url = NSURL (string: "http://www.bondzu.com/webview/creditos.php")
         let requestObj = NSURLRequest(URL: url!)
         myWebView.loadRequest(requestObj)
     }

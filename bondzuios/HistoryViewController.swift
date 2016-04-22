@@ -26,13 +26,14 @@ People will learn about animal caring and help zoos in their everyday tasks even
 
 class HistoryViewController: UIViewController {
 
-    //@IBOutlet weak var animalViewEffect: EffectBackgroundView!
+    
+    @IBOutlet weak var animalEffectView: EffectBackgroundView!
     
     @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.animalViewEffect.setImageArray(Constantes.animalArrayImages)
+        animalEffectView.setImageArray(Constantes.animalArrayImages)
         scrollView.contentSize.height = 750
         scrollView.contentSize.width = self.view.frame.width
         
@@ -42,12 +43,4 @@ class HistoryViewController: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("History", comment: "")
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        //let animalBackgroundView = EffectBackgroundView(frame : self.view.bounds)
-        // Add a background view to the table view
-        //animalBackgroundView.setImageArray(Constantes.animalArrayImages)
-        //self.view = animalBackgroundView
-    }
-
 }
