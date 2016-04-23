@@ -34,10 +34,8 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
             cell.backgroundColor = UIColor.clearColor()
             cell.tintColor = UIColor.redColor()
             let backView = UIView(frame: cell.frame)
-            backView.backgroundColor = UIColor.redColor()
-            //preguntar color a la diseñadora, que color se pone la celda cuando la seleccionas, gris? o naranja, u otro?
-            
-            //cell.selectedBackgroundView = backView
+            backView.backgroundColor = UIColor(hexString: "DD7A25") //naranja
+            cell.selectedBackgroundView = backView
             
             switch indexPath.row{
             case 0:

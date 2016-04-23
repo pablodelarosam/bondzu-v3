@@ -46,6 +46,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.textLabel!.textColor = UIColor.whiteColor()
             cell.backgroundColor = UIColor.clearColor()
             cell.tintColor = UIColor.redColor()
+            let backView = UIView(frame: cell.frame)
+            backView.backgroundColor = UIColor(hexString: "DD7A25") //naranja
+            cell.selectedBackgroundView = backView
+
             
             switch indexPath.row{
             case 0:
