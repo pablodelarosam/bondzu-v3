@@ -295,6 +295,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
+                self.animalsToShow.removeAll() //new for pull to refresh to not make duplicates
                 if let objects = objects{
                     self.toLoadAnimals = objects.count
                     for object in objects {
@@ -304,6 +305,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                     dispatch_async(dispatch_get_main_queue()){
                         if self.segementedControl.selectedSegmentIndex == 1{
                             self.collectionView.reloadData()
+                            self.refreshControl.endRefreshing()
                         }
                     }
                 }
@@ -319,6 +321,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         videoQuery.findObjectsInBackgroundWithBlock {
             (array, error) -> Void in
             if error == nil, let capsulesArray = array{
+                self.videoCapsules.removeAll() //new for pull to refresh to not make duplicates
                 self.toLoadVideos = capsulesArray.count
                 
                 for object in capsulesArray{
@@ -329,6 +332,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                 if self.segementedControl.selectedSegmentIndex == 2{
                     dispatch_async(dispatch_get_main_queue()){
                         self.collectionView.reloadData()
+                        self.refreshControl.endRefreshing()
                     }
                 }
             }
@@ -502,7 +506,19 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
         getAnimals();
         setUpSegmentedControl()
+
+        //pull to refresh
+        self.collectionView.addSubview(self.refreshControl)
+        
     }
+    
+    //pull to refresh
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "getAnimals", forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
     
     
     func setUpSegmentedControl(){
