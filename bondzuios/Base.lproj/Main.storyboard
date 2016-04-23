@@ -2332,11 +2332,56 @@ People will learn about animal caring and help zoos in their everyday tasks even
                     </view>
                     <connections>
                         <segue destination="yLY-7M-hfO" kind="show" identifier="tienda" id="CEe-2s-JHW"/>
+                        <segue destination="wb6-zi-w5w" kind="show" identifier="other" id="iu9-uk-hlp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ZR-ym-4bD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-88" y="2053.5"/>
+            <point key="canvasLocation" x="-85" y="2053.5"/>
+        </scene>
+        <!--Other Specials View Controller-->
+        <scene sceneID="Qlx-37-MaR">
+            <objects>
+                <viewController id="wb6-zi-w5w" customClass="OtherSpecialsViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TX7-W7-Sqt"/>
+                        <viewControllerLayoutGuide type="bottom" id="Q8j-Od-pME"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AgX-mq-zvY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zSn-7a-gRS" customClass="EffectBackgroundView" customModule="Bondzu" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contenido disponible próximamente" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XoY-sb-5xm">
+                                <rect key="frame" x="60" y="180" width="480" height="101"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="XoY-sb-5xm" secondAttribute="trailing" constant="40" id="52m-Ee-Vd2"/>
+                            <constraint firstItem="zSn-7a-gRS" firstAttribute="height" secondItem="AgX-mq-zvY" secondAttribute="height" id="KVQ-aR-bPd"/>
+                            <constraint firstItem="XoY-sb-5xm" firstAttribute="leading" secondItem="AgX-mq-zvY" secondAttribute="leadingMargin" constant="40" id="UdJ-aN-Qed"/>
+                            <constraint firstItem="Q8j-Od-pME" firstAttribute="top" secondItem="XoY-sb-5xm" secondAttribute="bottom" constant="180" id="VGY-Do-RFY"/>
+                            <constraint firstItem="zSn-7a-gRS" firstAttribute="centerX" secondItem="AgX-mq-zvY" secondAttribute="centerX" id="dHM-mW-8BF"/>
+                            <constraint firstItem="XoY-sb-5xm" firstAttribute="top" secondItem="TX7-W7-Sqt" secondAttribute="bottom" constant="180" id="nch-wk-Xlt"/>
+                            <constraint firstItem="zSn-7a-gRS" firstAttribute="width" secondItem="AgX-mq-zvY" secondAttribute="width" id="oM5-6Q-zWv"/>
+                            <constraint firstItem="zSn-7a-gRS" firstAttribute="centerY" secondItem="AgX-mq-zvY" secondAttribute="centerY" id="uyt-Sl-NXB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="animalViewEffect" destination="zSn-7a-gRS" id="dqg-Fd-5TL"/>
+                        <outlet property="otherspecialsLabel" destination="XoY-sb-5xm" id="bZc-6G-1lR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lCS-pP-PDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1271" y="2114"/>
         </scene>
         <!--Store View Controller-->
         <scene sceneID="BmA-dT-9tQ">
@@ -2369,7 +2414,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9K-gX-EE9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="588" y="2272.5"/>
+            <point key="canvasLocation" x="600" y="2053.5"/>
         </scene>
     </scenes>
     <resources>

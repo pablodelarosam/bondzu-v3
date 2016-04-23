@@ -26,7 +26,7 @@ class TeamWebViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.navigationController?.navigationBar.topItem?.title = "Video"
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Team", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
     }
     

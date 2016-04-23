@@ -499,16 +499,26 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             return true
         })
         
-        //segmented control
+        
+        getAnimals();
+        setUpSegmentedControl()
+    }
+    
+    
+    func setUpSegmentedControl(){
         self.segementedControl.selectedSegmentIndex = 1
         
+        segementedControl.setTitle(NSLocalizedString("About us", comment:""), forSegmentAtIndex: 0)
+        segementedControl.setTitle(NSLocalizedString("Animalia", comment:""), forSegmentAtIndex: 1)
+        segementedControl.setTitle(NSLocalizedString("Video", comment:""), forSegmentAtIndex: 2)
+        segementedControl.setTitle(NSLocalizedString("Specials", comment:""), forSegmentAtIndex: 3)
         
         collectionView.hidden = false
         secondaryView.hidden = true
         specialsView.hidden = true
         
         self.segementedControl.tintColor = UIColor.whiteColor()
-        getAnimals();
+    
     }
     
     override func viewWillAppear(animated: Bool) {

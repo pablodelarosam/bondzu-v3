@@ -51,11 +51,15 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
             
             return cell
         
-    }
+        }
     
         func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
             if indexPath.row == 0{
                 performSegueWithIdentifier("tienda", sender: nil)
+                tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            }
+            else {
+                performSegueWithIdentifier("other", sender: nil)
                 tableView.deselectRowAtIndexPath(indexPath, animated: false)
             }
 

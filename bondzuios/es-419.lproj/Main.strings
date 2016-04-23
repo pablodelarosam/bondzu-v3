@@ -39,14 +39,14 @@
 "8eK-Xw-4zf.segmentTitles[3]" = "Recuerdos";
 
 /* Class = "UISegmentedControl"; CNW-Xj-K7h.segmentTitles[0] = "Animales"; ObjectID = "CNW-Xj-K7h"; */
-"CNW-Xj-K7h.segmentTitles[0]" = "Nosotros";
+/*"CNW-Xj-K7h.segmentTitles[0]" = "Nosotros"; */
 
 /* Class = "UISegmentedControl"; CNW-Xj-K7h.segmentTitles[1] = "Video"; ObjectID = "CNW-Xj-K7h"; */
-"CNW-Xj-K7h.segmentTitles[1]" = "Animales";
+/*"CNW-Xj-K7h.segmentTitles[1]" = "Animales";*/
 
-"CNW-Xj-K7h.segmentTitles[2]" = "Video";
+/*"CNW-Xj-K7h.segmentTitles[2]" = "Video";*/
 
-"CNW-Xj-K7h.segmentTitles[3]" = "Especiales";
+/*"CNW-Xj-K7h.segmentTitles[3]" = "Especiales";*/
 
 /* Class = "UILabel"; text = "20.00"; ObjectID = "CUm-ZT-a0d"; */
 "CUm-ZT-a0d.text" = "20.00";
