@@ -1,22 +1,27 @@
 //
-//  TeamWebViewController.swift
+//  InfoVideoViewController.swift
 //  bondzuios
 //
-//  Created by Daniela Becerra on 20/04/16.
+//  Created by Daniela Becerra on 23/04/16.
 //  Copyright © 2016 Bondzu. All rights reserved.
 //
 
 import UIKit
+import youtube_ios_player_helper
 
-class TeamWebViewController: UIViewController {
+class InfoVideoViewController: UIViewController {
 
-    @IBOutlet weak var myWebView: UIWebView!
+    @IBOutlet weak var animalViewEffect: EffectBackgroundView!
+    
+    let videoId = "Z0XCFs1Rbz8"
+
+    @IBOutlet weak var player: YTPlayerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = NSURL (string: "http://www.bondzu.com/webview/creditos.php")
-        let requestObj = NSURLRequest(URL: url!)
-        myWebView.loadRequest(requestObj)
+        animalViewEffect.setImageArray(Constantes.animalArrayImages)
+        player.loadWithVideoId(videoId)
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,17 +29,16 @@ class TeamWebViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationController?.navigationBar.topItem?.title = "Video"
-        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
-    }
-    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
     
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.navigationBar.topItem?.title = "Video"
+        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
+    }
     /*
     // MARK: - Navigation
 

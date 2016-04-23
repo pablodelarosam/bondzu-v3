@@ -2071,7 +2071,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ILV-TG-DI4">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ILV-TG-DI4">
                                 <rect key="frame" x="0.0" y="250" width="600" height="211"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -2102,7 +2102,7 @@
                                         <constraint firstItem="SjW-5u-Fx3" firstAttribute="top" secondItem="E6j-tC-jac" secondAttribute="top" constant="25" id="AUQ-c4-NY3"/>
                                     </constraints>
                                 </view>
-                                <blurEffect style="light"/>
+                                <blurEffect style="dark"/>
                             </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2120,6 +2120,7 @@
                         <outlet property="blurView" destination="cDp-dn-zxF" id="TWv-fl-dZ2"/>
                         <segue destination="z8S-qt-I5D" kind="show" identifier="equipo" id="I1K-AM-ota"/>
                         <segue destination="vva-af-wB8" kind="show" identifier="historia" id="49R-tJ-0JT"/>
+                        <segue destination="WLd-mi-Ooo" kind="show" identifier="video" id="KOO-M8-WdV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NrZ-96-Mdj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2148,11 +2149,11 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="40" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnk-Hu-LRt">
                                         <rect key="frame" x="54" y="86" width="492" height="305"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <mutableString key="text">Bondzù is an app that will enable people and zoo animals to form a special bond no matter wherever they are. Through this app users will adopt, care and watch grow their favorite cubs. Using robotic devices and toys they will participate in animal well-being and environmental enrichment to keep them active and even feed them.
+                                        <string key="text">Bondzù is an app that will enable people and zoo animals to form a special bond no matter wherever they are. Through this app users will adopt, care and watch grow their favorite cubs. Using robotic devices and toys they will participate in animal well-being and environmental enrichment to keep them active and even feed them.
 
 Can you imagine making run and jump a white tiger pursuing its prey? Or playing board games against a capuchin monkeys family?
 
-People will learn about animal caring and help zoos in their everyday tasks even when they're closed. And Bondzù will be on web and mobile platforms so you won't miss a moment with your cub... not even its birth!</mutableString>
+People will learn about animal caring and help zoos in their everyday tasks even when they're closed. And Bondzù will be on web and mobile platforms so you won't miss a moment with your cub... not even its birth!</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -2220,7 +2221,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bbv-d4-zSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1993" y="1495"/>
+            <point key="canvasLocation" x="2651" y="1506"/>
         </scene>
         <!--Team Web View Controller-->
         <scene sceneID="0ed-WF-XnI">
@@ -2255,6 +2256,51 @@ People will learn about animal caring and help zoos in their everyday tasks even
             </objects>
             <point key="canvasLocation" x="1285" y="1486.5"/>
         </scene>
+        <!--Info Video View Controller-->
+        <scene sceneID="mN8-cy-5x4">
+            <objects>
+                <viewController id="WLd-mi-Ooo" customClass="InfoVideoViewController" customModule="Bondzu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lKR-uG-neI"/>
+                        <viewControllerLayoutGuide type="bottom" id="TQd-fo-iAP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1O7-xe-2bE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3M-ib-o1F" customClass="EffectBackgroundView" customModule="Bondzu" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N6M-GL-gmW" customClass="YTPlayerView">
+                                <rect key="frame" x="45" y="30" width="510" height="200"/>
+                                <color key="backgroundColor" red="1" green="0.5638356846" blue="0.77275895220000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="0pP-6n-LFr"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="b3M-ib-o1F" firstAttribute="centerX" secondItem="1O7-xe-2bE" secondAttribute="centerX" id="0zq-4Q-Ojs"/>
+                            <constraint firstItem="N6M-GL-gmW" firstAttribute="leading" secondItem="1O7-xe-2bE" secondAttribute="leadingMargin" constant="25" id="DZe-FU-mZs"/>
+                            <constraint firstItem="b3M-ib-o1F" firstAttribute="height" secondItem="1O7-xe-2bE" secondAttribute="height" id="ExQ-h4-PQN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="N6M-GL-gmW" secondAttribute="trailing" constant="25" id="GVX-ZR-gqU"/>
+                            <constraint firstItem="b3M-ib-o1F" firstAttribute="centerY" secondItem="1O7-xe-2bE" secondAttribute="centerY" id="IKQ-PE-h6Y"/>
+                            <constraint firstItem="N6M-GL-gmW" firstAttribute="top" secondItem="lKR-uG-neI" secondAttribute="bottom" constant="30" id="Vm3-oO-2ce"/>
+                            <constraint firstItem="b3M-ib-o1F" firstAttribute="width" secondItem="1O7-xe-2bE" secondAttribute="width" id="tFU-hY-vgS"/>
+                            <constraint firstItem="N6M-GL-gmW" firstAttribute="centerX" secondItem="1O7-xe-2bE" secondAttribute="centerX" id="xgW-hI-nDx"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="animalViewEffect" destination="b3M-ib-o1F" id="xHG-HF-6QI"/>
+                        <outlet property="player" destination="N6M-GL-gmW" id="5Dp-NA-AKi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ppi-sa-mnp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1941" y="1450.5"/>
+        </scene>
         <!--Specials View Controller-->
         <scene sceneID="Yx0-FY-Tj6">
             <objects>
@@ -2267,7 +2313,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                         <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m7w-ZO-JSe">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m7w-ZO-JSe">
                                 <rect key="frame" x="0.0" y="90" width="600" height="371"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>

@@ -46,4 +46,9 @@ class HistoryViewController: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("History", comment: "")
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
+    
 }

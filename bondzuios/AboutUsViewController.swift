@@ -33,6 +33,11 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
             cell.textLabel!.textColor = UIColor.whiteColor()
             cell.backgroundColor = UIColor.clearColor()
             cell.tintColor = UIColor.redColor()
+            let backView = UIView(frame: cell.frame)
+            backView.backgroundColor = UIColor.redColor()
+            //preguntar color a la diseñadora, que color se pone la celda cuando la seleccionas, gris? o naranja, u otro?
+            
+            //cell.selectedBackgroundView = backView
             
             switch indexPath.row{
             case 0:
@@ -137,7 +142,7 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
     
     
     @IBAction func playWasPressed(sender: AnyObject) {
-        //playVideo()
+        performSegueWithIdentifier("video", sender: nil)
     }
     
     override func didReceiveMemoryWarning() {
