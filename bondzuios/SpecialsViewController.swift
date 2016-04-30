@@ -10,6 +10,16 @@ import UIKit
 
 class SpecialsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var tableView: UITableView!
+    
+    let urlStrings = ["http://bondzu.com/tienda/", "http://www.bondzu.com/eventos/", "noticias", "bgirls", "bgames", "http://www.bondzu.com/Wallpapers/ios/#"]
+    
+    let webready = [0,1,5]
+    let notready = [2,3,4]
+    
+    var row: Int = 0
+    var nameOfNextView: String!
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -57,7 +67,13 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     
         func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            if indexPath.row == 0{
+            if webready.contains(indexPath.row) {
+                //prepare
+                self.row = indexPath.row
+                let indexPath = tableView.indexPathForSelectedRow!
+                let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
+                nameOfNextView = currentCell.textLabel!.text
+                //let's go
                 performSegueWithIdentifier("tienda", sender: nil)
                 tableView.deselectRowAtIndexPath(indexPath, animated: false)
             }
@@ -68,5 +84,18 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
 
         }
 
+        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+            if segue.identifier == "tienda" {
+                let webVC = segue.destinationViewController as? StoreViewController
+                webVC?.nameOfView = self.nameOfNextView
+                webVC?.urlString = urlStrings[self.row]
+            }
+        }
 
+}
+
+extension Array {
+    func contains<T where T : Equatable>(obj: T) -> Bool {
+        return self.filter({$0 as? T == obj}).count > 0
+    }
 }

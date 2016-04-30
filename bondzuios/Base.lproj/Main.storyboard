@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5gB-Y4-jP7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5gB-Y4-jP7">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -2331,6 +2331,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="tableView" destination="m7w-ZO-JSe" id="bRO-2G-bO8"/>
                         <segue destination="yLY-7M-hfO" kind="show" identifier="tienda" id="CEe-2s-JHW"/>
                         <segue destination="wb6-zi-w5w" kind="show" identifier="other" id="iu9-uk-hlp"/>
                     </connections>
