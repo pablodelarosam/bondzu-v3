@@ -20,9 +20,11 @@ class StoreViewController: UIViewController {
         // Your webView code goes here
         if let urlString = urlString{
             url = NSURL (string: urlString)
+            print(urlString)
         }else{
             url = NSURL(string: "https://www.google.com.mx/")
         }
+        
         let requestObj = NSURLRequest(URL: url!)
         myWebView.loadRequest(requestObj)
     }

@@ -12,10 +12,7 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var tableView: UITableView!
     
-    let urlStrings = ["http://bondzu.com/tienda/", "http://www.bondzu.com/eventos/", "noticias", "bgirls", "bgames", "http://www.bondzu.com/Wallpapers/ios/#"]
-    
-    let webready = [0,1,5]
-    let notready = [2,3,4]
+    let urlStrings = ["http://bondzu.com/tienda/", "http://bondzu.com/eventos/", "http://bondzu.com/bondzugirls/", "http://www.bondzu.com/Wallpapers/ios/#"]
     
     var row: Int = 0
     var nameOfNextView: String!
@@ -25,7 +22,7 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return 6
+       return 4
         
     }
     
@@ -46,12 +43,8 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
             case 1:
                 cell.textLabel!.text = NSLocalizedString("Events", comment: "")
             case 2:
-                cell.textLabel!.text = NSLocalizedString("News", comment: "")
-            case 3:
                 cell.textLabel!.text = "Bondzu Girls"
-            case 4:
-                cell.textLabel!.text = "Bondzu Games"
-            case 5:
+            case 3:
                 cell.textLabel!.text = "Wallpapers"
             default:
                 cell.textLabel!.text = NSLocalizedString("No debe aparecer", comment: "")
@@ -67,7 +60,6 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     
         func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            if webready.contains(indexPath.row) {
                 //prepare
                 self.row = indexPath.row
                 let indexPath = tableView.indexPathForSelectedRow!
@@ -76,11 +68,6 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
                 //let's go
                 performSegueWithIdentifier("tienda", sender: nil)
                 tableView.deselectRowAtIndexPath(indexPath, animated: false)
-            }
-            else {
-                performSegueWithIdentifier("other", sender: nil)
-                tableView.deselectRowAtIndexPath(indexPath, animated: false)
-            }
 
         }
 
