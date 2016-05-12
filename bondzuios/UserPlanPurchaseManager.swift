@@ -39,8 +39,6 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
     /// The delegate that is going to be called about the class status.
     private weak var planPurchaseDelegate : UserPlanPurchaseManagerProtocol?
     
-    
-    private let upgradeURLs = ["", "", ""]
     /**
      Default class initializer for the class. This class asks for every piece of information it needs for performing the http request. The request is built and sent auomatically.
      
@@ -52,7 +50,7 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
     init(user : Usuario, insets : UIEdgeInsets, desiredType : UserType, delegate : UserPlanPurchaseManagerProtocol){
         self.user = user
         //let webPage : NSURL = planPurchaseURL!
-        let webPage : NSURL = NSURL(string: "https://www.google.com.mx/")!
+        let webPage : NSURL = NSURL(string: "http://bondzu.com/tienda/membresia/")!
         super.init(frame: CGRectZero)
         self.autoresizingMask = [ .FlexibleHeight, .FlexibleWidth ]
         self.autoresizesSubviews = true
