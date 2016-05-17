@@ -5,7 +5,7 @@
   Created by Ricardo Lopez Focil on 10/6/15.
   Copyright © 2015 Bondzu. All rights reserved.
 */
-
+"Account" = "Cuenta";
 "locale" = "";
 "Error" = "Error";
 "Unable to store in calendar" = "No se pudo guardar el evento";
@@ -121,7 +121,7 @@
 "Communication" = "Communicación";
 "Documentation" = "Documentación";
 "Volunteer colaborator" = "Colaborador voluntario";
-"info" = "Bondzù es una aplicación que permitirá a las personas formar un lazo especial con animales del zoológico, sin importar donde se encuentren. A través de esta aplicación los usuarios podrán adoptar, cuidar y ver crecer a sus cachorros favoritos. Usando dispositivos robóticos y juguetes, participarán en el bienestar animal y enriquecimiento ambiental para mantenerlos activos e incluso darles de comer. \n\n¿Se imaginan hacer correr y saltar un tigre blanco persiguiendo a su presa? ¿O jugar juegos de mesa contra una familia de monos capuchinos? \n\nLas personas podrán aprender sobre el cuidado de los animales y ayudarán a los zoológicos en sus tareas cotidianas, incluso cuando están cerrados. Bondzù también estará en la web y plataformas móviles, para que no te pierdas ni un momento con tu cachorro ... ni siquiera su nacimiento!";
+"info" = "Bondzù es una aplicación que permitirá a las personas formar un lazo especial con animales del zoológico, sin importar donde se encuentren. A través de esta aplicación los usuarios podrán adoptar, cuidar y ver crecer a sus cachorros favoritos. Usando dispositivos robóticos y juguetes, participarán en el bienestar animal y enriquecimiento ambiental para mantenerlos activos e incluso darles de comer. \n\n¿Se imaginan hacer correr y saltar un tigre blanco persiguiendo a su presa? ¿O jugar juegos de mesa contra una familia de monos capuchinos? \n\nLas personas podrán aprender sobre el cuidado de los animales y ayudarán a los zoológicos en sus tareas cotidianas, incluso cuando están cerrados. Bondzù también estará en la web y plataformas móviles, para que no te pierdas ni un momento con tu cachorro ... ¡Ni siquiera su nacimiento!";
 "Specials" = "Especiales";
 "Content not currently available" = "Contenido disponible próximamente";
 "Animalia" = "Animales";

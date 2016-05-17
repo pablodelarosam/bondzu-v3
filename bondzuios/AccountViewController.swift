@@ -26,6 +26,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var changedImage = false
     
+    override func viewDidAppear(animated: Bool) {
+        self.navigationItem.title = NSLocalizedString("Account", comment: "")
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }

@@ -5,7 +5,7 @@
   Created by Ricardo Lopez Focil on 10/6/15.
   Copyright © 2015 Bondzu. All rights reserved.
 */
-
+"Account" = "Account";
 "locale" = "_en";
 "Error" = "Error";
 "Unable to store in calendar" = "Unable to store in calendar";

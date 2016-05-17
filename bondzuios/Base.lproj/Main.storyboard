@@ -2146,7 +2146,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogs-P3-Ahd">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="40" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnk-Hu-LRt">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="40" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnk-Hu-LRt">
                                         <rect key="frame" x="54" y="86" width="492" height="305"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <string key="text">Bondzù is an app that will enable people and zoo animals to form a special bond no matter wherever they are. Through this app users will adopt, care and watch grow their favorite cubs. Using robotic devices and toys they will participate in animal well-being and environmental enrichment to keep them active and even feed them.
@@ -2434,8 +2434,8 @@ People will learn about animal caring and help zoos in their everyday tasks even
         <image name="whitePaw" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WDA-SF-nDG"/>
         <segue reference="Bpb-47-ovf"/>
         <segue reference="KwK-X7-Ij1"/>
+        <segue reference="WDA-SF-nDG"/>
     </inferredMetricsTieBreakers>
 </document>
