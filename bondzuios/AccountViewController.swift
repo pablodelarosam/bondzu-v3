@@ -36,7 +36,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
-            return 3
+            return 1
         }
         return 1;
         
@@ -58,10 +58,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             switch indexPath.row{
             case 0:
                  cell.textLabel!.text = NSLocalizedString("Adoptions", comment: "")
-            case 1:
-                 cell.textLabel!.text = NSLocalizedString("Activity", comment: "")
-            case 2:
-                 cell.textLabel!.text = NSLocalizedString("Payment", comment: "")
+//no longer necessary
+//            case 1:
+//                 cell.textLabel!.text = NSLocalizedString("Activity", comment: "")
+//            case 2:
+//                 cell.textLabel!.text = NSLocalizedString("Payment", comment: "")
             default:
                 cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
             }
@@ -102,11 +103,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             switch row{
             case 0:
                 image =  UIImage(named: "pawCell")!
-            case 1:
-                image = UIImage(named: "activityRegistry")!
-            case 2:
-                image = UIImage(named: "payment")!
-                
+//            case 1:
+//                image = UIImage(named: "activityRegistry")!
+//            case 2:
+//                image = UIImage(named: "payment")!
+//                
             default: return nil;
             }
         }

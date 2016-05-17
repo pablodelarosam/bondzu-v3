@@ -15,6 +15,26 @@ class StoreViewController: UIViewController {
     var url: NSURL?
     var nameOfView: String?
     
+//    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: "longPressed:")
+//    self.view.addGestureRecognizer(longPressRecognizer)
+//    
+//    func longPressed(sender: UILongPressGestureRecognizer)
+//    {
+//        print("longpressed")
+//    }
+
+    
+    @IBAction func longPressed(sender: AnyObject) {
+        if sender.state == UIGestureRecognizerState.Began
+        {
+            let alertController = UIAlertController(title: nil, message:
+                "Long-Press Gesture Detected", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Your webView code goes here

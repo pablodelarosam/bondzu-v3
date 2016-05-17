@@ -766,9 +766,9 @@
                                             <rect key="frame" x="150" y="7" width="300" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
-                                                <segment title="About us"/>
                                                 <segment title="Animalia"/>
                                                 <segment title="Video"/>
+                                                <segment title="About us"/>
                                                 <segment title="Specials"/>
                                             </segments>
                                             <connections>
@@ -2399,6 +2399,10 @@ People will learn about animal caring and help zoos in their everyday tasks even
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fk9-aO-7tM">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Ij6-Tf-1ab" appends="YES" id="xih-7b-vVJ"/>
+                                </connections>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2414,6 +2418,11 @@ People will learn about animal caring and help zoos in their everyday tasks even
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9K-gX-EE9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Ij6-Tf-1ab">
+                    <connections>
+                        <action selector="longPressed:" destination="yLY-7M-hfO" id="mMY-Uk-Hsx"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="600" y="2053.5"/>
         </scene>
