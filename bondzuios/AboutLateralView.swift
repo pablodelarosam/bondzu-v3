@@ -13,17 +13,24 @@ import UIKit
  */
 public class AboutLateralView: UIView {
 
-    private let sections : CGFloat = 2
+    //DH 2 -> 3
+    private let sections : CGFloat = 3
     
     /// The array containing the title label of each section
     private var titleLabels = [UILabel]()
     
+    
     /// The UIViews that work as separator
-    private var separator = UIView()
+    //DWH
+    private var separators = [UIView]()
     
     /// The label that displays the number of adopters
     private var adoptersLabel = UILabel()
     
+    //DWH
+    private var eventImage = UIImageView()
+    private var eventLabel = UILabel()
+    public var moreButton = UIButton()
 
     /**
      This method should be called when the number of adopters has been loaded.
@@ -81,6 +88,20 @@ public class AboutLateralView: UIView {
     private var keeperTwoLabel = UILabel()
     
 
+    //DWH
+    func setEventData(image : UIImage? , title : String){
+        eventImage.image = image
+        eventLabel.text = title
+        if image != nil{
+            eventLabel.textAlignment = .Left
+        }
+        else{
+            eventLabel.textAlignment = .Center
+        }
+        setNeedsLayout()
+    }
+
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         load()
@@ -98,13 +119,18 @@ public class AboutLateralView: UIView {
      */
     private func load(){
 
-        separator.backgroundColor = UIColor.lightGrayColor()
-        separator.frame.size.height = 1
-        separator.frame.origin.x = 0
-        addSubview(separator)
-        
-        
+        //DWH
         for _ in 0..<2{
+            let separator = UIView()
+            separator.backgroundColor = UIColor.lightGrayColor()
+            separator.frame.size.height = 1
+            separator.frame.origin.x = 0
+            separators.append(separator)
+            addSubview(separator)
+        }
+        
+        //DWH 2 -> 3
+        for _ in 0..<3{
             let label = UILabel()
             label.font = label.font.fontWithSize(16)
             label.textAlignment = NSTextAlignment.Center
@@ -112,9 +138,12 @@ public class AboutLateralView: UIView {
             addSubview(label)
         }
         
+        //DWH
+        titleLabels[0].text = NSLocalizedString("Events", comment: "")
+        titleLabels[1].text = NSLocalizedString("Keepers", comment: "")
+        titleLabels[2].text = NSLocalizedString("Adopters", comment: "")
         
-        titleLabels[0].text = NSLocalizedString("Keepers", comment: "")
-        titleLabels[1].text = NSLocalizedString("Adopters", comment: "")
+        
         
         adoptersLabel.text = "0"
         adoptersLabel.font = adoptersLabel.font.fontWithSize(35)
@@ -136,6 +165,23 @@ public class AboutLateralView: UIView {
         addSubview(keeperOneLabel)
         addSubview(keeperTwoLabel)
         
+        
+        //DWH
+        eventLabel.numberOfLines = 0
+        eventLabel.font = eventLabel.font.fontWithSize(10)
+        eventLabel.textAlignment = NSTextAlignment.Center
+        addSubview(eventLabel)
+        
+        moreButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+        moreButton.setTitle(NSLocalizedString("More", comment: ""), forState: .Normal)
+        moreButton.titleLabel!.font = moreButton.titleLabel!.font.fontWithSize(7)
+        addSubview(moreButton)
+        
+        addSubview(eventImage)
+        
+        eventLabel.text = NSLocalizedString("No events found", comment: "")
+        eventLabel.backgroundColor = UIColor.clearColor()
+        
         self.setNeedsLayout()
         
     }
@@ -147,18 +193,29 @@ public class AboutLateralView: UIView {
         let width = frame.width
         let contentHeight = (frame.height - 6) / sections
         let secondFrameOriginY = contentHeight + 3
+        //DWH
+        let thirdFrameOriginY = secondFrameOriginY + contentHeight + 3
+
         
         let titleLabelHeight = contentHeight * 0.25
         let microContentHeight = contentHeight - titleLabelHeight
         
-        separator.frame.size.width = width
+        //DWH
+        for i in separators{
+            i.frame.size.width = width
+        }
         
-        separator.frame.origin.y = contentHeight + 1
+        separators[0].frame.origin.y = contentHeight + 1
+        //DWH
+        separators[1].frame.origin.y = thirdFrameOriginY - 2
+
         
         titleLabels[0].frame = CGRect(x: 0, y: 0, width: width, height: titleLabelHeight)
         titleLabels[1].frame = CGRect(x: 0, y: secondFrameOriginY, width: width, height: titleLabelHeight)
+        //DWH
+        titleLabels[2].frame = CGRect(x: 0, y: thirdFrameOriginY, width: width, height: titleLabelHeight)
         
-        adoptersLabel.frame = CGRect(x: 0, y: secondFrameOriginY + titleLabelHeight + 5, width: width, height: microContentHeight - 5)
+        adoptersLabel.frame = CGRect(x: 0, y: thirdFrameOriginY + titleLabelHeight + 5, width: width, height: microContentHeight - 5)
         
         let imageHeigth = (microContentHeight - 9) * 0.7
         
@@ -200,8 +257,31 @@ public class AboutLateralView: UIView {
                 Imagenes.redondeaVista(keeperOneImageView, radio: keeperOneImageView.frame.width / 2)
             }
         }
+        
+        //DWH
+        if let _ = eventImage.image{
+            
+            let availableWidth = frame.width / 2
+            eventLabel.frame = CGRect(x: frame.width / 2 + 1, y: titleLabelHeight + 3, width: availableWidth - 2, height: microContentHeight - 6)
+            let imgSize = min(availableWidth, microContentHeight)
+            eventImage.frame = CGRect(x: width / 4 - imgSize / 2, y: titleLabelHeight + (microContentHeight - imgSize) / 2 , width:imgSize, height: imgSize)
+            Imagenes.redondeaVista(eventImage, radio: imgSize / 2)
+            
+            moreButton.frame.size = CGSize(width: 30, height: 15)
+            moreButton.frame.origin = CGPoint(x: width - moreButton.frame.width, y: microContentHeight + titleLabelHeight - moreButton.frame.height)
+            
+            eventLabel.textColor = UIColor.blackColor()
+            moreButton.hidden = false
+        }
+        else{
+            eventLabel.frame = CGRect(x: 0, y: titleLabelHeight, width: width, height: microContentHeight)
+            eventLabel.textColor = UIColor.lightGrayColor()
+            moreButton.hidden = true
+        }
+
     }
     
+    //igual
     func photoDidLoad( user : Usuario, completed : Bool){
         if(user == keeper1){
             keeperOneImageView.image = keeper1?.image

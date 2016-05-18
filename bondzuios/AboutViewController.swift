@@ -11,7 +11,7 @@ import UIKit
 import Parse
 
 ///This view controller is the responsable of showing the animal information and link it to the cameras and adoption buttons. It extends UIViewController and implements delegates for textView, animalv2 and events. In order to work, this controller needs a blocking helper and a user.
-class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol{
+class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2LoadingProtocol, EventLoadingDelegate{
 
     ///The currently logged in user
     var user : Usuario!
@@ -117,6 +117,17 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
             self?.performSegueWithIdentifier("liveStreamSegue", sender: self)
 
         }
+
+        lateral.moreButton.addTarget(self, action: "segueToEvents", forControlEvents: UIControlEvents.TouchUpInside)
+
+        
+//
+//        lateral.moreButton.setTargetAction {
+//            [weak self]
+//            _ in
+//            self?.performSegueWithIdentifier("events", sender: self)
+//        }
+
         
     
     
@@ -220,6 +231,19 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                     self.appendText(self.animal!.about)
                 }
                 
+                //DWH
+                let eventsQuery = PFQuery(className: TableNames.Events_table.rawValue)
+                eventsQuery.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
+                eventsQuery.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())
+                eventsQuery.getFirstObjectInBackgroundWithBlock({
+                    (eventObject, error) -> Void in
+                    
+                    if error == nil && eventObject != nil{
+                        _ = Event(object: eventObject!, delegate: self)
+                    }
+                    
+                })
+                
                 guard self.animal?.keepers != nil  else{
                     print("El animal elegido no tiene keepers")
                     return
@@ -277,6 +301,12 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
             let eventsVC = segue.destinationViewController as! EventViewControllerTableViewController
             eventsVC.animal = self.animal?.originalObject
         }
+    }
+    
+    
+    //DWH
+    func segueToEvents(){
+        self.performSegueWithIdentifier("events", sender: nil)
     }
     
     /**
@@ -357,6 +387,16 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
         self.blockingHelper?.setRequiredPriority(animal.requiredPermission!.priority)
     }
+    
+    
+    //Event protocol
+    func eventDidFinishLoading(event: Event!) {
+        dispatch_async(dispatch_get_main_queue()){
+            self.lateral.setEventData(event.eventImage, title: event.eventName)
+        }
+    }
+    
+    func eventDidFailLoading(event: Event!) {}
 
 
 }
