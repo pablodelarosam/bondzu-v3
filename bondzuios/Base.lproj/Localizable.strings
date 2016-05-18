@@ -19,7 +19,7 @@
 "You cannot adopt the same animal twice" = "You cannot adopt the same animal twice";
 "Cancel" = "Cancel";
 "Thank you!" = "Thank you!";
-"You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!." = "You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.";
+"Thank you for adopting me. You have adopted" = "Thank you for adopting me. You have adopted";
 "OK" = "OK";
 "Events" = "Events";
 "Keepers" = "Keepers";
@@ -40,7 +40,9 @@
 "Take picture" = "Take picture";
 "Select from library" = "Select from library";
 "Adopted Animals" = "Adopted Animals";
-"Something went wront, please try again later" = "Something went wrong, please try again later";
+"Something went wrong, please try again later" = "Something went wrong, please try again later";
+"Connection error, please try again later" = "Connection error, please try again later";
+
 "- Last 4 digits:" = "- Last 4 digits:";
 "Delete" = "Delete";
 "Delete credit card:" = "Delete credit card:";

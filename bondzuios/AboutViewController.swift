@@ -71,7 +71,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         self.navigationController?.navigationBar.topItem?.title = navBarTitle
     }
     
-    ///The ligth bar should appear white
+    ///The light bar should appear white
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
@@ -133,6 +133,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         
         updateTabBarColor()
         
+        queryAnimal()
         
         adopt.setTargetAction {
             [weak self]
@@ -156,7 +157,9 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                     if result == UsuarioTransactionResult.Success{
                         
                         title = NSLocalizedString("Thank you!", comment: "")
-                        message = NSLocalizedString("You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!.", comment: "")
+                        //Modification, the message now confirms you which animal you just adopted
+                        let message1 = NSLocalizedString("Thank you for adopting me. You have adopted", comment: "")
+                        message = "\(message1): \(self!.animal!.name)"
                         actionTitle = NSLocalizedString("OK", comment: "")
                         
                         if let adopters = s.lateral.getAdopters(){
@@ -173,7 +176,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                     else if result == UsuarioTransactionResult.ParseError{
                         
                         title = NSLocalizedString("Error", comment: "")
-                        message = NSLocalizedString("Something went wront, please try again later", comment: "")
+                        message = NSLocalizedString("Something went wrong, please try again later", comment: "")
                         actionTitle = NSLocalizedString("Cancel", comment: "")
                         
                     }
@@ -188,6 +191,11 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
             }
         }
         
+        
+    }
+    
+    func queryAnimal(){
+    
         let query = PFQuery(className: TableNames.Animal_table.rawValue)
         query.getObjectInBackgroundWithId(animalID){
             (animalObject: PFObject?, error: NSError?) -> Void in
@@ -254,7 +262,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 self.navigationController?.popViewControllerAnimated(true)
             }
         }
-        
+
     }
     
     
@@ -283,8 +291,8 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
      
      */
     private func appendAnimalAttributeWithName(name : String, value: String){
-        let nameDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Light", size: 10), size: 10)]
-        let valueDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Light", size: 10), size: 10), NSForegroundColorAttributeName : UIColor.darkGrayColor()]
+        let nameDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)]
+        let valueDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)/*, NSForegroundColorAttributeName : UIColor.darkGrayColor()*/]
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(name): ", attributes: nameDescriptor))
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(value)\n", attributes: valueDescriptor))
     }
@@ -338,7 +346,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     
     ///Tells the user that something went wrong and pops the view controller
     func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
-        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .Alert)
         ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
             _ -> Void in
             self.navigationController?.popViewControllerAnimated(true)

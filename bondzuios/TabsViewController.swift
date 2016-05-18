@@ -93,7 +93,7 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
     This method will go back to the previous controller.
     */
     func userBlockingHelperFailed() {
-        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .Alert)
         ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
             _ -> Void in
             self.navigationController?.popViewControllerAnimated(true)

@@ -19,7 +19,7 @@
 "You cannot adopt the same animal twice" = "No puedes adoptar al mismo animal dos veces";
 "Cancel" = "Cancelar";
 "Thank you!" = "¡Gracias!";
-"You have successfully adopted this animal. Make sure to take care of it and to visit it constantly on the cameras!." = "Haz adoptado con éxito a este animal. ¡Asegurate de visitarlo constantemente en las cámaras!.";
+"Thank you for adopting me. You have adopted" = "Gracias por adoptarme. Has adoptado a";
 "OK" = "OK";
 "Events" = "Eventos";
 "Keepers" = "Cuidadores";
@@ -40,7 +40,8 @@
 "Take picture" = "Tomar foto";
 "Select from library" = "Elegir foto de la biblioteca";
 "Adopted Animals" = "Animales adoptados";
-"Something went wront, please try again later" = "Algo salió mal, intentalo más tarde";
+"Something went wrong, please try again later" = "Algo salió mal, intentalo más tarde";
+"Connection error, please try again later" = "Error de conexión, vuelve a intentarlo más tarde";
 "- Last 4 digits:" = "- Últimos 4 dígitos:";
 "Delete" = "Borrar";
 "Delete credit card:" = "Borrar tarjeta de crédito:";

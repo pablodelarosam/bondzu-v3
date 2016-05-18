@@ -54,7 +54,7 @@ class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
     func loginManagerDidFailed(){
         self.loading?.finish()
         self.loading = nil
-        let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+        let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Connection error, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
         a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
         self.presentViewController(a, animated: true, completion: nil)
         
