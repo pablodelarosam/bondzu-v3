@@ -43,7 +43,7 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
             case 1:
                 cell.textLabel!.text = NSLocalizedString("Events", comment: "")
             case 2:
-                cell.textLabel!.text = "Bondzu Girls"
+                cell.textLabel!.text = "Bondzù Girls"
             case 3:
                 cell.textLabel!.text = "Wallpapers"
             default:
@@ -81,6 +81,7 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
 
 }
 
+//necessary to use the method contains in an array, no longer necessary.
 extension Array {
     func contains<T where T : Equatable>(obj: T) -> Bool {
         return self.filter({$0 as? T == obj}).count > 0

@@ -2404,16 +2404,37 @@ People will learn about animal caring and help zoos in their everyday tasks even
                                     <outletCollection property="gestureRecognizers" destination="Ij6-Tf-1ab" appends="YES" id="xih-7b-vVJ"/>
                                 </connections>
                             </webView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6JR-kN-SlI">
+                                <rect key="frame" x="0.0" y="417" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem image="back" id="gWE-jH-K54">
+                                        <connections>
+                                            <action selector="backWasPressed:" destination="yLY-7M-hfO" id="bBa-wx-EAG"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="VAT-0F-Pog"/>
+                                    <barButtonItem image="forward" id="07f-1i-xeQ">
+                                        <connections>
+                                            <action selector="forwardWasPressed:" destination="yLY-7M-hfO" id="jHO-qe-472"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Fk9-aO-7tM" firstAttribute="leading" secondItem="D8e-YQ-ddX" secondAttribute="leading" id="6N6-Bd-8IB"/>
+                            <constraint firstItem="6JR-kN-SlI" firstAttribute="bottom" secondItem="tUQ-Qk-B5m" secondAttribute="top" id="Adi-uq-azV"/>
+                            <constraint firstItem="6JR-kN-SlI" firstAttribute="trailing" secondItem="Fk9-aO-7tM" secondAttribute="trailing" id="Prh-0j-d6L"/>
                             <constraint firstItem="Fk9-aO-7tM" firstAttribute="top" secondItem="CLI-3q-2mg" secondAttribute="bottom" id="Sai-fT-25Z"/>
                             <constraint firstAttribute="trailing" secondItem="Fk9-aO-7tM" secondAttribute="trailing" id="doA-Nf-itO"/>
+                            <constraint firstItem="6JR-kN-SlI" firstAttribute="leading" secondItem="Fk9-aO-7tM" secondAttribute="leading" id="fah-Xc-elK"/>
                             <constraint firstItem="tUQ-Qk-B5m" firstAttribute="top" secondItem="Fk9-aO-7tM" secondAttribute="bottom" id="fpg-KZ-HrY"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="gWE-jH-K54" id="c7s-Qh-ERX"/>
+                        <outlet property="forwardButton" destination="07f-1i-xeQ" id="Z9C-Ys-NDS"/>
                         <outlet property="myWebView" destination="Fk9-aO-7tM" id="lE1-uL-Bjm"/>
                     </connections>
                 </viewController>
@@ -2430,11 +2451,13 @@ People will learn about animal caring and help zoos in their everyday tasks even
     <resources>
         <image name="about" width="25" height="25"/>
         <image name="aboutselected" width="25" height="25"/>
+        <image name="back" width="13" height="21"/>
         <image name="calendar" width="24" height="24"/>
         <image name="camera" width="35" height="35"/>
         <image name="card" width="195" height="115"/>
         <image name="community" width="25" height="25"/>
         <image name="communityselected" width="25" height="25"/>
+        <image name="forward" width="13" height="21"/>
         <image name="gallery" width="25" height="25"/>
         <image name="galleryselected" width="25" height="25"/>
         <image name="play" width="100" height="100"/>
@@ -2444,7 +2467,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Bpb-47-ovf"/>
-        <segue reference="KwK-X7-Ij1"/>
         <segue reference="WDA-SF-nDG"/>
+        <segue reference="jiO-1g-Nrg"/>
     </inferredMetricsTieBreakers>
 </document>

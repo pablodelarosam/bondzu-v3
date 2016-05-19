@@ -15,14 +15,8 @@ class StoreViewController: UIViewController {
     var url: NSURL?
     var nameOfView: String?
     
-//    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: "longPressed:")
-//    self.view.addGestureRecognizer(longPressRecognizer)
-//    
-//    func longPressed(sender: UILongPressGestureRecognizer)
-//    {
-//        print("longpressed")
-//    }
-
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    @IBOutlet weak var forwardButton: UIBarButtonItem!
     
     @IBAction func longPressed(sender: AnyObject) {
         if sender.state == UIGestureRecognizerState.Began
@@ -47,6 +41,8 @@ class StoreViewController: UIViewController {
         
         let requestObj = NSURLRequest(URL: url!)
         myWebView.loadRequest(requestObj)
+        self.backButton.tintColor = Constantes.COLOR_NARANJA_NAVBAR
+        self.forwardButton.tintColor = Constantes.COLOR_NARANJA_NAVBAR
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -61,5 +57,13 @@ class StoreViewController: UIViewController {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    @IBAction func backWasPressed(sender: AnyObject) {
+        myWebView.goBack()
+    }
+    
+    @IBAction func forwardWasPressed(sender: AnyObject) {
+        myWebView.goForward()
     }
 }
