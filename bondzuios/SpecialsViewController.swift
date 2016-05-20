@@ -16,6 +16,7 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
     
     var row: Int = 0
     var nameOfNextView: String!
+    var wallpapersSelected = false
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -76,6 +77,10 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
                 let webVC = segue.destinationViewController as? StoreViewController
                 webVC?.nameOfView = self.nameOfNextView
                 webVC?.urlString = urlStrings[self.row]
+                if self.row == 3 {
+                    self.wallpapersSelected = true
+                }
+                webVC?.wallpapersSelected = self.wallpapersSelected
             }
         }
 

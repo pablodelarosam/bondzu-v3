@@ -14,6 +14,10 @@
 		0D203C281CBE3BCB004B496F /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */; };
 		0D203C2A1CBE4954004B496F /* SpecialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C291CBE4954004B496F /* SpecialsViewController.swift */; };
 		0D203C2D1CBE5534004B496F /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D203C2C1CBE5534004B496F /* StoreViewController.swift */; };
+		0D27E5B61CEE6A58005E6E51 /* TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D27E5B51CEE6A57005E6E51 /* TaskQueue.swift */; };
+		0D27E5B81CEE6C2E005E6E51 /* Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D27E5B71CEE6C2E005E6E51 /* Just.swift */; };
+		0D27E5BC1CEED6B6005E6E51 /* Hokusai.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D27E5BB1CEED6B6005E6E51 /* Hokusai.swift */; };
+		0D27E5C11CEEDCCD005E6E51 /* Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D27E5BF1CEEDCCD005E6E51 /* Drop.swift */; };
 		0D41CFA31CCBCD6A00B0ADCF /* InfoVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D41CFA21CCBCD6900B0ADCF /* InfoVideoViewController.swift */; };
 		0D41CFA51CCBDC2800B0ADCF /* OtherSpecialsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D41CFA41CCBDC2700B0ADCF /* OtherSpecialsViewController.swift */; };
 		0D41CFA71CCC3C4A00B0ADCF /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D41CFA61CCC3C4A00B0ADCF /* SwiftHEXColors.swift */; };
@@ -122,6 +126,11 @@
 		0D203C271CBE3BCA004B496F /* AboutUsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
 		0D203C291CBE4954004B496F /* SpecialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialsViewController.swift; sourceTree = "<group>"; };
 		0D203C2C1CBE5534004B496F /* StoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
+		0D27E5B51CEE6A57005E6E51 /* TaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskQueue.swift; sourceTree = "<group>"; };
+		0D27E5B71CEE6C2E005E6E51 /* Just.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Just.swift; sourceTree = "<group>"; };
+		0D27E5BB1CEED6B6005E6E51 /* Hokusai.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hokusai.swift; sourceTree = "<group>"; };
+		0D27E5BF1CEEDCCD005E6E51 /* Drop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drop.swift; sourceTree = "<group>"; };
+		0D27E5C01CEEDCCD005E6E51 /* SwiftyDrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyDrop.h; sourceTree = "<group>"; };
 		0D41CFA21CCBCD6900B0ADCF /* InfoVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoVideoViewController.swift; sourceTree = "<group>"; };
 		0D41CFA41CCBDC2700B0ADCF /* OtherSpecialsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherSpecialsViewController.swift; sourceTree = "<group>"; };
 		0D41CFA61CCC3C4A00B0ADCF /* SwiftHEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHEXColors.swift; sourceTree = "<group>"; };
@@ -472,11 +481,16 @@
 				B34AD43B1BA0BDE800ACD3D6 /* FullImageView.swift */,
 				546490C01B7D3217007F3DEF /* Imagenes.swift */,
 				B3D5D8DB1BAB0DFE008F6820 /* LoadingView.swift */,
+				0D27E5BF1CEEDCCD005E6E51 /* Drop.swift */,
+				0D27E5C01CEEDCCD005E6E51 /* SwiftyDrop.h */,
 				0D41CFA61CCC3C4A00B0ADCF /* SwiftHEXColors.swift */,
 				B37FC35F1BC441C000B5692D /* Localizable.strings */,
 				54571F831B7928E10092E359 /* Utiles.swift */,
 				B34419B31C207CD80086C199 /* InteractiveDismissalHelper.swift */,
 				B32F85361C5A6C6F00E0988B /* EffectBackgroundView.swift */,
+				0D27E5B51CEE6A57005E6E51 /* TaskQueue.swift */,
+				0D27E5B71CEE6C2E005E6E51 /* Just.swift */,
+				0D27E5BB1CEED6B6005E6E51 /* Hokusai.swift */,
 			);
 			name = Utiles;
 			sourceTree = "<group>";
@@ -828,6 +842,7 @@
 				0D78F5691CC8920F00225A31 /* TeamWebViewController.swift in Sources */,
 				B38FC2571BCA407200363EF2 /* Animal.swift in Sources */,
 				B3AE26B81BDEFD3600DACA35 /* CircledImageView.swift in Sources */,
+				0D27E5B81CEE6C2E005E6E51 /* Just.swift in Sources */,
 				0D203C2D1CBE5534004B496F /* StoreViewController.swift in Sources */,
 				549760FB1B7B0BED005782A6 /* Camera.swift in Sources */,
 				540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */,
@@ -844,6 +859,7 @@
 				B32F85371C5A6C6F00E0988B /* EffectBackgroundView.swift in Sources */,
 				B37FC35A1BC43AB400B5692D /* Event.swift in Sources */,
 				B346EA261C1F3A2F00A13001 /* CommunityTabHelper.swift in Sources */,
+				0D27E5BC1CEED6B6005E6E51 /* Hokusai.swift in Sources */,
 				0D41CFA71CCC3C4A00B0ADCF /* SwiftHEXColors.swift in Sources */,
 				54305CAD1B73F809003F9AB0 /* VideoViewController.swift in Sources */,
 				0D5711681CBEF71500DDB0E4 /* TeamViewController.swift in Sources */,
@@ -869,6 +885,8 @@
 				B35A2EF91C15E68E0051E012 /* Gallery.swift in Sources */,
 				B358A2671BF164A100278B61 /* Keeper.swift in Sources */,
 				B3A29EF61BBB026000F5EB8B /* AdoptedAnimalTableViewCell.swift in Sources */,
+				0D27E5B61CEE6A58005E6E51 /* TaskQueue.swift in Sources */,
+				0D27E5C11CEEDCCD005E6E51 /* Drop.swift in Sources */,
 				0D5711661CBEF6F700DDB0E4 /* HistoryViewController.swift in Sources */,
 				B3BAB3E31C7CB56300780C4F /* StoreProduct.swift in Sources */,
 				0D1BA0881CC31BDB001F1B2A /* TeamMemberCellTableViewCell.swift in Sources */,

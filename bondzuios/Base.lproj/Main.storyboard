@@ -2254,7 +2254,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ui9-Wo-MM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1285" y="1486.5"/>
+            <point key="canvasLocation" x="1229" y="1530.5"/>
         </scene>
         <!--Info Video View Controller-->
         <scene sceneID="mN8-cy-5x4">
@@ -2400,9 +2400,6 @@ People will learn about animal caring and help zoos in their everyday tasks even
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="Ij6-Tf-1ab" appends="YES" id="xih-7b-vVJ"/>
-                                </connections>
                             </webView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6JR-kN-SlI">
                                 <rect key="frame" x="0.0" y="417" width="600" height="44"/>
@@ -2439,11 +2436,6 @@ People will learn about animal caring and help zoos in their everyday tasks even
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9K-gX-EE9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Ij6-Tf-1ab">
-                    <connections>
-                        <action selector="longPressed:" destination="yLY-7M-hfO" id="mMY-Uk-Hsx"/>
-                    </connections>
-                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="600" y="2053.5"/>
         </scene>
