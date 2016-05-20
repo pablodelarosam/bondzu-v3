@@ -127,3 +127,11 @@
 "Content not currently available" = "Contenido disponible próximamente";
 "Animalia" = "Animales";
 "About us" = "Nosotros";
+
+//about the contextual menu to save an image
+"Failed" = "Error";
+"Save" = "Guardar";
+"Saving..." = "Guardando...";
+"Success" = "Éxito";
+"To download a wallpaper, press and hold on any thumbnail" = "Para guardar un fondo de pantalla, mantén presionado en cualquier miniatura";
+"Save them!"= "¡Guárdalos!";

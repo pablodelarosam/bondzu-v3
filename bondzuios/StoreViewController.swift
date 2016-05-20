@@ -24,6 +24,12 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
     //boolean to determine if the user selected the wallpaper's option
     var wallpapersSelected: Bool?
     
+    //localized strings
+    let failed = NSLocalizedString("Failed", comment: "")
+    let success = NSLocalizedString("Success", comment: "")
+    let save = NSLocalizedString("Save", comment: "")
+    let saving = NSLocalizedString("Saving...", comment: "")
+    
     //stuff for saving an image
     let kTouchJavaScriptString: String = "document.ontouchstart=function(event){x=event.targetTouches[0].clientX;y=event.targetTouches[0].clientY;document.location=\"myweb:touch:start:\"+x+\":\"+y;};document.ontouchmove=function(event){x=event.targetTouches[0].clientX;y=event.targetTouches[0].clientY;document.location=\"myweb:touch:move:\"+x+\":\"+y;};document.ontouchcancel=function(event){document.location=\"myweb:touch:cancel\";};document.ontouchend=function(event){document.location=\"myweb:touch:end\";};"
     var _gesState: Int = 0, _imgURL: String = "", _timer: NSTimer = NSTimer()
@@ -46,12 +52,18 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
         }
         queue.run()
         
+        if let wallpapersSelected = wallpapersSelected{
+            if wallpapersSelected == true { popAlert() }
+        }
+        
         
         //set the arrows of back and forward to orange
         self.backButton.tintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.forwardButton.tintColor = Constantes.COLOR_NARANJA_NAVBAR
         
     }
+    
+    
     
     // basic webView code with unwrapping optional URL
     func loadWebPage(){
@@ -64,6 +76,8 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
         let requestObj = NSURLRequest(URL: url!)
         myWebView.loadRequest(requestObj)
     }
+    
+    
     
     // MARK: - UIWebView delegate
     func webViewDidFinishLoad(webView: UIWebView) {
@@ -138,8 +152,15 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
     //hokusai is the menu with options to save the image
     func handleLongTouch() {
         let hokusai = Hokusai()
-        hokusai.addButton("Save") {
-            Drop.down("Saving...", state: DropState.Info)
+        hokusai.colors = HOKColors(
+            backGroundColor: Constantes.COLOR_NARANJA_NAVBAR, //always orange
+            buttonColor: UIColor.whiteColor(),
+            cancelButtonColor: UIColor(hexString: "FFA844")!, //light orange
+            fontColor: UIColor.blackColor()
+        )
+        hokusai.fontName = "Helvetica"
+        hokusai.addButton(save) {
+            Drop.down(self.saving, state: DropState.Color(Constantes.COLOR_NARANJA_NAVBAR))
             let queue = TaskQueue()
             queue.tasks +=! {
                 self.saveImage()
@@ -160,16 +181,26 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
                 }
             }
         }
-        Drop.down("Failed", state: DropState.Error)
+        Drop.down(failed, state: DropState.Error)
     }
     
     //image!!
     func image(image: UIImage, didFinishSavingWithError: NSError?, contextInfo: AnyObject) {
         if didFinishSavingWithError != nil {
-            Drop.down("Failed", state: DropState.Error)
+            Drop.down(failed, state: DropState.Error)
             return
         }
-        Drop.down("Success", state: DropState.Success)
+        Drop.down(success, state: DropState.Success)
+    }
+    
+    //message to the user, how to download image
+    func popAlert(){
+        let ac = UIAlertController(title: NSLocalizedString("Save them!", comment: ""), message: NSLocalizedString("To download a wallpaper, press and hold on any thumbnail", comment: ""), preferredStyle: .Alert)
+        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
+            _ -> Void in
+            ac.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        self.presentViewController(ac, animated: true, completion: nil)
     }
 
     

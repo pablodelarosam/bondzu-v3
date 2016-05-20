@@ -350,7 +350,7 @@ final public class Hokusai: UIViewController, UIGestureRecognizerDelegate {
         menuView.setShapeLayer(colors)
         
         // Add a cancel button
-        self.addCancelButton("Cancel")
+        self.addCancelButton(NSLocalizedString("Cancel", comment: ""))
         
         // Decide the menu size
         let menuHeight = CGFloat(buttons.count + 2) * kButtonInterval + CGFloat(buttons.count) * kButtonHeight

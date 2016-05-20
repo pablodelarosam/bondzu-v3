@@ -79,6 +79,8 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
                 webVC?.urlString = urlStrings[self.row]
                 if self.row == 3 {
                     self.wallpapersSelected = true
+                }else{
+                    self.wallpapersSelected = false
                 }
                 webVC?.wallpapersSelected = self.wallpapersSelected
             }

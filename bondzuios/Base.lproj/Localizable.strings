@@ -126,3 +126,10 @@
 "Content not currently available" = "Content not currently available";
 "Animalia" = "Animalia";
 "About us" = "About us";
+//about the contextual menu to save an image
+"Failed" = "Failed";
+"Save" = "Save";
+"Saving..." = "Saving...";
+"Success" = "Success";
+"To download a wallpaper, press and hold on any thumbnail" = "To download a wallpaper, press and hold on any thumbnail";
+"Save them!" = "Save them!";
