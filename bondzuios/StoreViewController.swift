@@ -69,7 +69,6 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
     func loadWebPage(){
         if let urlString = urlString{
             url = NSURL (string: urlString)
-            print(urlString)
         }else{
             url = NSURL(string: "https://www.google.com.mx/")
         }

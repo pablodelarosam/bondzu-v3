@@ -320,6 +320,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
 
         
         let videoQuery = PFQuery(className: TableNames.VideoCapsule_table.rawValue)
+        videoQuery.whereKey("esCapsula", equalTo: true)
         videoQuery.orderByDescending(TableVideoCapsuleNames.Date.rawValue)
         videoQuery.findObjectsInBackgroundWithBlock {
             (array, error) -> Void in
@@ -513,7 +514,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         //pull to refresh
         self.collectionView.addSubview(self.refreshControl)
         
+        
     }
+    
     
     //pull to refresh
     lazy var refreshControl: UIRefreshControl = {

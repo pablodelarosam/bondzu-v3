@@ -32,20 +32,17 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     
     var requiredToolbar = false
     
+    //timer for blocking basic users, not yet implemented, has to be started in ViewDidLoad
+    var timer = NSTimer()
+    //time in seconds that the video will play before stopping
+    var videoTime = 15.0
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if capsule.hasLoadedPriority{
-            blockingHelper = UserBlockingHelper(controller: self, view: self.view, requiredType: capsule.requiredPriority!.priority, user: user, delegate: self)
-        }
-        else{
-            capsule.delegate = self
-            blockingHelper = UserBlockingHelper(controller: self, view: self.view, requiredType: nil, user: user, delegate: self)
-        }
         
         player.loadWithVideoId(capsule.videoID[0])
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "enteredFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
@@ -58,6 +55,7 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
         
         navigationItem.title = NSLocalizedString("Video", comment: "")
         toolbar.hidden = !requiredToolbar
+        
 
     }
     
@@ -92,6 +90,21 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
         
     }
     
+    // when playing video, if the user is not permitted to watch the video, only then start the timer
+    func playerView(playerView: YTPlayerView!, didChangeToState state: YTPlayerState) {
+        switch (state) {
+            case YTPlayerState.Playing:
+                if let userType = user.type, capsulePriority = capsule.requiredPriority {
+                        if capsulePriority.priority > userType.priority {
+                            startTimer()
+                        }
+                }
+                break
+            default:
+            break
+        }
+    }
+    
     func requireToolBar(required : Bool){
         if let t = toolbar{
             t.hidden = !required
@@ -112,7 +125,7 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     }
     
     func capsuleDidFailLoadingRequiredType(capsule: Capsule) {
-        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert)
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .Alert)
         ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
             _ -> Void in
             self.presentingViewController!.dismissViewControllerAnimated(true, completion: nil)
@@ -157,4 +170,34 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
         }
         
     }
+    
+    //to block users that dont have the level required
+    func blockUser(){
+                if capsule.hasLoadedPriority{
+                    blockingHelper = UserBlockingHelper(controller: self, view: self.view, requiredType: capsule.requiredPriority!.priority, user: user, delegate: self)
+                }
+                else{
+                    capsule.delegate = self
+                    blockingHelper = UserBlockingHelper(controller: self, view: self.view, requiredType: nil, user: user, delegate: self)
+                }
+        
+    }
+    
+    
+    
+    //timer stuff, to be modified, dont repeat
+    func startTimer(){
+        print("timer started with time to live: \(videoTime)")
+        timer = NSTimer.scheduledTimerWithTimeInterval(videoTime, target: self, selector: "stopVideo", userInfo: nil, repeats: false)
+    }
+    
+    //this method is called when the time limit for basic users is up
+    func stopVideo(){
+            let end = Float(player.duration())
+            player.stopVideo()
+            player.seekToSeconds(end, allowSeekAhead: true)
+            blockUser()
+            timer.invalidate()
+    }
+    
 }
