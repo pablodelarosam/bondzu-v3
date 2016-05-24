@@ -79,6 +79,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     //the view for specials segmented control section (index 3)
     @IBOutlet weak var specialsView: UIView!
+    
     ///The view that displays the items in a collection view. This is both, the data sorce and the controller.
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -513,7 +514,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
 
         //pull to refresh
         self.collectionView.addSubview(self.refreshControl)
-        
+                
         
     }
     

@@ -10,6 +10,7 @@ import UIKit
 
 class SpecialsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
     @IBOutlet weak var tableView: UITableView!
     
     let urlStrings = ["http://bondzu.com/tienda/", "http://bondzu.com/eventos/", "http://bondzu.com/bondzugirls/", "http://www.bondzu.com/Wallpapers/ios/#"]
@@ -17,6 +18,7 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
     var row: Int = 0
     var nameOfNextView: String!
     var wallpapersSelected = false
+    var storeIsSelected = false
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -77,11 +79,14 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
                 let webVC = segue.destinationViewController as? StoreViewController
                 webVC?.nameOfView = self.nameOfNextView
                 webVC?.urlString = urlStrings[self.row]
-                if self.row == 3 {
-                    self.wallpapersSelected = true
-                }else{
-                    self.wallpapersSelected = false
-                }
+//                if self.row == 3 {
+//                    self.wallpapersSelected = true
+//                }else{
+//                    self.wallpapersSelected = false
+//                }
+                self.wallpapersSelected = self.row == 3 ? true : false
+                self.storeIsSelected = self.row == 0 ? true : false
+                webVC?.storeIsSelected =  self.storeIsSelected
                 webVC?.wallpapersSelected = self.wallpapersSelected
             }
         }

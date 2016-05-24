@@ -7,12 +7,14 @@
 //
 
 import UIKit
-
+import Parse
 //opensource frameworks used: SwiftyDrop, Just, Hokusai, TaskQueue
 
 //WebView Controller for specials sections: store, bondzu girls, events, and wallpapers
 class StoreViewController: UIViewController, UIWebViewDelegate {
 
+    //the user
+    var user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
     //the webview outlet
     @IBOutlet weak var myWebView: UIWebView!
     //the website's string
@@ -23,6 +25,8 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
     var nameOfView: String?
     //boolean to determine if the user selected the wallpaper's option
     var wallpapersSelected: Bool?
+    //boolean to determine if the user selected the store's option
+    var storeIsSelected: Bool?
     
     //localized strings
     let failed = NSLocalizedString("Failed", comment: "")
@@ -63,7 +67,13 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
         
     }
     
-    
+    //HTTP request to send the user's data
+    func sendPOST(url: NSURL){
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = "user=\(user.originalObject.objectId!)".dataUsingEncoding(NSUTF8StringEncoding)
+        myWebView.loadRequest(request)
+    }
     
     // basic webView code with unwrapping optional URL
     func loadWebPage(){
@@ -72,6 +82,14 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
         }else{
             url = NSURL(string: "https://www.google.com.mx/")
         }
+        
+        //send post request
+        if let storeIsSelected = storeIsSelected {
+            if storeIsSelected == true{
+              sendPOST(url!)
+            }
+        }
+        
         let requestObj = NSURLRequest(URL: url!)
         myWebView.loadRequest(requestObj)
     }
