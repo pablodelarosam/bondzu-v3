@@ -63,6 +63,7 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
         self.planPurchaseDelegate = delegate
         self.delegate = self
         self.loadRequest(request)
+        self.scalesPageToFit = true
     }
 
     /**
@@ -125,5 +126,8 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
         
         return true
     }
+    
 
 }
+
+

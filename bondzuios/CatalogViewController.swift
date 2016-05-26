@@ -458,6 +458,11 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Home", comment: "")
+        self.user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
+        if user.hasLoadedPriority{
+            self.toolbar.barTintColor = user.type!.color
+        }
+
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -469,6 +474,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         (self.navigationController! as! BondzuNavigationController).user = self.user
         
         self.animalEffectView.setImageArray(Constantes.animalArrayImages)
