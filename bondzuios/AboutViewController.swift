@@ -344,10 +344,18 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
      - parameter text: The text that is going to be appended
      */
     private func appendText(text : String){
-        let textDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)]
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.Justified
+        
+        let textDescriptor = [
+            NSParagraphStyleAttributeName: paragraphStyle,
+            NSBaselineOffsetAttributeName: NSNumber(float: 0),
+            NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)]
+       
         textView.textStorage.appendAttributedString( NSAttributedString(string: "\(text)", attributes: textDescriptor))
     }
     
+   
     
     
     

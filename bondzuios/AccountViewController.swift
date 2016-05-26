@@ -31,15 +31,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0{
-            return 1
-        }
         return 1;
-        
     }
     
     func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -74,7 +70,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             return cell
         }
-        else{
+        else if indexPath.section == 1{
             let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
             cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
             cell.backgroundColor = UIColor.clearColor()
@@ -82,6 +78,18 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.imageView?.tintColor = UIColor.whiteColor()
             cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             return cell
+        }
+        else{
+            let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+            cell.textLabel!.text = NSLocalizedString("v3.2.2      b1582", comment: "")
+            cell.backgroundColor = UIColor.clearColor()
+            cell.textLabel!.textColor = UIColor.whiteColor()
+            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            return cell
+        
+        
         }
     }
     
@@ -220,6 +228,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1{
             self.navigationController?.logoutUser()
+        }
+        else if indexPath.section == 2{
+            //do nothing on the app's version text
+            return
         }
         else if indexPath.row == 0{
 	     performSegueWithIdentifier("adoptedAnimals", sender: nil)

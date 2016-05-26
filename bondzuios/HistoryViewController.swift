@@ -38,8 +38,23 @@ class HistoryViewController: UIViewController {
         animalEffectView.setImageArray(Constantes.animalArrayImages)
         scrollView.contentSize.height = 850
         scrollView.contentSize.width = self.view.frame.width
-        historyLabel.text = NSLocalizedString("info", comment: "description of what bondzu is")
+        customizeLabel()
+    }
+    
+    func customizeLabel(){
+        let sampleText = NSLocalizedString("info", comment: "description of what bondzu is")
         
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.Justified
+        
+        let attributedString = NSAttributedString(string: sampleText,
+            attributes: [
+                NSParagraphStyleAttributeName: paragraphStyle,
+                NSBaselineOffsetAttributeName: NSNumber(float: 0)
+            ])
+        
+        historyLabel.attributedText = attributedString
+    
     }
     
     override func viewDidAppear(animated: Bool) {
