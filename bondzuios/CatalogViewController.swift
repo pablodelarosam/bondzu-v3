@@ -293,6 +293,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     ///Performs the animal and video query. Note: The animalV2 filling should be migrated to the model
     func getAnimals(){
+        
+        
         let query = PFQuery(className:TableNames.Animal_table.rawValue)
         query.whereKeyExists(TableAnimalColumnNames.ID.rawValue);
         query.orderByAscending(TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: ""));
@@ -342,6 +344,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                 }
             }
         }
+        
         
     }
     
@@ -458,10 +461,34 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Home", comment: "")
-        self.user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
+        refreshUserColors()
+
+    }
+    
+    
+    //to change user type whenever the user has upgraded level, if not, just checking everytime we come back to the main view
+    func refreshUserColors(){
+    
+        self.user = Usuario(object: PFUser.currentUser()!, loadImage: true, imageLoaderObserver: nil, userTypeObserver: nil)
+        self.user.refreshUserType()
+        (self.navigationController! as! BondzuNavigationController).user = self.user
+
         if user.hasLoadedPriority{
             self.toolbar.barTintColor = user.type!.color
         }
+        
+        user.appendTypeLoadingObserver({
+            [weak self]
+            (_, type) -> (Bool) in
+            
+            if self == nil{ return false }
+            
+            if type != nil{
+                self?.toolbar.barTintColor = type!.color
+            }
+            
+            return true
+            })
 
     }
     
@@ -497,22 +524,22 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.toolbar.barStyle = .Black
         self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         
-        if user.hasLoadedPriority{
-            self.toolbar.barTintColor = user.type!.color
-        }
-        
-        user.appendTypeLoadingObserver({
-            [weak self]
-            (_, type) -> (Bool) in
-            
-            if self == nil{ return false }
-            
-            if type != nil{
-                self?.toolbar.barTintColor = type!.color
-            }
-            
-            return true
-        })
+//        if user.hasLoadedPriority{
+//            self.toolbar.barTintColor = user.type!.color
+//        }
+//        
+//        user.appendTypeLoadingObserver({
+//            [weak self]
+//            (_, type) -> (Bool) in
+//            
+//            if self == nil{ return false }
+//            
+//            if type != nil{
+//                self?.toolbar.barTintColor = type!.color
+//            }
+//            
+//            return true
+//        })
         
         
         getAnimals();

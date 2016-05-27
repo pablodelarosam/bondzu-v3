@@ -27,6 +27,9 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
     var wallpapersSelected: Bool?
     //boolean to determine if the user selected the store's option
     var storeIsSelected: Bool?
+    //session token to be retrieved
+    var sessionToken = ""
+    
     
     //localized strings
     let failed = NSLocalizedString("Failed", comment: "")
@@ -47,6 +50,9 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let puser = PFUser.currentUser()!
+        sessionToken = puser.sessionToken!
+        
         myWebView.delegate = self
         loadWebPage()
       
@@ -60,7 +66,6 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
             if wallpapersSelected == true { popAlert() }
         }
         
-        
         //set the arrows of back and forward to orange
         self.backButton.tintColor = Constantes.COLOR_NARANJA_NAVBAR
         self.forwardButton.tintColor = Constantes.COLOR_NARANJA_NAVBAR
@@ -71,7 +76,7 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
     func sendPOST(url: NSURL){
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
-        request.HTTPBody = "user=\(user.originalObject.objectId!)".dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPBody = "user=\(user.originalObject.objectId!)&token=\(sessionToken)".dataUsingEncoding(NSUTF8StringEncoding)
         myWebView.loadRequest(request)
     }
     
@@ -82,19 +87,16 @@ class StoreViewController: UIViewController, UIWebViewDelegate {
         }else{
             url = NSURL(string: "https://www.google.com.mx/")
         }
-        
         //send post request
         if let storeIsSelected = storeIsSelected {
             if storeIsSelected == true{
               sendPOST(url!)
+            }else{
+                let requestObj = NSURLRequest(URL: url!)
+                myWebView.loadRequest(requestObj)
             }
         }
-        
-        let requestObj = NSURLRequest(URL: url!)
-        myWebView.loadRequest(requestObj)
     }
-    
-    
     
     // MARK: - UIWebView delegate
     func webViewDidFinishLoad(webView: UIWebView) {

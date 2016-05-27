@@ -39,6 +39,8 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
     /// The delegate that is going to be called about the class status.
     private weak var planPurchaseDelegate : UserPlanPurchaseManagerProtocol?
     
+    var sessionToken = ""
+    
     /**
      Default class initializer for the class. This class asks for every piece of information it needs for performing the http request. The request is built and sent auomatically.
      
@@ -50,6 +52,8 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
     init(user : Usuario, insets : UIEdgeInsets, desiredType : UserType, delegate : UserPlanPurchaseManagerProtocol){
         self.user = user
         //let webPage : NSURL = planPurchaseURL!
+        let puser = PFUser.currentUser()!
+        sessionToken = puser.sessionToken!
         let webPage : NSURL = NSURL(string: "http://bondzu.com/tienda/membresia/")!
         super.init(frame: CGRectZero)
         self.autoresizingMask = [ .FlexibleHeight, .FlexibleWidth ]
@@ -57,7 +61,7 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
         self.scrollView.contentInset = insets
         let request = NSMutableURLRequest(URL: webPage)
         request.HTTPMethod = "POST"
-        request.HTTPBody = "user=\(user.originalObject.objectId!)&type=\(desiredType.originalObject.objectId!)".dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPBody = "user=\(user.originalObject.objectId!)&type=\(desiredType.originalObject.objectId!)&token=\(sessionToken)".dataUsingEncoding(NSUTF8StringEncoding)
         self.backgroundColor = UIColor.whiteColor()
         self.opaque = false
         self.planPurchaseDelegate = delegate

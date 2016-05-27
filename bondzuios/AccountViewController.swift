@@ -81,7 +81,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         else{
             let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-            cell.textLabel!.text = NSLocalizedString("v3.2.2      b1582", comment: "")
+            cell.textLabel!.text = NSLocalizedString("v3.2.2      b1584", comment: "")
             cell.backgroundColor = UIColor.clearColor()
             cell.textLabel!.textColor = UIColor.whiteColor()
             cell.imageView?.tintColor = UIColor.whiteColor()
