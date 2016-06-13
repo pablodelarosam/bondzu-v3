@@ -32,7 +32,7 @@
 "Logout" = "Cerrar sesión";
 "History" = "Historia";
 "Team" = "Equipo";
-"Contact us" = "Contactános";
+"Contact us" = "Contáctanos";
 "Store" = "Tienda";
 "News" = "Noticias";
 "Attach image" = "Adjuntar imagen";
@@ -122,7 +122,7 @@
 "Communication" = "Communicación";
 "Documentation" = "Documentación";
 "Volunteer colaborator" = "Colaborador voluntario";
-"info" = "Bondzù es una aplicación que permitirá a las personas formar un lazo especial con animales del zoológico, sin importar donde se encuentren. A través de esta aplicación los usuarios podrán adoptar, cuidar y ver crecer a sus cachorros favoritos. Usando dispositivos robóticos y juguetes, participarán en el bienestar animal y enriquecimiento ambiental para mantenerlos activos e incluso darles de comer. \n\n¿Se imaginan hacer correr y saltar un tigre blanco persiguiendo a su presa? ¿O jugar juegos de mesa contra una familia de monos capuchinos? \n\nLas personas podrán aprender sobre el cuidado de los animales y ayudarán a los zoológicos en sus tareas cotidianas, incluso cuando están cerrados. Bondzù también estará en la web y plataformas móviles, para que no te pierdas ni un momento con tu cachorro ... ¡Ni siquiera su nacimiento!";
+"info" = "Bondzù es una iniciativa de educación y concientización utilizando los nuevos medios de comunicación que permite Internet. Hace uso intensivo de las redes sociales, aplicaciones para teléfonos inteligentes y páginas webs. \n\nLo que buscamos es darle vida digna a los animales en cautiverio. Lo ideal es que los animales estén en sus hábitats y que nadie los agreda. Sin embargo existen muchos animales en cautiverio que es imposible liberar porque ya no están en condiciones para sobrevivir en libertad. \n\nNuestra contribución es darle información a la gente yencender su amor por la naturaleza. \n\nExisten muchas instituciones que hacen su mejor esfuerzo para mantener en la mejor forma posible a estos animales que están en cautiverio. Pero estas instituciones necesitan que se sepan sus esfuerzos y contribuciones para que la gente se solidarice y estén dispuestos a apoyar económicamente sus actividades en favor de la preservación de las especies. \n\nBondzù trabaja todos los días para que la gente pueda disfrutar de imágenes en vivo de animales. El departamento de investigación y desarrollo está trabajando en el diseño de diversos dispositivos robóticos y juguetes para que sirvan como enriquecimiento ambiental y contribuyan a una mayor actividad física de los animales en cautiverio. \n\nBondzù promueve el amor a los animales pero sobre todo promueve una actitud de respeto hacia todo ser vivo.";
 "Specials" = "Especiales";
 "Content not currently available" = "Contenido disponible próximamente";
 "Animalia" = "Animales";
@@ -135,3 +135,6 @@
 "Success" = "Éxito";
 "To download a wallpaper, press and hold on any thumbnail" = "Para guardar un fondo de pantalla, mantén presionado en cualquier miniatura";
 "Save them!"= "¡Guárdalos!";
+"Humans" = "Humanos";
+"You are the solution" = "Tú eres la solución";
+"SkipAd" = "Ir a Bondzù";

@@ -180,7 +180,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         else if segementedControl.selectedSegmentIndex == self.videoIndex {
             let capsule = searching ? self.searchedVideoCapsules[indexPath.row] : self.videoCapsules[indexPath.row]
             cell.nameLabel.text = capsule.title[0]
-            cell.speciesLabel.text = capsule.animalName;
+            cell.speciesLabel.text = "" ; //capsule.videoDescription[0]; //capsule.animalName;
             let width = UIScreen.mainScreen().bounds.width
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 let photoFinal = imageWithImage(capsule.image, scaledToSize: CGSize(width:width / self.NUMBER_ITEMS_ROW, height:width / self.NUMBER_ITEMS_ROW))
@@ -524,23 +524,31 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.toolbar.barStyle = .Black
         self.toolbar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
         
-//        if user.hasLoadedPriority{
-//            self.toolbar.barTintColor = user.type!.color
-//        }
-//        
-//        user.appendTypeLoadingObserver({
-//            [weak self]
-//            (_, type) -> (Bool) in
-//            
-//            if self == nil{ return false }
-//            
-//            if type != nil{
-//                self?.toolbar.barTintColor = type!.color
-//            }
-//            
-//            return true
-//        })
+        if user.hasLoadedPriority{
+            self.toolbar.barTintColor = user.type!.color
+            if user.type!.priority == 0{
+                setUpAds()
+            }
+        }
         
+        user.appendTypeLoadingObserver({
+            [weak self]
+            (_, type) -> (Bool) in
+            
+            if self == nil{ return false }
+            
+            if type != nil{
+                self?.toolbar.barTintColor = type!.color
+                if type!.priority == 0 {
+                    if let s = self{
+                        s.setUpAds()
+                    }
+                }
+            }
+            
+            return true
+        })
+      
         
         getAnimals();
         setUpSegmentedControl()
@@ -551,6 +559,21 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         
     }
     
+    
+    //prepare and display the advertisement -- static image
+    func setUpAds(){
+        let firstPage = OnboardingContentViewController(title: "", body: "", image: nil, buttonText: "") { () -> Void in  }
+        let onboardingVC = OnboardingViewController(backgroundImage: UIImage(named: "adsample"), contents: [firstPage])
+        onboardingVC.allowSkipping = true
+        onboardingVC.skipHandler = {() -> Void in
+            onboardingVC.dismissViewControllerAnimated(true, completion: nil)
+        }
+        onboardingVC.shouldMaskBackground = false
+        onboardingVC.hidePageControl = true
+        self.presentViewController(onboardingVC, animated: false, completion: nil)
+
+        
+    }
     
     //pull to refresh
     lazy var refreshControl: UIRefreshControl = {

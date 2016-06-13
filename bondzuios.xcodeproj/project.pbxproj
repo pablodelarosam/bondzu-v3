@@ -24,6 +24,8 @@
 		0D5711661CBEF6F700DDB0E4 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5711651CBEF6F700DDB0E4 /* HistoryViewController.swift */; };
 		0D5711681CBEF71500DDB0E4 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5711671CBEF71500DDB0E4 /* TeamViewController.swift */; };
 		0D78F5691CC8920F00225A31 /* TeamWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D78F5681CC8920F00225A31 /* TeamWebViewController.swift */; };
+		0DCD648B1D07949500C5CA95 /* OnboardingContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD64881D07949500C5CA95 /* OnboardingContentViewController.m */; };
+		0DCD648C1D07949500C5CA95 /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD648A1D07949500C5CA95 /* OnboardingViewController.m */; };
 		540C6B701B795A0A006F9A12 /* ListaCamarasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540C6B6E1B795A0A006F9A12 /* ListaCamarasViewController.swift */; };
 		542186981B83A7BB00E6461D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542186971B83A7BB00E6461D /* Extensions.swift */; };
 		54305CAB1B73F809003F9AB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54305CAA1B73F809003F9AB0 /* AppDelegate.swift */; };
@@ -137,6 +139,11 @@
 		0D5711651CBEF6F700DDB0E4 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		0D5711671CBEF71500DDB0E4 /* TeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		0D78F5681CC8920F00225A31 /* TeamWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamWebViewController.swift; sourceTree = "<group>"; };
+		0DCD64861D07949500C5CA95 /* OnboardingContentViewController_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingContentViewController_Private.h; sourceTree = "<group>"; };
+		0DCD64871D07949500C5CA95 /* OnboardingContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingContentViewController.h; sourceTree = "<group>"; };
+		0DCD64881D07949500C5CA95 /* OnboardingContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardingContentViewController.m; sourceTree = "<group>"; };
+		0DCD64891D07949500C5CA95 /* OnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingViewController.h; sourceTree = "<group>"; };
+		0DCD648A1D07949500C5CA95 /* OnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardingViewController.m; sourceTree = "<group>"; };
 		35D3E740447C122BE0B9EC7B /* Pods-bondzuios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.debug.xcconfig"; sourceTree = "<group>"; };
 		41F63E48C4499193ED00901D /* Pods-bondzuios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuios.release.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuios/Pods-bondzuios.release.xcconfig"; sourceTree = "<group>"; };
 		540C6B6E1B795A0A006F9A12 /* ListaCamarasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListaCamarasViewController.swift; sourceTree = "<group>"; };
@@ -307,6 +314,18 @@
 			name = "About us";
 			sourceTree = "<group>";
 		};
+		0DCD648D1D0798E700C5CA95 /* onboard framework */ = {
+			isa = PBXGroup;
+			children = (
+				0DCD64861D07949500C5CA95 /* OnboardingContentViewController_Private.h */,
+				0DCD64871D07949500C5CA95 /* OnboardingContentViewController.h */,
+				0DCD64881D07949500C5CA95 /* OnboardingContentViewController.m */,
+				0DCD64891D07949500C5CA95 /* OnboardingViewController.h */,
+				0DCD648A1D07949500C5CA95 /* OnboardingViewController.m */,
+			);
+			name = "onboard framework";
+			sourceTree = "<group>";
+		};
 		3680B1EA24E6BE99C60ABCBF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +369,7 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
+				0DCD648D1D0798E700C5CA95 /* onboard framework */,
 				54571F891B7932B70092E359 /* AboutTab */,
 				B3A29EED1BB9CDDB00F5EB8B /* Account */,
 				B3B7B9251BC6ECE100CB5EAB /* Capsulas */,
@@ -896,7 +916,9 @@
 				54571F8B1B7932D60092E359 /* AboutViewController.swift in Sources */,
 				5489932A1B98BE4400DDF263 /* AnimalV2.swift in Sources */,
 				B3797FE31B8CC1BE00924080 /* CircledButton.swift in Sources */,
+				0DCD648B1D07949500C5CA95 /* OnboardingContentViewController.m in Sources */,
 				549417951BC6E3DB001A0A5E /* Card.swift in Sources */,
+				0DCD648C1D07949500C5CA95 /* OnboardingViewController.m in Sources */,
 				B31651091C1B366700254553 /* LoginGenericViewController.swift in Sources */,
 				54571F861B7928F10092E359 /* Animacion.swift in Sources */,
 				54571F881B792ADE0092E359 /* TabsViewController.swift in Sources */,

@@ -44,12 +44,19 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        player.loadWithVideoId(capsule.videoID[0])
+        //if species == humans .. load a special video
+        if capsule.animalId == "661WX90t3V"{
+            player.loadWithVideoId("zA2AnVwTMKY")
+            videoTitle.text = NSLocalizedString("Humans", comment: "")
+            videoDescription.text = NSLocalizedString("You are the solution", comment: "")
+        }else{
+            player.loadWithVideoId(capsule.videoID[0])
+            videoTitle.text = capsule.title[0]
+            videoDescription.text = capsule.videoDescription[0]
+        }
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "enteredFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "exitedFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
-        
-        videoTitle.text = capsule.title[0]
-        videoDescription.text = capsule.videoDescription[0]
         
         player.delegate = self
         

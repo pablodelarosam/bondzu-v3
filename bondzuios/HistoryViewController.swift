@@ -36,7 +36,7 @@ class HistoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         animalEffectView.setImageArray(Constantes.animalArrayImages)
-        scrollView.contentSize.height = 850
+        scrollView.contentSize.height = 1100
         scrollView.contentSize.width = self.view.frame.width
         customizeLabel()
     }

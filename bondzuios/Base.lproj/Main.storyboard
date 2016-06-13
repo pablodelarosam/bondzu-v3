@@ -2146,7 +2146,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogs-P3-Ahd">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="461"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="40" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnk-Hu-LRt">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="60" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnk-Hu-LRt">
                                         <rect key="frame" x="54" y="86" width="492" height="305"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <string key="text">Bondzù is an app that will enable people and zoo animals to form a special bond no matter wherever they are. Through this app users will adopt, care and watch grow their favorite cubs. Using robotic devices and toys they will participate in animal well-being and environmental enrichment to keep them active and even feed them.
@@ -2189,7 +2189,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N9c-57-5Nd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="629" y="1463"/>
+            <point key="canvasLocation" x="575" y="1538.5"/>
         </scene>
         <!--Team View Controller-->
         <scene sceneID="f1z-4A-QBn">
@@ -2254,7 +2254,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ui9-Wo-MM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1229" y="1530.5"/>
+            <point key="canvasLocation" x="1265" y="1538.5"/>
         </scene>
         <!--Info Video View Controller-->
         <scene sceneID="mN8-cy-5x4">

@@ -12,4 +12,7 @@
 #import <Stripe/Stripe.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import "OnboardingViewController.h"
+#import "OnboardingContentViewController.h"
+
 #endif

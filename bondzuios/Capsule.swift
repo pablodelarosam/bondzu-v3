@@ -31,6 +31,7 @@ class Capsule : NSObject{
     var title : [String]
     var videoDescription : [String]
     var animalName : String = ""
+    var animalId : String = ""
     var publishedOn : NSDate
     var image : UIImage!
     weak var delegate : CapsuleLoadingDelegate?
@@ -58,6 +59,7 @@ class Capsule : NSObject{
             
             let animal = AnimalV2(object: av2!, delegate: nil)
             self.animalName = animal.name
+            self.animalId = animal.objectId
             let img = Capsule.videoPattern(self.videoID[0])
             let eimg = Capsule.secondTryVideoPattern(self.videoID[0])
             getImageInBackground(url: img){
