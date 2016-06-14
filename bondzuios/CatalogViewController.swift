@@ -96,6 +96,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     @IBOutlet weak var toolbar: UIToolbar!
     
     
+    //image to be retrieved from the database for initial promotions
+    var newImage: UIImage?
+    
     var aboutUsSelected = false
     
     //MARK:Collection view delegate & data source
@@ -492,6 +495,39 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
 
     }
     
+    //at the beginning if the user is basic level type, he will get a screen with promotions of Bondzù's store
+    //the promotions are displayed in an image, and that image is retrieved from the DB here.
+    func getAdImage(){
+        let queryy = PFQuery(className:"Publicidad")
+        queryy.whereKeyExists("imagen")
+        queryy.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            if error == nil {
+                self.animalsToShow.removeAll() //new for pull to refresh to not make duplicates
+                if let objects = objects{
+                    let firstObject = objects[0]
+                    let file = firstObject["imagen"] as! PFFile
+                    file.getDataInBackgroundWithBlock {
+                        (imageData: NSData?, error: NSError?) -> Void in
+                        if error == nil {
+                            if let imageData = imageData {
+                                self.newImage = UIImage(data: imageData)
+                                print("SUCCESS with image DATA")
+                                self.setUpAds(self.newImage!)
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            else {
+                print("Error: \(error!) error al buscar la imagen de publicidad")
+            }
+        }
+        
+        
+    }
+    
     override func viewDidDisappear(animated: Bool) {
         Utiles.moveHairLine(false, navHairLine: self.navHairLine, toolbar: self.toolbar)
         if !searchBar.hidden{
@@ -527,7 +563,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         if user.hasLoadedPriority{
             self.toolbar.barTintColor = user.type!.color
             if user.type!.priority == 0{
-                setUpAds()
+                getAdImage()
             }
         }
         
@@ -541,7 +577,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                 self?.toolbar.barTintColor = type!.color
                 if type!.priority == 0 {
                     if let s = self{
-                        s.setUpAds()
+                        s.getAdImage()
                     }
                 }
             }
@@ -560,10 +596,11 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     }
     
     
-    //prepare and display the advertisement -- static image
-    func setUpAds(){
+    //prepare and display the advertisement
+    func setUpAds(image: UIImage){
         let firstPage = OnboardingContentViewController(title: "", body: "", image: nil, buttonText: "") { () -> Void in  }
-        let onboardingVC = OnboardingViewController(backgroundImage: UIImage(named: "adsample"), contents: [firstPage])
+        let onboardingVC: OnboardingViewController!
+        onboardingVC = OnboardingViewController(backgroundImage: image, contents: [firstPage])
         onboardingVC.allowSkipping = true
         onboardingVC.skipHandler = {() -> Void in
             onboardingVC.dismissViewControllerAnimated(true, completion: nil)
@@ -571,7 +608,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         onboardingVC.shouldMaskBackground = false
         onboardingVC.hidePageControl = true
         self.presentViewController(onboardingVC, animated: false, completion: nil)
-
         
     }
     
