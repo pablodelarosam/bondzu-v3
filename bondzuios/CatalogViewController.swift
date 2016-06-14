@@ -512,7 +512,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
                         if error == nil {
                             if let imageData = imageData {
                                 self.newImage = UIImage(data: imageData)
-                                print("SUCCESS with image DATA")
                                 self.setUpAds(self.newImage!)
                             }
                         }
@@ -523,9 +522,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
             else {
                 print("Error: \(error!) error al buscar la imagen de publicidad")
             }
-        }
-        
-        
+        }        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -601,6 +598,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         let firstPage = OnboardingContentViewController(title: "", body: "", image: nil, buttonText: "") { () -> Void in  }
         let onboardingVC: OnboardingViewController!
         onboardingVC = OnboardingViewController(backgroundImage: image, contents: [firstPage])
+    
         onboardingVC.allowSkipping = true
         onboardingVC.skipHandler = {() -> Void in
             onboardingVC.dismissViewControllerAnimated(true, completion: nil)
