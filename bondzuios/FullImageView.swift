@@ -57,6 +57,7 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
     class FullImageView : UIView{
 
         var button = UIButton()
+        var saveButton = UIButton()
         
         var delegate : FullImageViewController?
         
@@ -78,12 +79,19 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
         }
         
         
+        //localized strings
+        let failed = NSLocalizedString("Failed", comment: "")
+        let success = NSLocalizedString("Success", comment: "")
+        let save = NSLocalizedString("Save", comment: "")
+        let saving = NSLocalizedString("Saving...", comment: "")
+        
         //TODO Version 2 Agregar un dismisal al bajar el dedo
         
         func dismiss(){
             print("DISMISEANDO");
             delegate?.dismiss()
         }
+        
         
         func load(){
             
@@ -95,6 +103,9 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
             button.setTitle(NSLocalizedString("Done", comment: ""), forState: UIControlState.Normal)
             button.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
             
+            saveButton.setTitle(NSLocalizedString("Save", comment: ""), forState: UIControlState.Normal)
+            saveButton.addTarget(self, action: "saveImage", forControlEvents: UIControlEvents.TouchUpInside)
+            
             activityIndicatorView.hidesWhenStopped = true
             bgImage.contentMode = .ScaleAspectFill
             imageview.contentMode = .ScaleAspectFit
@@ -103,10 +114,41 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
             addSubview(blur)
             addSubview(activityIndicatorView)
             addSubview(button)
+            addSubview(saveButton)
             addSubview(imageview)
             activityIndicatorView.color = UIColor.orangeColor()
         }
         
+        func saveImage(){
+            
+            //hokusai is the menu with options to save the image
+            let hokusai = Hokusai()
+            hokusai.colors = HOKColors(
+                backGroundColor: Constantes.COLOR_NARANJA_NAVBAR, //always orange
+                buttonColor: UIColor.whiteColor(),
+                cancelButtonColor: UIColor(hexString: "FFA844")!, //light orange
+                fontColor: UIColor.blackColor()
+            )
+            hokusai.fontName = "Helvetica"
+            hokusai.addButton(save) {
+                Drop.down(self.saving, state: DropState.Color(Constantes.COLOR_NARANJA_NAVBAR))
+                let queue = TaskQueue()
+                queue.tasks +=! {
+                    UIImageWriteToSavedPhotosAlbum(self.image!, self, "image:didFinishSavingWithError:contextInfo:", nil)
+                }
+                queue.run()
+            }
+            hokusai.show()
+        }
+        
+        //image!! compleiton selector for when saving an image
+        func image(image: UIImage, didFinishSavingWithError: NSError?, contextInfo: AnyObject) {
+            if didFinishSavingWithError != nil {
+                Drop.down(failed, state: DropState.Error)
+                return
+            }
+            Drop.down(success, state: DropState.Success)
+        }
         
         var image : UIImage?{
             get{
@@ -128,6 +170,9 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
             button.sizeToFit()
             button.frame.origin = CGPoint(x: 10, y: 10)
             
+            saveButton.sizeToFit()
+            saveButton.frame.origin = CGPoint(x: frame.size.width-saveButton.frame.width-10, y:10)
+            
             if imageview.image != nil{
                 activityIndicatorView.stopAnimating()
                 let orientation = UIDevice.currentDevice().orientation
@@ -135,6 +180,7 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
                 if orientation == .Portrait || orientation == .FaceUp || orientation == .FaceDown{
                     
                     button.hidden = false
+                    saveButton.hidden = false
                     
                     let frh = frame.height
                     
@@ -170,6 +216,7 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
                 }
                 else{
                     button.hidden = true
+                    saveButton.hidden = true
                     imageview.contentMode = .ScaleAspectFit
                     imageview.frame = CGRect(origin: CGPointZero, size: frame.size)
                 }

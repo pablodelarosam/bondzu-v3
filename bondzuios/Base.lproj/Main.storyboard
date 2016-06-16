@@ -1396,7 +1396,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1U-2y-nDW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2031" y="-294"/>
+            <point key="canvasLocation" x="2099" y="338"/>
         </scene>
         <!--Log In-->
         <scene sceneID="dfF-VM-x46">
@@ -2417,7 +2417,7 @@ People will learn about animal caring and help zoos in their everyday tasks even
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="VAT-0F-Pog"/>
-                                    <barButtonItem image="forward" id="07f-1i-xeQ">
+                                    <barButtonItem title="Item" image="forward" id="07f-1i-xeQ">
                                         <connections>
                                             <action selector="forwardWasPressed:" destination="yLY-7M-hfO" id="jHO-qe-472"/>
                                         </connections>
