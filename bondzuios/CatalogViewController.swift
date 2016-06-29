@@ -505,7 +505,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         queryy.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
-                self.animalsToShow.removeAll() //new for pull to refresh to not make duplicates
                 if let objects = objects{
                     let firstObject = objects[0]
                     let file = firstObject["imagen"] as! PFFile
