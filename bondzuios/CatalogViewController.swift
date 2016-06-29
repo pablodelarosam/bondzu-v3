@@ -101,6 +101,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     var aboutUsSelected = false
     
+    var loginCounter : Int?
+    
     //MARK:Collection view delegate & data source
   
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -534,7 +536,9 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        print("login counter \(loginCounter?.value)")
+        
         (self.navigationController! as! BondzuNavigationController).user = self.user
         
         self.animalEffectView.setImageArray(Constantes.animalArrayImages)
@@ -602,11 +606,15 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         onboardingVC.allowSkipping = true
         onboardingVC.skipHandler = {() -> Void in
             onboardingVC.dismissViewControllerAnimated(true, completion: nil)
+            //counter ++
+            self.loginCounter = self.loginCounter! + 1
         }
         onboardingVC.shouldMaskBackground = false
         onboardingVC.hidePageControl = true
-        self.presentViewController(onboardingVC, animated: false, completion: nil)
-        
+        // if counter = 0
+        if self.loginCounter == 0 {
+            self.presentViewController(onboardingVC, animated: false, completion: nil)
+        }
     }
     
     //pull to refresh

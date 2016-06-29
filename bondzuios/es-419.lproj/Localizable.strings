@@ -108,10 +108,10 @@
 "Cams" = "Cámaras";
 "Empty name" = "Nombre vacío";
 "Invalid mail" = "Email inválido";
-"I need time for myself Just like everyone else. Please come back later" = "Necesito tiempo para mi. Como todos los demas. Por favor vuelve más tarde.";
+"I need time for myself Just like everyone else. Please come back later" = "Necesito tiempo para mi. Como todos los demás. Por favor vuelve más tarde.";
 "No gifts here." = "No hay regalos aqui";
 "In order to watch me" = "Para verme";
-"You need to be" = "Necesitar ser usuario";
+"You need to be" = "Necesitas ser usuario";
 "  Start now  " = "  Comienza ahora  ";
 //puestos del equipo
 "Founder of the project" = "Profesor guía, fundador de proyecto";
@@ -138,3 +138,4 @@
 "Humans" = "Humanos";
 "You are the solution" = "Tú eres la solución";
 "SkipAd" = "Ir a Bondzù";
+"creditosWeb" = "http://www.bondzu.com/webview/creditos.php";

@@ -25,7 +25,7 @@ class Usuario : NSObject{
     var hasLoadedPriority = false
     
     var type : UserType?
-    
+        
     private var typeLoadingObserver = Array<( (Usuario, UserType?) -> (Bool) )>()
     
     /**

@@ -11,10 +11,12 @@ import UIKit
 class TeamWebViewController: UIViewController {
 
     @IBOutlet weak var myWebView: UIWebView!
+    let stringCreditosWeb = NSLocalizedString("creditosWeb", comment: "")
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = NSURL (string: "http://www.bondzu.com/webview/creditos.php")
+        let url = NSURL (string: stringCreditosWeb)
         let requestObj = NSURLRequest(URL: url!)
         myWebView.loadRequest(requestObj)
     }

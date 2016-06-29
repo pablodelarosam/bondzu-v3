@@ -16,6 +16,7 @@ import UIKit
 class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
 
     var loading : LoadingView?
+    var loginCounter = 0
 
     //MARK: Login Manager Result Delegate implementation
     
@@ -77,6 +78,7 @@ class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
             let destVC = segue.destinationViewController as! CatalogViewController
             destVC.user = Usuario(object: sender as! PFObject, loadImage: true, imageLoaderObserver: nil, userTypeObserver: nil)
             setUserOnDelegate(destVC.user)
+            destVC.loginCounter = self.loginCounter++
             (self.navigationController as! BondzuNavigationController).user = destVC.user
         }
     }

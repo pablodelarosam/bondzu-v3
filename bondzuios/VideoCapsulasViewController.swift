@@ -36,6 +36,9 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     var timer = NSTimer()
     //time in seconds that the video will play before stopping
     var videoTime = 15.0
+    //timer for checking seeking in video player
+    var timer2 = NSTimer()
+
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
@@ -43,7 +46,6 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //if species == humans .. load a special video
         if capsule.animalId == "661WX90t3V"{
             player.loadWithVideoId("zA2AnVwTMKY")
@@ -101,11 +103,17 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     func playerView(playerView: YTPlayerView!, didChangeToState state: YTPlayerState) {
         switch (state) {
             case YTPlayerState.Playing:
+                print("PLAYER IS PLAYING HAHA \n")
+                //unwrap
                 if let userType = user.type, capsulePriority = capsule.requiredPriority {
+                        //check condition
                         if capsulePriority.priority > userType.priority {
                             startTimer()
                         }
                 }
+//                if playerView.currentTime()>5.0 {
+//                    
+//                }
                 break
             default:
             break
@@ -192,19 +200,27 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     
     
     
-    //timer stuff, to be modified, dont repeat
+    //timer stuff
     func startTimer(){
         print("timer started with time to live: \(videoTime)")
         timer = NSTimer.scheduledTimerWithTimeInterval(videoTime, target: self, selector: "stopVideo", userInfo: nil, repeats: false)
+        timer2 = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "checkSeek", userInfo: nil, repeats: true)
     }
     
     //this method is called when the time limit for basic users is up
     func stopVideo(){
             let end = Float(player.duration())
             player.stopVideo()
-            player.seekToSeconds(end, allowSeekAhead: true)
+            player.seekToSeconds(end, allowSeekAhead: false)
             blockUser()
             timer.invalidate()
+            timer2.invalidate()
+    }
+    
+    func checkSeek(){
+        if player.currentTime()>15.0 {
+            stopVideo()
+        }
     }
     
 }
