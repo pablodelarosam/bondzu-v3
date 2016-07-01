@@ -180,7 +180,9 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                     else if result == UsuarioTransactionResult.AlreadyAdopted{
                         
                         title = NSLocalizedString("Already adopted", comment: "")
-                        message =  NSLocalizedString("You cannot adopt the same animal twice", comment: "")
+                        //Visita nuestra tienda para conocer otras formas de apoyar a
+                        let m1 = NSLocalizedString("You cannot adopt the same animal twice", comment: "")
+                        message = "\(m1) \(self!.animal!.name)"
                         actionTitle = NSLocalizedString("Cancel", comment: "")
                         
                     }
