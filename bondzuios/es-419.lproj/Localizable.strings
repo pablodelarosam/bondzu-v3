@@ -41,7 +41,7 @@
 "Select from library" = "Elegir foto de la biblioteca";
 "Adopted Animals" = "Animales adoptados";
 "Something went wrong, please try again later" = "Algo salió mal, intentalo más tarde";
-"Connection error, please try again later" = "Error de conexión, vuelve a intentarlo más tarde";
+"Connection error, please try again later" = "El correo electrónico o contraseña que ingresaste es incorrecto";
 "- Last 4 digits:" = "- Últimos 4 dígitos:";
 "Delete" = "Borrar";
 "Delete credit card:" = "Borrar tarjeta de crédito:";

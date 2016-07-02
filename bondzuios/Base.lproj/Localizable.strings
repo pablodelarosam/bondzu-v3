@@ -41,7 +41,7 @@
 "Select from library" = "Select from library";
 "Adopted Animals" = "Adopted Animals";
 "Something went wrong, please try again later" = "Something went wrong, please try again later";
-"Connection error, please try again later" = "Connection error, please try again later";
+"Connection error, please try again later" = "The email or password is incorrect";
 
 "- Last 4 digits:" = "- Last 4 digits:";
 "Delete" = "Delete";
