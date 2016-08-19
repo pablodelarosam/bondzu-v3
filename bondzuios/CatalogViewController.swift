@@ -629,7 +629,7 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate , UIColl
         self.segementedControl.selectedSegmentIndex = animalsIndex
         
         segementedControl.setTitle(NSLocalizedString("About us", comment:""), forSegmentAtIndex: 2)
-        segementedControl.setTitle(NSLocalizedString("Animalia", comment:""), forSegmentAtIndex: 0)
+        segementedControl.setTitle(NSLocalizedString("Content", comment:""), forSegmentAtIndex: 0)
         segementedControl.setTitle(NSLocalizedString("Video", comment:""), forSegmentAtIndex: 1)
         segementedControl.setTitle(NSLocalizedString("Specials", comment:""), forSegmentAtIndex: 3)
         

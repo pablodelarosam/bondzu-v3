@@ -12,8 +12,8 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     @IBOutlet weak var tableView: UITableView!
-        
-    let urlStrings = ["http://bondzu.com/tienda/", "http://bondzu.com/eventos/", "http://www.bondzu.com/tienda/#!/Multimedia/c/19300678/offset=0&sort=normal", "http://www.bondzu.com/Wallpapers/ios/#"]
+    
+    let urlStrings = [NSLocalizedString("urlTienda", comment: ""), "http://bondzu.com/eventos/", NSLocalizedString("urlGirls", comment: ""), "http://www.bondzu.com/Wallpapers/ios/#"]
     
     var row: Int = 0
     var nameOfNextView: String!

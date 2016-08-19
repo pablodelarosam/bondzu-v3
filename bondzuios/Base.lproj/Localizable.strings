@@ -108,7 +108,7 @@
 "Cams" = "Cams";
 "Empty name" = "Empty name";
 "Invalid mail" = "Invalid mail";
-"I need time for myself Just like everyone else. Please come back later" = "I need time for myself Just like everyone else. Please come back later";
+"I need time for myself Just like everyone else. Please come back later" = "Connection error, please try again later";
 "No gifts here." = "No gifts here.";
 "In order to watch me" = "In order to watch me";
 "You need to be" = "You need to be of type";
@@ -125,7 +125,7 @@
 
 "Specials" = "Specials";
 "Content not currently available" = "Content not currently available";
-"Animalia" = "Animals";
+"Content" = "Content";
 "About us" = "About us";
 //about the contextual menu to save an image
 "Failed" = "Failed";
@@ -138,3 +138,6 @@
 "You are the solution" = "You are the solution";
 "SkipAd" = "Go to Bondzù";
 "creditosWeb" = "http://www.bondzu.com/webview/credits.php";
+"urlTienda" = "http://bondzu.com/tienda/en/";
+"urlMembresia" = "http://bondzu.com/tienda/en/membresia/";
+"urlGirls" = "http://bondzu.com/tienda/en/#!/Multimedia-Media/c/19300678/offset=0&sort=normal";

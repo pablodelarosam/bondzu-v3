@@ -54,7 +54,7 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
         //let webPage : NSURL = planPurchaseURL!
         let puser = PFUser.currentUser()!
         sessionToken = puser.sessionToken!
-        let webPage : NSURL = NSURL(string: "http://bondzu.com/tienda/membresia/")!
+        let webPage : NSURL = NSURL(string: NSLocalizedString("urlMembresia", comment: ""))!
         super.init(frame: CGRectZero)
         self.autoresizingMask = [ .FlexibleHeight, .FlexibleWidth ]
         self.autoresizesSubviews = true
