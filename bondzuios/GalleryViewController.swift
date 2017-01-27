@@ -22,11 +22,11 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
 
     let dismissHelper = InteractiveDismissalHelper()
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Gallery", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
         super.viewDidAppear(animated)
@@ -43,78 +43,77 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate , UIColl
         super.didReceiveMemoryWarning()
     }
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.pictures.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("picCell", forIndexPath: indexPath) as! GalleryCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "picCell", for: indexPath) as! GalleryCollectionViewCell
         let img = self.pictures[indexPath.row] as UIImage
         cell.imageView.image = img
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.imageSelected(self.pictures[indexPath.row])
     }    
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: -60.0, left: 5.0, bottom: 5.0, right: 5.0)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: (UIScreen.mainScreen().bounds.width/3) - 6, height: (UIScreen.mainScreen().bounds.width/3) - 6)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (UIScreen.main.bounds.width/3) - 6, height: (UIScreen.main.bounds.width/3) - 6)
     }
     
     func getPictures() -> Void{
+        //   PFQuery(className: TableNames.Gallery_table.rawValue)
         let query = PFQuery(className:TableNames.Gallery_table.rawValue)
-        query.whereKey(TableGalleryColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
+        query.whereKey(TableGalleryColumnNames.Animal.rawValue, equalTo: PFObject(outDataWithClassName: "AnimalV2", objectId: self.animalId))
+        
+        query.findObjectsInBackground {
+            (objects: [PFObject]?, error: Error?) -> Void in
+            
             if error == nil {
-                if(objects?.count == 0){
-                    print("NO Pictures")
-                    return;
-                }
-                self.pictures.removeAll(keepCapacity: true)
-                if let objects = objects{
+                // The find succeeded.
+                // Do something with the found objects
+                self.pictures.removeAll(keepingCapacity: true)
+                if let objects = objects {
                     self.galleryToLoad = objects.count
-                    for object in objects{
-                        _ = Gallery(object: object, delegate: self)
+                    for object in objects {
+                         _ = Gallery(object: object, delegate: self)
                     }
                 }
-            }
-            else{
-                print("Error: \(error!) \(error!.userInfo)")
-            }
-        }
+            } else {
+                // Log details of the failure
+                print("Error: \(error!)")
+            }}
     }
     
 
-    func imageSelected(image: UIImage) {
+    func imageSelected(_ image: UIImage) {
         let i = FullImageViewController()
-        i.modalTransitionStyle = .CoverVertical
+        i.modalTransitionStyle = .coverVertical
         i.transitioningDelegate = self
-        self.parentViewController!.presentViewController(i, animated: true, completion: nil)
+        self.parent!.present(i, animated: true, completion: nil)
         i.loadImage(image)
         dismissHelper.wireToViewController(i)
     }
     
-    func galleryImageDidFinishLoading(gallery: Gallery) {
+    func galleryImageDidFinishLoading(_ gallery: Gallery) {
         self.pictures.append(gallery.image!);
-        galleryToLoad--;
-        
+        galleryToLoad -= 1;
         if galleryToLoad == 0{
             finishLoading()
         }
     }
     
-    func galleryImageDidFailLoading(gallery: Gallery) {
-        galleryToLoad--;
+    func galleryImageDidFailLoading(_ gallery: Gallery) {
+        galleryToLoad -= 1;
         
         if galleryToLoad == 0{
             finishLoading()

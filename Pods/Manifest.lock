@@ -1,42 +1,17 @@
 PODS:
-  - Bolts (1.6.0):
-    - Bolts/AppLinks (= 1.6.0)
-    - Bolts/Tasks (= 1.6.0)
-  - Bolts/AppLinks (1.6.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.6.0)
-  - FBSDKCoreKit (4.9.1):
-    - Bolts (~> 1.5)
-  - FBSDKLoginKit (4.9.1):
-    - FBSDKCoreKit
-  - Parse (1.12.0):
-    - Bolts/Tasks (~> 1.5)
-  - ParseFacebookUtilsV4 (1.11.0):
-    - Bolts/Tasks (>= 1.5)
-    - FBSDKCoreKit (~> 4.9.0-beta)
-    - FBSDKLoginKit (~> 4.9.0-beta)
-    - FBSDKTVOSKit (~> 4.9.0-beta)
-    - Parse (~> 1.11)
   - Stripe (5.1.4):
     - Stripe/Core (= 5.1.4)
   - Stripe/Core (5.1.4)
-  - youtube-ios-player-helper (0.1.4)
+  - youtube-ios-player-helper (0.1.6)
 
 DEPENDENCIES:
-  - Parse
-  - ParseFacebookUtilsV4
   - Stripe (~> 5.1.4)
-  - youtube-ios-player-helper (= 0.1.4)
+  - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
-  Bolts: f52a250053bb517ca874523c3913776359ab3def
-  FBSDKCoreKit: aee20b6d9855f15b618d4fddd1a5ad45f5a4a59d
-  FBSDKLoginKit: ec22dc49bd372b064e93d6773df4ffefb3a552a2
-  Parse: de2c52a9a1421b91ae7594ab8ce191afd184f19b
-  ParseFacebookUtilsV4: 216e03bd560404eed09a4875c75f0c1cdf758070
   Stripe: 6864be95b09092f05526bc2e0a50804bc556aa0d
-  youtube-ios-player-helper: 84b1485ebb4b7c6b619c6e05edcb55186723a7c6
+  youtube-ios-player-helper: 21ab92db027c7ff86cb17a3843a3f6eafc8158d2
 
-PODFILE CHECKSUM: e97c186fbab46cb2b9dfc366141fb4f30cf8e5b2
+PODFILE CHECKSUM: f2fef18de76dfd033135cf2a62ef09a88f7e6a3d
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1

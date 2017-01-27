@@ -37,18 +37,18 @@ class TextFieldWithImageButton: UIView, UITextFieldDelegate  {
         imageView.image = UIImage(named: "camera_icon")
         text.placeholder = NSLocalizedString("Share your thoughts...", comment: "")
         
-        backgroundColor = UIColor.lightGrayColor()
-        text.backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.lightGray
+        text.backgroundColor = UIColor.white
 
-        text.leftViewMode = .Always
+        text.leftViewMode = .always
         text.leftView = paddingLeftView
-        text.rightViewMode = .Always
+        text.rightViewMode = .always
         text.rightView = paddingRightView
         text.delegate = self
         
-        let gr = UITapGestureRecognizer(target: self, action: "buttonPressed")
+        let gr = UITapGestureRecognizer(target: self, action: #selector(TextFieldWithImageButton.buttonPressed))
         imageView.addGestureRecognizer(gr)
-        imageView.userInteractionEnabled = true
+        imageView.isUserInteractionEnabled = true
         
         addSubview(text)
         addSubview(imageView)
@@ -63,7 +63,7 @@ class TextFieldWithImageButton: UIView, UITextFieldDelegate  {
         imageView.frame = CGRect(x: frame.width - frame.height - 6, y: 3, width: frame.height - 6, height: frame.height - 6)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         text.resignFirstResponder()
         delegate?.sendButtonPressed()
         return true

@@ -22,36 +22,36 @@ class InteractiveDismissalHelper: UIPercentDrivenInteractiveTransition, UIViewCo
         set{}
     }
     
-    func wireToViewController( vc : UIViewController ){
-        let gesture = UIPanGestureRecognizer(target: self, action: "handleGesture:")
+    func wireToViewController( _ vc : UIViewController ){
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(InteractiveDismissalHelper.handleGesture(_:)))
         vc.view.addGestureRecognizer(gesture)
         controller = vc
     }
     
-    func handleGesture(gestureRecognizer : UIPanGestureRecognizer){
-        let translation = gestureRecognizer.translationInView(gestureRecognizer.view?.superview)
+    func handleGesture(_ gestureRecognizer : UIPanGestureRecognizer){
+        let translation = gestureRecognizer.translation(in: gestureRecognizer.view?.superview)
         
         print(gestureRecognizer.state)
         
         switch gestureRecognizer.state{
-        case .Began:
+        case .began:
             
             interactionInProgress = true
-            controller.dismissViewControllerAnimated(true, completion: nil)
+            controller.dismiss(animated: true, completion: nil)
             
-        case .Changed:
+        case .changed:
             var fraction : CGFloat = (translation.y / 200.0)
             fraction = min( max( fraction, 0.0 ) , 1.0 )
             shouldCompleteTransition = ( fraction > 0.5 )
             print(fraction)
-            updateInteractiveTransition(fraction)
-        case .Ended, .Cancelled:
+            update(fraction)
+        case .ended, .cancelled:
             self.interactionInProgress = false
-            if !shouldCompleteTransition || gestureRecognizer.state == .Cancelled{
-                self.cancelInteractiveTransition()
+            if !shouldCompleteTransition || gestureRecognizer.state == .cancelled{
+                self.cancel()
             }
             else{
-                self.finishInteractiveTransition()
+                self.finish()
             }
         default:
             break
@@ -59,33 +59,33 @@ class InteractiveDismissalHelper: UIPercentDrivenInteractiveTransition, UIViewCo
         
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let container = transitionContext.containerView()
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!.snapshotViewAfterScreenUpdates(false)
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
+        let container = transitionContext.containerView
+        let fromView = transitionContext.view(forKey: UITransitionContextViewKey.from)!.snapshotView(afterScreenUpdates: false)
+        let toView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
         
-        toView.frame = container!.frame
+        toView.frame = container.frame
         
-        container!.addSubview(toView)
-        container!.addSubview(fromView)
+        container.addSubview(toView)
+        container.addSubview(fromView!)
         
-        toView.frame.origin = CGPoint(x: (container?.frame.size.width)!, y: 0)
-        let duration = transitionDuration(transitionContext)
-        UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(), animations: {
+        toView.frame.origin = CGPoint(x: (container.frame.size.width), y: 0)
+        let duration = transitionDuration(using: transitionContext)
+        UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(), animations: {
             
-            fromView.frame.origin =  CGPoint(x: -(container?.frame.size.width)!, y: 0)
-            toView.frame.origin = CGPointZero
+            fromView?.frame.origin =  CGPoint(x: -(container.frame.size.width), y: 0)
+            toView.frame.origin = CGPoint.zero
             
             }, completion: { finished in
                 toView.removeFromSuperview()
-                fromView.removeFromSuperview()
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                fromView?.removeFromSuperview()
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
         
     }
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.75
     }
 

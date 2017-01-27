@@ -13,7 +13,7 @@ import Parse
 
 @objc
 protocol CameraChangingDelegate{
-    func cameraWillChange(newCamera : Camera)
+    func cameraWillChange(_ newCamera : Camera)
 }
 
 
@@ -30,10 +30,10 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         //NSLocalizedString("CAMERAS", comment: "Choose a camera");
         self.title = NSLocalizedString("Cams", comment: "");
         //NSLocalizedString("DONE",comment: "Listo");
-        let buttonDone = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: UIBarButtonItemStyle.Done, target: self, action: "doneButtonClicked:");
+        let buttonDone = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: UIBarButtonItemStyle.done, target: self, action: #selector(ListaCamarasViewController.doneButtonClicked(_:)));
         self.navigationItem.rightBarButtonItem = buttonDone
         
-        self.refreshcontrol.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        self.refreshcontrol.addTarget(self, action: #selector(ListaCamarasViewController.refresh(_:)), for: .valueChanged)
         tableView.addSubview(refreshcontrol)
         self.refreshcontrol.beginRefreshing()
         self.tableView.setContentOffset(CGPoint(x: 0,y: self.tableView.contentOffset.y - self.refreshcontrol.frame.size.height), animated: true)
@@ -41,78 +41,79 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
         getCameras()
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.camaras.count;
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("camaraCell") as UITableViewCell!
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "camaraCell") as UITableViewCell!
         var camara : Camera
         
         camara = self.camaras[indexPath.row]
-        cell.textLabel?.text = camara.descripcion
+        cell?.textLabel?.text = camara.descripcion
         
         if(self.player != nil)
         {            
             if(camara.url == Utiles.urlOfAVPlayer(self.player.player))
             {
-                cell.accessoryType = .Checkmark
+                cell?.accessoryType = .checkmark
             }
         }
-        return cell
+        return cell!
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let camara = self.camaras[indexPath.row] as Camera;
         
-        if let url = camara.url as NSURL!
+        if let url = camara.url as URL!
         {
             if(url != Utiles.urlOfAVPlayer(self.player.player)){
                 player.player?.pause()
                 delegate?.cameraWillChange(camara)
-                self.player.player = AVPlayer(URL: url)
-                self.player.player?.closedCaptionDisplayEnabled = false;
+                self.player.player = AVPlayer(url: url)
+                self.player.player?.isClosedCaptionDisplayEnabled = false;
                 self.player.player?.play()
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 self.player = nil
             }
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if(self.refreshcontrol.refreshing){
+        if(self.refreshcontrol.isRefreshing){
             self.refreshcontrol.endRefreshing()
         }
     }
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None;
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none;
     }
     
     
-    func doneButtonClicked(sender: UIBarButtonItem){
-        self.dismissViewControllerAnimated(true, completion: nil);
+    func doneButtonClicked(_ sender: UIBarButtonItem){
+        self.dismiss(animated: true, completion: nil);
         player = nil
     }
     
-    func refresh(sender: AnyObject){
+    func refresh(_ sender: AnyObject){
         getCameras()
     }
     
     func getCameras(){
         let query = PFQuery(className: TableNames.Camera.rawValue);
-        query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
+        
+        query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(outDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
+        query.findObjectsInBackground {
+            (objects: [PFObject]?, error: Error?) -> Void in
             if error == nil {
                 // The find succeeded.
-                self.camaras.removeAll(keepCapacity: true)
+                self.camaras.removeAll(keepingCapacity: true)
                 // Do something with the found objects
                 if let objects = objects{
                     for object in objects {
@@ -124,13 +125,13 @@ class ListaCamarasViewController: UITableViewController, UIPopoverPresentationCo
                     
                     }
                     self.tableView.reloadData()
-                    if(self.refreshcontrol.refreshing){
+                    if(self.refreshcontrol.isRefreshing){
                         self.refreshcontrol.endRefreshing()
                     }
                 }
             }
             else {
-                print("Error: \(error!) \(error!.userInfo)")
+                print("Error: \(error!) \(error!)")
             }
         }
     }

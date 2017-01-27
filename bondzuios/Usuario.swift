@@ -10,9 +10,9 @@ import UIKit
 import Parse
 
 enum UsuarioTransactionResult{
-    case Success
-    case ParseError
-    case AlreadyAdopted
+    case success
+    case parseError
+    case alreadyAdopted
 }
 
 class Usuario : NSObject{
@@ -26,7 +26,7 @@ class Usuario : NSObject{
     
     var type : UserType?
         
-    private var typeLoadingObserver = Array<( (Usuario, UserType?) -> (Bool) )>()
+    fileprivate var typeLoadingObserver = Array<( (Usuario, UserType?) -> (Bool) )>()
     
     /**
         This is the default initializer for a user
@@ -44,29 +44,30 @@ class Usuario : NSObject{
         self.stripeID = object[TableUserColumnNames.StripeID.rawValue] as! String!
         self.originalObject = object
         super.init()
+    
         
         if imageLoaderObserver != nil || loadImage{
             if let image = object[TableUserColumnNames.PhotoFile.rawValue] as? PFFile{
-                image.getDataInBackgroundWithBlock({
+                image.getDataInBackground(block: {
                     (imageData, error) -> Void in
                     
                     guard error == nil, let unwrapedData = imageData else{
-                        dispatch_async(dispatch_get_main_queue()){
+                        DispatchQueue.main.async{
                             imageLoaderObserver?(self,false)
                         }
-                        print(error)
+                        print(error!)
                         return
                     }
                     
                     self.image = UIImage(data: unwrapedData)
                     
                     if self.image != nil{
-                        dispatch_async(dispatch_get_main_queue()){
+                        DispatchQueue.main.async{
                             imageLoaderObserver?(self,true)
                         }
                     }
                     else{
-                        dispatch_async(dispatch_get_main_queue()){
+                        DispatchQueue.main.async{
                             imageLoaderObserver?(self,false)
                         }
                     }
@@ -76,12 +77,12 @@ class Usuario : NSObject{
                 getImageInBackground(url: image, block: { (image, created) -> Void in
                     if(created){
                         self.image = image!
-                        dispatch_async(dispatch_get_main_queue()){
+                        DispatchQueue.main.async{
                             imageLoaderObserver?(self,true)
                         }
                     }
                     else{
-                        dispatch_async(dispatch_get_main_queue()){
+                        DispatchQueue.main.async{
                             imageLoaderObserver?(self,false)
                         }
                     }
@@ -89,41 +90,40 @@ class Usuario : NSObject{
             }
             else{
                 print("Modelo de usuario sin imagen\n \(object.objectId)")
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     imageLoaderObserver?(self,false)
                 }
             }
         }
         
-        if let userTypeObserver = userTypeObserver{
-            self.typeLoadingObserver.append(userTypeObserver)
-        }
-        
-        dispatch_async(Constantes.get_bondzu_queue()){
-            do{
-                if let typeObject = object[TableUserColumnNames.UserType.rawValue] as? PFObject{
-                    try typeObject.fetch()
-                    self.type = UserType(object: typeObject)
-                    self.notifyFinishedLoadingUserType()
-                }
-                else if self.originalObject != PFUser.currentUser(){
-                    self.type = Usuario.getSharedBasicType()
-                    self.notifyFinishedLoadingUserType()
-                }
-                else{
-                    let query = PFQuery(className: TableNames.UserType.rawValue)
-                    query.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
-                    let foundItems = try query.findObjects()
-                    self.type = UserType(object: foundItems[0])
-                    object[TableUserColumnNames.UserType.rawValue] = Usuario.getSharedBasicType()?.originalObject
-                    try object.save()
-                    self.notifyFinishedLoadingUserType()
-                }
-            }
-            catch{
-                self.notifyFinishedLoadingUserType()
-            }
-        }
+//        if let userTypeObserver = userTypeObserver{
+//            self.typeLoadingObserver.append(userTypeObserver)
+//        }
+//        Constantes.get_bondzu_queue().async{
+//            do{
+//                if let typeObject = object[TableUserColumnNames.UserType.rawValue] as? PFObject{
+//                    //try typeObject.fetch()
+//                    // self.type = UserType(object: typeObject)
+//                    self.notifyFinishedLoadingUserType()
+//                }
+//                else if self.originalObject != PFUser.current(){
+//                    self.type = Usuario.getSharedBasicType()
+//                    self.notifyFinishedLoadingUserType()
+//                }
+//                else{
+//                    let query = PFQuery(className: TableNames.UserType.rawValue)
+//                    query.whereKey(TableUserTypeColumnNames.Priority.rawValue, equalTo: 0)
+//                    let foundItems = try query.findObjects()
+//                    self.type = UserType(object: foundItems[0])
+//                    object[TableUserColumnNames.UserType.rawValue] = Usuario.getSharedBasicType()?.originalObject
+//                    try object.save()
+//                    self.notifyFinishedLoadingUserType()
+//                }
+//            }
+//            catch{
+//                self.notifyFinishedLoadingUserType()
+//            }
+//        }
     }
     
     
@@ -136,13 +136,13 @@ class Usuario : NSObject{
      #### Note: callback will be called on the main thread ####
      
      */
-    func setNewProfileImage(image : UIImage , callback : ((Bool)->Void)){
+    func setNewProfileImage(_ image : UIImage , callback : @escaping ((Bool)->Void)){
         let file = PFFile(data: UIImagePNGRepresentation(image)!)
         originalObject[TableUserColumnNames.PhotoURL.rawValue] = NSNull()
         originalObject[TableUserColumnNames.PhotoFile.rawValue] = file
-        originalObject.saveInBackgroundWithBlock({
+        originalObject.saveInBackground(block: {
             (_, error) -> Void in
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 if error != nil{
                     callback(false)
                 }
@@ -164,13 +164,13 @@ class Usuario : NSObject{
     
     - returns: 0 in case the transaction succeds. 1 in case there were a Parse Error. 2
     */
-    class func adoptAnimal(animalID : String, user : PFUser = PFUser.currentUser()!) -> UsuarioTransactionResult{
+    class func adoptAnimal(_ animalID : String, user : PFUser = PFUser.current()!) -> UsuarioTransactionResult{
 
-        if(NSThread.isMainThread()){
+        if(Thread.isMainThread){
             mainThreadWarning()
         }
         
-        let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
+        let relation = user.relation(forKey: TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
         let query = relation.query()
        
         do{
@@ -179,24 +179,25 @@ class Usuario : NSObject{
             //Check if the animal is already adopted
             for animal in animals{
                 if (animal).objectId == animalID{
-                    return UsuarioTransactionResult.AlreadyAdopted
+                    return UsuarioTransactionResult.alreadyAdopted
                 }
             }
             
-            let relation = user.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
-            relation.addObject(PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: animalID))
+            let relation = user.relation(forKey: TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
+            
+            relation.add(PFObject(outDataWithClassName: TableNames.Animal_table.rawValue, objectId: animalID))
             try user.save()
             
-            let animal = PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: animalID)
+            let animal = PFObject(outDataWithClassName: TableNames.Animal_table.rawValue, objectId: animalID)
             animal.incrementKey(TableAnimalColumnNames.Adopters.rawValue, byAmount: 1)
             //No need to fecth this result
             animal.saveEventually()
-            return UsuarioTransactionResult.Success
+            return UsuarioTransactionResult.success
             
         }
         catch{
             print("Error in Usuario.adopt: \(error)")
-            return UsuarioTransactionResult.ParseError
+            return UsuarioTransactionResult.parseError
         }
         
     }
@@ -211,12 +212,12 @@ class Usuario : NSObject{
      
      - returns: a bool telling if the operation succeded and an array of adopted animals in case of success
      */
-    func getAdoptedAnimals(imageDelegate : AnimalV2LoadingProtocol?) -> (Bool , [AnimalV2]?){
-        if(NSThread.isMainThread()){
+    func getAdoptedAnimals(_ imageDelegate : AnimalV2LoadingProtocol?) -> (Bool , [AnimalV2]?){
+        if(Thread.isMainThread){
             mainThreadWarning()
         }
         
-        let relation = originalObject.relationForKey(TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
+        let relation = originalObject.relation(forKey: TableUserColumnNames.AdoptedAnimalsRelation.rawValue)
         let query = relation.query()
         
         do{
@@ -240,7 +241,7 @@ class Usuario : NSObject{
      1. The observer must not have strong references or its going to create memory leaks
      2. The closure should return if it should be kept as observer
      */
-    func appendTypeLoadingObserver(observer : (Usuario, UserType?) -> (Bool)){
+    func appendTypeLoadingObserver(_ observer : @escaping (Usuario, UserType?) -> (Bool)){
         if self.hasLoadedPriority{
             observer(self,type)
         }
@@ -248,29 +249,31 @@ class Usuario : NSObject{
         typeLoadingObserver.append(observer)
     }
     
-    private func notifyFinishedLoadingUserType(){
+    fileprivate func notifyFinishedLoadingUserType(){
         
         if self.type != nil{
             hasLoadedPriority = true
         }
         
-        if !NSThread.isMainThread(){
+        if !Thread.isMainThread{
             
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 self.notifyFinishedLoadingUserType()
             }
             
         }
         else{
-            
+            print("OOKK", self.typeLoadingObserver.count)
             var i = 0;
             while i < self.typeLoadingObserver.count{
                 if !self.typeLoadingObserver[i](self, self.type){
-                    _ = self.typeLoadingObserver.removeAtIndex(i)
+                    _ = self.typeLoadingObserver.remove(at: i)
                 }
                 else{
-                    i++
+                    i += 1
                 }
+                print("Count")
+
             }
             
             for userTypeObserver in self.typeLoadingObserver{
@@ -281,25 +284,25 @@ class Usuario : NSObject{
     }
     
     func refreshUserType(){
-        dispatch_async(Constantes.get_bondzu_queue()){
+        Constantes.get_bondzu_queue().async{
             do{
                 try self.originalObject.fetch()
                 let typeObject = self.originalObject[TableUserColumnNames.UserType.rawValue] as! PFObject
                 try typeObject.fetch()
                 self.type = UserType(object: typeObject)
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     self.notifyFinishedLoadingUserType()
                 }
             }
             catch{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     self.notifyFinishedLoadingUserType()
                 }
             }
         }
     }
     
-    class func needsUpdating(object : PFObject)->Bool{
+    class func needsUpdating(_ object : PFObject)->Bool{
         if let _ = object[TableUserColumnNames.UserType.rawValue] as? PFObject{
             return false
         }
@@ -307,8 +310,8 @@ class Usuario : NSObject{
         return true
     }
     
-    func userNeededTypeForRequestedPermission(permission : Int, callback : (UserType?)->() ){
-        dispatch_async(Constantes.get_bondzu_queue()){
+    func userNeededTypeForRequestedPermission(_ permission : Int, callback : @escaping (UserType?)->() ){
+        Constantes.get_bondzu_queue().async{
             do{
                 let query = PFQuery(className: TableNames.UserType.rawValue)
                 query.whereKey(TableUserTypeColumnNames.Purchasable.rawValue, equalTo: true)
@@ -316,15 +319,15 @@ class Usuario : NSObject{
                 let array = try query.findObjects()
                 
                 if array.isEmpty{
-                    throw Errors.GenericError
+                    throw Errors.genericError
                 }
                 
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     callback(UserType(object: array[0]))
                 }
             }
             catch{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     callback(nil)
                 }
             }
@@ -334,13 +337,13 @@ class Usuario : NSObject{
     
     
     ///Do not call directly. Use getSharedBasicType
-    private static var sharedBasicType : UserType?
+    fileprivate static var sharedBasicType : UserType?
     
     ///#Call in background
     class func getSharedBasicType()->UserType?{
         
         
-        if NSThread.isMainThread(){
+        if Thread.isMainThread{
             mainThreadWarning()
         }
         

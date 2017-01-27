@@ -19,7 +19,7 @@ class NoCamerasViewController: UIViewController{
     @IBOutlet weak var infoLabel: UITextView!
     
     
-    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark)) as UIVisualEffectView
+    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.dark)) as UIVisualEffectView
     @IBOutlet weak var blur: UIView!
     var dismissProtocol: NoCamerasDismissedProtocol!
     var backImage: UIImage!
@@ -36,12 +36,12 @@ class NoCamerasViewController: UIViewController{
         // Do any additional setup after loading the view.
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    @IBAction func doneClicked(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func doneClicked(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
         self.dismissProtocol.dismiss();
     }
     

@@ -28,42 +28,42 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     @IBOutlet weak var toolbar: UIToolbar!
     
     
-    private var blockingHelper : UserBlockingHelper?
+    fileprivate var blockingHelper : UserBlockingHelper?
     
     var requiredToolbar = false
     
     //timer for blocking basic users, not yet implemented, has to be started in ViewDidLoad
-    var timer = NSTimer()
+    var timer = Timer()
     //time in seconds that the video will play before stopping
     var videoTime = 15.0
     //timer for checking seeking in video player
-    var timer2 = NSTimer()
+    var timer2 = Timer()
 
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //if species == humans .. load a special video
         if capsule.animalId == "661WX90t3V"{
-            player.loadWithVideoId("zA2AnVwTMKY")
+            player.load(withVideoId: "zA2AnVwTMKY")
             videoTitle.text = NSLocalizedString("Humans", comment: "")
             videoDescription.text = NSLocalizedString("You are the solution", comment: "")
         }else{
-            player.loadWithVideoId(capsule.videoID[0])
+            player.load(withVideoId: capsule.videoID[0])
             videoTitle.text = capsule.title[0]
             videoDescription.text = capsule.videoDescription[0]
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "enteredFullScreen", name: UIWindowDidBecomeVisibleNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "exitedFullScreen", name: UIWindowDidBecomeHiddenNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoCapsulasViewController.enteredFullScreen), name: NSNotification.Name.UIWindowDidBecomeVisible, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoCapsulasViewController.exitedFullScreen), name: NSNotification.Name.UIWindowDidBecomeHidden, object: nil)
         
         player.delegate = self
         
         navigationItem.title = NSLocalizedString("Video", comment: "")
-        toolbar.hidden = !requiredToolbar
+        toolbar.isHidden = !requiredToolbar
         
 
     }
@@ -72,40 +72,40 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func done(sender: AnyObject) {
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func done(_ sender: AnyObject) {
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
    
     func enteredFullScreen(){
-        dispatch_async(dispatch_get_main_queue()){
+        DispatchQueue.main.async{
             self.view.removeConstraints([self.c1,self.c2,self.c3,self.c4])
             self.view.setNeedsUpdateConstraints()
         }
     }
 
     func exitedFullScreen(){
-        dispatch_async(dispatch_get_main_queue()){
+        DispatchQueue.main.async{
             self.view.addConstraints([self.c1,self.c2,self.c3,self.c4])
             self.view.setNeedsUpdateConstraints()
         }
     }
     
-    func playerViewDidBecomeReady(playerView: YTPlayerView!) {
-        dispatch_async(dispatch_get_main_queue()){
+    func playerViewDidBecomeReady(_ playerView: YTPlayerView!) {
+        DispatchQueue.main.async{
             self.loadingIndicator.stopAnimating()
-            playerView.hidden = false
+            playerView.isHidden = false
 
         }
         
     }
     
     // when playing video, if the user is not permitted to watch the video, only then start the timer
-    func playerView(playerView: YTPlayerView!, didChangeToState state: YTPlayerState) {
+    func playerView(_ playerView: YTPlayerView!, didChangeTo state: YTPlayerState) {
         switch (state) {
-            case YTPlayerState.Playing:
+            case YTPlayerState.playing:
                 print("PLAYER IS PLAYING HAHA \n")
                 //unwrap
-                if let userType = user.type, capsulePriority = capsule.requiredPriority {
+                if let userType = user.type, let capsulePriority = capsule.requiredPriority {
                         //check condition
                         if capsulePriority.priority > userType.priority {
                             startTimer()
@@ -120,9 +120,9 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
         }
     }
     
-    func requireToolBar(required : Bool){
+    func requireToolBar(_ required : Bool){
         if let t = toolbar{
-            t.hidden = !required
+            t.isHidden = !required
         }
         else{
             requiredToolbar = required
@@ -131,22 +131,22 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
 
     //MARK: Capsule delegate
     
-    func capsuleDidFailLoading(capsule: Capsule) {}
+    func capsuleDidFailLoading(_ capsule: Capsule) {}
     
-    func capsuleDidFinishLoading(capsule: Capsule) {}
+    func capsuleDidFinishLoading(_ capsule: Capsule) {}
     
-    func capsuleDidLoadRequiredType(capsule: Capsule) {
+    func capsuleDidLoadRequiredType(_ capsule: Capsule) {
         self.blockingHelper?.setRequiredPriority(capsule.requiredPriority!.priority)
     }
     
-    func capsuleDidFailLoadingRequiredType(capsule: Capsule) {
-        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .Alert)
-        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
+    func capsuleDidFailLoadingRequiredType(_ capsule: Capsule) {
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: {
             _ -> Void in
-            self.presentingViewController!.dismissViewControllerAnimated(true, completion: nil)
+            self.presentingViewController!.dismiss(animated: true, completion: nil)
             self.blockingHelper = nil
         }))
-        self.presentViewController(ac, animated: true, completion: nil)
+        self.present(ac, animated: true, completion: nil)
 
     }
     
@@ -154,30 +154,30 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     
 
     func userBlockingHelperFailed() {
-        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .Alert)
-        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: {
             _ -> Void in
             
             if let pvc =  self.presentingViewController{
-                pvc.dismissViewControllerAnimated(true, completion: nil)
+                pvc.dismiss(animated: true, completion: nil)
             }
             else{
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
             
             self.blockingHelper = nil
         }))
-        self.presentViewController(ac, animated: true, completion: nil)
+        self.present(ac, animated: true, completion: nil)
 
     }
     
-    func userBlockingHelperWillDismiss(result: Bool) {
+    func userBlockingHelperWillDismiss(_ result: Bool) {
         if !result{
             if let pvc =  self.presentingViewController{
-                pvc.dismissViewControllerAnimated(true, completion: nil)
+                pvc.dismiss(animated: true, completion: nil)
             }
             else{
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
         else{
@@ -203,15 +203,15 @@ class VideoCapsulasViewController: UIViewController, YTPlayerViewDelegate, UserB
     //timer stuff
     func startTimer(){
         print("timer started with time to live: \(videoTime)")
-        timer = NSTimer.scheduledTimerWithTimeInterval(videoTime, target: self, selector: "stopVideo", userInfo: nil, repeats: false)
-        timer2 = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "checkSeek", userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: videoTime, target: self, selector: #selector(VideoCapsulasViewController.stopVideo), userInfo: nil, repeats: false)
+        timer2 = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(VideoCapsulasViewController.checkSeek), userInfo: nil, repeats: true)
     }
     
     //this method is called when the time limit for basic users is up
     func stopVideo(){
             let end = Float(player.duration())
             player.stopVideo()
-            player.seekToSeconds(end, allowSeekAhead: false)
+            player.seek(toSeconds: end, allowSeekAhead: false)
             blockUser()
             timer.invalidate()
             timer2.invalidate()

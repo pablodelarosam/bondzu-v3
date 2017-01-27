@@ -10,8 +10,8 @@ import UIKit
 
 class CircledImageView: UIImageView {
     
-    func setBorderOfColor(color : UIColor, width : CGFloat){
-        self.layer.borderColor = color.CGColor
+    func setBorderOfColor(_ color : UIColor, width : CGFloat){
+        self.layer.borderColor = color.cgColor
         self.layer.borderWidth = width
     }
     

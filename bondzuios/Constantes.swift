@@ -32,9 +32,9 @@ import UIKit
 
 class Constantes{
     
-    private static var queue : dispatch_queue_t?
+    fileprivate static var queue : DispatchQueue?
     
-    static let COLOR_NARANJA_NAVBAR:UIColor = UIColor.orangeColor()
+    static let COLOR_NARANJA_NAVBAR:UIColor = UIColor.orange
     #if DEBUG
     static let STRIPE_PLUBISHABLE_KEY = "pk_test_5A3XM2TUHd6pob50dw7jhxA0"
     #else
@@ -53,9 +53,10 @@ class Constantes{
      - returns: A concurrent dispatch queue that will be used by the app
      
      */
-    class func get_bondzu_queue()-> dispatch_queue_t{
+    class func get_bondzu_queue()-> DispatchQueue{
         if queue == nil{
-            Constantes.queue = dispatch_queue_create("bondzu.queue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INTERACTIVE, -1))
+            Constantes.queue = DispatchQueue(label: "bondzu.queue", qos: .background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: .never  , target: nil )
+            
         }
         
         return queue!
@@ -63,8 +64,8 @@ class Constantes{
 }
 
 let LOCALIZED_STRING = "locale"
-let privacyURL = NSURL(string: "http://bondzu.com/privacy.html")
-let planPurchaseURL = NSURL(string: "http://bondzu.com/purchase.php")
+let privacyURL = URL(string: "http://bondzu.com/privacy.html")
+let planPurchaseURL = URL(string: "http://bondzu.com/purchase.php")
 
 enum TableNames : String{
     case Events_table = "Calendar"
@@ -194,7 +195,7 @@ enum TableUserTypeColumnNames : String{
 enum TableStoreProductColumnNames : String{
     case Name = "name"
     case Description = "description"
-    case Type = "type"
+    case `Type` = "type"
     case Image = "picture"
     case Purchasable = "sellable"
 }
@@ -205,7 +206,7 @@ enum TableStorePriceColumnNames : String{
     case Prority = "minPriority"
 }
 
-enum Errors : ErrorType{
-    case GenericError
+enum Errors : Error{
+    case genericError
 }
 

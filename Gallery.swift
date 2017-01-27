@@ -10,8 +10,8 @@ import UIKit
 import Parse
 
 protocol GalleryLoadingProtocol{
-    func galleryImageDidFinishLoading(gallery : Gallery)
-    func galleryImageDidFailLoading(gallery : Gallery)
+    func galleryImageDidFinishLoading(_ gallery : Gallery)
+    func galleryImageDidFailLoading(_ gallery : Gallery)
 }
 
 class Gallery{
@@ -27,36 +27,28 @@ class Gallery{
      
      */
     init(object : PFObject, delegate : GalleryLoadingProtocol?, loadImage : Bool = false ){
-
-        let animalObject = object[TableGalleryColumnNames.Animal.rawValue] as! PFObject
+        let animalObject = object["animal_id"] as! PFObject
         self.animalID =  animalObject.objectId!
         self.imageFile = object[TableGalleryColumnNames.Image.rawValue] as! PFFile
         
         //Determine if the image should be loaded or not
         if delegate != nil || loadImage{
-            
-            //Download the image and notify delegate
-            dispatch_async( Constantes.get_bondzu_queue() ){
-                do{
-                    let data = try self.imageFile.getData()
-                    self.image = UIImage(data: data)
-                    dispatch_async(dispatch_get_main_queue()){
-                        if self.image == nil{
-                            print("Invalid data in gallery file with animalID \(self.animalID)");
-                            delegate?.galleryImageDidFailLoading(self)
-                        }
-                        else{
-                            delegate?.galleryImageDidFinishLoading(self)
-                        }
-                    }
-                } //End do
-                catch{
-                    dispatch_async(dispatch_get_main_queue()){
-                        print("Error getting image \(error)")
-                        delegate?.galleryImageDidFailLoading(self)
-                    }
-                }//End catch
-            } //End async block
+            // Best practice to manage GCD
+            // Regular priority
+            DispatchQueue.global(qos: .userInitiated).async { () -> Void in
+                
+                if let imageData = try? self.imageFile.getData(), let img = UIImage(data: imageData) {
+                    // all set and done run completition closure
+                    DispatchQueue.main.async(execute: {() -> Void in
+                        self.image = img
+                        delegate?.galleryImageDidFinishLoading(self)
+                    })
+                
+                } else {
+                    delegate?.galleryImageDidFailLoading(self)
+                }
+                
+            }
         } // End determine if the image should be downloaded
         else{ //Should not download or image data invalid
             delegate?.galleryImageDidFailLoading(self)

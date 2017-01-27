@@ -45,24 +45,24 @@ class HistoryViewController: UIViewController {
         let sampleText = NSLocalizedString("info", comment: "description of what bondzu is")
         
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Justified
+        paragraphStyle.alignment = NSTextAlignment.justified
         
         let attributedString = NSAttributedString(string: sampleText,
             attributes: [
                 NSParagraphStyleAttributeName: paragraphStyle,
-                NSBaselineOffsetAttributeName: NSNumber(float: 0)
+                NSBaselineOffsetAttributeName: NSNumber(value: 0 as Float)
             ])
         
         historyLabel.attributedText = attributedString
     
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("History", comment: "")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     

@@ -21,16 +21,16 @@ class Keeper {
         - Bool: Its value tells its delegate if the image could be loaded or not.
      
      */
-    class func getKeeper(keeperObject : PFObject, imageLoaderObserver: ((Usuario?, Bool)->(Void))?){
+    class func getKeeper(_ keeperObject : PFObject, imageLoaderObserver: ((Usuario?, Bool)->(Void))?){
 
         
-       (keeperObject[TableKeeperColumnNames.User.rawValue] as! PFObject).fetchInBackgroundWithBlock {
+       (keeperObject[TableKeeperColumnNames.User.rawValue] as! PFObject).fetchInBackground {
             (object, error) -> Void in
             if error == nil{
                 _ = Usuario(object: object!, imageLoaderObserver: imageLoaderObserver)
             }
             else{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     imageLoaderObserver?(nil, false)
                 }
             }

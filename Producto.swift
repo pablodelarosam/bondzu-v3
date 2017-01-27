@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 protocol ProductoLoadingProtocol{
-    func productoDidFinishLoading(product : Producto)
-    func productoDidFailedLoading(product : Producto)
+    func productoDidFinishLoading(_ product : Producto)
+    func productoDidFailedLoading(_ product : Producto)
 }
 
 class Producto{
@@ -30,7 +30,7 @@ class Producto{
     var infoAmount: String;
     var originalObject : PFObject!
     
-    @available(*,deprecated=9.0, message="Deprecated. Please use the new object constructor")
+    @available(*,deprecated: 9.0, message: "Deprecated. Please use the new object constructor")
     init(_id: String, _nombre: String, pic: UIImage, _categoria: String, _animalId: String, _descripcion: String, _precio1: Double, _precio2: Double, _precio3: Double, _disponible: Bool, _info: String, _infoAmount: String)    {
         self.objectId = _id;
         self.nombre = _nombre;
@@ -76,25 +76,25 @@ class Producto{
         }
         
         if(loadImage || delegate != nil){
-            dispatch_async(Constantes.get_bondzu_queue()){
+            Constantes.get_bondzu_queue().async{
                 do{
                     let imageFile = object[TableProductColumnNames.Picture.rawValue] as! PFFile
                     let data = try imageFile.getData()
                     let image = UIImage(data: data)
                     
                     if image == nil{
-                        throw Errors.GenericError
+                        throw Errors.genericError
                     }
                     
                     self.photo = image!
                     
-                    dispatch_async(dispatch_get_main_queue()){
+                    DispatchQueue.main.async(){
                         delegate?.productoDidFinishLoading(self)
                     }
                     
                 }
                 catch{
-                    dispatch_async(dispatch_get_main_queue()){
+                    DispatchQueue.main.async(){
                         delegate?.productoDidFailedLoading(self)
                     } //Block of delegate
                 } //Catch errors

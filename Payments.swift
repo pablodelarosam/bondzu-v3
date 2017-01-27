@@ -13,18 +13,18 @@ import Parse
 
 class Payments
 {
-    func makePaymentToCurrentUserWithExistingCard(cardid cardid: String, amount: String, activityIndicator: UIActivityIndicatorView?, descripcion: String, controller: UIViewController, productId: String, transDescription: String){
+    func makePaymentToCurrentUserWithExistingCard(cardid: String, amount: String, activityIndicator: UIActivityIndicatorView?, descripcion: String, controller: UIViewController, productId: String, transDescription: String){
         
         if(activityIndicator != nil){
             activityIndicator!.startAnimating()
         }
         
-        let user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
-        self.createChargeToExistingCard(cusId: user.stripeID, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, cardId: cardid, productId: productId, transDescription: transDescription)
+        let user = Usuario(object: PFUser.current()!, imageLoaderObserver: nil)
+   //     self.createChargeToExistingCard(cusId: user.stripeID, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, cardId: cardid, productId: productId, transDescription: transDescription)
     }
     
-    func makePaymentToCurrentUser(card card: STPCard, controller: UIViewController, amount: String, activityIndicator: UIActivityIndicatorView?, saveCard: Bool, paymentView: STPPaymentCardTextField?, descripcion: String, productId: String, transDescription: String) -> Void{
-        STPAPIClient.sharedClient().createTokenWithCard(card, completion: { (token, error) -> Void in
+    func makePaymentToCurrentUser(card: STPCard, controller: UIViewController, amount: String, activityIndicator: UIActivityIndicatorView?, saveCard: Bool, paymentView: STPPaymentCardTextField?, descripcion: String, productId: String, transDescription: String) -> Void{
+        STPAPIClient.shared().createToken(with: card, completion: { (token, error) -> Void in
             if (error != nil){
                 
                 print("ERROR enviando token");
@@ -33,36 +33,38 @@ class Payments
                     activityIndicator?.stopAnimating()
                 }
                 
-                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                controller.presentViewController(a, animated: true, completion: nil)
+                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .alert)
+                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+                controller.present(a, animated: true, completion: nil)
             }
             else{
                 if token != nil{
                     if(saveCard){
                         
-                        let stripeID = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil).stripeID
+                        let stripeID = Usuario(object: PFUser.current()!, imageLoaderObserver: nil).stripeID
                         self.saveCardOfCustomer(id: stripeID, token: token!, paymentView: paymentView!, activityIndicator: activityIndicator, controller: controller, amount: amount, descripcion: descripcion, productId: productId, transDescription: transDescription)
                     
                     }
                     else
                     {
-                        self.createBackendChargeWithToken(token!, amount: amount, descripcion: descripcion, productId: productId, activityIndicator: activityIndicator, controller: controller, transDescription: transDescription)
+                        
+                   //    self.createBackendChargeWithToken(token!, amount: amount, descripcion: descripcion, productId: productId, activityIndicator: activityIndicator, controller: controller, transDescription: transDescription)
                     }
                 }
             }
         });
     }
     
-    private func saveCardOfCustomer(id id: String, token: STPToken, paymentView: STPPaymentCardTextField, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, productId: String, transDescription: String){
+    fileprivate func saveCardOfCustomer(id: String, token: STPToken, paymentView: STPPaymentCardTextField, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, productId: String, transDescription: String){
         
         let dic : [String: String] =
         [
             "customer_id" : id,
             "source" : token.tokenId
         ]
+        /*
         
-        PFCloud.callFunctionInBackground(PFCloudFunctionNames.CreateCard.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
+        PFCloud.callFunction(inBackground: PFCloudFunctionNames.CreateCard.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
             if(error == nil)
             {
                 let card = STPCard();
@@ -95,14 +97,14 @@ class Payments
             }
             else
             {
-                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                controller.presentViewController(a, animated: true, completion: nil)
+                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .alert)
+                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+                controller.present(a, animated: true, completion: nil)
             }
         }
     }
     
-    private func createBackendChargeWithToken(token: STPToken, amount: String, descripcion: String, productId: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, transDescription: String)
+    fileprivate func createBackendChargeWithToken(_ token: STPToken, amount: String, descripcion: String, productId: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, transDescription: String)
     {
         print("Send token");
         
@@ -119,15 +121,15 @@ class Payments
                 "description": descripcion
             ]
             
-            PFCloud.callFunctionInBackground(PFCloudFunctionNames.CreateCharge.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
+            PFCloud.callFunction(inBackground: PFCloudFunctionNames.CreateCharge.rawValue, withParameters: dic) { (result: AnyObject?, error: Error?) in
                 let res = result as? NSObject
                 print("result")
                 print(res)
                 
                 do {
-                    if let data = result?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                    if let data = result?.data(using: String.Encoding.utf8, allowLossyConversion: false) {
                         
-                        let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                        let jsonDict = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSDictionary
                         if let jsonDict = jsonDict {
                             // work with dictionary here
                             let key = "id";
@@ -150,15 +152,15 @@ class Payments
                 
                 if(error == nil)
                 {
-                    let a = UIAlertController(title: NSLocalizedString("Great!", comment: ""), message: NSLocalizedString("Thanks for your helpful donation", comment: ""), preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: { (action: UIAlertAction) -> Void in
-                        controller.navigationController?.popToRootViewControllerAnimated(true);
+                    let a = UIAlertController(title: NSLocalizedString("Great!", comment: ""), message: NSLocalizedString("Thanks for your helpful donation", comment: ""), preferredStyle: .alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { (action: UIAlertAction) -> Void in
+                        controller.navigationController?.popToRootViewController(animated: true);
                     }))
-                    controller.presentViewController(a, animated: true, completion: nil)
+                    controller.present(a, animated: true, completion: nil)
                 }else{
-                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                    controller.presentViewController(a, animated: true, completion: nil)
+                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+                    controller.present(a, animated: true, completion: nil)
                 }
                 
             }
@@ -169,14 +171,14 @@ class Payments
                 activityIndicator!.stopAnimating()
             }
             print("Error")
-            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
-            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-            controller.presentViewController(a, animated: true, completion: nil)
+            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .alert)
+            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            controller.present(a, animated: true, completion: nil)
         }
         
     }
     
-    private func createChargeToExistingCard(cusId cusId: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, cardId: String, productId: String, transDescription: String)
+    fileprivate func createChargeToExistingCard(cusId: String, activityIndicator: UIActivityIndicatorView?, controller: UIViewController, amount: String, descripcion: String, cardId: String, productId: String, transDescription: String)
     {
         if let doubleAmount = Double(amount) as Double!
         {
@@ -192,15 +194,16 @@ class Payments
                 "description": descripcion
             ]
             
-            PFCloud.callFunctionInBackground(PFCloudFunctionNames.CreateChargeExistingCard.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
+            
+            PFCloud.callFunction(inBackground: PFCloudFunctionNames.CreateChargeExistingCard.rawValue, withParameters: dic) { (result: AnyObject?, error: NSError?) in
                 let res = result as? NSObject
                 print("result")
                 print(res)
                 
                 do {
-                    if let data = result?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                    if let data = result?.data(using: String.Encoding.utf8, allowLossyConversion: false) {
                         
-                        let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                        let jsonDict = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSDictionary
                         if let jsonDict = jsonDict {
                             // work with dictionary here
                             let key = "id";
@@ -222,15 +225,15 @@ class Payments
                 
                 if(error == nil)
                 {
-                    let a = UIAlertController(title: NSLocalizedString("Great!", comment: ""), message: NSLocalizedString("Thanks for your helpful donation", comment: ""), preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: { (action: UIAlertAction) -> Void in
-                        controller.navigationController?.popToRootViewControllerAnimated(true);
+                    let a = UIAlertController(title: NSLocalizedString("Great!", comment: ""), message: NSLocalizedString("Thanks for your helpful donation", comment: ""), preferredStyle: .alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { (action: UIAlertAction) -> Void in
+                        controller.navigationController?.popToRootViewController(animated: true);
                     }))
-                    controller.presentViewController(a, animated: true, completion: nil)
+                    controller.present(a, animated: true, completion: nil)
                 }else{
-                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
-                    a.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Default, handler: nil))
-                    controller.presentViewController(a, animated: true, completion: nil)
+                    let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .alert)
+                    a.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: nil))
+                    controller.present(a, animated: true, completion: nil)
                 }
                 
             }
@@ -241,20 +244,21 @@ class Payments
                 activityIndicator!.stopAnimating()
             }
             print("Error")
-            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .Alert)
-            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-            controller.presentViewController(a, animated: true, completion: nil)
+            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The transaction could not be completed", comment: ""), preferredStyle: .alert)
+            a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            controller.present(a, animated: true, completion: nil)
         }
     }
     
-    private func saveTransactionInParse(transcationId transactionId: String, productid: String, amount: String, descripcion: String){
+    fileprivate func saveTransactionInParse(transcationId transactionId: String, productid: String, amount: String, descripcion: String){
         
         guard let amountDouble = Double(amount) else{
             return
         }
         
-        let amountNumber = NSNumber(double: amountDouble)
-        Transaction.createInParse(Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil), product: Producto(object: PFObject(withoutDataWithClassName: TableNames.Products.rawValue, objectId: productid), delegate: nil)!, transactionID: transactionId , description: descripcion, price: amountNumber)
+        let amountNumber = NSNumber(value: amountDouble as Double)
+        Transaction.createInParse(Usuario(object: PFUser.current()!, imageLoaderObserver: nil), product: Producto(object: PFObject(outDataWithClassName: TableNames.Products.rawValue, objectId: productid), delegate: nil)!, transactionID: transactionId , description: descripcion, price: amountNumber)
         
-    }
+    } */
 }
+    }

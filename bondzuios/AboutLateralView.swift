@@ -11,33 +11,33 @@ import UIKit
 /**
  This class provides the rigth lateral view on the about.
  */
-public class AboutLateralView: UIView {
+open class AboutLateralView: UIView {
 
     //DH 2 -> 3
-    private let sections : CGFloat = 3
+    fileprivate let sections : CGFloat = 3
     
     /// The array containing the title label of each section
-    private var titleLabels = [UILabel]()
+    fileprivate var titleLabels = [UILabel]()
     
     
     /// The UIViews that work as separator
     //DWH
-    private var separators = [UIView]()
+    fileprivate var separators = [UIView]()
     
     /// The label that displays the number of adopters
-    private var adoptersLabel = UILabel()
+    fileprivate var adoptersLabel = UILabel()
     
     //DWH
-    private var eventImage = UIImageView()
-    private var eventLabel = UILabel()
-    public var moreButton = UIButton()
+    fileprivate var eventImage = UIImageView()
+    fileprivate var eventLabel = UILabel()
+    open var moreButton = UIButton()
 
     /**
      This method should be called when the number of adopters has been loaded.
      
      - parameter adopters: The number of adopters that the animal has
      */
-    public func setAdopters(adopters : Int){
+    open func setAdopters(_ adopters : Int){
         adoptersLabel.text = "\(adopters)"
     }
     
@@ -46,7 +46,7 @@ public class AboutLateralView: UIView {
      
      - returns: The int value reported to this function or nil if there was an error
      */
-    public func getAdopters() -> Int?{
+    open func getAdopters() -> Int?{
         return Int(adoptersLabel.text!)
     }
     
@@ -78,25 +78,25 @@ public class AboutLateralView: UIView {
     }
     
     /// The image view that encloses the first keeper image
-    private var keeperOneImageView = UIImageView()
+    fileprivate var keeperOneImageView = UIImageView()
     /// The image that encloses the second keeper image
-    private var keeperTwoImageView = UIImageView()
+    fileprivate var keeperTwoImageView = UIImageView()
 
     /// The label that displays the first keeper name
-    private var keeperOneLabel = UILabel()
+    fileprivate var keeperOneLabel = UILabel()
     /// The label that displays the second keeper name
-    private var keeperTwoLabel = UILabel()
+    fileprivate var keeperTwoLabel = UILabel()
     
 
     //DWH
-    func setEventData(image : UIImage? , title : String){
+    func setEventData(_ image : UIImage? , title : String){
         eventImage.image = image
         eventLabel.text = title
         if image != nil{
-            eventLabel.textAlignment = .Left
+            eventLabel.textAlignment = .left
         }
         else{
-            eventLabel.textAlignment = .Center
+            eventLabel.textAlignment = .center
         }
         setNeedsLayout()
     }
@@ -117,12 +117,12 @@ public class AboutLateralView: UIView {
     /**
      This method is called by the constructors to set the properties to a valid initial state
      */
-    private func load(){
+    fileprivate func load(){
 
         //DWH
         for _ in 0..<2{
             let separator = UIView()
-            separator.backgroundColor = UIColor.lightGrayColor()
+            separator.backgroundColor = UIColor.lightGray
             separator.frame.size.height = 1
             separator.frame.origin.x = 0
             separators.append(separator)
@@ -132,8 +132,8 @@ public class AboutLateralView: UIView {
         //DWH 2 -> 3
         for _ in 0..<3{
             let label = UILabel()
-            label.font = label.font.fontWithSize(16)
-            label.textAlignment = NSTextAlignment.Center
+            label.font = label.font.withSize(16)
+            label.textAlignment = NSTextAlignment.center
             titleLabels.append(label)
             addSubview(label)
         }
@@ -146,21 +146,21 @@ public class AboutLateralView: UIView {
         
         
         adoptersLabel.text = "0"
-        adoptersLabel.font = adoptersLabel.font.fontWithSize(35)
-        adoptersLabel.textAlignment = NSTextAlignment.Center
+        adoptersLabel.font = adoptersLabel.font.withSize(35)
+        adoptersLabel.textAlignment = NSTextAlignment.center
         addSubview(adoptersLabel)
         
         
-        keeperOneImageView.contentMode = UIViewContentMode.ScaleAspectFit
-        keeperTwoImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        keeperOneImageView.contentMode = UIViewContentMode.scaleAspectFit
+        keeperTwoImageView.contentMode = UIViewContentMode.scaleAspectFit
         addSubview(keeperOneImageView)
         addSubview(keeperTwoImageView)
         
-        keeperOneLabel.textAlignment = NSTextAlignment.Center
-        keeperTwoLabel.textAlignment = NSTextAlignment.Center
+        keeperOneLabel.textAlignment = NSTextAlignment.center
+        keeperTwoLabel.textAlignment = NSTextAlignment.center
         keeperOneLabel.numberOfLines = 0
         keeperTwoLabel.numberOfLines = 0
-        keeperOneLabel.font = keeperOneLabel.font.fontWithSize(10)
+        keeperOneLabel.font = keeperOneLabel.font.withSize(10)
         keeperTwoLabel.font = keeperOneLabel.font
         addSubview(keeperOneLabel)
         addSubview(keeperTwoLabel)
@@ -168,25 +168,25 @@ public class AboutLateralView: UIView {
         
         //DWH
         eventLabel.numberOfLines = 0
-        eventLabel.font = eventLabel.font.fontWithSize(10)
-        eventLabel.textAlignment = NSTextAlignment.Center
+        eventLabel.font = eventLabel.font.withSize(10)
+        eventLabel.textAlignment = NSTextAlignment.center
         addSubview(eventLabel)
         
-        moreButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-        moreButton.setTitle(NSLocalizedString("More", comment: ""), forState: .Normal)
-        moreButton.titleLabel!.font = moreButton.titleLabel!.font.fontWithSize(7)
+        moreButton.setTitleColor(UIColor.lightGray, for: UIControlState())
+        moreButton.setTitle(NSLocalizedString("More", comment: ""), for: UIControlState())
+        moreButton.titleLabel!.font = moreButton.titleLabel!.font.withSize(7)
         addSubview(moreButton)
         
         addSubview(eventImage)
         
         eventLabel.text = NSLocalizedString("No events found", comment: "")
-        eventLabel.backgroundColor = UIColor.clearColor()
+        eventLabel.backgroundColor = UIColor.clear
         
         self.setNeedsLayout()
         
     }
     
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         
         super.layoutSubviews()
         
@@ -270,19 +270,19 @@ public class AboutLateralView: UIView {
             moreButton.frame.size = CGSize(width: 30, height: 15)
             moreButton.frame.origin = CGPoint(x: width - moreButton.frame.width, y: microContentHeight + titleLabelHeight - moreButton.frame.height)
             
-            eventLabel.textColor = UIColor.blackColor()
-            moreButton.hidden = false
+            eventLabel.textColor = UIColor.black
+            moreButton.isHidden = false
         }
         else{
             eventLabel.frame = CGRect(x: 0, y: titleLabelHeight, width: width, height: microContentHeight)
-            eventLabel.textColor = UIColor.lightGrayColor()
-            moreButton.hidden = true
+            eventLabel.textColor = UIColor.lightGray
+            moreButton.isHidden = true
         }
 
     }
     
     //igual
-    func photoDidLoad( user : Usuario, completed : Bool){
+    func photoDidLoad( _ user : Usuario, completed : Bool){
         if(user == keeper1){
             keeperOneImageView.image = keeper1?.image
         }

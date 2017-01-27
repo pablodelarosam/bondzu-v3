@@ -11,21 +11,21 @@ import UIKit
 class UserView : CircledImageView {
     
     
-    private let paw = UIImageView( image: (UIImage(named: "whitePaw")!).imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate))
+    fileprivate let paw = UIImageView( image: (UIImage(named: "whitePaw")!).withRenderingMode(UIImageRenderingMode.alwaysTemplate))
 
      var user : Usuario?{
         didSet{
             if user == nil{
-                paw.hidden = true
+                paw.isHidden = true
             }
             else{
-                paw.hidden = false
+                paw.isHidden = false
                 
                 user?.appendTypeLoadingObserver({
                     [weak self]
                     (u, _) -> (Bool) in
                     
-                    guard let s = self where s.user == u else{
+                    guard let s = self, s.user == u else{
                         return false
                     }
                     
@@ -43,7 +43,7 @@ class UserView : CircledImageView {
         }
     }
     
-    private func loadPaw(){
+    fileprivate func loadPaw(){
         
         guard user != nil && user!.hasLoadedPriority else{
             return

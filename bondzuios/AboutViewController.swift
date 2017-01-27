@@ -47,7 +47,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     
     ///The blur itself
-    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) as UIVisualEffectView
+    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light)) as UIVisualEffectView
 
     ///A circular button that makes the user to adopt an animal
     @IBOutlet weak var adopt : CircledButton!
@@ -66,21 +66,21 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     
     
     ///The implementation of this method is to set the navigation bar title every time a tab bar appears
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.navigationBar.topItem?.title = navBarTitle
     }
     
     ///The light bar should appear white
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     ///Update the constraints with the new device orientation / size. Also resets the blur container alpha so it dosen't get invalidated.
     override func viewWillLayoutSubviews() {
-        heightConstraint.constant = UIScreen.mainScreen().bounds.height / 3
-        widthConstraint.constant = UIScreen.mainScreen().bounds.width / 3
-        visualEffectView.frame.size = CGSize( width: UIScreen.mainScreen().bounds.width ,height: heightConstraint.constant)
+        heightConstraint.constant = UIScreen.main.bounds.height / 3
+        widthConstraint.constant = UIScreen.main.bounds.width / 3
+        visualEffectView.frame.size = CGSize( width: UIScreen.main.bounds.width ,height: heightConstraint.constant)
         blurContainer.alpha = 1
     }
     
@@ -114,11 +114,11 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
         goLive.setTargetAction {
             [weak self]
             _ in
-            self?.performSegueWithIdentifier("liveStreamSegue", sender: self)
+            self?.performSegue(withIdentifier: "liveStreamSegue", sender: self)
 
         }
 
-        lateral.moreButton.addTarget(self, action: "segueToEvents", forControlEvents: UIControlEvents.TouchUpInside)
+        lateral.moreButton.addTarget(self, action: #selector(AboutViewController.segueToEvents), for: UIControlEvents.touchUpInside)
 
         
 //
@@ -154,18 +154,18 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 return
             }
             
-            s.adopt.userInteractionEnabled = false
-            dispatch_async(Constantes.get_bondzu_queue()){
+            s.adopt.isUserInteractionEnabled = false
+            Constantes.get_bondzu_queue().async{
                 let result = Usuario.adoptAnimal(s.animalID)
                 
                 var title = ""
                 var message = ""
                 var actionTitle = ""
                 
-                s.adopt?.userInteractionEnabled = true
+                s.adopt?.isUserInteractionEnabled = true
                 
-                dispatch_async(dispatch_get_main_queue()){
-                    if result == UsuarioTransactionResult.Success{
+                DispatchQueue.main.async{
+                    if result == UsuarioTransactionResult.success{
                         
                         title = NSLocalizedString("Thank you!", comment: "")
                         //Modification, the message now confirms you which animal you just adopted
@@ -177,7 +177,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                             s.lateral.setAdopters(adopters + 1)
                         }
                     }
-                    else if result == UsuarioTransactionResult.AlreadyAdopted{
+                    else if result == UsuarioTransactionResult.alreadyAdopted{
                         
                         title = NSLocalizedString("Already adopted", comment: "")
                         //Visita nuestra tienda para conocer otras formas de apoyar a
@@ -186,7 +186,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                         actionTitle = NSLocalizedString("Cancel", comment: "")
                         
                     }
-                    else if result == UsuarioTransactionResult.ParseError{
+                    else if result == UsuarioTransactionResult.parseError{
                         
                         title = NSLocalizedString("Error", comment: "")
                         message = NSLocalizedString("Something went wrong, please try again later", comment: "")
@@ -194,11 +194,11 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                         
                     }
                     
-                    let controller = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                    controller.addAction(UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Cancel, handler: {
+                    let controller = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+                    controller.addAction(UIAlertAction(title: actionTitle, style: UIAlertActionStyle.cancel, handler: {
                         _ in
                     }))
-                    s.presentViewController(controller, animated: true, completion: nil)
+                    s.present(controller, animated: true, completion: nil)
                 }
                 
             }
@@ -210,8 +210,8 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     func queryAnimal(){
     
         let query = PFQuery(className: TableNames.Animal_table.rawValue)
-        query.getObjectInBackgroundWithId(animalID){
-            (animalObject: PFObject?, error: NSError?) -> Void in
+        query.getObjectInBackground(withId: animalID){
+            (animalObject: PFObject?, error: Error?) -> Void in
             if error == nil{
                 guard let animal = animalObject else{
                     print("ERROR FATAL VIEWDIDLOAD ABOUTVIEWCONTROLLER")
@@ -220,7 +220,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 
                 self.animal = AnimalV2(object: animal, delegate: self)
                 
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     self.navBarTitle = self.animal!.name
                     self.navigationController?.navigationBar.topItem?.title = self.animal!.name
                     self.lateral.setAdopters(self.animal!.adopters)
@@ -236,8 +236,8 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 //DWH
                 let eventsQuery = PFQuery(className: TableNames.Events_table.rawValue)
                 eventsQuery.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
-                eventsQuery.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())
-                eventsQuery.getFirstObjectInBackgroundWithBlock({
+                eventsQuery.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: Date())
+                eventsQuery.getFirstObjectInBackground(block: {
                     (eventObject, error) -> Void in
                     
                     if error == nil && eventObject != nil{
@@ -253,7 +253,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                 
                 var count = 0
                 for keeper in self.animal!.keepers!{
-                    keeper.fetchIfNeededInBackgroundWithBlock({
+                    keeper.fetchIfNeededInBackground(block: {
                         object, error in
                         guard error == nil , let k = object else{
                             print("error al obtener a los cuidadores")
@@ -268,16 +268,16 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
                                 self.lateral.photoDidLoad(user!, completed: bool)
                                 
                                 if(count == 0){
-                                    dispatch_async(dispatch_get_main_queue()){
+                                    DispatchQueue.main.async{
                                         self.lateral.keeper1 = user
                                     }
                                 }//Keeper 1 object
                                 else{
-                                    dispatch_async(dispatch_get_main_queue()){
+                                    DispatchQueue.main.async{
                                         self.lateral.keeper2 = user
                                     }
                                 }//Keeper 2 object
-                                count++
+                                count = count + 1
                             } // Valid user
                         })//Retrive keeper
                     }) //Get keepers In background
@@ -285,22 +285,22 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
             } // Get animal
             else {
                 print(error)
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
 
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "liveStreamSegue"{
-            let liveStreamVC = segue.destinationViewController as! VideoViewController
+            let liveStreamVC = segue.destination as! VideoViewController
             liveStreamVC.animalId = animalID
             liveStreamVC.backgroundImageNoCameras = captureScreen()
             liveStreamVC.user = user
         }
         else if segue.identifier == "events"{
-            let eventsVC = segue.destinationViewController as! EventViewControllerTableViewController
+            let eventsVC = segue.destination as! EventViewControllerTableViewController
             eventsVC.animal = self.animal?.originalObject
         }
     }
@@ -308,7 +308,7 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     
     //DWH
     func segueToEvents(){
-        self.performSegueWithIdentifier("events", sender: nil)
+        self.performSegue(withIdentifier: "events", sender: nil)
     }
     
     /**
@@ -322,11 +322,11 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
      
      
      */
-    private func appendAnimalAttributeWithName(name : String, value: String){
+    fileprivate func appendAnimalAttributeWithName(_ name : String, value: String){
         let nameDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)]
         let valueDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)/*, NSForegroundColorAttributeName : UIColor.darkGrayColor()*/]
-        textView.textStorage.appendAttributedString( NSAttributedString(string: "\(name): ", attributes: nameDescriptor))
-        textView.textStorage.appendAttributedString( NSAttributedString(string: "\(value)\n", attributes: valueDescriptor))
+        textView.textStorage.append( NSAttributedString(string: "\(name): ", attributes: nameDescriptor))
+        textView.textStorage.append( NSAttributedString(string: "\(value)\n", attributes: valueDescriptor))
     }
     
     /**
@@ -335,9 +335,9 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
      
      - parameter title: The title that is going to be appended
      */
-    private func appendHeadLine(title : String){
+    fileprivate func appendHeadLine(_ title : String){
         let headlineeDescriptor = [NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica-Bold", size: 15), size: 15)]
-        textView.textStorage.appendAttributedString( NSAttributedString(string: "\n\(title)\n", attributes: headlineeDescriptor))
+        textView.textStorage.append( NSAttributedString(string: "\n\(title)\n", attributes: headlineeDescriptor))
     }
     
     /**
@@ -345,16 +345,16 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
      
      - parameter text: The text that is going to be appended
      */
-    private func appendText(text : String){
+    fileprivate func appendText(_ text : String){
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Justified
+        paragraphStyle.alignment = NSTextAlignment.justified
         
         let textDescriptor = [
             NSParagraphStyleAttributeName: paragraphStyle,
-            NSBaselineOffsetAttributeName: NSNumber(float: 0),
+            NSBaselineOffsetAttributeName: NSNumber(value: 0 as Float),
             NSFontAttributeName : UIFont(descriptor: UIFontDescriptor(name: "Helvetica", size: 12), size: 12)]
        
-        textView.textStorage.appendAttributedString( NSAttributedString(string: "\(text)", attributes: textDescriptor))
+        textView.textStorage.append( NSAttributedString(string: "\(text)", attributes: textDescriptor))
     }
     
    
@@ -364,20 +364,20 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     //MARK: AnimalV2 Loading protocol implementation
     
     ///Pops the controller if the animal couldn't be loaded
-    func animalDidFailLoading( animal : AnimalV2 ) {
+    func animalDidFailLoading( _ animal : AnimalV2 ) {
         print("No se pudo cargar imagen")
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     ///Configures the animal images once they are loaded
-    func animalDidFinishLoading( animal : AnimalV2 ) {
+    func animalDidFinishLoading( _ animal : AnimalV2 ) {
         let image = self.animal!.image
-        self.visibleImage.hidden = false
+        self.visibleImage.isHidden = false
         self.image = image
         
         self.animal!.image = imageWithImage(self.animal!.image!, scaledToSize: self.backgroundImage.frame.size)
         
-        dispatch_async(dispatch_get_main_queue()){
+        DispatchQueue.main.async{
             self.backgroundImage.image = self.animal!.image
             self.visibleImage.image = self.animal!.image
         }
@@ -385,28 +385,28 @@ class AboutViewController: UIViewController, UITextViewDelegate, AnimalV2Loading
     }
     
     ///Tells the user that something went wrong and pops the view controller
-    func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
-        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .Alert)
-        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
+    func animalDidFailedLoadingPermissionType(_ animal: AnimalV2) {
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: {
             _ -> Void in
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         }))
     }
     
     ///Tells the blocking helper that the load of type is done
-    func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
+    func animalDidFinishLoadingPermissionType(_ animal: AnimalV2) {
         self.blockingHelper?.setRequiredPriority(animal.requiredPermission!.priority)
     }
     
     
     //Event protocol
-    func eventDidFinishLoading(event: Event!) {
-        dispatch_async(dispatch_get_main_queue()){
+    func eventDidFinishLoading(_ event: Event!) {
+        DispatchQueue.main.async{
             self.lateral.setEventData(event.eventImage, title: event.eventName)
         }
     }
     
-    func eventDidFailLoading(event: Event!) {}
+    func eventDidFailLoading(_ event: Event!) {}
 
 
 }

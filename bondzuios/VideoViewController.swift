@@ -17,7 +17,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     
     var user : Usuario!
     
-    var url:NSURL!    
+    var url:URL!    
     var cameraButton: UIButton!
     let sizeCameraButton: CGFloat = 49
     var popover: UIPopoverPresentationController!
@@ -31,7 +31,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         camera?.stopWatchingVideo()
         player?.pause()
         
@@ -44,7 +44,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         player = nil;
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if !dissmising{
             player = AVPlayer()
             getFirstCameraAndSetup()
@@ -52,7 +52,7 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     }
     
     func dismiss() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
@@ -66,41 +66,41 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         super.didReceiveMemoryWarning()
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    func doneButtonClick(notificacion: NSNotification)
+    func doneButtonClick(_ notificacion: Notification)
     {
         
-        self.navigationController?.popViewControllerAnimated(false);
+        self.navigationController?.popViewController(animated: false);
     }
     
-    func cameraButtonClicked(sender: AnyObject){
-        let popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewControllerWithIdentifier("listaVideosPop") as! ListaCamarasViewController;
+    func cameraButtonClicked(_ sender: AnyObject){
+        let popViewController: ListaCamarasViewController = self.storyboard!.instantiateViewController(withIdentifier: "listaVideosPop") as! ListaCamarasViewController;
         popViewController.animalId = self.animalId                
         popViewController.player = self;
         let navController: UINavigationController = UINavigationController(rootViewController: popViewController)
-        navController.modalPresentationStyle = UIModalPresentationStyle.Popover
-        popViewController.modalPresentationStyle = .Popover
+        navController.modalPresentationStyle = UIModalPresentationStyle.popover
+        popViewController.modalPresentationStyle = .popover
         popViewController.delegate = self
         self.popover = navController.popoverPresentationController as UIPopoverPresentationController!
-        popViewController.preferredContentSize = CGSizeMake(200, 200)
+        popViewController.preferredContentSize = CGSize(width: 200, height: 200)
         self.popover.delegate = self
         self.popover.sourceView = self.view;
         self.popover.sourceRect = self.cameraButton.frame        
-        self.presentViewController(navController, animated: true, completion: nil)
+        self.present(navController, animated: true, completion: nil)
     }
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .None
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
     
     func rotated()
     {
         let widthMoviePlayer = self.view.bounds.width;
         let heightMoviePlayer = self.view.bounds.height;
-        self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
+        self.cameraButton.frame = CGRect(x: widthMoviePlayer-self.sizeCameraButton, y: heightMoviePlayer-self.sizeCameraButton, width: self.sizeCameraButton, height: self.sizeCameraButton)
         if(self.popover != nil){
             self.popover.sourceRect = self.cameraButton.frame
         }
@@ -110,26 +110,25 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     func getFirstCameraAndSetup()
     {
         let query = PFQuery(className: TableNames.Camera.rawValue);
-        query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
-        query.whereKeyExists(TableCameraColumnNames.PlayBackURL.rawValue)
-        query.whereKey(TableCameraColumnNames.Working.rawValue, equalTo: true)
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
+        query.whereKey(TableCameraColumnNames.Animal.rawValue, equalTo: PFObject(outDataWithClassName: TableGalleryColumnNames.Animal.rawValue, objectId: self.animalId))
+        query.findObjectsInBackground {
+            (objects: [PFObject]?, error: Error?) -> Void in
             
             if error == nil {
                 if(objects!.isEmpty){
                     let query = PFQuery(className: TableNames.VideoCapsule_table.rawValue)
-                    query.whereKey(TableVideoCapsuleNames.AnimalID.rawValue, equalTo: PFObject(withoutDataWithClassName: TableNames.Animal_table.rawValue, objectId: self.animalId))
-                    query.findObjectsInBackgroundWithBlock({ (array, error) -> Void in
+                    query.whereKey(TableVideoCapsuleNames.AnimalID.rawValue, equalTo: PFObject(outDataWithClassName: TableGalleryColumnNames.Animal.rawValue, objectId: self.animalId))
+                    query.findObjectsInBackground(block: { (array, error) -> Void in
                         
-                        guard error == nil, let videos = array  where videos.count > 0 else{
-                            self.performSegueWithIdentifier("noCamerasSegue", sender: self)
+                        guard error == nil, let videos = array, videos.count > 0 else{
+                            self.performSegue(withIdentifier: "noCamerasSegue", sender: self)
                             return
                         }
-                        let videoID = random() % videos.count
+                        let a:UInt32 = UInt32(videos.count)
+                        let videoID = Int(arc4random_uniform(a))
                         let capsule = Capsule(object: videos[videoID], delegate: nil)
-                        dispatch_async(dispatch_get_main_queue()){
-                            self.performSegueWithIdentifier("loadCapsule", sender: capsule)
+                        DispatchQueue.main.async{
+                            self.performSegue(withIdentifier: "loadCapsule", sender: capsule)
                         }
                         return
                     })
@@ -149,17 +148,17 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
                     }
                 }
     
-                self.performSegueWithIdentifier("noCamerasSegue", sender: self)
+                self.performSegue(withIdentifier: "noCamerasSegue", sender: self)
                 return;
             }
             else {
-                print("Error: \(error!) \(error!.userInfo)")
+                print("Error: \(error!) \(error!.localizedDescription)")
             }
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let viewController = segue.destinationViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let viewController = segue.destination
         if let vc = viewController as? NoCamerasViewController
         {
             vc.backImage = self.backgroundImageNoCameras
@@ -175,12 +174,12 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
     }
     
     func setup(){
-        let sizeScreen = UIScreen.mainScreen().bounds;
+        let sizeScreen = UIScreen.main.bounds;
         let widthMoviePlayer = sizeScreen.width;
         let heightMoviePlayer = sizeScreen.height;
-        let image = (UIImage(named: "camera")!).imageWithRenderingMode(.AlwaysTemplate)
-        self.cameraButton  = UIButton(type: UIButtonType.Custom)
-        self.cameraButton.setImage(image, forState: UIControlState.Normal)
+        let image = (UIImage(named: "camera")!).withRenderingMode(.alwaysTemplate)
+        self.cameraButton  = UIButton(type: UIButtonType.custom)
+        self.cameraButton.setImage(image, for: UIControlState())
         
         if user.hasLoadedPriority{
             self.cameraButton.imageView?.tintColor = user.type!.color
@@ -203,36 +202,36 @@ class VideoViewController: AVPlayerViewController, UIPopoverPresentationControll
         })
         
         
-        self.cameraButton.frame = CGRectMake(widthMoviePlayer-self.sizeCameraButton, heightMoviePlayer-self.sizeCameraButton, self.sizeCameraButton, self.sizeCameraButton)
-        self.cameraButton.addTarget(self, action: "cameraButtonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.player = AVPlayer(URL: url);
+        self.cameraButton.frame = CGRect(x: widthMoviePlayer-self.sizeCameraButton, y: heightMoviePlayer-self.sizeCameraButton, width: self.sizeCameraButton, height: self.sizeCameraButton)
+        self.cameraButton.addTarget(self, action: #selector(VideoViewController.cameraButtonClicked(_:)), for: UIControlEvents.touchUpInside)
+        self.player = AVPlayer(url: url);
         self.view.addSubview(self.cameraButton);
         self.player?.play();
         self.camera?.startWatchingVideo()
-        self.player?.closedCaptionDisplayEnabled = false;
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "doneButtonClick:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
+        self.player?.isClosedCaptionDisplayEnabled = false;
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoViewController.doneButtonClick(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
-    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         self.popover = nil
     }
     
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
         dissmising = true
-        super.dismissViewControllerAnimated(true, completion: {
+        super.dismiss(animated: true, completion: {
             _ in
-            self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
         })
     }
     
-    func cameraWillChange(newCamera: Camera) {
+    func cameraWillChange(_ newCamera: Camera) {
         self.camera?.stopWatchingVideo()
         self.camera = newCamera
         self.camera?.startWatchingVideo()
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.AllButUpsideDown
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.allButUpsideDown
     }
 }

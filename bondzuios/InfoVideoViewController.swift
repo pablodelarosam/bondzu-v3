@@ -23,21 +23,21 @@ class InfoVideoViewController: UIViewController, YTPlayerViewDelegate {
         super.viewDidLoad()
         player.delegate = self
         animalViewEffect.setImageArray(Constantes.animalArrayImages)
-        player.loadWithVideoId(videoId)
+        player.load(withVideoId: videoId)
 
     }
     
-    func playerViewDidBecomeReady(playerView: YTPlayerView!) {
+    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
             self.activityIndicator.stopAnimating()        
     }
     //make status bar white
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
 
     //navigation controller setup
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.navigationBar.topItem?.title = "Video"
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil

@@ -17,7 +17,7 @@ protocol AnimalV2LoadingProtocol{
      
      - parameter animal: The sending object
      */
-    func animalDidFinishLoading(animal : AnimalV2)
+    func animalDidFinishLoading(_ animal : AnimalV2)
     
     /**
      Will be called when the animal has failed loading its picture.
@@ -25,7 +25,7 @@ protocol AnimalV2LoadingProtocol{
      
      - parameter animal: The sending object
      */
-    func animalDidFailLoading(animal : AnimalV2)
+    func animalDidFailLoading(_ animal : AnimalV2)
     
 
     /**
@@ -33,14 +33,14 @@ protocol AnimalV2LoadingProtocol{
      
      - parameter animal: The sending object
      */
-    func animalDidFinishLoadingPermissionType(animal : AnimalV2)
+    func animalDidFinishLoadingPermissionType(_ animal : AnimalV2)
     
     /**
      Will be called when the animal has failed loading its required priority.
      
      - parameter animal: The sending object
      */
-    func animalDidFailedLoadingPermissionType(animal : AnimalV2)
+    func animalDidFailedLoadingPermissionType(_ animal : AnimalV2)
 }
 
 
@@ -49,7 +49,7 @@ class AnimalV2 : Equatable
 {
    
     ///Array of observers
-    private var callbackArray = Array<((AnimalV2)->())>()
+    fileprivate var callbackArray = Array<((AnimalV2)->())>()
     
     ///Animal image
     var image :  UIImage?
@@ -114,7 +114,7 @@ class AnimalV2 : Equatable
         self.originalObject = object
         self.objectId = object.objectId!
         self.name = object[TableAnimalColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
-        self.adopters = (object[TableAnimalColumnNames.Adopters.rawValue] as! NSNumber).integerValue
+        self.adopters = (object[TableAnimalColumnNames.Adopters.rawValue] as! NSNumber).intValue
         self.specie = object[TableAnimalColumnNames.Species.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         self.characteristics = object[TableAnimalColumnNames.Characteristics.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! [String:String]
         self.about = object[TableAnimalColumnNames.About.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
@@ -123,10 +123,10 @@ class AnimalV2 : Equatable
         
         if delegate != nil || loadImage{
             
-            (object[TableAnimalColumnNames.Photo.rawValue] as! PFFile).getDataInBackgroundWithBlock(){
+            (object[TableAnimalColumnNames.Photo.rawValue] as! PFFile).getDataInBackground(){
                 data , error in
                 guard error == nil else{
-                    print(error)
+                    print(error!)
                     delegate?.animalDidFailLoading(self)
                     return
                 }
@@ -149,29 +149,29 @@ class AnimalV2 : Equatable
             }
         }
         
-        dispatch_async(Constantes.get_bondzu_queue()){
-            print("Loading animal \(object.objectId!)")
-            let typeObject = object[TableAnimalColumnNames.UserRequiredType.rawValue] as! PFObject
-            do{
-                try typeObject.fetchIfNeeded()
-                self.requiredPermission = UserType(object: typeObject)
-                self.hasLoadedPermission = true
-                dispatch_async(dispatch_get_main_queue()){
-                    delegate?.animalDidFinishLoadingPermissionType(self)
-                }
-            }
-            catch{
-                dispatch_async(dispatch_get_main_queue()){
-                    delegate?.animalDidFailedLoadingPermissionType(self)
-                }
-            }
-        }
+//        Constantes.get_bondzu_queue().async{
+//            print("Loading animal \(object.objectId!)")
+//            let typeObject = object[TableAnimalColumnNames.UserRequiredType.rawValue] as! PFObject
+//            do{
+//                try typeObject.fetchIfNeeded()
+//                self.requiredPermission = UserType(object: typeObject)
+//                self.hasLoadedPermission = true
+//                DispatchQueue.main.async{
+//                    delegate?.animalDidFinishLoadingPermissionType(self)
+//                }
+//            }
+//            catch{
+//                DispatchQueue.main.async{
+//                    delegate?.animalDidFailedLoadingPermissionType(self)
+//                }
+//            }
+//        }
         
         
     }
     
     
-    @available(*, deprecated=9.0, message="Please use the new object constructor!")
+    @available(*, deprecated: 9.0, message: "Please use the new object constructor!")
     init(){
         name = ""
         specie = ""
@@ -191,7 +191,7 @@ class AnimalV2 : Equatable
     
      Callback may never be called
      */
-    func addObserverToRequiredType(callback : (AnimalV2) -> () ){
+    func addObserverToRequiredType(_ callback : @escaping (AnimalV2) -> () ){
         if self.hasLoadedPermission{ callback(self) }
         else{
             callbackArray.append(callback)

@@ -31,7 +31,7 @@ class CommunityReplyEntryCellTableViewCell: UITableViewCell {
     }
     
     
-    func setInfo(id : Reply , date : NSDate, name : String, message : String, image : UIImage?){
+    func setInfo(_ id : Reply , date : Date, name : String, message : String, image : UIImage?){
         
         commentID = id
         
@@ -40,8 +40,8 @@ class CommunityReplyEntryCellTableViewCell: UITableViewCell {
         
         profileIcon.image = image
         
-        let now = NSDate()
-        let seconds = now.timeIntervalSinceDate(date)
+        let now = Date()
+        let seconds = now.timeIntervalSince(date)
         
         if seconds < 86400{
             timeLabel.text = NSLocalizedString("Today", comment: "")
@@ -51,29 +51,29 @@ class CommunityReplyEntryCellTableViewCell: UITableViewCell {
             timeLabel.text = "\(days) " + (days == 1 ? NSLocalizedString("day ago", comment: "") : NSLocalizedString("days ago", comment: ""))
         }
         
-        hidden = false
+        isHidden = false
         setNeedsLayout()
     }
     
     func load(){
         
-        hidden = true
+        isHidden = true
         
-        profileIcon.contentMode = .ScaleAspectFill
+        profileIcon.contentMode = .scaleAspectFill
         addSubview(profileIcon)
         
-        nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        nameLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)
         nameLabel.numberOfLines = 1
         addSubview(nameLabel)
         
         timeLabel.numberOfLines = 1
-        timeLabel.font = nameLabel.font.fontWithSize(nameLabel.font.pointSize - 2)
-        timeLabel.textColor = UIColor.lightGrayColor()
+        timeLabel.font = nameLabel.font.withSize(nameLabel.font.pointSize - 2)
+        timeLabel.textColor = UIColor.lightGray
         timeLabel.adjustsFontSizeToFitWidth = true
         addSubview(timeLabel)
         
         commentLabel.numberOfLines = 0
-        commentLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        commentLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
         commentLabel.adjustsFontSizeToFitWidth = true
         addSubview(commentLabel)
     }

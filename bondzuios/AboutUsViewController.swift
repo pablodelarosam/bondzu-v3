@@ -13,11 +13,11 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
 
      @IBOutlet weak var blurView: UIVisualEffectView!
   
-     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
      }
     
-     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
             return 2
         }
@@ -25,14 +25,14 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         
      }
     
-     func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+     func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0{
             
             
-            let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-            cell.textLabel!.textColor = UIColor.whiteColor()
-            cell.backgroundColor = UIColor.clearColor()
-            cell.tintColor = UIColor.redColor()
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            cell.textLabel!.textColor = UIColor.white
+            cell.backgroundColor = UIColor.clear
+            cell.tintColor = UIColor.red
             let backView = UIView(frame: cell.frame)
             backView.backgroundColor = UIColor(hexString: "DD7A25") //naranja
             cell.selectedBackgroundView = backView
@@ -47,25 +47,25 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
             }
             
             
-            cell.accessoryType = .DisclosureIndicator
-            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.accessoryType = .disclosureIndicator
+            cell.imageView?.tintColor = UIColor.white
             cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             
             return cell
         }
         else{
-            let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
             cell.textLabel!.text = NSLocalizedString("Contact us", comment: "")
-            cell.backgroundColor = UIColor.clearColor()
-            cell.textLabel!.textColor = UIColor.whiteColor()
-            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.backgroundColor = UIColor.clear
+            cell.textLabel!.textColor = UIColor.white
+            cell.imageView?.tintColor = UIColor.white
             cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             return cell
         }
     }
     
     //icons
-    func iconForCellAtIndexPath(section : Int, row : Int) -> UIImage!{
+    func iconForCellAtIndexPath(_ section : Int, row : Int) -> UIImage!{
         var image : UIImage
         
         if section == 1{
@@ -81,37 +81,37 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
             }
         }
         
-        image = image.imageWithRenderingMode(.AlwaysTemplate)
+        image = image.withRenderingMode(.alwaysTemplate)
         return image
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 20
     }
 
-    func tableView(tableView: UITableView,  viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView,  viewForFooterInSection section: Int) -> UIView? {
         let separatorView = UIView()
-        separatorView.backgroundColor = UIColor.clearColor()
+        separatorView.backgroundColor = UIColor.clear
         return separatorView
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1{
             //send email
             let mailComposeViewController = configuredMailComposeViewController()
             if MFMailComposeViewController.canSendMail() {
-                self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+                self.present(mailComposeViewController, animated: true, completion: nil)
             } else {
                 self.showSendMailErrorAlert()
             }
         }
         else if indexPath.row == 0{
-            performSegueWithIdentifier("historia", sender: nil)
-            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            performSegue(withIdentifier: "historia", sender: nil)
+            tableView.deselectRow(at: indexPath, animated: false)
         }
         else if indexPath.row == 1{
-            performSegueWithIdentifier("equipo", sender: nil)
-            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            performSegue(withIdentifier: "equipo", sender: nil)
+            tableView.deselectRow(at: indexPath, animated: false)
         }
         
     }
@@ -121,8 +121,8 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
     
     
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
@@ -133,14 +133,14 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
     }
     
     
-    @IBAction func playWasPressed(sender: AnyObject) {
-        performSegueWithIdentifier("video", sender: nil)
+    @IBAction func playWasPressed(_ sender: AnyObject) {
+        performSegue(withIdentifier: "video", sender: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -168,8 +168,8 @@ class AboutUsViewController:  UIViewController, UITableViewDelegate, UITableView
         }
         
         // MARK: MFMailComposeViewControllerDelegate Method
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 
 

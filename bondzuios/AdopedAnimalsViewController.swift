@@ -17,32 +17,32 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
     
     var user : Usuario!
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Adopted Animals", comment: "")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let user = Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)
+        let user = Usuario(object: PFUser.current()!, imageLoaderObserver: nil)
         
-        dispatch_async(Constantes.get_bondzu_queue()){
+        Constantes.get_bondzu_queue().async{
             let (completed , animals) = user.getAdoptedAnimals(self)
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 if completed{
                     self.animals = animals!
                 }
                 else{
                     self.animals = [AnimalV2]()
                     
-                    let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                    controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+                    let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+                    controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
                         _ in
                     }))
-                    self.presentViewController(controller, animated: true, completion: nil)
+                    self.present(controller, animated: true, completion: nil)
                     
                 }
                 self.loaded = true
@@ -56,28 +56,28 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
     }
     
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !loaded{
             return 1
         }
         return animals.count
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("watchAdoptedAnimal", sender: animals[indexPath.row])
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "watchAdoptedAnimal", sender: animals[indexPath.row])
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if !loaded{
-            return tableView.dequeueReusableCellWithIdentifier("Loading")!
+            return tableView.dequeueReusableCell(withIdentifier: "Loading")!
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier("content") as! AdoptedAnimalTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "content") as! AdoptedAnimalTableViewCell
         cell.animalImage.image = animals[indexPath.row].image
         cell.name.text = animals[indexPath.row].name
         cell.animalDescription.text = animals[indexPath.row].specie
@@ -88,7 +88,7 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
                 iv.setBorderOfColor(animals[indexPath.row].requiredPermission!.color, width: 3)
             }
             else{
-                iv.setBorderOfColor(UIColor.whiteColor(), width: 3)
+                iv.setBorderOfColor(UIColor.white, width: 3)
 
                 animals[indexPath.row].addObserverToRequiredType({
                     [weak self]
@@ -99,7 +99,7 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
                     }
                     
                     if animal.hasLoadedPermission{
-                        tableView.cellForRowAtIndexPath(NSIndexPath(forItem: s.animals.indexOf(animal)!, inSection: 0))
+                        tableView.cellForRow(at: IndexPath(item: s.animals.index(of: animal)!, section: 0))
                     }
                 })
                 
@@ -119,7 +119,7 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
     
     - parameter animal: The animal that have failed loading
     */
-    func animalDidFailLoading(animal: AnimalV2) {}
+    func animalDidFailLoading(_ animal: AnimalV2) {}
     
     
     /**
@@ -128,20 +128,20 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
      
      - parameter animal: The animal that has just loaded
      */
-    func animalDidFinishLoading(animal: AnimalV2) {
-        dispatch_async(dispatch_get_main_queue()){
+    func animalDidFinishLoading(_ animal: AnimalV2) {
+        DispatchQueue.main.async{
             //Workaround. Sometimes the elements are cached so this method is called even before the array is returned. Anyway even if the method does not process the event after the array is loaded reload table is called and fixes all not set images.
             if self.animals != nil{
-                let index = self.animals.indexOf(animal)
+                let index = self.animals.index(of: animal)
                 if let index = index{
-                    self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Automatic)
+                    self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                 }
             }
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let nextVC = segue.destinationViewController as? TabsViewController{
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let nextVC = segue.destination as? TabsViewController{
             nextVC.animal = sender as! AnimalV2
             nextVC.user = self.user
         }
@@ -149,8 +149,8 @@ class AdopedAnimalsViewController: UITableViewController, AnimalV2LoadingProtoco
     
     
     //TODO: Empty implementation 
-    func animalDidFailedLoadingPermissionType(animal: AnimalV2) {}
+    func animalDidFailedLoadingPermissionType(_ animal: AnimalV2) {}
     
-    func animalDidFinishLoadingPermissionType(animal: AnimalV2) {}
+    func animalDidFinishLoadingPermissionType(_ animal: AnimalV2) {}
 }
 

@@ -17,11 +17,11 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
     var animal : PFObject!
     var events = [Event]()
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Events", comment: "")
         super.viewWillAppear(animated)
     }
@@ -31,8 +31,8 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
         
         let query = PFQuery(className: TableNames.Events_table.rawValue)
         query.whereKey(TableEventsColumnNames.Animal_ID.rawValue, equalTo: animal)
-        query.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: NSDate())
-        query.findObjectsInBackgroundWithBlock { (array, error) -> Void in
+        query.whereKey(TableEventsColumnNames.End_Day.rawValue, greaterThan: Date())
+        query.findObjectsInBackground { (array, error) -> Void in
             if error == nil, let eventsArray = array{
                 for event in eventsArray{
                     let toAppendAnyTime = Event(object: event)
@@ -41,8 +41,8 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
             }
             else{
                 print(error!)
-                dispatch_async(dispatch_get_main_queue()){
-                    self.navigationController?.popViewControllerAnimated(true)
+                DispatchQueue.main.async{
+                    self.navigationController?.popViewController(animated: true)
                 }
             }
         }
@@ -58,35 +58,35 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !loaded {return 1}
         return events.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if !loaded{
-            return tableView.dequeueReusableCellWithIdentifier("loading")!
+            return tableView.dequeueReusableCell(withIdentifier: "loading")!
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("eventCell") as! EventTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell") as! EventTableViewCell
         let event = events[indexPath.row]
         cell.load(event.eventName, date: event.startDate, description: event.eventDescription, eventImage: event.eventImage, path: indexPath)
         cell.delegate = self
         return cell
     }
     
-    func eventDidFailLoading(event : Event!){}
+    func eventDidFailLoading(_ event : Event!){}
     
-    func eventDidFinishLoading(event : Event!){
-        dispatch_async(dispatch_get_main_queue()){
+    func eventDidFinishLoading(_ event : Event!){
+        DispatchQueue.main.async{
             self.events.append(event)
             if self.loaded{
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forItem: self.events.count - 1, inSection: 0)], withRowAnimation: .Automatic)
+                self.tableView.insertRows(at: [IndexPath(item: self.events.count - 1, section: 0)], with: .automatic)
             }
             else{
                 self.loaded = true
@@ -95,49 +95,49 @@ class EventViewControllerTableViewController: UITableViewController, EventLoadin
         }
     }
     
-    func inputAccesoryPressedInCellWithIndexPath(indexPath: NSIndexPath) {
+    func inputAccesoryPressedInCellWithIndexPath(_ indexPath: IndexPath) {
         let store = EKEventStore()
         
     
         
-        store.requestAccessToEntityType(.Event) {
+        store.requestAccess(to: .event) {
             (granted, error) -> Void in
             if error != nil || !granted{
                 print("\(error) \(granted)")
-                dispatch_async(dispatch_get_main_queue()){
-                    let alert  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to store in calendar", comment: ""), preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                DispatchQueue.main.async{
+                    let alert  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to store in calendar", comment: ""), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
             else{
                 let event = EKEvent(eventStore: store)
                 event.title = self.events[indexPath.row].eventName
-                event.startDate = self.events[indexPath.row].startDate
-                event.endDate = self.events[indexPath.row].endDate
+                event.startDate = self.events[indexPath.row].startDate as Date
+                event.endDate = self.events[indexPath.row].endDate as Date
                 event.calendar = store.defaultCalendarForNewEvents
                 event.notes = self.events[indexPath.row].eventDescription
                 do{
-                    try store.saveEvent(event, span: EKSpan.ThisEvent, commit: true)
-                    dispatch_async(dispatch_get_main_queue()){
-                        let alert  = UIAlertController(title: NSLocalizedString("Done", comment: ""), message: NSLocalizedString("The event was successfully added to your calendar", comment: ""), preferredStyle: .Alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                    try store.save(event, span: EKSpan.thisEvent, commit: true)
+                    DispatchQueue.main.async{
+                        let alert  = UIAlertController(title: NSLocalizedString("Done", comment: ""), message: NSLocalizedString("The event was successfully added to your calendar", comment: ""), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
                 catch{
                     print(error)
-                    dispatch_async(dispatch_get_main_queue()){
-                        let alert  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to store in calendar", comment: ""), preferredStyle: .Alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async{
+                        let alert  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Unable to store in calendar", comment: ""), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }
         }
     }
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }
 }

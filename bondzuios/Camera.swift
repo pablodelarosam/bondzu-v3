@@ -25,7 +25,7 @@ This class provides the model for the live stream cameras
     }
     
     ///The original parse object that was passed to the constructor
-    private var originalObject : PFObject
+    fileprivate var originalObject : PFObject
     
     ///The camera description
     var descripcion: String!;
@@ -40,12 +40,12 @@ This class provides the model for the live stream cameras
     var funcionando: Bool!;
     
     ///The camera url to the hls protocol
-    var url: NSURL?;
+    var url: URL?;
     
-    private var timer : NSDate?
-    private var oldTime = 0
-    private var multiplier = 1
-    private var instances = 0
+    fileprivate var timer : Date?
+    fileprivate var oldTime = 0
+    fileprivate var multiplier = 1
+    fileprivate var instances = 0
     
     /**
      This method is the default constructor for the class. Ittakes a Parse object and it acces to all the required information from it. 
@@ -59,7 +59,7 @@ This class provides the model for the live stream cameras
         self.animalId = (object[TableCameraColumnNames.Animal.rawValue] as! PFObject).objectId!
         self.animalName = object[TableCameraColumnNames.AnimalName.rawValue] as! String
         self.funcionando = object[TableCameraColumnNames.Working.rawValue] as! Bool
-        self.url = NSURL(string: object[TableCameraColumnNames.PlayBackURL.rawValue] as! String)
+        self.url = URL(string: object[TableCameraColumnNames.PlayBackURL.rawValue] as! String)
     }
     
     
@@ -74,12 +74,12 @@ This class provides the model for the live stream cameras
             multiplier = 1
             oldTime = 0
             instances = 1
-            timer = NSDate()
+            timer = Date()
         }
         else{
             moveToOldTime()
-            multiplier++
-            instances++
+            multiplier += 1
+            instances += 1
         }
     }
     
@@ -94,14 +94,14 @@ This class provides the model for the live stream cameras
         if instances == 0{ return }
         else if instances > 1{
             moveToOldTime()
-            instances--
-            multiplier--
+            instances -= 1
+            multiplier -= 1
         }
         else{
             moveToOldTime()
             instances = 0
-            
-            self.originalObject.incrementKey(TableCameraColumnNames.StatisticTime.rawValue, byAmount: oldTime)
+            self.originalObject.incrementKey(TableCameraColumnNames.StatisticTime.rawValue, byAmount: oldTime as NSNumber)
+           
             self.originalObject.saveInBackground()
         }
     }
@@ -113,9 +113,9 @@ This class provides the model for the live stream cameras
      
      This method will also "reset" the timer
      */
-    private func moveToOldTime(){
-        let end = NSDate()
-        let seconds = end.timeIntervalSinceDate(timer!)
+    fileprivate func moveToOldTime(){
+        let end = Date()
+        let seconds = end.timeIntervalSince(timer!)
         oldTime += ( Int(seconds) * multiplier )
         timer = end
     }

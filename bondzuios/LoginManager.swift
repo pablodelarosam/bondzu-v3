@@ -17,13 +17,13 @@ import ParseFacebookUtilsV4
      
      - parameter user: The loged in user
      */
-    func loginManagerDidLogin(user : PFUser)
+    func loginManagerDidLogin(_ user : PFUser)
     /**
      Called when the sign up was succesfull
      
      - parameter user: The loged in user
      */
-    func loginManagerDidRegister(user : PFUser)
+    func loginManagerDidRegister(_ user : PFUser)
     
     /**
      Called when the login or sign up was unsuccesfull. In a comming soon api the error will be reported.
@@ -39,19 +39,19 @@ import ParseFacebookUtilsV4
 
 
 ///The errors that can happen during login
-enum LoginError : ErrorType{
+enum LoginError : Error{
     /// The database handler produced an error
-    case ParseError
+    case parseError
     ///The internet conection produced a login error
-    case InternetError
+    case internetError
     ///In case of sign up the user already exists
-    case UserAlreadyExistsError
+    case userAlreadyExistsError
     ///In case of sign up the stripe framework failed to provide a stripe_key
-    case StripeError
+    case stripeError
     ///In case of sign up the password was unsafe
-    case TooShortPassword
+    case tooShortPassword
     ///The password is not correct
-    case InvalidPassword
+    case invalidPassword
 }
 
 
@@ -72,32 +72,34 @@ class LoginManager{
 
      - returns: A string in case the operation succeds. Nil otherwise.
      */
-    func loginWithFacebook(presentingController : UIViewController, finishingDelegate : LoginManagerResultDelegate){
+    func loginWithFacebook(_ presentingController : UIViewController, finishingDelegate : LoginManagerResultDelegate){
         let fbPermission = ["user_about_me","email"]
         let login = FBSDKLoginManager()
-        login.loginBehavior = .Native
+        login.loginBehavior = .native
         
-        if let at = FBSDKAccessToken.currentAccessToken(){
-            PFFacebookUtils.logInInBackgroundWithAccessToken(at, block: finishFacebookRegister)
+        if let at = FBSDKAccessToken.current(){
+            PFFacebookUtils.logInInBackground(with: at)
+            
             return
         }
         
-        login.logInWithReadPermissions(fbPermission, fromViewController: presentingController){
+        login.logIn(withReadPermissions: fbPermission, from: presentingController){
             (result, error) -> Void in
             if error != nil{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async(){
                     print("Error login in facebook \(error)")
                     finishingDelegate.loginManagerDidFailed()
                 }
             }
-            else if result.isCancelled{
-                dispatch_async(dispatch_get_main_queue()){
+            else if (result?.isCancelled)!{
+                DispatchQueue.main.async(){
                     finishingDelegate.loginManagerDidCanceled()
                 }
             }
             else{
                 self.delegate = finishingDelegate
-                PFFacebookUtils.logInInBackgroundWithAccessToken(FBSDKAccessToken.currentAccessToken(), block: self.finishFacebookRegister)
+                PFFacebookUtils.logInInBackground(with: FBSDKAccessToken.current())
+               
             }
         }
     }
@@ -111,13 +113,13 @@ class LoginManager{
      
      - returns: A string with the id. A LoginError is thrown otherwiswe.
      */
-    func finishFacebookRegister (user : PFUser?, error : NSError?){
+    func finishFacebookRegister (_ user : PFUser?, error : NSError?){
         if error != nil{
-            print(error)
+            print(error!)
             self.delegate?.loginManagerDidFailed()
         }
         else if user!.isNew{
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).startWithCompletionHandler({
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,picture.width(100).height(100)"]).start(completionHandler: {
                 (connection, dic, error) -> Void in
                 if let dictionary = dic as? Dictionary<String, AnyObject>{
 
@@ -128,17 +130,18 @@ class LoginManager{
                     }
                     
                     user[TableUserColumnNames.Name.rawValue] = name
-                    user.password = "\(random())"
+                    user.password = "\(arc4random_uniform(UInt32()))"
                     user[TableUserColumnNames.Mail.rawValue] = mail
                     user[TableUserColumnNames.PhotoURL.rawValue] = picture
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+                    let backgroundQueue = DispatchQueue.global(qos: .background)
+                    backgroundQueue.async {
                         
                         do{ //Get token and save user
                             let id = try self.getToken(user[TableUserColumnNames.Mail.rawValue] as? String)
                             user[TableUserColumnNames.StripeID.rawValue] = id
                             try user.save()
-                            dispatch_async(dispatch_get_main_queue()){
+                            DispatchQueue.main.async(){
                                 self.delegate?.loginManagerDidRegister(user)
                             }
                         }
@@ -153,7 +156,7 @@ class LoginManager{
             })
         }
         else{
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 self.delegate?.loginManagerDidLogin(user!)
             }
         }
@@ -170,9 +173,9 @@ class LoginManager{
      
      - returns: A string with the id. A LoginError is thrown otherwiswe.
      */
-    func getToken(mail : String?) throws -> String{
+    func getToken(_ mail : String?) throws -> String{
         
-        if(NSThread.isMainThread()){
+        if(Thread.isMainThread){
             mainThreadWarning()
         }
         
@@ -182,27 +185,27 @@ class LoginManager{
         ]
         
         do{
-            let object : AnyObject? = try PFCloud.callFunction(PFCloudFunctionNames.CreateCustomer.rawValue, withParameters: dic)
-            if let data = object?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+            let object : AnyObject? = try PFCloud.callFunction(inBackground: PFCloudFunctionNames.CreateCustomer.rawValue, withParameters: dic)
+            if let data = (object as! String).data(using: String.Encoding.utf8) {
+                let jsonDict = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSDictionary
                
                 guard let jsonDictionary = jsonDict else{
-                    throw LoginError.StripeError
+                    throw LoginError.stripeError
                 }
 
                 let key = "id";
                 guard let id = jsonDictionary[key] as? String else{
-                    throw LoginError.StripeError
+                    throw LoginError.stripeError
                 }
 
                 return id
             }
         }
         catch{
-            throw LoginError.InternetError
+            throw LoginError.internetError
         }
         
-        throw LoginError.StripeError
+        throw LoginError.stripeError
     }
     
     /**
@@ -215,7 +218,7 @@ class LoginManager{
      - parameter user: The user to delete
      
      */
-    func attempToDeleteUserAndNotifyDelegate(user : PFUser?){
+    func attempToDeleteUserAndNotifyDelegate(_ user : PFUser?){
         
         do{
             if let user = user{
@@ -224,7 +227,7 @@ class LoginManager{
         }
         catch{}
         
-        dispatch_async(dispatch_get_main_queue()){
+        DispatchQueue.main.async{
             self.delegate?.loginManagerDidFailed()
         }
     }
@@ -239,32 +242,32 @@ class LoginManager{
      - parameter delegate: The delegate to call with the result
 
      */
-    func registerUser(name : String, email : String, password : String, image : UIImage?, delegate : LoginManagerResultDelegate){
+    func registerUser(_ name : String, email : String, password : String, image : UIImage?, delegate : LoginManagerResultDelegate){
         
         if password.characters.count < 6{
             delegate.loginManagerDidFailed()
             return
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async{
             do{
                 var error : NSError? = nil
                 
                 let query = PFQuery(className: TableNames.User.rawValue)
-                query.whereKey(TableUserColumnNames.UserName.rawValue, equalTo: email.lowercaseString)
+                query.whereKey(TableUserColumnNames.UserName.rawValue, equalTo: email.lowercased())
                 let elements = query.countObjects( &error )
                 
                 if error != nil || elements != 0{
-                    dispatch_async(dispatch_get_main_queue()){
+                    DispatchQueue.main.async{
                         delegate.loginManagerDidFailed()
                     }
                     return
                 }
 
                 let user = PFUser()
-                user.username = email.lowercaseString
+                user.username = email.lowercased()
                 user.password = password
-                user.email = email.lowercaseString
+                user.email = email.lowercased()
                 user[TableUserColumnNames.Name.rawValue] = name
                 
                 if let image = image{
@@ -275,13 +278,13 @@ class LoginManager{
                 user[TableUserColumnNames.StripeID.rawValue] = token
                 try user.signUp()
                 
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     delegate.loginManagerDidRegister(user)
                 }
                 
             }
             catch{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     delegate.loginManagerDidFailed()
                 }
             }
@@ -296,18 +299,18 @@ class LoginManager{
      - parameter delegate: The delegate to call with the result
      
      */
-    func login( username : String , password : String, finishingDelegate : LoginManagerResultDelegate ){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
+    func login( _ username : String , password : String, finishingDelegate : LoginManagerResultDelegate ){
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async{
             
             do{
-                try PFUser.logInWithUsername(username, password: password)
-                dispatch_async(dispatch_get_main_queue()){
-                    if let user = PFUser.currentUser(){ finishingDelegate.loginManagerDidLogin(user) }
+                try PFUser.logIn(withUsername: username, password: password)
+                DispatchQueue.main.async{
+                    if let user = PFUser.current(){ finishingDelegate.loginManagerDidLogin(user) }
                     else{ finishingDelegate.loginManagerDidFailed() }
                 }
             }
             catch{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     finishingDelegate.loginManagerDidFailed()
                 }
             }

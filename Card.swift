@@ -16,7 +16,7 @@ class Card
     var id: String;
     var brand: String;
     
-    @available(*,deprecated=9.0, message="Please use new param constructor")
+    @available(*,deprecated: 9.0, message: "Please use new param constructor")
     init(){
         number = ""
         monthExp = ""

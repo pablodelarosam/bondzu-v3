@@ -20,22 +20,22 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
     var wallpapersSelected = false
     var storeIsSelected = false
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        return 4
         
     }
     
-    func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
             //hacer con un arreglo
-            let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-            cell.textLabel!.textColor = UIColor.whiteColor()
-            cell.backgroundColor = UIColor.clearColor()
-            cell.tintColor = UIColor.redColor()
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            cell.textLabel!.textColor = UIColor.white
+            cell.backgroundColor = UIColor.clear
+            cell.tintColor = UIColor.red
             let backView = UIView(frame: cell.frame)
             backView.backgroundColor = UIColor(hexString: "DD7A25") //naranja
             cell.selectedBackgroundView = backView
@@ -54,29 +54,29 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             
             
-            cell.accessoryType = .DisclosureIndicator
-            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.accessoryType = .disclosureIndicator
+            cell.imageView?.tintColor = UIColor.white
             //cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             
             return cell
         
         }
     
-        func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
                 //prepare
                 self.row = indexPath.row
                 let indexPath = tableView.indexPathForSelectedRow!
-                let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
+                let currentCell = tableView.cellForRow(at: indexPath)! as UITableViewCell
                 nameOfNextView = currentCell.textLabel!.text
                 //let's go
-                performSegueWithIdentifier("tienda", sender: nil)
-                tableView.deselectRowAtIndexPath(indexPath, animated: false)
+                performSegue(withIdentifier: "tienda", sender: nil)
+                tableView.deselectRow(at: indexPath, animated: false)
 
         }
 
-        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "tienda" {
-                let webVC = segue.destinationViewController as? StoreViewController
+                let webVC = segue.destination as? StoreViewController
                 webVC?.nameOfView = self.nameOfNextView
                 webVC?.urlString = urlStrings[self.row]
 //                if self.row == 3 {
@@ -95,7 +95,7 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
 
 //necessary to use the method contains in an array, no longer necessary.
 extension Array {
-    func contains<T where T : Equatable>(obj: T) -> Bool {
+    func contains<T>(_ obj: T) -> Bool where T : Equatable {
         return self.filter({$0 as? T == obj}).count > 0
     }
 }

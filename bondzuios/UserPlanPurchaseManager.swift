@@ -34,10 +34,10 @@ import UIKit
 class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
     
     /// The *Usuario* instance that is being updating
-    private let user : Usuario
+    fileprivate let user : Usuario
     
     /// The delegate that is going to be called about the class status.
-    private weak var planPurchaseDelegate : UserPlanPurchaseManagerProtocol?
+    fileprivate weak var planPurchaseDelegate : UserPlanPurchaseManagerProtocol?
     
     var sessionToken = ""
     
@@ -52,21 +52,21 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
     init(user : Usuario, insets : UIEdgeInsets, desiredType : UserType, delegate : UserPlanPurchaseManagerProtocol){
         self.user = user
         //let webPage : NSURL = planPurchaseURL!
-        let puser = PFUser.currentUser()!
+        let puser = PFUser.current()!
         sessionToken = puser.sessionToken!
-        let webPage : NSURL = NSURL(string: NSLocalizedString("urlMembresia", comment: ""))!
-        super.init(frame: CGRectZero)
-        self.autoresizingMask = [ .FlexibleHeight, .FlexibleWidth ]
+        let webPage : URL = URL(string: NSLocalizedString("urlMembresia", comment: ""))!
+        super.init(frame: CGRect.zero)
+        self.autoresizingMask = [ .flexibleHeight, .flexibleWidth ]
         self.autoresizesSubviews = true
         self.scrollView.contentInset = insets
-        let request = NSMutableURLRequest(URL: webPage)
-        request.HTTPMethod = "POST"
-        request.HTTPBody = "user=\(user.originalObject.objectId!)&type=\(desiredType.originalObject.objectId!)&token=\(sessionToken)".dataUsingEncoding(NSUTF8StringEncoding)
-        self.backgroundColor = UIColor.whiteColor()
-        self.opaque = false
+        let request = NSMutableURLRequest(url: webPage)
+        request.httpMethod = "POST"
+        request.httpBody = "user=\(user.originalObject.objectId!)&type=\(desiredType.originalObject.objectId!)&token=\(sessionToken)".data(using: String.Encoding.utf8)
+        self.backgroundColor = UIColor.white
+        self.isOpaque = false
         self.planPurchaseDelegate = delegate
         self.delegate = self
-        self.loadRequest(request)
+        self.loadRequest(request as URLRequest)
         self.scalesPageToFit = true
     }
 
@@ -96,7 +96,7 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
      **Dont call directly**
      
      */
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         self.planPurchaseDelegate?.webPurchasePlanPageDidFail()
         cancel()
         done()
@@ -105,7 +105,7 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
     /**
      This method reset the delagte of its superclass to nil to avoid memory leaks
      */
-    private func done(){
+    fileprivate func done(){
         self.delegate = nil
     }
     
@@ -113,16 +113,16 @@ class UserPlanPurchaseManager: UIWebView, UIWebViewDelegate{
      Protocol implementation.
      This method checks when the user is moving from one page to another and is used to check when the purchase is complete.
      */
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
-        guard let u = request.URL , let p = u.path else{
+        guard case let u = request.url , let p = u?.path else{
             return false
         }
         
-        if p.containsString("appDone"){
+        if p.contains("appDone"){
             self.user.refreshUserType()
         }
-        else if p.containsString("didCancel"){
+        else if p.contains("didCancel"){
             self.cancel()
             return false
             

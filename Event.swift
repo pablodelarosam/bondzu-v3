@@ -11,8 +11,8 @@ import Parse
 
 @objc
 protocol EventLoadingDelegate{
-    func eventDidFailLoading(event : Event!)
-    func eventDidFinishLoading(event : Event!)
+    func eventDidFailLoading(_ event : Event!)
+    func eventDidFinishLoading(_ event : Event!)
 }
 
 
@@ -22,8 +22,8 @@ class Event: NSObject {
     
     var eventName = ""
     var eventDescription = ""
-    var startDate = NSDate()
-    var endDate = NSDate()
+    var startDate = Date()
+    var endDate = Date()
     var eventImage = UIImage()
     
     
@@ -35,14 +35,14 @@ class Event: NSObject {
         eventName = object[TableEventsColumnNames.Name.rawValue +  NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
         eventDescription = object[TableEventsColumnNames.Description.rawValue +  NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
 
-        startDate = object[TableEventsColumnNames.Start_Day.rawValue] as! NSDate
-        endDate = object[TableEventsColumnNames.End_Day.rawValue ] as! NSDate
+        startDate = object[TableEventsColumnNames.Start_Day.rawValue] as! Date
+        endDate = object[TableEventsColumnNames.End_Day.rawValue ] as! Date
         
         let file = object[TableEventsColumnNames.Image_Name.rawValue] as! PFFile
         
-        file.getDataInBackgroundWithBlock { (data, error) -> Void in
+        file.getDataInBackground { (data, error) -> Void in
             if error == nil && data != nil{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     self.eventImage = UIImage(data: data!)!
                     self.delegate?.eventDidFinishLoading(self)
                     self.delegate = nil

@@ -12,17 +12,17 @@ import UIKit
 class EffectBackgroundView: UIView {
 
     
-    private let blurContainer = UIView()
-    private let backgroundImage = UIImageView()
+    fileprivate let blurContainer = UIView()
+    fileprivate let backgroundImage = UIImageView()
     
-    private var backgroundImages = [UIImage]()
+    fileprivate var backgroundImages = [UIImage]()
 
-    private let animationDuration: NSTimeInterval = 0.9
-    private let switchingInterval: NSTimeInterval = 5
+    fileprivate let animationDuration: TimeInterval = 0.9
+    fileprivate let switchingInterval: TimeInterval = 5
     
-    private var animating = false
+    fileprivate var animating = false
     
-    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) as UIVisualEffectView
+    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light)) as UIVisualEffectView
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,7 +43,7 @@ class EffectBackgroundView: UIView {
     }
     
     
-    private func animateBackgroundImageView(){
+    fileprivate func animateBackgroundImageView(){
         
         if !animating{
             return
@@ -53,23 +53,27 @@ class EffectBackgroundView: UIView {
         
         CATransaction.setAnimationDuration(animationDuration)
         CATransaction.setCompletionBlock {
-            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(self.switchingInterval * NSTimeInterval(NSEC_PER_SEC)))
-            dispatch_after(delay, dispatch_get_main_queue()) {
+            let delay = DispatchTime.now() + Double(Int64(self.switchingInterval * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: delay) {
                 
                 self.animateBackgroundImageView()
             }
         }
         let transition = CATransition()
         transition.type = kCATransitionFade
-        self.backgroundImage.layer.addAnimation(transition, forKey: kCATransition)
-        self.backgroundImage.image = self.backgroundImages[random() % self.backgroundImages.count]
+        self.backgroundImage.layer.add(transition, forKey: kCATransition)
+       
+        let x: Int = Int(arc4random())
+    let Y = Int( x  % self.backgroundImages.count )
+      
+        self.backgroundImage.image = self.backgroundImages[Y]
         
         CATransaction.commit()
     
     }
     
     
-    func setImageArray( imagesToDisplay : [UIImage]){
+    func setImageArray( _ imagesToDisplay : [UIImage]){
         if imagesToDisplay.count == 0{
             self.backgroundImage.image = nil
             self.backgroundImages = imagesToDisplay

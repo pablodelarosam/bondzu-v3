@@ -12,37 +12,37 @@ import UIKit
  The protocol conains methods for calling the delegate about a store product
  */
 @objc public protocol StoreProductProtocol{
-    func storeProductDidFinishLoading(product : StoreProduct)
-    func storeProductDidFailLoading(product : StoreProduct)
+    func storeProductDidFinishLoading(_ product : StoreProduct)
+    func storeProductDidFailLoading(_ product : StoreProduct)
 }
 
 /**
  This class represents a Store product from the database. This method will call a delegate when the object has been fully initialized and requires a PFObject for initializing.
  */
-public class StoreProduct: NSObject {
+open class StoreProduct: NSObject {
  
     /// A variable telling if the class is loading its image or not. If loadedImage is true this will allways be false.
-    private var loading = false
+    fileprivate var loading = false
     
     /// A variable that tells if the image of the product has been loaded or not.
-    private var hasLoadedImage = false
+    fileprivate var hasLoadedImage = false
     
     
     /// The image of the product
-    public var image : UIImage?
+    open var image : UIImage?
     
     /// The description of the product
-    public var productDescription : String
+    open var productDescription : String
     
     
     /// A variable that says if the product is purchasable or not.
-    public var purchasable : Bool
+    open var purchasable : Bool
     
     /// The original parse object that may be used for updates or for reference in other classes
-    public var originalObject : PFObject
+    open var originalObject : PFObject
     
     /// The delegate that is going to be called when the image is loaded
-    public weak var delegate : StoreProductProtocol?
+    open weak var delegate : StoreProductProtocol?
     
     /**
      This is the default constructor of the class. This should be called to use a Store Product
@@ -82,7 +82,7 @@ public class StoreProduct: NSObject {
         
         self.loading = true
         let file = self.originalObject[TableStoreProductColumnNames.Image.rawValue] as! PFFile
-        file.getDataInBackgroundWithBlock({
+        file.getDataInBackground(block: {
             [weak self]
             (data, error) -> Void in
             
@@ -122,12 +122,12 @@ public class StoreProduct: NSObject {
      
      - note: This price won't be updated if the user promotes its category. Thats why the sent parameters are being sended back.
      */
-    func priceForPriority(priority : Int, callback : (StoreProduct, Int, StoreProductPrice?)->()){
+    func priceForPriority(_ priority : Int, callback : @escaping (StoreProduct, Int, StoreProductPrice?)->()){
         let query = generateQueryForPrice(false)
         query.whereKey(TableStorePriceColumnNames.Product.rawValue, equalTo: self.originalObject.objectId!)
         query.whereKey(TableStorePriceColumnNames.Prority.rawValue, lessThanOrEqualTo: priority)
-        query.orderByDescending(TableStorePriceColumnNames.Prority.rawValue)
-        query.getFirstObjectInBackgroundWithBlock {
+        query.order(byDescending: TableStorePriceColumnNames.Prority.rawValue)
+        query.getFirstObjectInBackground {
             (fetchedPricePFObject, error) -> Void in
             
             guard error == nil , let object = fetchedPricePFObject else{
@@ -147,9 +147,9 @@ public class StoreProduct: NSObject {
      **StoreProduct**: The product that is sending the information
      **UserType**: The required UserType for purchasing an item. Will be nil if the item is not purchasable or if there is no purchasable type of user with the required permission (Database inconsistency)
      */
-    func requiredTypeForPurchasingItem(callback : (StoreProduct , UserType?)->()){
+    func requiredTypeForPurchasingItem(_ callback : @escaping (StoreProduct , UserType?)->()){
         let query = generateQueryForPrice(true)
-        query.getFirstObjectInBackgroundWithBlock {
+        query.getFirstObjectInBackground {
 
             (userType, error) -> Void in
             guard error == nil , let object = userType else{
@@ -171,14 +171,14 @@ public class StoreProduct: NSObject {
      - returns: A query configured with the correct ordering and the product already set.
 
      */
-    private func generateQueryForPrice(orderAscending : Bool) -> PFQuery{
+    fileprivate func generateQueryForPrice(_ orderAscending : Bool) -> PFQuery<PFObject>{
         let query = PFQuery(className: TableNames.StoreProductPrice.rawValue)
         query.whereKey(TableStorePriceColumnNames.Product.rawValue, equalTo: self.originalObject.objectId!)
         if orderAscending{
-            query.orderByDescending(TableStorePriceColumnNames.Prority.rawValue)
+            query.order(byDescending: TableStorePriceColumnNames.Prority.rawValue)
         }
         else{
-            query.orderByAscending(TableStorePriceColumnNames.Prority.rawValue)
+            query.order(byAscending: TableStorePriceColumnNames.Prority.rawValue)
         }
         
         return query

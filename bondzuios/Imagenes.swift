@@ -11,31 +11,31 @@ import UIKit
 
 class Imagenes
 {
-    static func resizeImage(image: UIImage, width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage
+    static func resizeImage(_ image: UIImage, width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage
     {
-        let sizeChange = CGSizeMake(width, height);
+        let sizeChange = CGSize(width: width, height: height);
         let hasAlpha = true
         let scale: CGFloat = scale // Use scale factor of main screen
         
         UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
-        image.drawInRect(CGRect(origin: CGPointZero, size: sizeChange))
+        image.draw(in: CGRect(origin: CGPoint.zero, size: sizeChange))
         
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        return scaledImage
+        return scaledImage!
     }
     
-    static func imageResize (image: UIImage, sizeChange:CGSize, scale: CGFloat)-> UIImage{
+    static func imageResize (_ image: UIImage, sizeChange:CGSize, scale: CGFloat)-> UIImage{
         let hasAlpha = true
         let scale: CGFloat = scale // Use scale factor of main screen
         
         UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
-        image.drawInRect(CGRect(origin: CGPointZero, size: sizeChange))
+        image.draw(in: CGRect(origin: CGPoint.zero, size: sizeChange))
         
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        return scaledImage
+        return scaledImage!
     }
     
-    static func redondeaVista(vista: UIView, radio: CGFloat)
+    static func redondeaVista(_ vista: UIView, radio: CGFloat)
     {
         vista.layer.cornerRadius = radio
         vista.layer.masksToBounds = true

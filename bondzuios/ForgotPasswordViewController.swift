@@ -8,6 +8,30 @@
 
 import UIKit
 import Parse
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
 
@@ -19,21 +43,21 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.navigationController?.navigationBar.barStyle = .Black
+        self.navigationController?.navigationBar.barStyle = .black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         
         forgot.layer.borderWidth = 2
         forgot.layer.cornerRadius = 10
-        self.forgotPassword.enabled = false;
-        forgot.layer.borderColor = forgot.titleLabel!.textColor.CGColor
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dissmissKeyboards"))
+        self.forgotPassword.isEnabled = false;
+        forgot.layer.borderColor = forgot.titleLabel!.textColor.cgColor
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ForgotPasswordViewController.dissmissKeyboards)))
         
         profile.layer.cornerRadius = 75/2
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     func dissmissKeyboards(){
@@ -42,24 +66,24 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var forgotPassword: UIButton!
     
-    @IBAction func emailChanged(sender: UITextField) {
+    @IBAction func emailChanged(_ sender: UITextField) {
         if(sender.text!.isValidEmail())
         {
-            self.forgotPassword.enabled = true
-            forgot.layer.borderColor = forgot.titleLabel!.textColor.CGColor
+            self.forgotPassword.isEnabled = true
+            forgot.layer.borderColor = forgot.titleLabel!.textColor.cgColor
         }else{
-            self.forgotPassword.enabled = false
-            forgot.layer.borderColor = forgot.titleLabel!.textColor.CGColor
+            self.forgotPassword.isEnabled = false
+            forgot.layer.borderColor = forgot.titleLabel!.textColor.cgColor
         }
     }
     
-    @IBAction func forgotPassword(sender: UIButton) {
+    @IBAction func forgotPassword(_ sender: UIButton) {
         checkIfNotFacebookUser(self.mail.text!)
     }
     
     
     
-    func checkIfNotFacebookUser(email: String)
+    func checkIfNotFacebookUser(_ email: String)
     {
         
         if let email = self.mail.text as String!{
@@ -67,50 +91,50 @@ class ForgotPasswordViewController: UIViewController, UITextFieldDelegate {
             {
                 let query = PFUser.query()
                 query?.whereKey(TableUserColumnNames.UserName.rawValue, equalTo: email)
-                query?.findObjectsInBackgroundWithBlock{
-                    (objects: [PFObject]?, error: NSError?) -> Void in
+                query?.findObjectsInBackground{
+                    (objects: [PFObject]?, error: Error?) -> Void in
                     if error == nil
                     {
                         if(objects?.count >= 1)
                         {
-                            print(objects)
-                            PFUser.requestPasswordResetForEmailInBackground(email);
+                            print(objects!)
+                            PFUser.requestPasswordResetForEmail(inBackground: email);
                             
-                            let a = UIAlertController(title: NSLocalizedString("Done", comment: ""), message: NSLocalizedString("Check your email to reset your password", comment: ""), preferredStyle: .Alert)
+                            let a = UIAlertController(title: NSLocalizedString("Done", comment: ""), message: NSLocalizedString("Check your email to reset your password", comment: ""), preferredStyle: .alert)
                             a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
-                                style: UIAlertActionStyle.Default,
+                                style: UIAlertActionStyle.default,
                                 handler: { (alert: UIAlertAction) -> Void in
-                                    self.navigationController?.popToRootViewControllerAnimated(true)
+                                    self.navigationController?.popToRootViewController(animated: true)
                             }))
                             
-                            self.presentViewController(a, animated: true, completion: nil)
+                            self.present(a, animated: true, completion: nil)
                         }
                         else
                         {
-                            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Try to log in using Facebook" , comment: ""), preferredStyle: .Alert)
+                            let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Try to log in using Facebook" , comment: ""), preferredStyle: .alert)
                             a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""),
-                                style: UIAlertActionStyle.Default,
+                                style: UIAlertActionStyle.default,
                                 handler: { (alert: UIAlertAction) -> Void in
-                                    self.navigationController?.popToRootViewControllerAnimated(true)
+                                    self.navigationController?.popToRootViewController(animated: true)
                             }))
                             
-                            self.presentViewController(a, animated: true, completion: nil)
+                            self.present(a, animated: true, completion: nil)
                         }
                     }
                 }
                 
             }else{
-                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Invalid email, please try again", comment: ""), preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
+                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Invalid email, please try again", comment: ""), preferredStyle: .alert)
+                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
                 
-                self.presentViewController(a, animated: true, completion: nil)
+                self.present(a, animated: true, completion: nil)
             }
             
         }
         
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }

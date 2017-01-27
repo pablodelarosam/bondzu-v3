@@ -11,16 +11,16 @@ import UIKit
 @objc protocol CommunitEntryEvent{
     
     //Funcion que informa cuando alguien da like
-    func like(message : Message, like : Bool)
+    func like(_ message : Message, like : Bool)
     
     //Funcion que informa cuando alguien da like
-    func imageSelected(message : Message)
+    func imageSelected(_ message : Message)
     
     //Funcion que informa cuando alguien da report
-    func report(message : Message)
+    func report(_ message : Message)
     
     //Funcion que informa cuando alguien da reply
-    func reply(message : Message)
+    func reply(_ message : Message)
 }
 
 
@@ -58,9 +58,9 @@ class CommunityEntryView: UITableViewCell {
         load()
     }
     
-    func setInfo(id : Message, date : NSDate, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int, user : Usuario?){
+    func setInfo(_ id : Message, date : Date, name : String, message : String, image : UIImage?, hasContentImage : Bool = false , hasLiked : Bool = false, likeCount : Int, user : Usuario?){
         
-        imageIcon.hidden = !hasContentImage
+        imageIcon.isHidden = !hasContentImage
         
         commentID = id
         
@@ -69,7 +69,7 @@ class CommunityEntryView: UITableViewCell {
         
         profileIcon.image = image
         
-        imageIcon.hidden = !hasContentImage
+        imageIcon.isHidden = !hasContentImage
         
         self.likeCount = likeCount
         
@@ -88,8 +88,8 @@ class CommunityEntryView: UITableViewCell {
         }
         likesLabel.text = text
         
-        let now = NSDate()
-        let seconds = now.timeIntervalSinceDate(date)
+        let now = Date()
+        let seconds = now.timeIntervalSince(date)
         
         if seconds < 86400{
             timeLabel.text = NSLocalizedString("Today", comment: "")
@@ -99,83 +99,83 @@ class CommunityEntryView: UITableViewCell {
             timeLabel.text = "\(days) " + (days == 1 ? NSLocalizedString("day ago", comment: "") : NSLocalizedString("days ago", comment: ""))
         }
         
-        heartImageView.highlighted = hasLiked
+        heartImageView.isHighlighted = hasLiked
     
-        hidden = false
+        isHidden = false
         setNeedsLayout()
     }
     
     func load(){
         
-        hidden = true
+        isHidden = true
         
-        heartImageView.contentMode = .ScaleAspectFit
+        heartImageView.contentMode = .scaleAspectFit
         heartImageView.image = UIImage(named: "like")
         heartImageView.highlightedImage = UIImage(named: "like_selected")
         addSubview(heartImageView)
         
-        profileIcon.contentMode = .ScaleAspectFill
+        profileIcon.contentMode = .scaleAspectFill
         addSubview(profileIcon)
         
-        imageIcon.contentMode = .ScaleAspectFit
-        imageIcon.hidden = true
+        imageIcon.contentMode = .scaleAspectFit
+        imageIcon.isHidden = true
         imageIcon.image = UIImage(named: "imageIcon")
         addSubview(imageIcon)
         
-        nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        nameLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)
         nameLabel.numberOfLines = 1
         addSubview(nameLabel)
         
         timeLabel.numberOfLines = 1
-        timeLabel.font = nameLabel.font.fontWithSize(nameLabel.font.pointSize - 2)
-        timeLabel.textColor = UIColor.lightGrayColor()
+        timeLabel.font = nameLabel.font.withSize(nameLabel.font.pointSize - 2)
+        timeLabel.textColor = UIColor.lightGray
         timeLabel.adjustsFontSizeToFitWidth = true
         addSubview(timeLabel)
         
         commentLabel.numberOfLines = 0
-        commentLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        commentLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
         commentLabel.adjustsFontSizeToFitWidth = true
         addSubview(commentLabel)
         
-        likesLabel.font = commentLabel.font.fontWithSize(commentLabel.font.pointSize - 5)
+        likesLabel.font = commentLabel.font.withSize(commentLabel.font.pointSize - 5)
         likesLabel.numberOfLines = 1
-        likesLabel.textColor = UIColor.lightGrayColor()
-        likesLabel.textAlignment = .Center
+        likesLabel.textColor = UIColor.lightGray
+        likesLabel.textAlignment = .center
         likesLabel.adjustsFontSizeToFitWidth = true
         addSubview(likesLabel)
     
-        replyButton.setTitle(NSLocalizedString("Reply", comment: ""), forState: .Normal)
+        replyButton.setTitle(NSLocalizedString("Reply", comment: ""), for: UIControlState())
         replyButton.titleLabel?.font = likesLabel.font
-        replyButton.tintColor = UIColor.lightGrayColor()
-        replyButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-        replyButton.addTarget(self, action: "reply", forControlEvents: UIControlEvents.TouchUpInside)
+        replyButton.tintColor = UIColor.lightGray
+        replyButton.setTitleColor(UIColor.lightGray, for: UIControlState())
+        replyButton.addTarget(self, action: #selector(CommunityEntryView.reply), for: UIControlEvents.touchUpInside)
         addSubview(replyButton)
 
-        reportButton.setTitle(NSLocalizedString("Report", comment: ""), forState: .Normal)
+        reportButton.setTitle(NSLocalizedString("Report", comment: ""), for: UIControlState())
         reportButton.titleLabel?.font = likesLabel.font
-        reportButton.tintColor = UIColor.lightGrayColor()
-        reportButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+        reportButton.tintColor = UIColor.lightGray
+        reportButton.setTitleColor(UIColor.lightGray, for: UIControlState())
         addSubview(reportButton)
         
-        separator.backgroundColor = UIColor.lightGrayColor()
+        separator.backgroundColor = UIColor.lightGray
         addSubview(separator)
         
         
-        let gesture = UITapGestureRecognizer(target: self, action: "like")
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(CommunityEntryView.like))
         heartImageView.addGestureRecognizer(gesture)
-        heartImageView.userInteractionEnabled = true
+        heartImageView.isUserInteractionEnabled = true
         
-        let gesture2 = UITapGestureRecognizer(target: self, action: "imageTaped")
+        let gesture2 = UITapGestureRecognizer(target: self, action: #selector(CommunityEntryView.imageTaped))
         imageIcon.addGestureRecognizer(gesture2)
-        imageIcon.userInteractionEnabled = true
+        imageIcon.isUserInteractionEnabled = true
         
-        let gesture3 = UITapGestureRecognizer(target: self, action: "report")
+        let gesture3 = UITapGestureRecognizer(target: self, action: #selector(CommunityEntryView.report))
         reportButton.addGestureRecognizer(gesture3)
     }
     
     func like(){
-        heartImageView.highlighted = !heartImageView.highlighted
-        delegate?.like(commentID, like: heartImageView.highlighted)
+        heartImageView.isHighlighted = !heartImageView.isHighlighted
+        delegate?.like(commentID, like: heartImageView.isHighlighted)
     }
     
     func imageTaped(){
@@ -193,9 +193,9 @@ class CommunityEntryView: UITableViewCell {
         //Hay tres paddings (x0) al inicio, entre la imagen, las label con la imagen y las label con like
         let likesImageWidth = frame.width * 0.1
         let endPadding = frame.width * 0.1
-        let viewIconWidth : CGFloat = imageIcon.hidden ? 0 : likesImageWidth
+        let viewIconWidth : CGFloat = imageIcon.isHidden ? 0 : likesImageWidth
 
-        let contentSizeWidth = frame.width - x0 * (imageIcon.hidden ? 3 : 4) - imageWidth - endPadding - viewIconWidth - likesImageWidth
+        let contentSizeWidth = frame.width - x0 * (imageIcon.isHidden ? 3 : 4) - imageWidth - endPadding - viewIconWidth - likesImageWidth
         
         let imageIconDimention = min(imageWidth , (frame.height - 2))
         
@@ -204,7 +204,7 @@ class CommunityEntryView: UITableViewCell {
         
         heartImageView.frame = CGRect(x: frame.width - likesImageWidth - endPadding, y: frame.height / 2 - 10, width: frame.height * 0.3 , height: frame.height * 0.3)
         
-        if !imageIcon.hidden{
+        if !imageIcon.isHidden{
             imageIcon.frame = CGRect(x: heartImageView.frame.origin.x - x0 - heartImageView.frame.width, y: frame.height / 2 - 10, width: frame.height * 0.3 , height: frame.height * 0.3)
         }
         

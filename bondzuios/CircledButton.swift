@@ -9,27 +9,27 @@
 import UIKit
 import QuartzCore
 
-@IBDesignable public class CircledButton: UIView {
+@IBDesignable open class CircledButton: UIView {
 
-    private var target : ((CircledButton)->Void)?
-    var circleCenter = CGPointZero
+    fileprivate var target : ((CircledButton)->Void)?
+    var circleCenter = CGPoint.zero
     
-    @IBInspectable public var color : UIColor = UIColor.clearColor(){
+    @IBInspectable open var color : UIColor = UIColor.clear{
         didSet{
             self.backgroundColor = color
         }
     }
     
     
-    @IBInspectable public var borderColor : UIColor = UIColor.whiteColor(){
+    @IBInspectable open var borderColor : UIColor = UIColor.white{
         didSet{
-            self.layer.borderColor = borderColor.CGColor
+            self.layer.borderColor = borderColor.cgColor
             self.layer.borderWidth = 8
         }
     }
     
     
-    @IBInspectable public var image : UIImage?{
+    @IBInspectable open var image : UIImage?{
         set(new){
             imageView.image = new
         }
@@ -38,8 +38,8 @@ import QuartzCore
         }
 
     }
-    @IBInspectable public var border : CGFloat = 1
-    public var text : String? {
+    @IBInspectable open var border : CGFloat = 1
+    open var text : String? {
         set(new){
             label.text = new
         }
@@ -49,9 +49,9 @@ import QuartzCore
     }
 
     
-    private var label : UILabel = UILabel()
-    private var verifyCircle  = true
-    private var imageView = UIImageView()
+    fileprivate var label : UILabel = UILabel()
+    fileprivate var verifyCircle  = true
+    fileprivate var imageView = UIImageView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,39 +66,39 @@ import QuartzCore
     
     func load(){
         self.clearsContextBeforeDrawing = false
-        backgroundColor = UIColor.clearColor()
-        let tpg = UITapGestureRecognizer(target: self, action: "tap:")
+        backgroundColor = UIColor.clear
+        let tpg = UITapGestureRecognizer(target: self, action: #selector(CircledButton.tap(_:)))
         addGestureRecognizer(tpg)
         circleCenter = CGPoint(x: frame.size.width/2, y: frame.size.height/2)
-        label.textAlignment = NSTextAlignment.Center
+        label.textAlignment = NSTextAlignment.center
         imageView.image = image
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        imageView.contentMode = UIViewContentMode.scaleAspectFit
         label.textColor = borderColor
         label.numberOfLines = 1
-        label.font = label.font.fontWithSize(10)
-        label.textAlignment = NSTextAlignment.Center
+        label.font = label.font.withSize(10)
+        label.textAlignment = NSTextAlignment.center
         
-        self.layer.borderColor = self.color.CGColor
+        self.layer.borderColor = self.color.cgColor
         
         addSubview(label)
         addSubview(imageView)
         
-        self.layer.borderColor = borderColor.CGColor
+        self.layer.borderColor = borderColor.cgColor
         self.layer.borderWidth = 1
         self.backgroundColor = color
 
     }
     
-    func setTargetAction(target : (CircledButton)->Void){
+    func setTargetAction(_ target : @escaping (CircledButton)->Void){
         self.target = target
     }
     
-    override public func sizeToFit() {
+    override open func sizeToFit() {
         let d = min(frame.width, frame.height)
         frame.size = CGSize(width: d, height: d)
     }
     
-    func tap( loc : UITapGestureRecognizer){
+    func tap( _ loc : UITapGestureRecognizer){
         
         if let delegate = target{
             
@@ -107,7 +107,7 @@ import QuartzCore
                 return
             }
             
-            let point = loc.locationInView(self)
+            let point = loc.location(in: self)
             let v = sqrt(pow((point.x - circleCenter.x),2)+pow((point.y - circleCenter.y),2))
             if v < frame.width{
                 delegate(self)
@@ -115,7 +115,7 @@ import QuartzCore
         }
     }
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         
         let border = frame.width * 0.10
         let contentSize = frame.width - border * 2

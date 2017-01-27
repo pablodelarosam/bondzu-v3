@@ -14,6 +14,30 @@ import WebKit
 import ParseFacebookUtilsV4
 
 import MobileCoreServices
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 
 class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WKNavigationDelegate{
@@ -34,18 +58,18 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
     
     var hasImage = false
     
-    var activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+    var activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
     
     
-    @IBAction func showTerms(sender: AnyObject) {
+    @IBAction func showTerms(_ sender: AnyObject) {
         let w = WKWebView(frame: CGRect(x: self.view.frame.origin.x, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height), configuration: WKWebViewConfiguration())
         w.scrollView.contentInset = UIEdgeInsets(top: navigationController!.navigationBar.frame.size.height, left: 10, bottom: 10, right: 10)
-        let request = NSURLRequest(URL: privacyURL!)
-        w.loadRequest(request)
+        let request = URLRequest(url: privacyURL! as URL)
+        w.load(request)
         view.addSubview(w)
         webView = w
         webView?.navigationDelegate = self
-        UIView.animateWithDuration(0.7, animations: {
+        UIView.animate(withDuration: 0.7, animations: {
             self.webView!.frame = CGRect(x: self.view.frame.origin.x, y: self.view.frame.origin.y, width: self.webView!.frame.width, height: self.webView!.frame.height)
             })
         
@@ -55,52 +79,52 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
         activityView.startAnimating()
     }
     
-    @IBAction func clickedDone(sender: AnyObject) {
+    @IBAction func clickedDone(_ sender: AnyObject) {
         webView?.navigationDelegate = nil
         navigationItem.leftBarButtonItem = nil
         webView?.stopLoading()
-        UIView.animateWithDuration(0.7, animations: {
+        UIView.animate(withDuration: 0.7, animations: {
             self.webView!.frame = CGRect(x: 0, y: self.view.frame.height, width: self.webView!.frame.width, height: self.webView!.frame.height)
             }, completion: { _ in
                 self.webView?.removeFromSuperview()
         })
         
-        if activityView.isAnimating(){
+        if activityView.isAnimating{
             activityView.stopAnimating()
             activityView.removeFromSuperview()
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Sign Up", comment: "")
         super.viewDidAppear(animated)
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.barStyle = .Black
+        self.navigationController?.navigationBar.barStyle = .black
         self.navigationController?.navigationBar.barTintColor = Constantes.COLOR_NARANJA_NAVBAR
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         
-        pass.secureTextEntry = true
+        pass.isSecureTextEntry = true
         join.layer.borderWidth = 2
-        join.layer.borderColor = UIColor.whiteColor().CGColor
+        join.layer.borderColor = UIColor.white.cgColor
         
         join.layer.cornerRadius = 10
         joinfb.layer.cornerRadius = 10
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dissmissKeyboards"))
-        profile.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changeIcon"))
-        profile.userInteractionEnabled = true
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dissmissKeyboards)))
+        profile.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.changeIcon)))
+        profile.isUserInteractionEnabled = true
         
-        if let user = PFUser.currentUser(){
+        if let user = PFUser.current(){
             
             if !Usuario.needsUpdating(user){
-                performSegueWithIdentifier("loginSegue", sender: user)
+                performSegue(withIdentifier: "loginSegue", sender: user)
             }
             else{
                 navigationController?.logoutUser()
@@ -108,9 +132,9 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
         }
         
         termsButton.titleLabel!.adjustsFontSizeToFitWidth = true
-        done = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .Done, target: self, action: "clickedDone:")
+        done = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(SignUpViewController.clickedDone(_:)))
         
-        activityView.color = UIColor.orangeColor()
+        activityView.color = UIColor.orange
 
     }
     
@@ -124,56 +148,56 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
         mail.resignFirstResponder()
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
     func changeIcon(){
-        let controller = UIAlertController(title: NSLocalizedString("Attach image", comment: ""), message: NSLocalizedString("Select an image to set as profile picture", comment: ""), preferredStyle: .ActionSheet)
+        let controller = UIAlertController(title: NSLocalizedString("Attach image", comment: ""), message: NSLocalizedString("Select an image to set as profile picture", comment: ""), preferredStyle: .actionSheet)
         
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Take picture", comment: ""), style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Take picture", comment: ""), style: .default, handler: {
             a in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
                 let controller = UIImagePickerController()
-                controller.sourceType = UIImagePickerControllerSourceType.Camera
+                controller.sourceType = UIImagePickerControllerSourceType.camera
                 controller.mediaTypes = [kUTTypeImage as String]
                 controller.allowsEditing = true
                 controller.delegate = self
-                self.presentViewController(controller, animated: true, completion: nil)
+                self.present(controller, animated: true, completion: nil)
             }
         }))
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Select from library", comment: ""), style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Select from library", comment: ""), style: .default, handler: {
             a in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
                 let controller = UIImagePickerController()
-                controller.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+                controller.sourceType = UIImagePickerControllerSourceType.photoLibrary
                 controller.mediaTypes = [kUTTypeImage as String]
                 controller.allowsEditing = true
                 controller.delegate = self
-                self.presentViewController(controller, animated: true, completion: nil)
+                self.present(controller, animated: true, completion: nil)
             }
         }))
         if(hasImage){
-            controller.addAction(UIAlertAction(title: NSLocalizedString("Delete image", comment: ""), style: .Destructive, handler: {
+            controller.addAction(UIAlertAction(title: NSLocalizedString("Delete image", comment: ""), style: .destructive, handler: {
                 a in
                 self.profile.image = UIImage(named: "profile_pic")
                 self.hasImage = false
             }))
         }
         
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {
             a in
         }))
         
-        presentViewController(controller, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
         let originalmage = info[UIImagePickerControllerOriginalImage] as? UIImage
@@ -187,35 +211,35 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
             hasImage = true
         }
         
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func register(){
         
         guard name.text?.characters.count != 0 else{
-            let alert = UIAlertController(title: NSLocalizedString("Empty name", comment: ""), message: NSLocalizedString("Your name should not be empty", comment: ""), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.name.becomeFirstResponder()}))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: NSLocalizedString("Empty name", comment: ""), message: NSLocalizedString("Your name should not be empty", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: {_ in self.name.becomeFirstResponder()}))
+            self.present(alert, animated: true, completion: nil)
             return
         }
         guard mail.text?.characters.count != 0 else{
-            let alert = UIAlertController(title: NSLocalizedString("Empty mail", comment: ""), message: NSLocalizedString("Your mail should not be empty", comment: ""), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.mail.becomeFirstResponder()}))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: NSLocalizedString("Empty mail", comment: ""), message: NSLocalizedString("Your mail should not be empty", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: {_ in self.mail.becomeFirstResponder()}))
+            self.present(alert, animated: true, completion: nil)
             return
         }
         
         guard (mail.text?.isValidEmail() == true) else{
-            let alert = UIAlertController(title: NSLocalizedString("Invalid mail", comment: ""), message: NSLocalizedString("Please insert a valid email address", comment: ""), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.mail.becomeFirstResponder()}))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: NSLocalizedString("Invalid mail", comment: ""), message: NSLocalizedString("Please insert a valid email address", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: {_ in self.mail.becomeFirstResponder()}))
+            self.present(alert, animated: true, completion: nil)
             return
         }
         
         guard pass.text?.characters.count >= 5 else{
-            let alert = UIAlertController(title: NSLocalizedString("Invalid password", comment: ""), message: NSLocalizedString("Your password should contain at least 5 characters", comment: ""), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {_ in self.pass.becomeFirstResponder()}))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: NSLocalizedString("Invalid password", comment: ""), message: NSLocalizedString("Your password should contain at least 5 characters", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: {_ in self.pass.becomeFirstResponder()}))
+            self.present(alert, animated: true, completion: nil)
             return
         }
         
@@ -224,18 +248,18 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
         if !hasImage{
             self.loading?.finish()
             self.loading = nil
-            let alert = UIAlertController(title: NSLocalizedString("Empty profile image", comment: ""), message: NSLocalizedString("You can add a profile picture. Would you like to do it?", comment: ""), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Sure!", comment: ""), style: .Default, handler:{
+            let alert = UIAlertController(title: NSLocalizedString("Empty profile image", comment: ""), message: NSLocalizedString("You can add a profile picture. Would you like to do it?", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Sure!", comment: ""), style: .default, handler:{
                 _ in
                 self.changeIcon()
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .Default, handler:{
+            alert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .default, handler:{
                 _ in
                 self.loading = LoadingView(view: self.view)
                 let lm = LoginManager()
                 lm.registerUser(self.name.text!, email: self.mail.text!, password: self.pass.text!, image: nil, delegate: self)
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             return
         }
         else{
@@ -244,23 +268,23 @@ class SignUpViewController :  LoginGenericViewController, UITextFieldDelegate, U
         }
     }
     
-    @IBAction func registerFacebook(sender: AnyObject) {
+    @IBAction func registerFacebook(_ sender: AnyObject) {
         loading = LoadingView(view: self.view)
         let lm = LoginManager()
         lm.loginWithFacebook(self, finishingDelegate: self)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         mail.text = ""
         pass.text = ""
         name.text = ""
         hasImage = false
         profile.image = UIImage(named: "profile_pic")
-        super.prepareForSegue(segue, sender: sender)
+        super.prepare(for: segue, sender: sender)
     }
 
     
-    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         if let w = self.webView{
             
             let javascript = "var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');document.getElementsByTagName('head')[0].appendChild(meta);"

@@ -10,11 +10,11 @@ import UIKit
 
 protocol LoadReplyResult{
     
-    func UserImageDidFinishLoading( reply : Reply )
-    func UserImageDidFailedLoading( reply : Reply )
+    func UserImageDidFinishLoading( _ reply : Reply )
+    func UserImageDidFailedLoading( _ reply : Reply )
     
-    func UserDidLoad( reply : Reply )
-    func UserDidFailedLoading( reply : Reply )
+    func UserDidLoad( _ reply : Reply )
+    func UserDidFailedLoading( _ reply : Reply )
 }
 
 
@@ -23,7 +23,7 @@ class Reply: NSObject {
     var parent : Message
     var user : Usuario?
     var message : String
-    var date : NSDate
+    var date : Date
     
     
     init(object : PFObject, delegate : LoadReplyResult?) {
@@ -31,7 +31,7 @@ class Reply: NSObject {
         message = object[TableReplyColumnNames.Message.rawValue] as! String
         date = object.createdAt!
         super.init()
-        dispatch_async(Constantes.get_bondzu_queue()){
+        Constantes.get_bondzu_queue().async(){
             
             do{
                 let userObject = object[TableReplyColumnNames.User.rawValue] as! PFObject
@@ -46,12 +46,12 @@ class Reply: NSObject {
                     }
                 })
                 
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async(){
                     delegate?.UserDidLoad(self)
                 }
             }
             catch{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async(){
                     delegate?.UserDidFailedLoading(self)
                 }
             }

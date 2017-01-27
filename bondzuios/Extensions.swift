@@ -13,45 +13,45 @@ import Parse
 extension UITabBarController {
     
     
-    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
+    open override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
 
     }
     
     
-    public override func shouldAutorotate() -> Bool {
+    open override var shouldAutorotate : Bool {
         if let selected = selectedViewController {
-            return selected.shouldAutorotate()
+            return selected.shouldAutorotate
         }
-        return super.shouldAutorotate()
+        return super.shouldAutorotate
     }
     
-    public override func prefersStatusBarHidden() -> Bool {
+    open override var prefersStatusBarHidden : Bool {
         if let vc = selectedViewController{
-            return vc.prefersStatusBarHidden()
+            return vc.prefersStatusBarHidden
         }
         
         return false
     }
     
-    public override func childViewControllerForStatusBarHidden() -> UIViewController? {
+    open override var childViewControllerForStatusBarHidden : UIViewController? {
         return self.selectedViewController
     }
     
-    public override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    open override var childViewControllerForStatusBarStyle : UIViewController? {
         return self.selectedViewController
     }
     
-    public override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    open override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
 }
 
 extension UIAlertController {
-    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
+    open override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
     }
-    public override func shouldAutorotate() -> Bool {
+    open override var shouldAutorotate : Bool {
         return false
     }
 }
@@ -59,12 +59,12 @@ extension UIAlertController {
 extension UINavigationController{
    
     func logoutUser(){
-        (UIApplication.sharedApplication().delegate as! AppDelegate).user = nil
+        (UIApplication.shared.delegate as! AppDelegate).user = nil
         FBSDKLoginManager().logOut()
-        PFUser.logOutInBackgroundWithBlock { (error) -> Void in
+        PFUser.logOutInBackground { (error) -> Void in
             if error == nil{
-                dispatch_async(dispatch_get_main_queue()){
-                    self.popToRootViewControllerAnimated(true)
+                DispatchQueue.main.async{
+                    self.popToRootViewController(animated: true)
                 }
             }
         }
@@ -80,7 +80,7 @@ extension String {
         
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         
-        let result = emailTest.evaluateWithObject(self)
+        let result = emailTest.evaluate(with: self)
 
         return result
         
@@ -89,7 +89,7 @@ extension String {
 
 extension CGPoint{
 
-    static func originForCenteringView(view : UIView, inView : UIView) -> CGPoint{
+    static func originForCenteringView(_ view : UIView, inView : UIView) -> CGPoint{
         return CGPoint(x: inView.frame.size.width / 2 - view.frame.size.width / 2, y: inView.frame.size.height / 2 - view.frame.size.height / 2)
     }
     

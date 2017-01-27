@@ -15,11 +15,11 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
     var toLoad = 0
     var loaded = false
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.title = NSLocalizedString("Activity", comment: "")
     }
@@ -28,8 +28,8 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
         super.viewDidLoad()
         
         let q = PFQuery(className: TableNames.Transactions_table.rawValue)
-        q.whereKey(TableTransactionColumnNames.User.rawValue, equalTo: PFUser.currentUser()!)
-        q.findObjectsInBackgroundWithBlock { (arr, error) -> Void in
+        q.whereKey(TableTransactionColumnNames.User.rawValue, equalTo: PFUser.current()!)
+        q.findObjectsInBackground { (arr, error) -> Void in
             if error == nil, let array = arr{
                 self.toLoad = array.count + 1
                 for t in array{
@@ -48,11 +48,11 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
         super.didReceiveMemoryWarning()
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if loaded{
             return activities.count
         }
@@ -60,12 +60,12 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if !loaded{
-            return tableView.dequeueReusableCellWithIdentifier("Loading")!
+            return tableView.dequeueReusableCell(withIdentifier: "Loading")!
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("content") as! ActivityTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "content") as! ActivityTableViewCell
         cell.load(activities[indexPath.row])
         
         let cellIV = cell.animalImage as! CircledImageView
@@ -74,7 +74,7 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
             cellIV.setBorderOfColor(activities[indexPath.row].animal.requiredPermission!.color, width: 3)
         }
         else{
-            cellIV.setBorderOfColor(UIColor.whiteColor(), width: 3)
+            cellIV.setBorderOfColor(UIColor.white, width: 3)
             
             activities[indexPath.row].animal.addObserverToRequiredType({
                 [weak self]
@@ -91,29 +91,29 @@ class ActivityViewController: UITableViewController, TransactionLoadingDelegate{
         return cell
     }
     
-    func transaccionDidFinishLoading(t: Transaction?) {
-        toLoad--;
+    func transaccionDidFinishLoading(_ t: Transaction?) {
+        toLoad -= 1;
         if toLoad == 0{
             loaded = true
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 self.tableView.reloadData()
             }
         }
     }
     
-    func transaccionDidFailLoading(t: Transaction?) {
-        toLoad--;
-        let index  = activities.indexOf(t!)!
-        activities.removeAtIndex(index)
+    func transaccionDidFailLoading(_ t: Transaction?) {
+        toLoad -= 1;
+        let index  = activities.index(of: t!)!
+        activities.remove(at: index)
         if toLoad == 0{
             loaded = true
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 self.tableView.reloadData()
             }
         }
     }
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }
     
@@ -134,7 +134,7 @@ class ActivityTableViewCell : UITableViewCell{
     @IBOutlet weak var price: UILabel!
     
 
-    func load(transaction : Transaction){
+    func load(_ transaction : Transaction){
         
         itemName.adjustsFontSizeToFitWidth = true
         animalName.adjustsFontSizeToFitWidth = true
@@ -143,10 +143,10 @@ class ActivityTableViewCell : UITableViewCell{
         price.text = "\(transaction.price)"
         animalName.text = transaction.animal.name
         
-        let formater = NSDateFormatter()
-        formater.dateStyle = NSDateFormatterStyle.ShortStyle
-        formater.timeStyle = NSDateFormatterStyle.NoStyle
-        date.text = formater.stringFromDate(transaction.date)
+        let formater = DateFormatter()
+        formater.dateStyle = DateFormatter.Style.short
+        formater.timeStyle = DateFormatter.Style.none
+        date.text = formater.string(from: transaction.date as Date)
     }
     
     

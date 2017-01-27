@@ -11,15 +11,15 @@ import Parse
 
 class FullImageViewController: UIViewController, UINavigationControllerDelegate{
     
-    private weak var fullImageView : FullImageView?
+    fileprivate weak var fullImageView : FullImageView?
     
     
-    func loadImage(image : UIImage){
+    func loadImage(_ image : UIImage){
         fullImageView?.image = image
     }
     
-    func loadParseImage(image : PFFile){
-        image.getDataInBackgroundWithBlock(){
+    func loadParseImage(_ image : PFFile){
+        image.getDataInBackground(){
             data , error in
             
             guard error == nil , let imageData = data else{
@@ -32,16 +32,16 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
         }
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
     override func viewDidLoad() {
         
-        self.modalTransitionStyle = .FlipHorizontal
+        self.modalTransitionStyle = .flipHorizontal
         setNeedsStatusBarAppearanceUpdate()
         view = UIImageView(image: captureScreen())
-        view.userInteractionEnabled = true
+        view.isUserInteractionEnabled = true
         let fiv =  FullImageView()
         fullImageView = fiv
         fullImageView!.delegate = self
@@ -50,7 +50,7 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
     
     func dismiss(){
         fullImageView!.delegate = nil
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     
@@ -65,11 +65,11 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
         var imageview = UIImageView()
         var bgImage = UIImageView()
 
-        private var activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
-        private var blur = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+        fileprivate var activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        fileprivate var blur = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
         
         init(){
-            super.init(frame: UIScreen.mainScreen().bounds)
+            super.init(frame: UIScreen.main.bounds)
             load()
         }
         
@@ -100,15 +100,15 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
                 self.frame = CGRect(x: 0, y: 0, width: w.bounds.width, height: w.bounds.height)
             }*/
             
-            button.setTitle(NSLocalizedString("Done", comment: ""), forState: UIControlState.Normal)
-            button.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
+            button.setTitle(NSLocalizedString("Done", comment: ""), for: UIControlState())
+            button.addTarget(self, action: #selector(FullImageView.dismiss), for: UIControlEvents.touchUpInside)
             
-            saveButton.setTitle(NSLocalizedString("Save", comment: ""), forState: UIControlState.Normal)
-            saveButton.addTarget(self, action: "saveImage", forControlEvents: UIControlEvents.TouchUpInside)
+            saveButton.setTitle(NSLocalizedString("Save", comment: ""), for: UIControlState())
+            saveButton.addTarget(self, action: #selector(FullImageView.saveImage), for: UIControlEvents.touchUpInside)
             
             activityIndicatorView.hidesWhenStopped = true
-            bgImage.contentMode = .ScaleAspectFill
-            imageview.contentMode = .ScaleAspectFit
+            bgImage.contentMode = .scaleAspectFill
+            imageview.contentMode = .scaleAspectFit
             
             addSubview(bgImage)
             addSubview(blur)
@@ -116,7 +116,7 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
             addSubview(button)
             addSubview(saveButton)
             addSubview(imageview)
-            activityIndicatorView.color = UIColor.orangeColor()
+            activityIndicatorView.color = UIColor.orange
         }
         
         func saveImage(){
@@ -125,13 +125,13 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
             let hokusai = Hokusai()
             hokusai.colors = HOKColors(
                 backGroundColor: Constantes.COLOR_NARANJA_NAVBAR, //always orange
-                buttonColor: UIColor.whiteColor(),
+                buttonColor: UIColor.white,
                 cancelButtonColor: UIColor(hexString: "FFA844")!, //light orange
-                fontColor: UIColor.blackColor()
+                fontColor: UIColor.black
             )
             hokusai.fontName = "Helvetica"
             hokusai.addButton(save) {
-                Drop.down(self.saving, state: DropState.Color(Constantes.COLOR_NARANJA_NAVBAR))
+                Drop.down(self.saving, state: DropState.color(Constantes.COLOR_NARANJA_NAVBAR))
                 let queue = TaskQueue()
                 queue.tasks +=! {
                     UIImageWriteToSavedPhotosAlbum(self.image!, self, "image:didFinishSavingWithError:contextInfo:", nil)
@@ -142,12 +142,12 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
         }
         
         //image!! compleiton selector for when saving an image
-        func image(image: UIImage, didFinishSavingWithError: NSError?, contextInfo: AnyObject) {
+        func image(_ image: UIImage, didFinishSavingWithError: NSError?, contextInfo: AnyObject) {
             if didFinishSavingWithError != nil {
-                Drop.down(failed, state: DropState.Error)
+                Drop.down(failed, state: DropState.error)
                 return
             }
-            Drop.down(success, state: DropState.Success)
+            Drop.down(success, state: DropState.success)
         }
         
         var image : UIImage?{
@@ -175,12 +175,12 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
             
             if imageview.image != nil{
                 activityIndicatorView.stopAnimating()
-                let orientation = UIDevice.currentDevice().orientation
+                let orientation = UIDevice.current.orientation
                 
-                if orientation == .Portrait || orientation == .FaceUp || orientation == .FaceDown{
+                if orientation == .portrait || orientation == .faceUp || orientation == .faceDown{
                     
-                    button.hidden = false
-                    saveButton.hidden = false
+                    button.isHidden = false
+                    saveButton.isHidden = false
                     
                     let frh = frame.height
                     
@@ -215,10 +215,10 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
                     }
                 }
                 else{
-                    button.hidden = true
-                    saveButton.hidden = true
-                    imageview.contentMode = .ScaleAspectFit
-                    imageview.frame = CGRect(origin: CGPointZero, size: frame.size)
+                    button.isHidden = true
+                    saveButton.isHidden = true
+                    imageview.contentMode = .scaleAspectFit
+                    imageview.frame = CGRect(origin: CGPoint.zero, size: frame.size)
                 }
                 
             }
@@ -230,23 +230,23 @@ class FullImageViewController: UIViewController, UINavigationControllerDelegate{
         }
         
         func renderForDismiss(){
-            let view = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
+            let view = UIScreen.main.snapshotView(afterScreenUpdates: false)
             view.frame = self.frame
             addSubview(view)
-            imageview.hidden = true
-            bgImage.hidden = true
-            blur.hidden = true
+            imageview.isHidden = true
+            bgImage.isHidden = true
+            blur.isHidden = true
         }
 
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.AllButUpsideDown
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.allButUpsideDown
     }
     
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
         fullImageView?.renderForDismiss()
-        super.dismissViewControllerAnimated(flag, completion: completion)
+        super.dismiss(animated: flag, completion: completion)
     }
     
 }

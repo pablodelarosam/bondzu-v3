@@ -15,7 +15,7 @@ protocol UserBlockingHelperDelegate{
      
      - parameter result: The result of the operation. If true is passed it means that the user has acces to it. Otherwise the entire controller should be removed
      */
-    func userBlockingHelperWillDismiss(result : Bool)
+    func userBlockingHelperWillDismiss(_ result : Bool)
     func userBlockingHelperFailed()
 }
 
@@ -30,25 +30,25 @@ protocol UserBlockingHelperDelegate{
 class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
     
     /// The controller in which the web view may be presented
-    private var controller : UIViewController
+    fileprivate var controller : UIViewController
     ///The view that is going to be blocked
-    private var overlapingView : UIView
+    fileprivate var overlapingView : UIView
     /// The tyoe that the user require for the view to be unlocked
-    private var requiredType : Int? = nil
+    fileprivate var requiredType : Int? = nil
     /// The user that is going to be checked / upgraded
-    private var user : Usuario
+    fileprivate var user : Usuario
 
     /// The instance of the blocking view that is going to be used
-    private var view : BlockingView = BlockingView()
+    fileprivate var view : BlockingView = BlockingView()
     
     /// The delegate that is going to inform about the blocking view status
-    private weak var delegate : UserBlockingHelperDelegate?
+    fileprivate weak var delegate : UserBlockingHelperDelegate?
     
     /// The web view that is going to be used for upgrading the user
-    private var webView : UserPlanPurchaseManager?
+    fileprivate var webView : UserPlanPurchaseManager?
     
     /// The actual purchasable user type
-    private var userTypeInstance : UserType?
+    fileprivate var userTypeInstance : UserType?
     
     
     /**
@@ -101,7 +101,7 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
      - returns: A boolean that tells if the operation succeded or not
      
      */
-    func setRequiredPriority(priority : Int) -> Bool{
+    func setRequiredPriority(_ priority : Int) -> Bool{
         
         if requiredType != nil{
             return false
@@ -117,8 +117,8 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
      
      */
     func purchasePlan(){
-        view.button.enabled = false
-        webView = UserPlanPurchaseManager(user: self.user, insets: UIEdgeInsetsZero, desiredType: userTypeInstance!, delegate: self)
+        view.button.isEnabled = false
+        webView = UserPlanPurchaseManager(user: self.user, insets: UIEdgeInsets.zero, desiredType: userTypeInstance!, delegate: self)
         webView?.frame = self.view.frame
         webView?.frame.origin.y = webView!.frame.height
         
@@ -132,9 +132,9 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
         }
         
         self.view.addSubview(webView!)
-        UIView.animateWithDuration(1){
+        UIView.animate(withDuration: 1, animations: {
             self.webView!.frame.origin.y = self.webView!.frame.origin.y - self.webView!.frame.size.height
-        }
+        })
     }
     
     /**
@@ -152,7 +152,7 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
      This function is the main port entry for checking if everithing is ok and notifyng to the delegate.
      Call this function when anything has been loaded such a user type or required prority
      */
-    private func attempToLoadBlockingView(){
+    fileprivate func attempToLoadBlockingView(){
         
         guard user.hasLoadedPriority && self.requiredType != nil else{
             return
@@ -174,7 +174,7 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
         else{
             if let v = webView{
                 v.cancel()
-                self.view.button.enabled = true
+                self.view.button.isEnabled = true
                 self.webView = nil
             }
         }
@@ -214,12 +214,12 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
      */
     func webPurchasePlanPageDidFail() {
         self.webView = nil
-        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: "Something went wront, please try again later", preferredStyle: UIAlertControllerStyle.Alert)
-        ac.addAction(UIAlertAction(title: NSLocalizedString("OK" , comment: ""), style: .Default, handler: {
+        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: "Something went wront, please try again later", preferredStyle: UIAlertControllerStyle.alert)
+        ac.addAction(UIAlertAction(title: NSLocalizedString("OK" , comment: ""), style: .default, handler: {
             _ in
             self.delegate?.userBlockingHelperWillDismiss(false)
         }))
-        self.controller.presentViewController(ac, animated: true, completion: nil)
+        self.controller.present(ac, animated: true, completion: nil)
     }
     
     /**
@@ -240,22 +240,22 @@ class UserBlockingHelper: NSObject, UserPlanPurchaseManagerProtocol{
 class BlockingView : UIView{
     
     /// This is the view that is set when the user type is not loaded yet
-    private let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+    fileprivate let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
     /// The top label indicating the "To see me"
-    private let topLabel = UILabel()
+    fileprivate let topLabel = UILabel()
     /// The center label indicating "you need to be"
-    private let centerLabel = UILabel()
+    fileprivate let centerLabel = UILabel()
     /// The label indicating the usertype
-    private let bottonLabel = UILabel()
+    fileprivate let bottonLabel = UILabel()
     /// The purchase button
-    private let button = UIButton(type: UIButtonType.RoundedRect)
+    fileprivate let button = UIButton(type: UIButtonType.roundedRect)
     /// The logo that appears at the bottom of the screen
-    private let finalLogo = UIImageView(image: UIImage(named: "whitePaw")!)
+    fileprivate let finalLogo = UIImageView(image: UIImage(named: "whitePaw")!)
     /// Indictes if the view is still loading
-    private var loading = true
+    fileprivate var loading = true
     
     /// A stack view that includes the above mentioned views
-    private var stackView = UIStackView()
+    fileprivate var stackView = UIStackView()
     
     /// As this is a private and not reusable class, there is an instance to the only possible caller. Its weak to avoid a circular reference
     weak var helper : UserBlockingHelper?
@@ -264,9 +264,9 @@ class BlockingView : UIView{
      Called when the view is ready to display content.
      This method shows the view components
      */
-    private func stopLoading(){
+    fileprivate func stopLoading(){
         loading = false
-        stackView.hidden = false
+        stackView.isHidden = false
         activityIndicatorView.stopAnimating()
     }
     
@@ -276,7 +276,7 @@ class BlockingView : UIView{
       - parameter title: The title of the type that the user needs
       - parameter color: The color that represents the type
      */
-    func setUserRequiredTitle(title : String, color: UIColor){
+    func setUserRequiredTitle(_ title : String, color: UIColor){
         bottonLabel.textColor = color
         bottonLabel.text = title
         self.stopLoading()
@@ -297,14 +297,14 @@ class BlockingView : UIView{
      This method is provided to load the view components. 
      As this properties are going to be set in every constructor, its taken to another method to avoid duplication.
      */
-    private func load(){
+    fileprivate func load(){
         
         activityIndicatorView.startAnimating()
         activityIndicatorView.hidesWhenStopped = true
         
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
         
-        stackView.hidden = true
+        stackView.isHidden = true
         
         self.addSubview(activityIndicatorView)
         stackView.addArrangedSubview(topLabel)
@@ -312,32 +312,32 @@ class BlockingView : UIView{
         stackView.addArrangedSubview(bottonLabel)
         stackView.addArrangedSubview(button)
         stackView.addArrangedSubview(finalLogo)
-        stackView.axis = .Vertical
-        stackView.alignment = .Center
-        stackView.distribution = .EqualSpacing
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
         self.addSubview(stackView)
         
-        topLabel.textColor = UIColor.whiteColor()
-        centerLabel.textColor = UIColor.whiteColor()
-        bottonLabel.textColor = UIColor.whiteColor()
+        topLabel.textColor = UIColor.white
+        centerLabel.textColor = UIColor.white
+        bottonLabel.textColor = UIColor.white
         
-        topLabel.font = topLabel.font.fontWithSize(20)
-        centerLabel.font = centerLabel.font.fontWithSize(20)
-        bottonLabel.font = bottonLabel.font.fontWithSize(25)
+        topLabel.font = topLabel.font.withSize(20)
+        centerLabel.font = centerLabel.font.withSize(20)
+        bottonLabel.font = bottonLabel.font.withSize(25)
         
         
-        self.button.addTarget(self, action: "buttonActioned", forControlEvents: UIControlEvents.TouchUpInside)
+        self.button.addTarget(self, action: #selector(BlockingView.buttonActioned), for: UIControlEvents.touchUpInside)
 
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: "screenTaped")
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(BlockingView.screenTaped))
         self.addGestureRecognizer(gestureRecognizer)
         
         topLabel.text = NSLocalizedString("In order to watch me", comment: "")
         centerLabel.text = NSLocalizedString("You need to be", comment: "")
-        button.setTitle(NSLocalizedString("  Start now  ", comment: ""), forState: UIControlState.Normal)
+        button.setTitle(NSLocalizedString("  Start now  ", comment: ""), for: UIControlState())
         
-        button.backgroundColor = UIColor.orangeColor()
-        button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        button.titleLabel!.font = button.titleLabel!.font.fontWithSize(20)
+        button.backgroundColor = UIColor.orange
+        button.setTitleColor(UIColor.white, for: UIControlState())
+        button.titleLabel!.font = button.titleLabel!.font.withSize(20)
         button.sizeToFit()
         Imagenes.redondeaVista(button, radio: 10)
     }
@@ -353,7 +353,7 @@ class BlockingView : UIView{
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.frame.origin = CGPointZero
+        self.frame.origin = CGPoint.zero
         self.frame.size = self.superview!.bounds.size
         activityIndicatorView.frame.origin = CGPoint.originForCenteringView(activityIndicatorView, inView: self)
         stackView.frame.size = CGSize(width: self.bounds.size.width, height: self.bounds.size.height / 2)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class BondzuNavigationController : UINavigationController {
+open class BondzuNavigationController : UINavigationController {
     
     var user : Usuario?{
         didSet{
@@ -34,43 +34,43 @@ public class BondzuNavigationController : UINavigationController {
         }
     }
     
-    public override func viewWillLayoutSubviews() {
+    open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     }
     
-    public override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         refreshBarTintColor()
     }
     
     
-    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
+    open override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
     }
     
-    public override func shouldAutorotate() -> Bool {
-        return visibleViewController!.shouldAutorotate()
+    open override var shouldAutorotate : Bool {
+        return visibleViewController!.shouldAutorotate
     }
     
-    public override func childViewControllerForStatusBarHidden() -> UIViewController? {
+    open override var childViewControllerForStatusBarHidden : UIViewController? {
         return self.topViewController
     }
     
-    public override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    open override var childViewControllerForStatusBarStyle : UIViewController? {
         return self.topViewController
     }
     
-    public override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    open override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         refreshBarTintColor()
     }
     
-    public func refreshBarTintColor(){
+    open func refreshBarTintColor(){
         if self.user != nil && user!.hasLoadedPriority{
             self.navigationBar.barTintColor = user!.type!.color
         }

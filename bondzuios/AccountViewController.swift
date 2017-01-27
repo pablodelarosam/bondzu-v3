@@ -26,26 +26,26 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var changedImage = false
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Account", comment: "")
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1;
     }
     
-    func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0{
             
             
-            let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
-            cell.textLabel!.textColor = UIColor.whiteColor()
-            cell.backgroundColor = UIColor.clearColor()
-            cell.tintColor = UIColor.redColor()
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            cell.textLabel!.textColor = UIColor.white
+            cell.backgroundColor = UIColor.clear
+            cell.tintColor = UIColor.red
             let backView = UIView(frame: cell.frame)
             backView.backgroundColor = UIColor(hexString: "DD7A25") //naranja
             cell.selectedBackgroundView = backView
@@ -64,29 +64,29 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             
             
-            cell.accessoryType = .DisclosureIndicator
-            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.accessoryType = .disclosureIndicator
+            cell.imageView?.tintColor = UIColor.white
             cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             
             return cell
         }
         else if indexPath.section == 1{
-            let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
             cell.textLabel!.text = NSLocalizedString("Logout", comment: "")
-            cell.backgroundColor = UIColor.clearColor()
-            cell.textLabel!.textColor = UIColor.whiteColor()
-            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.backgroundColor = UIColor.clear
+            cell.textLabel!.textColor = UIColor.white
+            cell.imageView?.tintColor = UIColor.white
             cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
             return cell
         }
         else{
-            let cell = UITableViewCell(style: .Default, reuseIdentifier: nil)
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
             cell.textLabel!.text = NSLocalizedString("v3.2.2      b1594", comment: "")
-            cell.backgroundColor = UIColor.clearColor()
-            cell.textLabel!.textColor = UIColor.whiteColor()
-            cell.imageView?.tintColor = UIColor.whiteColor()
+            cell.backgroundColor = UIColor.clear
+            cell.textLabel!.textColor = UIColor.white
+            cell.imageView?.tintColor = UIColor.white
             cell.imageView?.image = iconForCellAtIndexPath(indexPath.section, row: indexPath.row)
-            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
             return cell
         
         
@@ -101,7 +101,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
      
      - returns: If the row is valid it should return a UIImage. nil otherwise
     */
-    func iconForCellAtIndexPath(section : Int, row : Int) -> UIImage!{
+    func iconForCellAtIndexPath(_ section : Int, row : Int) -> UIImage!{
         var image : UIImage
         
         if section == 1{
@@ -120,24 +120,24 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
         
-        image = image.imageWithRenderingMode(.AlwaysTemplate)
+        image = image.withRenderingMode(.alwaysTemplate)
         return image
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        name.textColor = UIColor.whiteColor()
+        name.textColor = UIColor.white
         self.animalEffectView.setImageArray(Constantes.animalArrayImages)
         
         
-        user = Usuario(object:  PFUser.currentUser()!, imageLoaderObserver: {
+        user = Usuario(object:  PFUser.current()!, imageLoaderObserver: {
             (usuario, completed) -> (Void) in
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 if !self.changedImage && completed{
                     self.originalImage = usuario.image
                     self.imageView.image = self.originalImage
@@ -148,8 +148,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.imageView.user = self.user
         name.text = user!.name
         self.originalImage = imageView.image
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "changeIcon"))
-        imageView.userInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AccountViewController.changeIcon)))
+        imageView.isUserInteractionEnabled = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -157,43 +157,43 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func changeIcon(){
-        let controller = UIAlertController(title: NSLocalizedString("Attach image", comment: ""), message: NSLocalizedString("Select an image to set as profile picture", comment: ""), preferredStyle: .ActionSheet)
+        let controller = UIAlertController(title: NSLocalizedString("Attach image", comment: ""), message: NSLocalizedString("Select an image to set as profile picture", comment: ""), preferredStyle: .actionSheet)
         
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Take picture", comment: ""), style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Take picture", comment: ""), style: .default, handler: {
             a in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
                 let controller = UIImagePickerController()
-                controller.sourceType = UIImagePickerControllerSourceType.Camera
+                controller.sourceType = UIImagePickerControllerSourceType.camera
                 controller.mediaTypes = [kUTTypeImage as String]
                 controller.allowsEditing = true
                 controller.delegate = self
-                self.presentViewController(controller, animated: true, completion: nil)
+                self.present(controller, animated: true, completion: nil)
             }
         }))
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Select from library", comment: ""), style: .Default, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Select from library", comment: ""), style: .default, handler: {
             a in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
                 let controller = UIImagePickerController()
-                controller.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+                controller.sourceType = UIImagePickerControllerSourceType.photoLibrary
                 controller.mediaTypes = [kUTTypeImage as String]
                 controller.allowsEditing = true
                 controller.delegate = self
-                self.presentViewController(controller, animated: true, completion: nil)
+                self.present(controller, animated: true, completion: nil)
             }
         }))
         
-        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: {
+        controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {
             _ in
         }))
         
-        presentViewController(controller, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
         let originalmage = info[UIImagePickerControllerOriginalImage] as? UIImage
@@ -212,20 +212,20 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             user?.setNewProfileImage(image, callback: {
                 (completed) -> Void in
                 if(!completed){
-                    let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                    controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+                    let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+                    controller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
                         _ in
                     }))
-                    self.presentViewController(controller, animated: true, completion: nil)
+                    self.present(controller, animated: true, completion: nil)
                 }
             })
         }
         
         
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1{
             self.navigationController?.logoutUser()
         }
@@ -234,22 +234,22 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             return
         }
         else if indexPath.row == 0{
-	     performSegueWithIdentifier("adoptedAnimals", sender: nil)
-            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+	     performSegue(withIdentifier: "adoptedAnimals", sender: nil)
+            tableView.deselectRow(at: indexPath, animated: false)
         }
 	 else if indexPath.row == 1{
-            performSegueWithIdentifier("activity", sender: nil)
-            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            performSegue(withIdentifier: "activity", sender: nil)
+            tableView.deselectRow(at: indexPath, animated: false)
         }
         else if(indexPath.row == 2){
             print("payment")
-            performSegueWithIdentifier("cardsSegue", sender: nil)
-            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            performSegue(withIdentifier: "cardsSegue", sender: nil)
+            tableView.deselectRow(at: indexPath, animated: false)
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let nvc = segue.destinationViewController as? AdopedAnimalsViewController{
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let nvc = segue.destination as? AdopedAnimalsViewController{
             nvc.user = self.user
         }
     }

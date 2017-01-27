@@ -10,20 +10,20 @@ import UIKit
 import Parse
 
 @objc protocol CapsuleLoadingDelegate{
-    func capsuleDidFinishLoading(capsule : Capsule)
-    func capsuleDidFailLoading(capsule : Capsule)
-    func capsuleDidLoadRequiredType(capsule : Capsule)
-    func capsuleDidFailLoadingRequiredType(capsule : Capsule)
+    func capsuleDidFinishLoading(_ capsule : Capsule)
+    func capsuleDidFailLoading(_ capsule : Capsule)
+    func capsuleDidLoadRequiredType(_ capsule : Capsule)
+    func capsuleDidFailLoadingRequiredType(_ capsule : Capsule)
 }
 
 class Capsule : NSObject{
     
-    class func videoPattern(id : String) -> String{
+    class func videoPattern(_ id : String) -> String{
         return "https://img.youtube.com/vi/\(id)/mqdefault.jpg"
     }
     
     
-    class func secondTryVideoPattern(id : String) -> String{
+    class func secondTryVideoPattern(_ id : String) -> String{
         return "https://img.youtube.com/vi/\(id)/mqdefault_live.jpg"
     }
     
@@ -32,7 +32,7 @@ class Capsule : NSObject{
     var videoDescription : [String]
     var animalName : String = ""
     var animalId : String = ""
-    var publishedOn : NSDate
+    var publishedOn : Date
     var image : UIImage!
     weak var delegate : CapsuleLoadingDelegate?
     
@@ -49,7 +49,7 @@ class Capsule : NSObject{
         super.init()
         
         let animal = object[TableVideoCapsuleNames.AnimalID.rawValue] as! PFObject
-        animal.fetchInBackgroundWithBlock {
+        animal.fetchInBackground {
             (av2, error) -> Void in
             if error != nil{
                 self.delegate?.capsuleDidFailLoading(self)
@@ -88,25 +88,25 @@ class Capsule : NSObject{
             
         }
         
-        dispatch_async(Constantes.get_bondzu_queue()){
-            do{
-                print("Loading video \(object.objectId!)")
-                let typeObject = object[TableVideoCapsuleNames.UserRequiredType.rawValue] as! PFObject
-                try typeObject.fetchIfNeeded()
-                self.requiredPriority = UserType(object: typeObject)
-                self.hasLoadedPriority = true
-                
-                dispatch_async(dispatch_get_main_queue()){
-                    delegate?.capsuleDidLoadRequiredType(self)
-                }
-                
-            }
-            catch{
-                dispatch_async(dispatch_get_main_queue()){
-                    delegate?.capsuleDidFailLoadingRequiredType(self)
-                }
-            }
-        }
+//        Constantes.get_bondzu_queue().async{
+//            do{
+//                print("Loading video \(object.objectId!)")
+//                let typeObject = object[TableVideoCapsuleNames.UserRequiredType.rawValue] as! PFObject
+//                try typeObject.fetchIfNeeded()
+//                self.requiredPriority = UserType(object: typeObject)
+//                self.hasLoadedPriority = true
+//                
+//                DispatchQueue.main.async{
+//                    delegate?.capsuleDidLoadRequiredType(self)
+//                }
+//                
+//            }
+//            catch{
+//                DispatchQueue.main.async{
+//                    delegate?.capsuleDidFailLoadingRequiredType(self)
+//                }
+//            }
+//        }
         
     }
 }

@@ -23,7 +23,7 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
         return transaction[TableTransactionColumnNames.Price.rawValue] as! Int
     }
     
-    var date : NSDate{
+    var date : Date{
         get{
             return transaction.createdAt!
         }
@@ -37,12 +37,12 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
         self.delegate = delegate
         super.init()
         let producto = transaction[TableTransactionColumnNames.Product.rawValue] as! PFObject
-        producto.fetchIfNeededInBackgroundWithBlock {
+        producto.fetchIfNeededInBackground {
             (productoObtenido, error) -> Void in
             if error == nil && productoObtenido != nil{
                 self.itemDescrption = productoObtenido![TableProductColumnNames.Name.rawValue + NSLocalizedString(LOCALIZED_STRING, comment: "")] as! String
                 if let animal = productoObtenido![TableProductColumnNames.AnimalID.rawValue] as? PFObject{
-                    dispatch_async(Constantes.get_bondzu_queue()){
+                    Constantes.get_bondzu_queue().async{
                         [weak self]
                         in
                         do{
@@ -51,13 +51,13 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
                                 return
                             }
                             
-                            dispatch_async(dispatch_get_main_queue()){
+                            DispatchQueue.main.async{
                                 _ = AnimalV2(object: animal, delegate: self)
                             }
                             
                         }
                         catch{
-                            dispatch_async(dispatch_get_main_queue()){
+                            DispatchQueue.main.async{
                                 self?.delegate?.transaccionDidFailLoading(self)
                             }
                         }
@@ -78,17 +78,17 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
         
     }
     
-    func animalDidFinishLoading(animal : AnimalV2){
+    func animalDidFinishLoading(_ animal : AnimalV2){
         self.animal = animal
         self.delegate?.transaccionDidFinishLoading(self)
     }
     
-    func animalDidFailLoading(animal : AnimalV2){
+    func animalDidFailLoading(_ animal : AnimalV2){
         print("Error al obtener al animal")
         self.delegate?.transaccionDidFailLoading(self)
     }
 
-    class func createInParse( user : Usuario, product : Producto,  transactionID : String, description : String, price : NSNumber){
+    class func createInParse( _ user : Usuario, product : Producto,  transactionID : String, description : String, price : NSNumber){
         let object = PFObject(className: TableNames.Transactions_table.rawValue)
         object[TableTransactionColumnNames.User.rawValue] = user.originalObject
         object[TableTransactionColumnNames.Product.rawValue] = product.originalObject
@@ -100,16 +100,16 @@ class Transaction: NSObject, AnimalV2LoadingProtocol{
     
     
     //TODO: Empty implementation
-    func animalDidFinishLoadingPermissionType(animal: AnimalV2) {
+    func animalDidFinishLoadingPermissionType(_ animal: AnimalV2) {
         
     }
     
-    func animalDidFailedLoadingPermissionType(animal: AnimalV2) {
+    func animalDidFailedLoadingPermissionType(_ animal: AnimalV2) {
         
     }
 }
 
 protocol TransactionLoadingDelegate{
-    func transaccionDidFinishLoading(t : Transaction?)
-    func transaccionDidFailLoading(t : Transaction?)
+    func transaccionDidFinishLoading(_ t : Transaction?)
+    func transaccionDidFailLoading(_ t : Transaction?)
 }

@@ -30,13 +30,13 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Reply", comment: "")
         super.viewDidAppear(animated)
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
@@ -46,10 +46,10 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         query()
         
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ReplyCommunityViewController.keyBoardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         //Workaround error al cargar por primera vez el teclado
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardShow:", name: UIKeyboardDidShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ReplyCommunityViewController.keyBoardShow(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ReplyCommunityViewController.keyBoardHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
     }
     
@@ -57,11 +57,11 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         super.didReceiveMemoryWarning()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
             return 1
         }
@@ -75,24 +75,24 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
        
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0{
-            let cell = tableView.dequeueReusableCellWithIdentifier("comment") as! CommunityEntryView
+            let cell = tableView.dequeueReusableCell(withIdentifier: "comment") as! CommunityEntryView
             cell.delegate = self
             cell.setInfo(message, date: message.date, name: message.user!.name, message: message.message, image: message.user!.image , hasContentImage: message.hasAttachedImage, hasLiked: like.1 , likeCount: like.0, user: message.user)
-            cell.replyButton.hidden = true
+            cell.replyButton.isHidden = true
             return cell
         }
         
         else{
             
             if !loaded{
-                return tableView.dequeueReusableCellWithIdentifier("loading")!
+                return tableView.dequeueReusableCell(withIdentifier: "loading")!
             }
             else{
                 
-                let cell = tableView.dequeueReusableCellWithIdentifier("reply") as! CommunityReplyEntryCellTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "reply") as! CommunityReplyEntryCellTableViewCell
             
                 cell.setInfo(comment[indexPath.row], date: comment[indexPath.row].date, name: comment[indexPath.row].user!.name, message: comment[indexPath.row].message, image: comment[indexPath.row].user!.image)
     
@@ -101,7 +101,7 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0{
             return 90
         }
@@ -113,24 +113,24 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     func query(){
         
         let query = PFQuery(className: TableNames.Reply_table.rawValue)
-        query.orderByAscending(TableReplyColumnNames.Date.rawValue)
+        query.order(byAscending: TableReplyColumnNames.Date.rawValue)
         query.whereKeyExists(TableReplyColumnNames.Message.rawValue)
         
         query.whereKey(TableReplyColumnNames.ParentMessage.rawValue, equalTo: message.originalObject)
-        query.findObjectsInBackgroundWithBlock(){
+        query.findObjectsInBackground(){
             array, error in
             
             guard error == nil else{
-                dispatch_async(dispatch_get_main_queue()){
-                    let controller = UIAlertController(title: NSLocalizedString("Cannot load community", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                    controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+                DispatchQueue.main.async{
+                    let controller = UIAlertController(title: NSLocalizedString("Cannot load community", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+                    controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.cancel, handler: {
                         _ in
-                        self.navigationController?.popViewControllerAnimated(true)
-                        controller.dismissViewControllerAnimated(false){
-                            self.navigationController?.popViewControllerAnimated(true)
+                        self.navigationController?.popViewController(animated: true)
+                        controller.dismiss(animated: false){
+                            self.navigationController?.popViewController(animated: true)
                         }
                     }))
-                    self.presentViewController(controller, animated: true, completion: nil)
+                    self.present(controller, animated: true, completion: nil)
                 }
                 return
             }
@@ -154,55 +154,55 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         
     }
     
-    func imageSelected(message: Message) {
+    func imageSelected(_ message: Message) {
         comminutyHelper.showImage(message, fromViewController: self)
     }
     
-    func like(message : Message, like : Bool){
-        comminutyHelper.like(message, like: like, user: Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil), delegate: self)
+    func like(_ message : Message, like : Bool){
+        comminutyHelper.like(message, like: like, user: Usuario(object: PFUser.current()!, imageLoaderObserver: nil), delegate: self)
     }
     
-    func report(message : Message){
+    func report(_ message : Message){
         comminutyHelper.report(nil, message: message, fromViewController: self)
     }
     
-    func reply(message : Message){
+    func reply(_ message : Message){
         print("INVALID CALL FROM REPLY TO REPLY")
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
         
-        guard let text = textField.text   where  textField.text!.characters.count != 0 else{
-            let controller = UIAlertController(title: NSLocalizedString("Empty message", comment: ""), message: NSLocalizedString("Your message should not be empty", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-            controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Cancel, handler: {
+        guard let text = textField.text,  textField.text!.characters.count != 0 else{
+            let controller = UIAlertController(title: NSLocalizedString("Empty message", comment: ""), message: NSLocalizedString("Your message should not be empty", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+            controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel, handler: {
                 _ in
-                controller.dismissViewControllerAnimated(false, completion: nil)
+                controller.dismiss(animated: false, completion: nil)
             }))
-            self.presentViewController(controller, animated: true, completion: nil)
+            self.present(controller, animated: true, completion: nil)
             return true
         }
         
         let reply = PFObject(className: TableNames.Reply_table.rawValue)
         reply[TableReplyColumnNames.ParentMessage.rawValue] = message.originalObject
         reply[TableReplyColumnNames.Message.rawValue] = text
-        reply[TableReplyColumnNames.User.rawValue] = PFUser.currentUser()!
-        textField.userInteractionEnabled = false
+        reply[TableReplyColumnNames.User.rawValue] = PFUser.current()!
+        textField.isUserInteractionEnabled = false
         
-        reply.saveInBackgroundWithBlock(){
+        reply.saveInBackground(){
             
             bool, error in
             
-            self.textField.userInteractionEnabled = true
+            self.textField.isUserInteractionEnabled = true
 
             guard error == nil && bool else{
-                let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-                controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Cancel, handler: {
+                let controller = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Please check your Internet conection and try again", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+                controller.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel, handler: {
                     _ in
-                    controller.dismissViewControllerAnimated(false, completion: nil)
+                    controller.dismiss(animated: false, completion: nil)
                 }))
-                self.presentViewController(controller, animated: true, completion: nil)
+                self.present(controller, animated: true, completion: nil)
                 return
             }
             
@@ -213,24 +213,24 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
         return true
     }
     
-    func keyBoardShow(notification : NSNotification){
+    func keyBoardShow(_ notification : Notification){
         
         
         if let info = notification.userInfo{
-            if let frame = info[UIKeyboardFrameEndUserInfoKey]?.CGRectValue{
+            if let frame = (info[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue{
     
                 if textFieldStartValue == nil{
                     textFieldStartValue = textField.frame.origin.y
                 }
                 
                 self.textField.frame.origin.y = self.view.frame.height - frame.height - textField.frame.height
-                gestureRecognizer = UITapGestureRecognizer(target: self, action: "dissmisKeyboard")
+                gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ReplyCommunityViewController.dissmisKeyboard))
                 tableView.addGestureRecognizer(gestureRecognizer!)
             }
         }
     }
     
-    func keyBoardHide(notification : NSNotification){
+    func keyBoardHide(_ notification : Notification){
         
         guard textFieldStartValue != nil else{
             return
@@ -251,47 +251,47 @@ class ReplyCommunityViewController: UIViewController, UITextFieldDelegate, Commu
     }
     
     deinit{
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
-    func operationDidFailed(message: Message, operation: CommunityOperation) {
+    func operationDidFailed(_ message: Message, operation: CommunityOperation) {
         
     }
     
-    func operationDidSucceded(message: Message, operation: CommunityOperation) {
+    func operationDidSucceded(_ message: Message, operation: CommunityOperation) {
         
-        like = (message.likesCount(), message.userHasLiked(Usuario(object: PFUser.currentUser()!, imageLoaderObserver: nil)))
-        self.tableView.reloadRowsAtIndexPaths([ NSIndexPath(forItem: 0, inSection: 0) ], withRowAnimation: .Automatic)
+        like = (message.likesCount(), message.userHasLiked(Usuario(object: PFUser.current()!, imageLoaderObserver: nil)))
+        self.tableView.reloadRows(at: [ IndexPath(item: 0, section: 0) ], with: .automatic)
     
     }
     
-    func UserDidLoad( reply : Reply ){
+    func UserDidLoad( _ reply : Reply ){
         
-        toLoad--
+        toLoad -= 1
         if toLoad == 0{
             self.loaded = true
             self.tableView.reloadData()
         }
     }
     
-    func UserDidFailedLoading( reply : Reply ){
+    func UserDidFailedLoading( _ reply : Reply ){
         
-        let index = self.comment.indexOf(reply)!
-        self.comment.removeAtIndex(index)
+        let index = self.comment.index(of: reply)!
+        self.comment.remove(at: index)
         
-        toLoad--
+        toLoad -= 1
         if toLoad == 0{
             self.loaded = true
             self.tableView.reloadData()
         }
     }
     
-    func UserImageDidFailedLoading(reply: Reply) {}
+    func UserImageDidFailedLoading(_ reply: Reply) {}
     
-    func UserImageDidFinishLoading(reply: Reply) {
+    func UserImageDidFinishLoading(_ reply: Reply) {
         
-        let index = comment.indexOf(reply)!
-        self.tableView.reloadRowsAtIndexPaths([ NSIndexPath(forItem: index, inSection: 1) ], withRowAnimation: .Automatic)
+        let index = comment.index(of: reply)!
+        self.tableView.reloadRows(at: [ IndexPath(item: index, section: 1) ], with: .automatic)
         
     }
 }

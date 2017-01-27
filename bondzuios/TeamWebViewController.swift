@@ -16,8 +16,8 @@ class TeamWebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = NSURL (string: stringCreditosWeb)
-        let requestObj = NSURLRequest(URL: url!)
+        let url = URL (string: stringCreditosWeb)
+        let requestObj = URLRequest(url: url!)
         myWebView.loadRequest(requestObj)
     }
 
@@ -26,14 +26,14 @@ class TeamWebViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Team", comment: "")
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = nil
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
 

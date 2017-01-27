@@ -12,52 +12,54 @@ import AVFoundation
 import UIKit
 
 func captureScreen() -> UIImage {
-    var window: UIWindow? = UIApplication.sharedApplication().keyWindow
-    window = UIApplication.sharedApplication().windows[0]
-    UIGraphicsBeginImageContextWithOptions(window!.frame.size, window!.opaque, 0.0)
-    window!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+    var window: UIWindow? = UIApplication.shared.keyWindow
+    window = UIApplication.shared.windows[0]
+    UIGraphicsBeginImageContextWithOptions(window!.frame.size, window!.isOpaque, 0.0)
+    window!.layer.render(in: UIGraphicsGetCurrentContext()!)
     let image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-    return image;
+    return image!;
 }
 
-func captureScreenOfView(view : UIView) -> UIImage {
-    UIGraphicsBeginImageContextWithOptions(view.frame.size, view.opaque, 0.0)
-    view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+func captureScreenOfView(_ view : UIView) -> UIImage {
+    UIGraphicsBeginImageContextWithOptions(view.frame.size, view.isOpaque, 0.0)
+    view.layer.render(in: UIGraphicsGetCurrentContext()!)
     let image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-    return image;
+    return image!;
 }
 
-func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+func imageWithImage(_ image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
     UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
-    image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
-    let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+    let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
     UIGraphicsEndImageContext()
     return newImage
 }
 
-@available(*, deprecated=1.0, message="Please use the new functions that returns if the image could be created", renamed="getImageInBackground:stringblock:" )
-func getImageInBackground(url string : String, block : (UIImage->Void)){
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+
+
+
+func getImageInBackground(url string : String, block : @escaping ((UIImage)->Void)){
+    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
         
-        let urlG = NSURL(string: string)
+        let urlG = URL(string: string)
         
         guard let url = urlG else{
             return
         }
         
-        let data = NSData(contentsOfURL: url)
+        let data = try? Data(contentsOf: url)
         
         guard data != nil else{
             print("error getting image \(url)");
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 block(UIImage())
             }
             return
         }
         
-        dispatch_async(dispatch_get_main_queue()){
+        DispatchQueue.main.async{
             block(UIImage(data: data!)!)
         }
     })
@@ -74,30 +76,30 @@ func getImageInBackground(url string : String, block : (UIImage->Void)){
  
  - returns: void.
 */
-func getImageInBackground(url string : String, block : ((UIImage?, Bool)->Void)){
-    dispatch_async( Constantes.get_bondzu_queue() , {
+func getImageInBackground(url string : String, block : @escaping ((UIImage?, Bool)->Void)){
+    Constantes.get_bondzu_queue().async(execute: {
         
-        let urlG = NSURL(string: string)
+        let urlG = URL(string: string)
         
         guard let url = urlG else{
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 print("Could not form URL in Utiles.getImageInBackground \(string)")
                 block(nil,false)
             }
             return
         }
         
-        let data = NSData(contentsOfURL: url)
+        let data = try? Data(contentsOf: url)
 
         guard data != nil else{
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 print("error getting image \(string)");
                 block(nil,false)
             }
             return
         }
 
-        dispatch_async(dispatch_get_main_queue()){
+        DispatchQueue.main.async{
             let image = UIImage(data: data!)
             if let image = image{
                 block(image, true)
@@ -117,7 +119,7 @@ func mainThreadWarning(){
 
 class Utiles{
     //Esconder hairline (separacion entre nav bar y toolbar)
-    static func moveHairLine(appearing: Bool, navHairLine: UIImageView?, toolbar: UIToolbar?){
+    static func moveHairLine(_ appearing: Bool, navHairLine: UIImageView?, toolbar: UIToolbar?){
         if (navHairLine != nil && toolbar != nil)
         {
             var hairLineFrame = navHairLine!.frame
@@ -132,18 +134,18 @@ class Utiles{
             }
             
             navHairLine!.frame = hairLineFrame
-            navHairLine!.hidden = appearing
+            navHairLine!.isHidden = appearing
         }else{
             print("toolbar o hairline son nil")
         }
     }
     
-    static func getHairLine(navigationBar: UINavigationBar) -> UIImageView?{
+    static func getHairLine(_ navigationBar: UINavigationBar) -> UIImageView?{
         for view in navigationBar.subviews
         {
             for view2 in view.subviews
             {
-                if(view2.isKindOfClass(UIImageView) && view2.bounds.size.width == navigationBar.frame.size.width && view2.bounds.size.height < 2)
+                if(view2.isKind(of: UIImageView.self) && view2.bounds.size.width == navigationBar.frame.size.width && view2.bounds.size.height < 2)
                 {
                     if let imageHairLine = view2 as? UIImageView
                     {
@@ -155,13 +157,13 @@ class Utiles{
         return nil
     }
     
-    static func urlOfAVPlayer(player: AVPlayer?) -> NSURL?{
+    static func urlOfAVPlayer(_ player: AVPlayer?) -> URL?{
         if player != nil {
             if let playerAsset = player!.currentItem?.asset as AVAsset?
             {
                 if let urlAsset = playerAsset as? AVURLAsset
                 {
-                    return urlAsset.URL;
+                    return urlAsset.url;
                 }
             }
         }

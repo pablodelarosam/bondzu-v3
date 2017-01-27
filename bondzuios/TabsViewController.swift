@@ -24,32 +24,32 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
     var user : Usuario!
     
     ///The blocking view that will be set if the uer don't have access to the animal.
-    private var tabBlockingView : UserBlockingHelper?
+    fileprivate var tabBlockingView : UserBlockingHelper?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         tabBar.tintColor = Constantes.COLOR_NARANJA_NAVBAR
-        self.tabBlockingView = UserBlockingHelper(controller: self.navigationController!, view: self.view, requiredType: nil, user: user, delegate: self)
-        
-        if user.hasLoadedPriority{
-            tabBar.tintColor = user.type!.color
-        }
-        user.appendTypeLoadingObserver({
-            [weak self]
-            (_, type) -> (Bool) in
-            
-            if self == nil{
-                return false
-            }
-            
-            if let type = type{
-                self?.tabBar.tintColor = type.color
-                
-            }
-            
-            return true
-        })
+//        self.tabBlockingView = UserBlockingHelper(controller: self.navigationController!, view: self.view, requiredType: nil, user: user, delegate: self)
+//        
+//        if user.hasLoadedPriority{
+//            tabBar.tintColor = user.type!.color
+//        }
+//        user.appendTypeLoadingObserver({
+//            [weak self]
+//            (_, type) -> (Bool) in
+//            
+//            if self == nil{
+//                return false
+//            }
+//            
+//            if let type = type{
+//                self?.tabBar.tintColor = type.color
+//                
+//            }
+//            
+//            return true
+//        })
         
         
         for viewController in viewControllers!{
@@ -80,8 +80,8 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     
@@ -93,13 +93,13 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
     This method will go back to the previous controller.
     */
     func userBlockingHelperFailed() {
-        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .Alert)
-        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: {
-            _ -> Void in
-            self.navigationController?.popViewControllerAnimated(true)
-            self.tabBlockingView = nil
-        }))
-        self.presentViewController(ac, animated: true, completion: nil)
+//        let ac = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wrong, please try again later", comment: ""), preferredStyle: .alert)
+//        ac.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: {
+//            _ -> Void in
+//            self.navigationController?.popViewController(animated: true)
+//            self.tabBlockingView = nil
+//        }))
+        // self.present(ac, animated: true, completion: nil)
     }
     
     /**
@@ -109,10 +109,8 @@ class TabsViewController: UITabBarController, UserBlockingHelperDelegate {
      - parameter result: A boolean telling the dlegate if the user has or not permission to see the resource. According to the parameter an action will be taken.
      
      */
-    func userBlockingHelperWillDismiss(result: Bool) {
-        if(!result){
-            self.navigationController?.popViewControllerAnimated(true)
-        }
+    func userBlockingHelperWillDismiss(_ result: Bool) {
+
         self.tabBlockingView = nil
 
     }

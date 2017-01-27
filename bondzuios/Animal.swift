@@ -10,11 +10,14 @@ import Foundation
 import Parse
 
 class Animal: PFObject, PFSubclassing{
+  
     override class func initialize() {
-        var onceToken : dispatch_once_t = 0;
-        dispatch_once(&onceToken) {
+        
+        let oncetoken :() =  {
             self.registerSubclass()
-        }
+        }()
+        
+        oncetoken
     }
     
     //TODO Actualizar para AnimalV2
@@ -33,6 +36,6 @@ class Animal: PFObject, PFSubclassing{
     
     @NSManaged var name: String!
     @NSManaged var url: String!
-    @NSManaged var type: NSNumber!    
+    @NSManaged var type: NSNumber!
     
 }

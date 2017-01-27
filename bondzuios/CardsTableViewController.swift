@@ -14,26 +14,26 @@ class CardsTableViewController: UITableViewController {
     
     var cards = [Card]();
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.navigationItem.title = NSLocalizedString("Payment", comment: "")
         super.viewDidAppear(animated)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(CardsTableViewController.refresh(_:)), for: UIControlEvents.valueChanged)
         self.refreshControl?.beginRefreshing()
         self.tableView.setContentOffset(CGPoint(x: 0,y: self.tableView.contentOffset.y - self.refreshControl!.frame.size.height), animated: true)
         self.getCards()
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if(self.refreshControl!.refreshing)
+        if(self.refreshControl!.isRefreshing)
         {
             self.refreshControl?.endRefreshing()
         }
@@ -46,21 +46,21 @@ class CardsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.cards.count
     }
     
-    func refresh(sender: AnyObject){
+    func refresh(_ sender: AnyObject){
         self.getCards()
     }
     
     func getCards(){
         
-        let user = Usuario(object: PFUser.currentUser()!, loadImage: false, imageLoaderObserver: nil)
+        let user = Usuario(object: PFUser.current()!, loadImage: false, imageLoaderObserver: nil)
         let id = user.stripeID
         
         let dic : [String: String] =
@@ -68,23 +68,23 @@ class CardsTableViewController: UITableViewController {
             "customer_id" : id
         ]
         
-        PFCloud.callFunctionInBackground(PFCloudFunctionNames.ListCards.rawValue, withParameters: dic) {
+        PFCloud.callFunction(inBackground: PFCloudFunctionNames.ListCards.rawValue, withParameters: dic) {
             (object , error) -> Void in
             if(error != nil)
             {
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async{
                     self.refreshControl?.endRefreshing()
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .Alert);
-                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Something went wront, please try again later", comment: ""), preferredStyle: .alert);
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
             else
             {
                 do {
-                    if let data = object?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                     if let data = (object as! String).data(using: String.Encoding.utf8, allowLossyConversion: false)  {
                         
-                        let jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary
+                        let jsonDict = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSDictionary
                         if let jsonDict = jsonDict {
                             // work with dictionary here
                             let key = "data";
@@ -99,7 +99,7 @@ class CardsTableViewController: UITableViewController {
                                 let brand = item["brand"]
                                 print("brand = \(brand!)")
                                 
-                                let card = Card(number: String(last4!), monthExp: String(expmonth!), yearExp: String(expyear!), id: String(id!), brand: String(brand!))
+                                let card = Card(number: String(describing: last4!), monthExp: String(describing: expmonth!), yearExp: String(describing: expyear!), id: String(describing: id!), brand: String(describing: brand!))
                                 self.cards.append(card)
                             }
                             self.tableView.reloadData()
@@ -118,8 +118,8 @@ class CardsTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cardCell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         //cell.label.adjustsFontSizeToFitWidth = true
         cell.textLabel?.text = "\(self.cards[indexPath.row].brand) " + NSLocalizedString("- Last 4 digits:", comment: "") + " \(self.cards[indexPath.row].number)";
@@ -127,33 +127,33 @@ class CardsTableViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let addAsFriendAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: NSLocalizedString("Delete", comment: ""), handler: {(action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let addAsFriendAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: NSLocalizedString("Delete", comment: ""), handler: {(action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
             
-            let addMenu = UIAlertController(title: nil, message: NSLocalizedString("Delete credit card:", comment: "") +  " \(self.cards[indexPath.row].number)", preferredStyle: .ActionSheet);
+            let addMenu = UIAlertController(title: nil, message: NSLocalizedString("Delete credit card:", comment: "") +  " \(self.cards[indexPath.row].number)", preferredStyle: .actionSheet);
             
-            let acceptAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.Default, handler: {(action:UIAlertAction!) -> Void in
+            let acceptAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default, handler: {(action:UIAlertAction!) -> Void in
                 self.removeCard(self.cards[indexPath.row], index: indexPath.row);
             })
             
-            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
             addMenu.addAction(acceptAction)
             addMenu.addAction(cancelAction)
             tableView.setEditing(false, animated: true)
-            self.presentViewController(addMenu, animated: true, completion: nil)
+            self.present(addMenu, animated: true, completion: nil)
         })
         
-        addAsFriendAction.backgroundColor = UIColor.redColor()
+        addAsFriendAction.backgroundColor = UIColor.red
         
         return [addAsFriendAction]
     }
 
-    func removeCard(card: Card, index: Int){
-        let user = Usuario(object: PFUser.currentUser()!, loadImage: false, imageLoaderObserver: nil)
+    func removeCard(_ card: Card, index: Int){
+        let user = Usuario(object: PFUser.current()!, loadImage: false, imageLoaderObserver: nil)
         let cus_id = user.stripeID
         let card_id = card.id
         let dic : [String: String] =
@@ -162,15 +162,15 @@ class CardsTableViewController: UITableViewController {
             "card_id" : card_id
         ]
         
-        PFCloud.callFunctionInBackground(PFCloudFunctionNames.DeleteCard.rawValue, withParameters: dic) { (object, error) -> Void in
+        PFCloud.callFunction(inBackground: PFCloudFunctionNames.DeleteCard.rawValue, withParameters: dic) { (object, error) -> Void in
             if(error != nil)
             {
-                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The credit card could not be removed", comment: ""), preferredStyle: .Alert)
-                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-                self.presentViewController(a, animated: true, completion: nil)
+                let a = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("The credit card could not be removed", comment: ""), preferredStyle: .alert)
+                a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+                self.present(a, animated: true, completion: nil)
             }
             else{
-                self.cards.removeAtIndex(index)
+                self.cards.remove(at: index)
                 self.tableView.reloadData()
             }
         }

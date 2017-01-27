@@ -27,10 +27,10 @@ class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
     * Move the user to the catalog
     
     */
-    func loginManagerDidLogin(user : PFUser){
+    func loginManagerDidLogin(_ user : PFUser){
         self.loading?.finish()
         self.loading = nil
-        self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
+        self.performSegue(withIdentifier: "loginSegue", sender: PFUser.current()!)
     }
     
     /**
@@ -40,10 +40,10 @@ class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
      * Move the user to the catalog
      
      */
-    func loginManagerDidRegister(user : PFUser){
+    func loginManagerDidRegister(_ user : PFUser){
         self.loading?.finish()
         self.loading = nil
-        self.performSegueWithIdentifier("loginSegue", sender: PFUser.currentUser()!)
+        self.performSegue(withIdentifier: "loginSegue", sender: PFUser.current()!)
     }
     
     /**
@@ -55,9 +55,9 @@ class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
     func loginManagerDidFailed(){
         self.loading?.finish()
         self.loading = nil
-        let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Connection error, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: nil))
-        self.presentViewController(a, animated: true, completion: nil)
+        let a  = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Connection error, please try again later", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+        a.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+        self.present(a, animated: true, completion: nil)
         
         
         //NSLocalizedString("The email is already registered", comment: "")
@@ -73,18 +73,18 @@ class LoginGenericViewController: UIViewController, LoginManagerResultDelegate {
         self.loading = nil
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "loginSegue"{
-            let destVC = segue.destinationViewController as! CatalogViewController
+            let destVC = segue.destination as! CatalogViewController
             destVC.user = Usuario(object: sender as! PFObject, loadImage: true, imageLoaderObserver: nil, userTypeObserver: nil)
             setUserOnDelegate(destVC.user)
-            destVC.loginCounter = self.loginCounter++
+            destVC.loginCounter = self.loginCounter + 1
             (self.navigationController as! BondzuNavigationController).user = destVC.user
         }
     }
 
-    private func setUserOnDelegate(user : Usuario){
-        (UIApplication.sharedApplication().delegate as! AppDelegate).user = user
+    fileprivate func setUserOnDelegate(_ user : Usuario){
+        (UIApplication.shared.delegate as! AppDelegate).user = user
     }
     
 }

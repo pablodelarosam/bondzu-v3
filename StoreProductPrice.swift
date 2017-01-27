@@ -16,7 +16,7 @@ import UIKit
  
  SeeAlso: `StoreProduct`
  */
-public class StoreProductPrice: NSObject {
+open class StoreProductPrice: NSObject {
     
     /// The price of the product in MXN
     let price : Double

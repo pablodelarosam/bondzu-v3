@@ -10,19 +10,19 @@ import UIKit
 
 class LoadingView: UIView {
 
-    let activity = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+    let activity = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
     let outView = UIView()
     let inView = UIView()
     
     init(view : UIView){
         super.init(frame: view.frame)
 
-        activity.color = UIColor.whiteColor()
+        activity.color = UIColor.white
     
-        outView.backgroundColor = UIColor.grayColor()
+        outView.backgroundColor = UIColor.gray
         outView.alpha = 0.5
         
-        inView.backgroundColor = UIColor.darkGrayColor()
+        inView.backgroundColor = UIColor.darkGray
         inView.alpha = 0.8
         
         activity.startAnimating()

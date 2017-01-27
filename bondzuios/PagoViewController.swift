@@ -35,22 +35,22 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.buttonDone = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: UIBarButtonItemStyle.Done, target: self, action: "nextButtonClicked:");
+        self.buttonDone = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: UIBarButtonItemStyle.done, target: self, action: #selector(PagoViewController.nextButtonClicked(_:)));
         self.navigationItem.rightBarButtonItem = buttonDone
         self.txtAmount.text = "\(self.producto.precio1)";
-        self.txtAmount.enabled = false;
-        self.buttonDone.enabled = false;
+        self.txtAmount.isEnabled = false;
+        self.buttonDone.isEnabled = false;
         self.paymentView.delegate = self;
         self.activityIndicator.stopAnimating()
         self.switchSaveCard.setOn(switchEnabled, animated: true)
         
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PagoViewController.keyBoardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PagoViewController.keyBoardHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,7 +58,7 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate, UIT
         // Dispose of any resources that can be recreated.
     }
     
-    func nextButtonClicked(sender: AnyObject?)
+    func nextButtonClicked(_ sender: AnyObject?)
     {
         print("Pay View Controller Next")
         self.view.endEditing(true)
@@ -73,25 +73,25 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate, UIT
         card.expYear = self.paymentView.card!.expYear;
         card.cvc = self.paymentView.card?.cvc;
         
-        payment.makePaymentToCurrentUser(card: card, controller: self, amount: self.txtAmount.text!, activityIndicator: self.activityIndicator, saveCard: self.switchSaveCard.on, paymentView: self.paymentView, descripcion: self.producto!.descripcion, productId: self.producto.objectId, transDescription: "Gifts / Donations - \(self.producto.nombre) - Bondzu")
+        payment.makePaymentToCurrentUser(card: card, controller: self, amount: self.txtAmount.text!, activityIndicator: self.activityIndicator, saveCard: self.switchSaveCard.isOn, paymentView: self.paymentView, descripcion: self.producto!.descripcion, productId: self.producto.objectId, transDescription: "Gifts / Donations - \(self.producto.nombre) - Bondzu")
     }
     
     
-    @IBAction func txtNameChanged(sender: UITextField) {
-        self.buttonDone.enabled = (!sender.text!.isEmpty && self.txtCardValid)
+    @IBAction func txtNameChanged(_ sender: UITextField) {
+        self.buttonDone.isEnabled = (!sender.text!.isEmpty && self.txtCardValid)
     }
     
-    func paymentCardTextFieldDidChange(textField: STPPaymentCardTextField) {
-        self.buttonDone.enabled = textField.valid && !self.txtName.text!.isEmpty;
-        self.txtCardValid = textField.valid
+    func paymentCardTextFieldDidChange(_ textField: STPPaymentCardTextField) {
+        self.buttonDone.isEnabled = textField.isValid && !self.txtName.text!.isEmpty;
+        self.txtCardValid = textField.isValid
     }
     
     
-    func keyBoardShow(notification : NSNotification){
+    func keyBoardShow(_ notification : Notification){
         
         
         if let info = notification.userInfo{
-            if let frame = info[UIKeyboardFrameEndUserInfoKey]?.CGRectValue{
+            if let frame = (info[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue{
                 
                 var yTabBar : CGFloat = 0.0
                 
@@ -107,12 +107,12 @@ class PagoViewController: UIViewController, STPPaymentCardTextFieldDelegate, UIT
         }
     }
     
-    func keyBoardHide(notification : NSNotification){
+    func keyBoardHide(_ notification : Notification){
         self.view.frame.origin.y = 0
     }
     
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }

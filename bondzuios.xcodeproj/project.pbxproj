@@ -65,6 +65,9 @@
 		54E447A71B74025100BF580F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E447A61B74025100BF580F /* Accounts.framework */; };
 		54E447A91B74025600BF580F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E447A81B74025600BF580F /* Social.framework */; };
 		54E806321BA74DD2007AFD44 /* NoCamerasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */; };
+		913186F31E3B2B5400472BE1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913186F21E3B2B5400472BE1 /* Parse.framework */; };
+		913186F51E3B2BEC00472BE1 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913186F41E3B2BEC00472BE1 /* ParseUI.framework */; };
+		913186F71E3B2CF900472BE1 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913186F61E3B2CF900472BE1 /* ParseFacebookUtilsV4.framework */; };
 		B305F0121C1883ED00C928E8 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B305F0111C1883ED00C928E8 /* LoginManager.swift */; };
 		B31651091C1B366700254553 /* LoginGenericViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31651081C1B366700254553 /* LoginGenericViewController.swift */; };
 		B31EE59E1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */; };
@@ -196,6 +199,10 @@
 		54E806311BA74DD2007AFD44 /* NoCamerasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCamerasViewController.swift; sourceTree = "<group>"; };
 		7925618856AC72B9E6018762 /* Pods-bondzuiosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bondzuiosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-bondzuiosTests/Pods-bondzuiosTests.release.xcconfig"; sourceTree = "<group>"; };
 		7F967DAD2B9EE5F160201BC0 /* Pods_bondzuios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bondzuios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		913186F21E3B2B5400472BE1 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "../../Library/Developer/Xcode/DerivedData/bondzuios-fcxwyvbxpicyavanhxuixhlgeskt/Build/Products/Debug-iphonesimulator/Parse/Parse.framework"; sourceTree = "<group>"; };
+		913186F41E3B2BEC00472BE1 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		913186F61E3B2CF900472BE1 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
+		91A23C8C1E2C426C008F49B8 /* Bondzu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bondzu.entitlements; sourceTree = "<group>"; };
 		B305F0111C1883ED00C928E8 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		B31651081C1B366700254553 /* LoginGenericViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginGenericViewController.swift; sourceTree = "<group>"; };
 		B31EE59D1BA1D5CC001268CE /* CommunityReplyEntryCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityReplyEntryCellTableViewCell.swift; sourceTree = "<group>"; };
@@ -252,6 +259,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				913186F71E3B2CF900472BE1 /* ParseFacebookUtilsV4.framework in Frameworks */,
+				B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */,
+				913186F51E3B2BEC00472BE1 /* ParseUI.framework in Frameworks */,
+				913186F31E3B2B5400472BE1 /* Parse.framework in Frameworks */,
 				54E447931B74021900BF580F /* AudioToolbox.framework in Frameworks */,
 				54E447951B74021D00BF580F /* CFNetwork.framework in Frameworks */,
 				54E447971B74022300BF580F /* CoreGraphics.framework in Frameworks */,
@@ -263,7 +274,6 @@
 				54E447A51B74024B00BF580F /* libsqlite3.dylib in Frameworks */,
 				54E447A71B74025100BF580F /* Accounts.framework in Frameworks */,
 				54E447A91B74025600BF580F /* Social.framework in Frameworks */,
-				B3BD86DF1BA92EAE00D5E036 /* FBSDKLoginKit.framework in Frameworks */,
 				B3BD86DD1BA92D9900D5E036 /* FBSDKCoreKit.framework in Frameworks */,
 				B3ECD89F1BE9260D00CE214F /* Bolts.framework in Frameworks */,
 				54E4479B1B74022D00BF580F /* QuartzCore.framework in Frameworks */,
@@ -369,6 +379,7 @@
 		54305CA71B73F809003F9AB0 /* bondzuios */ = {
 			isa = PBXGroup;
 			children = (
+				91A23C8C1E2C426C008F49B8 /* Bondzu.entitlements */,
 				0DCD648D1D0798E700C5CA95 /* onboard framework */,
 				54571F891B7932B70092E359 /* AboutTab */,
 				B3A29EED1BB9CDDB00F5EB8B /* Account */,
@@ -614,6 +625,9 @@
 		CBF380E5CDA199239CE20526 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				913186F61E3B2CF900472BE1 /* ParseFacebookUtilsV4.framework */,
+				913186F41E3B2BEC00472BE1 /* ParseUI.framework */,
+				913186F21E3B2B5400472BE1 /* Parse.framework */,
 				B3ECD89E1BE9260D00CE214F /* Bolts.framework */,
 				B3BD86DE1BA92EAE00D5E036 /* FBSDKLoginKit.framework */,
 				B3BD86DC1BA92D9900D5E036 /* FBSDKCoreKit.framework */,
@@ -642,13 +656,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54305CC41B73F80A003F9AB0 /* Build configuration list for PBXNativeTarget "bondzuios" */;
 			buildPhases = (
-				37652055C74B0684CDC87563 /* 📦 Check Pods Manifest.lock */,
+				37652055C74B0684CDC87563 /* [CP] Check Pods Manifest.lock */,
 				54305CA11B73F809003F9AB0 /* Sources */,
 				54305CA21B73F809003F9AB0 /* Frameworks */,
 				54305CA31B73F809003F9AB0 /* Resources */,
 				B358A2681BF24B1000278B61 /* ShellScript */,
-				AD0D0544F9196D323BADD1F4 /* 📦 Embed Pods Frameworks */,
-				E077838B455831C225C86B4E /* 📦 Copy Pods Resources */,
+				AD0D0544F9196D323BADD1F4 /* [CP] Embed Pods Frameworks */,
+				E077838B455831C225C86B4E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -663,12 +677,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54305CC71B73F80A003F9AB0 /* Build configuration list for PBXNativeTarget "bondzuiosTests" */;
 			buildPhases = (
-				7C30AE95AEEA38EF6B7AA077 /* 📦 Check Pods Manifest.lock */,
+				7C30AE95AEEA38EF6B7AA077 /* [CP] Check Pods Manifest.lock */,
 				54305CB61B73F80A003F9AB0 /* Sources */,
 				54305CB71B73F80A003F9AB0 /* Frameworks */,
 				54305CB81B73F80A003F9AB0 /* Resources */,
-				5AD35C634E6B483547106404 /* 📦 Embed Pods Frameworks */,
-				7A7C0F6C9C9A9D458FF0EE6D /* 📦 Copy Pods Resources */,
+				5AD35C634E6B483547106404 /* [CP] Embed Pods Frameworks */,
+				7A7C0F6C9C9A9D458FF0EE6D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -687,12 +701,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Bondzu;
 				TargetAttributes = {
 					54305CA41B73F809003F9AB0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = P95F7PXU7A;
+						DevelopmentTeam = KTM6PX9FJC;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -701,6 +717,7 @@
 					};
 					54305CB91B73F80A003F9AB0 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0820;
 						TestTargetID = 54305CA41B73F809003F9AB0;
 					};
 				};
@@ -749,14 +766,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		37652055C74B0684CDC87563 /* 📦 Check Pods Manifest.lock */ = {
+		37652055C74B0684CDC87563 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -764,14 +781,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		5AD35C634E6B483547106404 /* 📦 Embed Pods Frameworks */ = {
+		5AD35C634E6B483547106404 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -779,14 +796,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-bondzuiosTests/Pods-bondzuiosTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7A7C0F6C9C9A9D458FF0EE6D /* 📦 Copy Pods Resources */ = {
+		7A7C0F6C9C9A9D458FF0EE6D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -794,14 +811,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-bondzuiosTests/Pods-bondzuiosTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7C30AE95AEEA38EF6B7AA077 /* 📦 Check Pods Manifest.lock */ = {
+		7C30AE95AEEA38EF6B7AA077 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -809,14 +826,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		AD0D0544F9196D323BADD1F4 /* 📦 Embed Pods Frameworks */ = {
+		AD0D0544F9196D323BADD1F4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -837,14 +854,14 @@
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:|WARNING:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"";
 		};
-		E077838B455831C225C86B4E /* 📦 Copy Pods Resources */ = {
+		E077838B455831C225C86B4E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -993,6 +1010,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1002,8 +1020,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1040,6 +1060,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1049,8 +1070,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1070,6 +1093,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/lmag94/Documents/Bondzu/bondzuios/bondzuios/Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1080,21 +1104,24 @@
 			baseConfigurationReference = 35D3E740447C122BE0B9EC7B /* Pods-bondzuios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = bondzuios/Bondzu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = KTM6PX9FJC;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = bondzuios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bondzu.bondzuapp;
+				PRODUCT_BUNDLE_IDENTIFIER = rocks.CraftCode.bondzu;
 				PRODUCT_NAME = Bondzu;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1104,20 +1131,23 @@
 			baseConfigurationReference = 41F63E48C4499193ED00901D /* Pods-bondzuios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = bondzuios/Bondzu.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = KTM6PX9FJC;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = bondzuios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bondzu.bondzuapp;
+				PRODUCT_BUNDLE_IDENTIFIER = rocks.CraftCode.bondzu;
 				PRODUCT_NAME = Bondzu;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1136,6 +1166,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bondzu.app/Bondzu";
 			};
 			name = Debug;
@@ -1151,6 +1182,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bondzu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "bondzuios/Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bondzu.app/Bondzu";
 			};
 			name = Release;

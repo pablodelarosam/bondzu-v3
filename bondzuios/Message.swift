@@ -10,18 +10,18 @@ import UIKit
 
 @objc protocol LoadMessageResult{
     
-    func UserDidLoad(message : Message)
-    func UserDidFailedLoading(message : Message)
+    func UserDidLoad(_ message : Message)
+    func UserDidFailedLoading(_ message : Message)
 
-    func UserImageDidFinishLoading( message : Message )
-    func UserImageDidFailedLoading( message : Message )
+    func UserImageDidFinishLoading( _ message : Message )
+    func UserImageDidFailedLoading( _ message : Message )
 
 }
 
 class Message : NSObject{
     
-    private var attachedPhotoFile : PFFile?
-    var date : NSDate
+    fileprivate var attachedPhotoFile : PFFile?
+    var date : Date
     var message : String
     var animal : AnimalV2
     var user : Usuario?
@@ -52,7 +52,7 @@ class Message : NSObject{
             upgradeMessageLikes(object)
         }
        
-        dispatch_async(Constantes.get_bondzu_queue()){
+        Constantes.get_bondzu_queue().async(){
             do{
                 let userObject = object[TableMessagesColumnNames.User.rawValue] as! PFObject
                 try userObject.fetch()
@@ -65,12 +65,12 @@ class Message : NSObject{
                             delegate?.UserImageDidFailedLoading(self)
                         }
                 })
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async(){
                     delegate?.UserDidLoad(self)
                 }
             }
             catch{
-                dispatch_async(dispatch_get_main_queue()){
+                DispatchQueue.main.async(){
                     delegate?.UserDidFailedLoading(self)
                 }
             }
@@ -81,7 +81,7 @@ class Message : NSObject{
         return attachedPhotoFile
     }
     
-    func userHasLiked(user : Usuario)->Bool{
+    func userHasLiked(_ user : Usuario)->Bool{
         return likes.contains(user.originalObject.objectId!)
     }
     
@@ -89,7 +89,7 @@ class Message : NSObject{
         return likes.count
     }
     
-    func upgradeMessageLikes(object : PFObject){
+    func upgradeMessageLikes(_ object : PFObject){
         likes = [String]()
         object[TableMessagesColumnNames.LikesRelation.rawValue] = likes
         object.saveEventually()

@@ -22,7 +22,7 @@ class TeamViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let nib = UINib(nibName: "TeamMemberCellTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "cell")
+        tableView.register(nib, forCellReuseIdentifier: "cell")
         
 //         puestos = ["Profesor guía, fundador de proyecto", "Ejecutivo de proyecto", "Desarrollador iOS", "Desarrolladora iOS", "Desarrollador Android", "Diseño gráfico", "Diseño gráfico", "Comunicación", "Documentación", "Colaborador voluntario", "Colaborador voluntario", "Colaborador voluntario", "Colaborador voluntario"]
         
@@ -36,7 +36,7 @@ class TeamViewController: UITableViewController {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let animalBackgroundView = EffectBackgroundView(frame : self.view.bounds)
         // Add a background view to the table view
@@ -44,27 +44,27 @@ class TeamViewController: UITableViewController {
         self.tableView.backgroundView = animalBackgroundView
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Team", comment: "")
     }
     
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
         return nombres.count
         
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
     
-    override func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! TeamMemberCellTableViewCell
+    override func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TeamMemberCellTableViewCell
         cell.teamName.text = nombres[indexPath.row]
         cell.teamRole.text = roles[indexPath.row]
         

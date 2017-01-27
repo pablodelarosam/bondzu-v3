@@ -11,16 +11,16 @@ import UIKit
 
 class Animacion
 {
-    static func shakeAnimation(view: UIView)
+    static func shakeAnimation(_ view: UIView)
     {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.07
         animation.repeatCount = 3
         animation.autoreverses = true
-        animation.fromValue = NSValue(CGPoint: CGPointMake(view.center.x - 10, view.center.y))
-        animation.toValue = NSValue(CGPoint: CGPointMake(view.center.x + 10, view.center.y))
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            view.layer.addAnimation(animation, forKey: "position")
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: view.center.x - 10, y: view.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: view.center.x + 10, y: view.center.y))
+        DispatchQueue.main.async(execute: { () -> Void in
+            view.layer.add(animation, forKey: "position")
         })
     }
 }
